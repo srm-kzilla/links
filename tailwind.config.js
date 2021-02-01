@@ -10,6 +10,9 @@ module.exports = {
         lightblue: '#56CCF2',
         darkgray: '#333333',
         lightgray: '#F2F2F2'
+      },
+      fontSize:{
+        'xxl':'8.9rem',
       }
     }
   },

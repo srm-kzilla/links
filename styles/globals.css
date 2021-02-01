@@ -12,13 +12,13 @@ body {
   font-family: 'Work Sans', sans-serif;
   background-color: #E0E0E0;
 }
-input{
+.gradientInput{
   border-radius: 8px;
   border: 2px solid;
   border-image: linear-gradient(to right, #56CCF2, #6FCF97);
-  border-image-slice: 1;
+  border-image-slice: 1;  
 }
-input:hover{
+.gradientInput:hover{
   opacity: 0.8;
 }
 hr{
@@ -29,10 +29,11 @@ hr{
 .styledHeader{
   transform: translate(-254px, 110px) rotate(-90deg);
   font-family: 'Noto Sans', 'Work Sans', sans-serif;
-  font-size: 8.9rem;
   font-weight: 1000;
   -webkit-text-stroke-width: 0.1px;
   -webkit-text-stroke-color: black;
+}
+.customGradient{
   background: -webkit-linear-gradient(#56CCF2, #6FCF97);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
