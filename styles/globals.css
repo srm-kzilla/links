@@ -36,13 +36,9 @@ hr{
 .customGradient{
   background: -webkit-linear-gradient(#56CCF2, #6FCF97);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-input:focus,
-button:focus{
-  outline: none;
-}
-
 * {
   box-sizing: border-box;
 }
