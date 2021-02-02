@@ -1,12 +1,11 @@
 export default function SignUpComponent(): JSX.Element {
   return (
-    <div className="mt-24">
-      <div className="container mx-auto h-full flex justify-center items-center">
-        <div className="md:w-2/4 lg:w-1/4">
+      <div className="mx-auto h-screen flex justify-center items-center">
+        <div className="m-auto md:w-2/4 lg:w-1/4">
           <div className="customGradient hidden absolute md:block float-left z-0 styledHeader text-xxl mb-1 text-center">
             LINKS
           </div>
-          <div className="relative z-50 p-8 border-t-12 bg-white mb-6 rounded-lg shadow-2xl">
+          <div className="relative p-8 border-t-12 bg-white mb-6 rounded-lg shadow-2xl">
             <h1 className="text-center text-4xl mb-5 font-extrabold text-lightblue">
               SIGN UP
             </h1>
@@ -46,6 +45,5 @@ export default function SignUpComponent(): JSX.Element {
           </div>
         </div>
       </div>
-    </div>
   );
 }
