@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "util/mongodb.ts"  ],
   "exclude": [
     "node_modules"
   ]
