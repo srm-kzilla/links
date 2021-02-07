@@ -32,12 +32,12 @@ const AddModal = forwardRef(function AddModal(props, ref): JSX.Element {
                 </h1>
                 <input
                   type="text"
-                  className="gradientInput mb-4 mt-10 focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
+                  className="gradientInput mb-4 mt-10 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
                   placeholder="Title"
                 />
                 <input
                   type="text"
-                  className="gradientInput mb-4 focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
+                  className="gradientInput mb-4 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
                   placeholder="URL"
                 />
                 <div className="flex items-center justify-center">

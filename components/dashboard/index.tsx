@@ -28,7 +28,6 @@ export default function DashboardComponent(): JSX.Element {
           <Card key={index} data={linksData} />
         ))}
       </div>
-      {/* <Sidebar ref={modalRef} /> */}
     </>
   );
 }

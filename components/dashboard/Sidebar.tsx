@@ -2,15 +2,14 @@ import React, { forwardRef, useImperativeHandle } from "react";
 import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import Slide from "react-reveal/Slide";
-import Switch from "react-input-switch";
-import { setServers } from "dns";
+import Toggle from "./Toggle";
+// import { setServers } from "dns";
 
 const Sidebar = forwardRef(function Sidebar(props, ref): JSX.Element {
   const [display, setDisplay] = useState<boolean>(false);
-  const [value, setValue] = useState(0);
 
   useImperativeHandle(ref, () => {
-    return {        
+    return {
       openSidebar: () => open(),
       close: () => close(),
     };
@@ -49,43 +48,7 @@ const Sidebar = forwardRef(function Sidebar(props, ref): JSX.Element {
             </div>
             <div className="mt-12 grid grid-cols-2">
               <p className="text-center">Enable link?</p>
-              <Switch
-                value={value}
-                onChange={setValue}
-                styles={{
-                  track: {
-                    backgroundColor: "#F2F2F2",
-                    width: "80px",
-                    height: "25px",
-                    borderRadius: "20px",
-                    border: "1px solid black",
-                  },
-                  trackChecked: {
-                    backgroundColor: "#56CCF2",
-                    width: "80px",
-                    height: "25px",
-                    border: "1px solid black",
-                  },
-                  button: {
-                    backgroundColor: "#C4C4C4",
-                    width: "24px",
-                    height: "24px",
-                    borderRadius: "20px",
-                    marginLeft: "-2px",
-                    marginTop: "-1px",
-                    border: "1px solid black",
-                  },
-                  buttonChecked: {
-                    backgroundColor: "#6FCF97",
-                    width: "24px",
-                    height: "24px",
-                    borderRadius: "20px",
-                    marginLeft: "45px",
-                    marginTop: "-1px",
-                    border: "1px solid black",
-                  },
-                }}
-              />
+              <Toggle />
             </div>
             <p className="mt-10 text-darkgray font-extrabold">TITLE</p>
             <input
