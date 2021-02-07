@@ -21,6 +21,15 @@ body {
 .gradientInput:hover{
   opacity: 0.8;
 }
+.gradientInputBottom{
+  border-radius: 8px;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(to right, #56CCF2, #6FCF97);
+  border-image-slice: 1;  
+}
+.gradientInputBottom:hover{
+  opacity: 0.8;
+}
 hr{
   border: 0.5px solid;
   border-image: linear-gradient(to right, #56CCF2, #6FCF97);
@@ -38,6 +47,12 @@ hr{
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.hover-trigger .hover-target {
+    display: none;
+}
+.hover-trigger:hover .hover-target {
+    display: block;
 }
 * {
   box-sizing: border-box;
