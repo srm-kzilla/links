@@ -5,24 +5,34 @@ import { getDbClient } from "../../util/mongodb";
 import { NextApiRequest, NextApiResponse } from "next"
 import jwt from 'jsonwebtoken'
 import { User } from '../../models/user-schema'
+import * as bcrypt from 'bcrypt'
+import { string } from 'yup/lib/locale';
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
     try {
         console.log(req.body);
-        const user: User = req.body;
+        let user: User = req.body;
         const dbClient: MongoClient = await getDbClient();
         let result = await dbClient.db('links').collection('user').findOne({ email: user.email })
-
-        if (!result) {
-            res.status(404).json("User not found")
+        const saltRounds = 12;
+        if (result) {
+            return res.status(409).json({
+                "msg": "User already exists"
+            })
+        }
+        else {
+            const salt = await bcrypt.genSalt(saltRounds)
+            const hash = await bcrypt.hash(user.password, salt)
+            user.password = hash;
+            console.log(hash);
+            console.log(user)
+            await dbClient.db('links').collection('user').insertOne(user);
         }
 
-        //To do: check password with the hashed value
-
-        delete result['password'];
-
-        const token = await jwt.sign({result}, process.env.JWT_SECRET || '');
-        res.json({token});
+        delete user['password'];
+        console.log(user)
+        const token = await jwt.sign(user, process.env.JWT_SECRET || '');
+        res.json({ token });
 
     } catch (err) {
         console.log(err);
