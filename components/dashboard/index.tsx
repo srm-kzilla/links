@@ -57,10 +57,14 @@ export default function DashboardComponent(): JSX.Element {
         </IconContext.Provider>
       </button>
       <AddModal ref={modalRef}></AddModal>
-      <div className="mt-24 mx-auto w-auto lg:w-1/3 h-1/4">
-        <Nolinks />
+      <div className="flex w-screen h-screen">
+        <div className="m-auto w-full">
+          <Nolinks className="w-3/4 sm:w-1/2 md:w-1/3 m-auto" />
+          <p className="w-full text-center mt-8 text-sm">
+            Looks like you don't have any links, add a new link!
+          </p>
+        </div>
       </div>
-      <div className="text-center mt-2 text-sm">Looks like you don't have any links, add a new link!</div>
     </>
   );
 }
