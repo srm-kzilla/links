@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import Switch from "react-input-switch";
 
 export default function Toggle(): JSX.Element {
-    const [value, setValue] = useState(0);
+  const [value, setValue] = useState(true);
+  const toggleValue = () => {
+    setValue(!value);
+    console.log(value);
+  };
   return (
     <>
       <Switch
+        on={true}
+        off={false}
         value={value}
-        onChange={setValue}
+        onChange={toggleValue}
         styles={{
           track: {
             backgroundColor: "#F2F2F2",

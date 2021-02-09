@@ -11,26 +11,26 @@ export default function SignUpComponent(): JSX.Element {
             </h1>
             <input
               type="email"
-              className="gradientInput mb-4 focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2 rounded shadow"
+              className="gradientInput mb-4 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2 rounded shadow"
               placeholder="Your Email ID"
             />
             <input
               type="text"
-              className="gradientInput mb-4 focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2 rounded shadow"
+              className="gradientInput mb-4 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2 rounded shadow"
               placeholder="Your Username"
             />
             <input
               type="password"
-              className="gradientInput mb-4 focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2 rounded shadow"
+              className="gradientInput mb-4 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2 rounded shadow"
               placeholder="Your Password"
             />
             <input
               type="password"
-              className="gradientInput mb-4 focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2 rounded shadow"
+              className="gradientInput mb-4 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2 rounded shadow"
               placeholder="Confirm Password"
             />
             <div className="flex items-center justify-center">
-              <button className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-2 px-4 my-2 rounded">
+              <button className="bg-lightblue outline-none focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-2 px-4 my-2 rounded">
                 Sign Me Up!
               </button>
             </div>
