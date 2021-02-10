@@ -11,9 +11,9 @@ export default function Tick(): JSX.Element {
         <path
           d="M20.5 2L7 13.5L2 8.5"
           stroke="url(#paint0_linear)"
-          stroke-width="4"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <defs>
           <linearGradient
@@ -25,7 +25,7 @@ export default function Tick(): JSX.Element {
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#57A772" />
-            <stop offset="1" stop-color="#33BBFF" />
+            <stop offset="1" stopColor="#33BBFF" />
           </linearGradient>
         </defs>
       </svg>

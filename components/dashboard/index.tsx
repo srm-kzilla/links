@@ -1,70 +1,87 @@
-import React, { MutableRefObject, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { VscAdd } from "react-icons/vsc";
-import Card from "./Card";
-import data from "../../shared/constants/data";
 import { IconContext } from "react-icons";
+
+import { dataLink } from "../../utils/linksData";
+import { NoLinks } from "../../assets/icons";
+import { SidebarContext } from "../../utils/sidebarContext";
+
+import Card from "./Card";
 import AddModal from "./AddModal";
 import Sidebar from "./Sidebar";
-import Nolinks from "../../shared/components/vectors/nolinks";
 
 export default function DashboardComponent(): JSX.Element {
-  const modalRef = React.useRef();
-  const sidebarRef = React.useRef() as MutableRefObject<HTMLDivElement>;
-  const [activeLinkData, setactiveLinkData] = useState();
+  const { setActiveLink } = useContext(SidebarContext);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
-  let numberOfLinks = data.length;
+  useEffect(() => {
+    if (window.innerWidth <= 768) setIsSidebarOpen(false);
+  }, []);
 
-  const openAddModal = () => {
-    modalRef.current.openAddModal();
-  };
-  // const openSidebar = () => {
-  //   sidebarRef.current.openSidebar();
-  // }
-  if (numberOfLinks > 1) {
-    return (
-      <>
-        <div className="mt-24 pb-10">
+  return (
+    <>
+      {dataLink.length > 0 ? (
+        <>
+          <div className="mt-24 pb-10">
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-96 focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
+            >
+              <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
+                <VscAdd />
+              </IconContext.Provider>
+            </button>
+
+            <AddModal
+              isOpen={isAddModalOpen}
+              onClose={() => setIsAddModalOpen(false)}
+            />
+
+            {dataLink.map((link) => (
+              <Card
+                key={link.title.trim()}
+                onCardClick={() => {
+                  setActiveLink(link);
+                  setIsSidebarOpen(true);
+                }}
+                link={link}
+              />
+            ))}
+          </div>
+          <Sidebar
+            isOpen={isSidebarOpen}
+            onClose={() => setIsSidebarOpen(false)}
+            links={dataLink.length}
+            clicks={73}
+          />
+        </>
+      ) : (
+        <>
           <button
-            onClick={openAddModal}
+            onClick={() => setIsAddModalOpen(true)}
             className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-96 focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
           >
             <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
               <VscAdd />
             </IconContext.Provider>
           </button>
-          <AddModal ref={modalRef}></AddModal>
-          {data.map((linksData) => (
-            <Card
-              key={linksData.urlName.trim()}
-              data={linksData}
-              setActiveHandler={setactiveLinkData}
-            />
-          ))}
-        </div>
-        {/* <Sidebar activeLink={data} /> */}
-        <Sidebar activeLink={activeLinkData} />
-      </>
-    );
-  }
-  return (
-    <>
-      <button
-        onClick={openAddModal}
-        className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-96 focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
-      >
-        <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
-          <VscAdd />
-        </IconContext.Provider>
-      </button>
-      <AddModal ref={modalRef}></AddModal>
-      <div className="flex w-screen h-screen">
-        <div className="m-auto w-full">
-          <Nolinks className="w-3/4 sm:w-1/2 md:w-1/3 m-auto" />
-          <p className="w-full text-center mt-8 text-sm">
-            Looks like you don't have any links, add a new link!
-          </p>
-        </div>
-      </div>
+
+          <AddModal
+            isOpen={isAddModalOpen}
+            onClose={() => setIsAddModalOpen(false)}
+          />
+
+          <div className="flex w-screen h-screen">
+            <div className="m-auto w-full">
+              <NoLinks className="w-3/4 sm:w-1/2 md:w-1/3 m-auto" />
+              <p className="w-full text-center mt-8 text-sm">
+                Looks like you don't have any links, add a new link!
+              </p>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

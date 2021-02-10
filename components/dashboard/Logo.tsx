@@ -1,8 +1,10 @@
-type Props = {
-  status: boolean;
+interface LogoProps {
+  status?: boolean;
   image: string;
-};
-export default function Logo({ status, image }: Props): JSX.Element {
+  alt: string;
+}
+
+export default function Logo({ status, image, alt }: LogoProps): JSX.Element {
   return (
     <>
       <div
@@ -13,9 +15,9 @@ export default function Logo({ status, image }: Props): JSX.Element {
         <img
           className="absolute z-0 hover-target w-10 ml-2 justify-between top-10 right-3"
           src={image}
+          alt={alt}
         />
       </div>
     </>
   );
 }
-  

@@ -11,9 +11,9 @@ export default function Spike(): JSX.Element {
         <path
           d="M21 10.5H17L14 19.5L8 1.5L5 10.5H1"
           stroke="black"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </>

@@ -1,4 +1,10 @@
 import DashboardComponent from "../components/dashboard/index";
+import SidebarContextProvider from "../utils/sidebarContext";
+
 export default function Dashboard() {
-  return <DashboardComponent />;
+  return (
+    <SidebarContextProvider>
+      <DashboardComponent />
+    </SidebarContextProvider>
+  );
 }

@@ -1,6 +1,6 @@
 import { AppProps } from "next/dist/next-server/lib/router/router";
-import Footer from "../shared/components/footer";
-import Navbar from "../shared/components/navbar";
+
+import { Navbar, Footer } from "../components/shared/";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
