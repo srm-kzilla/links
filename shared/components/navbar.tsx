@@ -5,7 +5,7 @@ import { FaChevronDown } from "react-icons/fa";
 export default function Navbar() {
   const [isOpen, setisOpen] = useState<boolean>(false);
   return (
-    <nav className="absolute top-0 z-10 w-full bg-white shadow-xl rounded-bl-xl">
+    <nav className="absolute top-0 z-10 w-full bg-white shadow-custom rounded-bl-xl">
       <div>
         <div className="grid grid-cols-2">
           <a className="text-black text-2xl font-bold p-3 text-left">LOGO</a>

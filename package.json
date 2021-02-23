@@ -20,6 +20,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-icons": "^4.1.0",
+    "react-input-switch": "^2.2.2",
     "react-reveal": "^1.2.2",
     "tailwindcss": "^2.0.2",
     "yup": "^0.32.8"
