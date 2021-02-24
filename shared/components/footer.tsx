@@ -7,7 +7,7 @@ export default function Footer() {
           ❤️
         </span>
         by your friends at SRMKZILLA
-      </p>  
+      </p>
     </div>
   );
 }

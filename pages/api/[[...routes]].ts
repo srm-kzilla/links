@@ -6,7 +6,7 @@ import { onError, onNotFound } from "../../api/error/error.controller";
 
 const indexRouter = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
-  onError: onError
+  onError: onError,
 });
 
 indexRouter.use("/api/v1/auth", authRoutes);

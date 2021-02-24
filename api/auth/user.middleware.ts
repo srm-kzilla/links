@@ -2,7 +2,7 @@ import next, { NextApiRequest, NextApiResponse } from "next";
 import nc, { NextHandler } from "next-connect";
 import { verify } from "jsonwebtoken";
 import * as yup from "yup";
-import {errors} from "../error/error.constant"
+import { errors } from "../error/error.constant";
 
 export const JwtRequestSchema = yup
   .object({
@@ -24,8 +24,8 @@ export const validateUser = (
   res: NextApiResponse,
   next: NextHandler
 ) => {
-    try{
-  const {authorization} = req.headers as JwtRequest;
+  try {
+    const { authorization } = req.headers as JwtRequest;
     console.log(authorization);
     if (!authorization) {
       return next(errors.JWT_ERROR);
@@ -38,14 +38,14 @@ export const validateUser = (
     ) as jwtPayload;
     console.log(payload);
     req.env = {
-      user: JSON.stringify(payload)
-    }
+      user: JSON.stringify(payload),
+    };
     next();
   } catch (err) {
     console.log(err);
     next({
-        httpStatus: 403,
-        message: `${err.name}: ${err.message}`,
-      });
+      httpStatus: 403,
+      message: `${err.name}: ${err.message}`,
+    });
   }
 };

@@ -22,7 +22,7 @@ export const postLogin = async (
       .findOne<User>({ email: user.email }, { projection: { _id: 0 } });
 
     if (!result) {
-      throw errors.USER_NOT_FOUND
+      throw errors.USER_NOT_FOUND;
     }
 
     const isAuthorised = await bcrypt.compare(
@@ -44,7 +44,7 @@ export const postLogin = async (
         authToken: token,
       });
     } else {
-      throw errors.USER_NOT_FOUND
+      throw errors.USER_NOT_FOUND;
     }
   } catch (err) {
     next(err);

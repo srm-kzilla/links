@@ -25,7 +25,7 @@ body {
   border: double 3px transparent;
   border-radius: 6px;
   background-image: linear-gradient(white, white),
-    linear-gradient(to bottom, #56CCF2, #6FCF97);
+    linear-gradient(to bottom, #56ccf2, #6fcf97);
   background-origin: border-box;
   background-clip: padding-box, border-box;
   transition: 0.27s ease-in all;
