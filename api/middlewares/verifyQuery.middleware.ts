@@ -5,11 +5,11 @@ import { errors } from "../error/error.constant";
 
 type RequestLocations = "query" | "body" | "headers";
 
-// /**
-//  * Generic Request Validator
-//  * @param {RequestLocations} location The parameter of the req object to be validated.
-//  * @param {yup.ObjectSchema} schema The schema against which validation is to be done.
-//  */
+/**
+ * Generic Request Validator
+ * @param {RequestLocations} location The parameter of the req object to be validated.
+ * @param {yup.ObjectSchema} schema The schema against which validation is to be done.
+ */
 
 export const validateQuery = (
   location: RequestLocations,
@@ -36,7 +36,14 @@ export const validateQuery = (
       await schema.validate(_location, { abortEarly: false });
       next();
     } catch (error) {
-      next(errors.BAD_REQUEST);
+      let message: string = "";
+      error.errors.forEach((e: string) => {
+        message += `${e}. `;
+      });
+      next({
+        httpStatus: 400,
+        message: message,
+      });
     }
   };
 };

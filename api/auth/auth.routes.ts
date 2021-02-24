@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
 import { postLogin, postSignup } from "./auth.controller";
 import { onError, onNotFound } from "../error/error.controller";
-import { validateQuery } from "./verifyQuery.middleware";
-import { userSchema } from "../../models/user-schema";
+import { validateQuery } from "../middlewares/verifyQuery.middleware";
+import { userLoginSchema, userSignupSchema } from "./auth.schema";
 
 const authHandler = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
@@ -11,7 +11,7 @@ const authHandler = nc<NextApiRequest, NextApiResponse>({
 });
 
 authHandler
-  .post("/login", validateQuery("body", userSchema), postLogin)
-  .post("/signup", validateQuery("body", userSchema), postSignup);
+  .post("/login", validateQuery("body", userLoginSchema), postLogin)
+  .post("/signup", validateQuery("body", userSignupSchema), postSignup);
 
 export default authHandler;

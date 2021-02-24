@@ -1,6 +1,6 @@
 import next, { NextApiRequest, NextApiResponse } from "next";
 import nc, { NextHandler } from "next-connect";
-import { jwtPayload } from "../auth/user.middleware";
+import { jwtPayload } from "../middlewares/verifyJWT.middleware";
 
 export const postHello = (
   req: NextApiRequest,

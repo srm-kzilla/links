@@ -4,8 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
-import { User } from "../../models/user-schema";
-import { userDBSchema } from "./auth.schemas";
+import { userLogin, userSignup } from "./auth.schema";
 import { errors } from "../error/error.constant";
 
 export const postLogin = async (
@@ -14,25 +13,25 @@ export const postLogin = async (
   next: NextHandler
 ) => {
   try {
-    let user: User = req.body as User;
+    let { email, password } = req.body as userLogin;
     const dbClient: MongoClient = await getDbClient();
     let result = await dbClient
       .db("links")
       .collection("user")
-      .findOne<User>({ email: user.email }, { projection: { _id: 0 } });
+      .findOne<userLogin>({ email: email }, { projection: { _id: 0 } });
 
     if (!result) {
       throw errors.USER_NOT_FOUND;
     }
 
-    const isAuthorised = await bcrypt.compare(
-      user.password,
-      result["password"]
-    );
+    const isAuthorised = await bcrypt.compare(password, result.password);
 
     if (isAuthorised) {
       const token = jwt.sign(
-        { email: result.email },
+        {
+          email: result.email,
+          username: result.username,
+        },
         process.env.JWT_SECRET || "",
         {
           expiresIn: "1d",
@@ -57,30 +56,27 @@ export const postSignup = async (
   next: NextHandler
 ) => {
   try {
-    let user: User = req.body as User;
+    let { username, email, password } = req.body as userLogin;
     const dbClient: MongoClient = await getDbClient();
     let result = await dbClient
       .db("links")
       .collection("user")
-      .findOne({ email: user.email });
+      .findOne({ email: email });
     const saltRounds = 12;
     if (result) {
       throw errors.DUPLICATE_USER;
-    } else {
-      const salt = await bcrypt.genSalt(saltRounds);
-      const hash = await bcrypt.hash(user.password, salt);
-      user.password = hash;
-      await dbClient.db("links").collection("user").insertOne(user);
     }
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(password, salt);
+    await dbClient
+      .db("links")
+      .collection("user")
+      .insertOne({ username, email, password: hash });
 
-    const token = jwt.sign(
-      { email: result.email },
-      process.env.JWT_SECRET || "",
-      {
-        expiresIn: "1d",
-        issuer: "srmkzilla",
-      }
-    );
+    const token = jwt.sign({ username, email }, process.env.JWT_SECRET || "", {
+      expiresIn: "1d",
+      issuer: "srmkzilla",
+    });
     res.status(200).json({
       success: true,
       authToken: token,
