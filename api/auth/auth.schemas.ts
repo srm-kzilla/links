@@ -1,4 +1,4 @@
 export interface userDBSchema{
     email: string;
-    passwor: string;
+    password: string;
 }

@@ -5,7 +5,8 @@ import { NextHandler } from "next-connect";
 import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
 import { User } from "../../models/user-schema";
-import {userDBSchema} from "./auth.schemas"
+import { userDBSchema } from "./auth.schemas";
+import { errors } from "../error/error.constant";
 
 export const postLogin = async (
   req: NextApiRequest,
@@ -13,15 +14,15 @@ export const postLogin = async (
   next: NextHandler
 ) => {
   try {
-    let user: User = req.body;
+    let user: User = req.body as User;
     const dbClient: MongoClient = await getDbClient();
     let result = await dbClient
       .db("links")
       .collection("user")
-      .findOne<userDBSchema>({ email: user.email }, {projection: {_id: 0}});
+      .findOne<User>({ email: user.email }, { projection: { _id: 0 } });
 
     if (!result) {
-      return res.status(401).json({ msg: "User not found" });
+      throw errors.USER_NOT_FOUND
     }
 
     const isAuthorised = await bcrypt.compare(
@@ -30,19 +31,23 @@ export const postLogin = async (
     );
 
     if (isAuthorised) {
-      const token = jwt.sign({email: result.email} , process.env.JWT_SECRET || "", {
-        expiresIn: "1d",
-        issuer: "srmkzilla"
+      const token = jwt.sign(
+        { email: result.email },
+        process.env.JWT_SECRET || "",
+        {
+          expiresIn: "1d",
+          issuer: "srmkzilla",
+        }
+      );
+      res.status(200).json({
+        success: true,
+        authToken: token,
       });
-      return res.status(200).json({ token, msg: "User authorised" });
     } else {
-      return res.status(401).json({ msg: "Invalid password!" });
+      throw errors.USER_NOT_FOUND
     }
   } catch (err) {
-    res.status(500).send({
-      msg: "Internal Server Error",
-      err: err,
-    });
+    next(err);
   }
 };
 
@@ -52,7 +57,7 @@ export const postSignup = async (
   next: NextHandler
 ) => {
   try {
-    let user: User = req.body;
+    let user: User = req.body as User;
     const dbClient: MongoClient = await getDbClient();
     let result = await dbClient
       .db("links")
@@ -60,9 +65,7 @@ export const postSignup = async (
       .findOne({ email: user.email });
     const saltRounds = 12;
     if (result) {
-      return res.status(409).json({
-        msg: "User already exists",
-      });
+      throw errors.DUPLICATE_USER;
     } else {
       const salt = await bcrypt.genSalt(saltRounds);
       const hash = await bcrypt.hash(user.password, salt);
@@ -70,14 +73,19 @@ export const postSignup = async (
       await dbClient.db("links").collection("user").insertOne(user);
     }
 
-    delete user["password"];
-    const token = await jwt.sign(user, process.env.JWT_SECRET || "");
-    res.json({ token });
-  } catch (err) {
-    console.log(err);
-    res.status(500).send({
-      message: "Internal Server Error",
-      err: err,
+    const token = jwt.sign(
+      { email: result.email },
+      process.env.JWT_SECRET || "",
+      {
+        expiresIn: "1d",
+        issuer: "srmkzilla",
+      }
+    );
+    res.status(200).json({
+      success: true,
+      authToken: token,
     });
+  } catch (err) {
+    next(err);
   }
 };

@@ -15,10 +15,6 @@ export const errors = {
       httpStatus: 404,
       message: "Resource Not Found.",
     },
-    NOTE_NOT_FOUND: {
-      httpStatus: 404,
-      message: "Note Not Found.",
-    },
     USER_NOT_FOUND: {
       httpStatus: 401,
       message: "Email or Password Wrong",
@@ -38,13 +34,5 @@ export const errors = {
     DUPLICATE_USER: {
       httpStatus: 400,
       message: "Email ID Already Registered. Please Login.",
-    },
-    THERAPIST_NOT_FOUND: {
-      httpStatus: 400,
-      message: "Therapist Not Found with the provided Code.",
-    },
-    RELATION_NOT_FOUND: {
-      httpStatus: 404,
-      message: "Client is not Assigned to The Therapist.",
     },
   };

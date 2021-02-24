@@ -26,6 +26,7 @@ export const onError = (
       message: err.message,
     });
   } else {
+    console.log(err)
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
