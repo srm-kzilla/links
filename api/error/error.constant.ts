@@ -35,4 +35,8 @@ export const errors = {
     httpStatus: 400,
     message: "Email ID Already Registered. Please Login.",
   },
+  DUPLICATE_USERNAME: {
+    httpStatus: 400,
+    message: "This username is not available. Please choose some other username.",
+  }
 };

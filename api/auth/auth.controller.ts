@@ -66,6 +66,13 @@ export const postSignup = async (
     if (result) {
       throw errors.DUPLICATE_USER;
     }
+    let usernameExists = await dbClient
+      .db("links")
+      .collection("user")
+      .findOne({ username: username });
+    if(usernameExists){
+      throw errors.DUPLICATE_USERNAME;
+    }
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
     await dbClient

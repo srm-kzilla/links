@@ -10,12 +10,12 @@ export const userLoginSchema = yup.object({
 });
 
 export const userSignupSchema = yup.object({
-  username: yup.string().trim().required(),
+  username: yup.string().trim().min(8, "password must have at least 8 characters"),
   email: yup.string().trim().email().required(),
   password: yup
     .string()
     .trim()
-    .min(8, "password should have at least 8 characters"),
+    .min(8, "password must have at least 8 characters"),
   createdAt: yup.number().default(() => {
     return +new Date();
   }),
