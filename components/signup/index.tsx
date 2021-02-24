@@ -10,6 +10,7 @@ export default function SignUpComponent(): JSX.Element {
               SIGN UP
             </h1>
             <input
+              name="email"
               type="email"
               className="gradientInput mb-4 focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2 rounded shadow"
               placeholder="Your Email ID"
