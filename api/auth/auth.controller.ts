@@ -56,7 +56,7 @@ export const postSignup = async (
   next: NextHandler
 ) => {
   try {
-    let { username, email, password } = req.body as userLogin;
+    let { username, email, password } = req.body as userSignup;
     const dbClient: MongoClient = await getDbClient();
     let result = await dbClient
       .db("links")
