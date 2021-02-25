@@ -13,19 +13,23 @@ export const postLogin = async (
   next: NextHandler
 ) => {
   try {
-    let { email, password } = req.body as userLogin;
+    let { username, email, password } = req.body as userLogin;
     const dbClient: MongoClient = await getDbClient();
+    console.log(username, password);
     let result = await dbClient
       .db("links")
       .collection("user")
-      .findOne<userLogin>({ email: email }, { projection: { _id: 0 } });
-
+      .findOne<userLogin>(
+        { $or: [ { username: username }, { email: email }] },
+        { projection: { _id: 0 } }
+      );
+    console.log(result);
     if (!result) {
       throw errors.USER_NOT_FOUND;
     }
 
     const isAuthorised = await bcrypt.compare(password, result.password);
-
+    console.log(isAuthorised);
     if (isAuthorised) {
       const token = jwt.sign(
         {
@@ -70,7 +74,7 @@ export const postSignup = async (
       .db("links")
       .collection("user")
       .findOne({ username: username });
-    if(usernameExists){
+    if (usernameExists) {
       throw errors.DUPLICATE_USERNAME;
     }
     const salt = await bcrypt.genSalt(saltRounds);
