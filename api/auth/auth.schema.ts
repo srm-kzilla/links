@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import * as mongoDB from "mongodb";
 
 export const userLoginSchema = yup.object({
   username: yup.string().trim(),
@@ -30,3 +31,6 @@ export const userSignupSchema = yup.object({
 
 export type userLogin = yup.InferType<typeof userLoginSchema>;
 export type userSignup = yup.InferType<typeof userSignupSchema>;
+export interface userDBSchema extends userSignup {
+  _id?: mongoDB.ObjectID;
+}
