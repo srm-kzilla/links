@@ -56,7 +56,7 @@ export const postSignup = async (
   next: NextHandler
 ) => {
   try {
-    let { username, email, password } = req.body as userLogin;
+    let { username, email, password } = req.body as userSignup;
     const dbClient: MongoClient = await getDbClient();
     let result = await dbClient
       .db("links")
@@ -65,6 +65,13 @@ export const postSignup = async (
     const saltRounds = 12;
     if (result) {
       throw errors.DUPLICATE_USER;
+    }
+    let usernameExists = await dbClient
+      .db("links")
+      .collection("user")
+      .findOne({ username: username });
+    if(usernameExists){
+      throw errors.DUPLICATE_USERNAME;
     }
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
