@@ -25,8 +25,8 @@ export const addLink = async (
       throw errors.USER_NOT_FOUND;
     }
     const link: linkDBSchema = { ...req.body, userId: findUser._id };
-    const response = await dbClient.db().collection("Links").insertOne(link);
-    if (response.result.n === 0) throw errors.MONGODB_CONNECT_ERROR;
+    const response = await dbClient.db().collection("links").insertOne(link);
+    if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
     res.json({ success: true });
   } catch (err) {
     next(err);
@@ -50,13 +50,13 @@ export const getLink = async (
     }
     const result = await dbClient
       .db()
-      .collection("Links")
+      .collection("links")
       .find<linkDBSchema>({
         userId: findUser._id,
       })
       .toArray();
     if (!result) {
-      throw errors.MONGODB_CONNECT_ERROR;
+      throw errors.NOT_FOUND;
     }
     res.json({ success: true, result });
   } catch (err) {
@@ -84,7 +84,7 @@ export const deleteLink = async (
 
     const deleteLink = await dbClient
       .db("links")
-      .collection("Links")
+      .collection("links")
       .findOneAndDelete({
         userId: findUser._id,
         _id: new MongoDB.ObjectID(linkId),
@@ -118,7 +118,7 @@ export const updateLink = async (
     }
     const updateLink = await dbClient
       .db("links")
-      .collection("Links")
+      .collection("links")
       .updateOne(
         { userId: findUser._id, _id: new MongoDB.ObjectID(linkId) },
 
@@ -127,7 +127,7 @@ export const updateLink = async (
     if (updateLink.result.n === 0) {
       throw errors.MONGODB_CONNECT_ERROR;
     }
-    res.json({ success: true });
+    res.json({ success: true, message: "Link has been updated successfully." });
   } catch (err) {
     next(err);
   }

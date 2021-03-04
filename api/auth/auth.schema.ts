@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import * as mongoDB from "mongodb";
+import { ObjectID } from "mongodb";
 
 export const userLoginSchema = yup.object({
   username: yup.string().trim(),
@@ -12,10 +12,13 @@ export const userLoginSchema = yup.object({
 
 export const userSignupSchema = yup.object({
   username: yup
-  .string()
-  .trim()
-  .min(5, "username must have at least 5 characters")
-  .matches(/^(?=[a-z_.\d]*[a-z])[a-zA-Z_.\d]{5,}$/, "Username can contain only aphanumeric characters and '_' and '.' special characters. There must be at least one alphabet"),
+    .string()
+    .trim()
+    .min(5, "username must have at least 5 characters")
+    .matches(
+      /^(?=[a-z_.\d]*[a-z])[a-zA-Z_.\d]{5,}$/,
+      "Username can contain only aphanumeric characters and '_' and '.' special characters. There must be at least one alphabet"
+    ),
   email: yup.string().trim().email().required(),
   password: yup
     .string()
@@ -32,5 +35,5 @@ export const userSignupSchema = yup.object({
 export type userLogin = yup.InferType<typeof userLoginSchema>;
 export type userSignup = yup.InferType<typeof userSignupSchema>;
 export interface userDBSchema extends userSignup {
-  _id?: mongoDB.ObjectID;
+  _id?: ObjectID;
 }
