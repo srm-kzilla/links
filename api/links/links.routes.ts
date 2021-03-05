@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nc, { NextHandler } from "next-connect";
-import { postHello } from "./hello.controller";
-import { validateUser } from "../middlewares/verifyJWT.middleware";
+import { addLink, deleteLink, getLink, updateLink } from "./links.controller";
+import { validateQuery } from "../middlewares/verifyQuery.middleware";
+import { linkDeleteSchema, linkSchema, linkUpdateSchema } from "./link.schema";
 import { onError, onNotFound } from "../error/error.controller";
 
 const linksHandler = nc<NextApiRequest, NextApiResponse>({
@@ -9,6 +10,17 @@ const linksHandler = nc<NextApiRequest, NextApiResponse>({
   onError: onError,
 });
 
-linksHandler.post("/hello", validateUser, postHello);
+linksHandler.post("/add", validateQuery("body", linkSchema), addLink);
+linksHandler.get("/get", getLink);
+linksHandler.delete(
+  "/delete",
+  validateQuery("query", linkDeleteSchema),
+  deleteLink
+);
+linksHandler.patch(
+  "/update",
+  validateQuery("body", linkUpdateSchema),
+  updateLink
+);
 
 export default linksHandler;

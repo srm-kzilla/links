@@ -37,6 +37,7 @@ export const errors = {
   },
   DUPLICATE_USERNAME: {
     httpStatus: 400,
-    message: "This username is not available. Please choose some other username.",
-  }
+    message:
+      "This username is not available. Please choose some other username.",
+  },
 };
