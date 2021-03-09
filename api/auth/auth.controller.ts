@@ -19,7 +19,6 @@ export const postLogin = async (
     username === undefined? username = null: username = username;
     email === undefined? email = null: email = email;
 
-    console.log(username, password);
     let result = await dbClient
       .db("links")
       .collection("user")
@@ -27,7 +26,6 @@ export const postLogin = async (
         { $or: [ { username: username }, { email: email }] },
         { projection: { _id: 0 } }
       );
-    console.log(result);
     if (!result) {
       throw errors.USER_NOT_FOUND;
     }
