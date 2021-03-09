@@ -2,17 +2,6 @@ import * as yup from "yup";
 
 export const userLoginSchema = yup
   .object({
-    // userid: yup
-    //   .object({
-    //     username: yup
-    //       .string()
-    //       .trim()
-    //       .matches(/^(?=[a-z_.\d]*[a-z])[a-zA-Z_.\d]{5,}$/, "Invalid username"),
-    //     email: yup.string().trim().email(),
-    //   })
-    //   .test("xor", `object should have username or email`, val => {
-    //     return !!val.username !== !!val.email;
-    //   }),
     username: yup
       .string()
       .trim()

@@ -15,6 +15,10 @@ export const postLogin = async (
   try {
     let { username, email, password } = req.body as userLogin;
     const dbClient: MongoClient = await getDbClient();
+
+    username === undefined? username = null: username = username;
+    email === undefined? email = null: email = email;
+
     console.log(username, password);
     let result = await dbClient
       .db("links")
