@@ -1,5 +1,5 @@
 interface LogoProps {
-  status?: boolean;
+  status: boolean;
   image: string;
   alt: string;
 }

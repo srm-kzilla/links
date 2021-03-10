@@ -25,6 +25,7 @@ const AddModal = ({ isOpen, onClose }: AddModalProps): JSX.Element => {
                   type="text"
                   className="gradientInput mb-4 mt-10 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
                   placeholder="Title"
+                  autoFocus
                 />
                 <input
                   type="text"
