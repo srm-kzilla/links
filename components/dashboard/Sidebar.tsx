@@ -25,7 +25,7 @@ const Sidebar = ({
     <>
       {isOpen && (
         <Slide right>
-          <div className="fixed z-40 w-full md:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white">
+          <div className="fixed z-40 w-full lg:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white">
             <button
               onClick={onClose}
               className="relative md:hidden float-right mt-6 cursor-pointer"
@@ -71,7 +71,7 @@ const Sidebar = ({
                     }
                   ></input>
                   <button
-                    className="cursor-pointer absolute right-2 bg-white -top-1"
+                    className="cursor-pointer focus:outline-none absolute right-2 bg-white -top-1"
                     type="submit"
                     onClick={() => console.log("post", activeLink)}
                   >
@@ -96,7 +96,7 @@ const Sidebar = ({
                     }
                   />
                   <button
-                    className="cursor-pointer absolute right-2 bg-white -top-1"
+                    className="cursor-pointer focus:outline-none absolute right-2 bg-white -top-1"
                     type="submit"
                     onClick={() => console.log("post", activeLink)}
                   >
@@ -109,7 +109,7 @@ const Sidebar = ({
                   type="text"
                   name="link-short-url"
                   autoComplete="off"
-                  className="gradientInputBottom focus:outline-none w-full"
+                  className="gradientInputBottom cursor-not-allowed focus:outline-none w-full"
                   placeholder="https://kzilla.xyz/abcd"
                   disabled
                 />

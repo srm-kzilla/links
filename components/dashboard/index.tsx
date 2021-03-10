@@ -26,7 +26,7 @@ export default function DashboardComponent(): JSX.Element {
           <div className="mt-24 pb-10">
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-96 focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
+              className="bg-backgroundwhite z-50 fixed border-dashed border-4 border-buttongray bottom-14 right-8 lg:top-20 lg:left-addButton focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
             >
               <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
                 <VscAdd />

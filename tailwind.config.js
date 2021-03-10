@@ -8,7 +8,7 @@ module.exports = {
         NotoSans: ['Noto Sans', 'sans-serif'],
       },
       width:{
-        'custom': '20.66666%',
+        'custom': '21.66666%',
       },
       padding:{
         custom: '26px',
@@ -28,6 +28,9 @@ module.exports = {
       },
       fontSize:{
         'xxl':'8.9rem',
+      },
+      inset:{
+        'addButton':'70%',
       }
     }
   },
