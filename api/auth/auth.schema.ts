@@ -22,12 +22,14 @@ export const userSignupSchema = yup.object({
     .matches(
       /^(?=[a-z_.\d]*[a-z])[a-zA-Z_.\d]{5,}$/,
       "Username can contain only aphanumeric characters and '_' and '.' special characters. There must be at least one alphabet"
-    ),
+    )
+    .required(),
   email: yup.string().trim().email().required(),
   password: yup
     .string()
     .trim()
-    .min(8, "password must have at least 8 characters"),
+    .min(8, "password must have at least 8 characters")
+    .required(),
   createdAt: yup.number().default(() => {
     return +new Date();
   }),
