@@ -13,26 +13,21 @@ export const postLogin = async (
   next: NextHandler
 ) => {
   try {
-    let { username, email, password } = req.body as userLogin;
+    let { password } = req.body;
     const dbClient: MongoClient = await getDbClient();
 
-    username === undefined? username = null: username = username;
-    email === undefined? email = null: email = email;
+    let body = req.body;
+    delete body["password"];
 
     let result = await dbClient
       .db("links")
       .collection("user")
-      .findOne<userLogin>(
-        { $or: [ { username: username }, { email: email }] },
-        { projection: { _id: 0 } }
-      );
+      .findOne<userLogin>(body, { projection: { _id: 0 } });
     if (!result) {
       throw errors.USER_NOT_FOUND;
     }
 
-    const isAuthorised = await bcrypt.compare(password, result.password);
-    console.log(isAuthorised);
-    if (isAuthorised) {
+    if (await bcrypt.compare(password, result.password)) {
       const token = jwt.sign(
         {
           email: result.email,

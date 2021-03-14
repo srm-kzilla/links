@@ -9,7 +9,7 @@ export const userLoginSchema = yup
     email: yup.string().trim().email(),
     password: yup.string().trim().required(),
   })
-  .test("xor", "object should have username or email", (val) => {
+  .test("xor", "object should have either username or email", (val) => {
     return !!val.username !== !!val.email;
   });
 
