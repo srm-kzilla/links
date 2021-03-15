@@ -1,14 +1,18 @@
 import * as yup from "yup";
 import { ObjectID } from "mongodb";
 
-export const userLoginSchema = yup.object({
-  username: yup.string().trim(),
-  email: yup.string().trim().email().required(),
-  password: yup
-    .string()
-    .trim()
-    .min(8, "password should have at least 8 characters"),
-});
+export const userLoginSchema = yup
+  .object({
+    username: yup
+      .string()
+      .trim()
+      .matches(/^(?=[a-z_.\d]*[a-z])[a-zA-Z_.\d]{5,}$/, "Invalid username"),
+    email: yup.string().trim().email(),
+    password: yup.string().trim().required(),
+  })
+  .test("xor", "object should have either username or email", (val) => {
+    return !!val.username !== !!val.email;
+  });
 
 export const userSignupSchema = yup.object({
   username: yup
