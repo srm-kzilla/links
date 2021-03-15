@@ -6,7 +6,7 @@ export const userLoginSchema = yup
     username: yup
       .string()
       .trim()
-      .matches(/^(?=[a-z_.\d]*[a-z])[a-zA-Z_.\d]{5,}$/, "Invalid username"),
+      .matches(/^(?=[A-Za-z_.\d]*[A-Za-z])[a-zA-Z_.\d]{5,}$/, "Invalid username"),
     email: yup.string().trim().email(),
     password: yup.string().trim().required(),
   })
@@ -20,7 +20,7 @@ export const userSignupSchema = yup.object({
     .trim()
     .min(5, "username must have at least 5 characters")
     .matches(
-      /^(?=[a-z_.\d]*[a-z])[a-zA-Z_.\d]{5,}$/,
+      /^(?=[A-Za-z_.\d]*[A-Za-z])[a-zA-Z_.\d]{5,}$/,
       "Username can contain only aphanumeric characters and '_' and '.' special characters. There must be at least one alphabet"
     )
     .required(),
