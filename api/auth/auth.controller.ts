@@ -93,3 +93,22 @@ export const postSignup = async (
     next(err);
   }
 };
+
+export const postUser = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
+  try {
+    let { authToken } = req.body;
+    let jwtPayload: string = JSON.stringify(jwt.decode(authToken));
+    let userInfo = await JSON.parse(jwtPayload);
+    delete userInfo.iat;
+    res.json({
+      success: true,
+      data: userInfo,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
