@@ -94,7 +94,7 @@ export const postSignup = async (
   }
 };
 
-export const gettUser = async (
+export const getUser = async (
   req: NextApiRequest,
   res: NextApiResponse,
   next: NextHandler
