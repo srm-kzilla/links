@@ -101,12 +101,11 @@ export const getUser = async (
 ) => {
   try {
     let { authToken } = req.body;
-    let jwtPayload: string = JSON.stringify(jwt.decode(authToken));
-    let userInfo = await JSON.parse(jwtPayload);
-    delete userInfo.iat;
+    let jwtPayload = jwt.verify(authToken, process.env.JWT_SECRET || "");
+    delete jwtPayload.iat;
     res.json({
       success: true,
-      data: userInfo,
+      data: jwtPayload,
     });
   } catch (err) {
     next(err);
