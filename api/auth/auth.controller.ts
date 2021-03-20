@@ -103,7 +103,7 @@ export const getUser = async (
     let { authToken } = req.body;
     let jwtPayload = jwt.verify(authToken, process.env.JWT_SECRET || "");
     delete jwtPayload.iat;
-    res.json({
+    res.status(200).json({
       success: true,
       data: jwtPayload,
     });
