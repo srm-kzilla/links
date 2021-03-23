@@ -9,7 +9,7 @@ export const errors = {
   },
   UNAUTHORIZED: {
     httpStatus: 401,
-    message: "Unauthorized.",
+    message: "Wrong Password",
   },
   NOT_FOUND: {
     httpStatus: 404,
@@ -17,7 +17,7 @@ export const errors = {
   },
   USER_NOT_FOUND: {
     httpStatus: 401,
-    message: "Email or Password Wrong",
+    message: "User not registered. Please sign up",
   },
   MONGODB_CONNECT_ERROR: {
     httpStatus: 500,

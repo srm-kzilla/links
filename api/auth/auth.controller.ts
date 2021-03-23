@@ -2,10 +2,18 @@ import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError } from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
-import { userLogin, userSignup } from "./auth.schema";
+import { userLogin, userSignup, JwtRequest } from "./auth.schema";
 import { errors } from "../error/error.constant";
+
+export interface jwtPayload {
+  email: string;
+  username: string;
+  iat:number;
+  exp: number,
+  iss: "srmkzilla"
+}
 
 export const postLogin = async (
   req: NextApiRequest,
@@ -24,7 +32,7 @@ export const postLogin = async (
       .collection("user")
       .findOne<userLogin>(body, { projection: { _id: 0 } });
     if (!result) {
-      throw errors.USER_NOT_FOUND;
+      throw errors.UNAUTHORIZED;
     }
 
     if (await bcrypt.compare(password, result.password)) {
@@ -100,14 +108,36 @@ export const getUser = async (
   next: NextHandler
 ) => {
   try {
-    let { authToken } = req.body;
-    let jwtPayload = jwt.verify(authToken, process.env.JWT_SECRET || "");
-    delete jwtPayload.iat;
-    res.status(200).json({
-      success: true,
-      data: jwtPayload,
-    });
+    const { authorization } = req.headers as JwtRequest;
+    if (!authorization) {
+      return next(errors.JWT_ERROR);
+    }
+    const authToken = authorization.split(" ")[1];
+    let jwtPayload: jwtPayload = jwt.verify(authToken, process.env.JWT_SECRET || "", {
+      issuer: "srmkzilla",
+    }) as jwtPayload;
+    if (!jwtPayload) {
+      throw errors.JWT_ERROR;
+    } else {
+      const dbClient: MongoClient = await getDbClient();
+      const user = await dbClient
+        .db("links")
+        .collection("user")
+        .findOne({ email: jwtPayload.email });
+      if (!user) {
+        throw errors.USER_NOT_FOUND;
+      } else {
+        delete jwtPayload.iat;
+        return res.status(200).json({
+          success: true,
+          data: jwtPayload,
+        });
+      }
+    }
   } catch (err) {
+    if (err instanceof JsonWebTokenError) {
+      next(errors.JWT_ERROR);
+    }
     next(err);
   }
 };

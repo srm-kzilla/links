@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import dotenv from "dotenv";
 import nc, { NextHandler } from "next-connect";
-dotenv.config({ path: "../../.env" });
 import authRoutes from "../../api/auth/auth.routes";
 import linksRoutes from "../../api/links/links.routes";
 import { validateUser } from "../../api/middlewares/verifyJWT.middleware";
