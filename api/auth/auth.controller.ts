@@ -24,7 +24,7 @@ export const postLogin = async (
       .collection("user")
       .findOne<userLogin>(body, { projection: { _id: 0 } });
     if (!result) {
-      throw errors.UNAUTHORIZED;
+      throw errors.USER_NOT_FOUND;
     }
 
     if (await bcrypt.compare(password, result.password)) {
@@ -44,7 +44,7 @@ export const postLogin = async (
         authToken: token,
       });
     } else {
-      throw errors.USER_NOT_FOUND;
+      throw errors.UNAUTHORIZED;
     }
   } catch (err) {
     next(err);
@@ -105,11 +105,21 @@ export const getUser = async (
     if (!user) {
       throw errors.USER_NOT_FOUND;
     } else {
-      delete user.iat;
-      return res.status(200).json({
-        success: true,
-        data: user,
-      });
+      const dbClient: MongoClient = await getDbClient();
+      if (
+        await dbClient
+          .db("links")
+          .collection("user")
+          .findOne({ email: user.email })
+      ) {
+        delete user.iat;
+        return res.status(200).json({
+          success: true,
+          data: user,
+        });
+      } else {
+        throw errors.USER_NOT_FOUND;
+      }
     }
   } catch (err) {
     next(err);
