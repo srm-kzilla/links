@@ -1,6 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
-import { postLogin, postSignup, getUser, getOTP } from "./auth.controller";
+import {
+  postLogin,
+  postSignup,
+  getUser,
+  getOTP,
+  verifyOTP,
+} from "./auth.controller";
 import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { validateUser } from "../middlewares/verifyJWT.middleware";
@@ -15,6 +21,7 @@ authHandler
   .post("/login", validateQuery("body", userLoginSchema), postLogin)
   .post("/signup", validateQuery("body", userSignupSchema), postSignup)
   .get("/user", validateUser, getUser)
-  .get("/getotp", validateUser, getOTP);
+  .get("/getotp", validateUser, getOTP)
+  .post("/postotp", validateUser, verifyOTP);
 
 export default authHandler;
