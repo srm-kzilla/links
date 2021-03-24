@@ -51,6 +51,13 @@ export const JwtRequestSchema = yup
   })
   .required();
 
+export interface jwtPayload {
+  email: string;
+  username: string;
+  iat:number;
+  exp: number,
+  iss: "srmkzilla"
+}
 export type JwtRequest = yup.InferType<typeof JwtRequestSchema>;
 export type userLogin = yup.InferType<typeof userLoginSchema>;
 export type userSignup = yup.InferType<typeof userSignupSchema>;

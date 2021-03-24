@@ -2,18 +2,10 @@ import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import jwt, { JsonWebTokenError } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
-import { userLogin, userSignup, JwtRequest } from "./auth.schema";
+import { userLogin, userSignup, jwtPayload } from "./auth.schema";
 import { errors } from "../error/error.constant";
-
-export interface jwtPayload {
-  email: string;
-  username: string;
-  iat:number;
-  exp: number,
-  iss: "srmkzilla"
-}
 
 export const postLogin = async (
   req: NextApiRequest,
@@ -108,36 +100,18 @@ export const getUser = async (
   next: NextHandler
 ) => {
   try {
-    const { authorization } = req.headers as JwtRequest;
-    if (!authorization) {
-      return next(errors.JWT_ERROR);
-    }
-    const authToken = authorization.split(" ")[1];
-    let jwtPayload: jwtPayload = jwt.verify(authToken, process.env.JWT_SECRET || "", {
-      issuer: "srmkzilla",
-    }) as jwtPayload;
-    if (!jwtPayload) {
-      throw errors.JWT_ERROR;
+    let payload = req.env.user;
+    let user: jwtPayload = JSON.parse(payload);
+    if (!user) {
+      throw errors.USER_NOT_FOUND;
     } else {
-      const dbClient: MongoClient = await getDbClient();
-      const user = await dbClient
-        .db("links")
-        .collection("user")
-        .findOne({ email: jwtPayload.email });
-      if (!user) {
-        throw errors.USER_NOT_FOUND;
-      } else {
-        delete jwtPayload.iat;
-        return res.status(200).json({
-          success: true,
-          data: jwtPayload,
-        });
-      }
+      delete user.iat;
+      return res.status(200).json({
+        success: true,
+        data: user,
+      });
     }
   } catch (err) {
-    if (err instanceof JsonWebTokenError) {
-      next(errors.JWT_ERROR);
-    }
     next(err);
   }
 };

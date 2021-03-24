@@ -1,12 +1,8 @@
 import next, { NextApiRequest, NextApiResponse } from "next";
 import nc, { NextHandler } from "next-connect";
 import { verify } from "jsonwebtoken";
-import {JwtRequest} from "../auth/auth.schema"
+import { JwtRequest, jwtPayload } from "../auth/auth.schema";
 import { errors } from "../error/error.constant";
-
-export interface jwtPayload {
-  email: string;
-}
 
 export const validateUser = (
   req: NextApiRequest,
