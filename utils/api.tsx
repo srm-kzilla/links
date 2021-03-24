@@ -31,7 +31,7 @@ export const postSignup = async (values) => {
 };
 
 const errorHandler = (error?: AxiosError | any) => {
-  let errMessage: string = "Oops! Something went wrong!";
+  let errMessage: string;
   switch (error.response?.status) {
     case 401:
       errMessage = "❌ Uh oh! Invalid credentials, please try again!";
