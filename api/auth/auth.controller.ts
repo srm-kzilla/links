@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
-import { userLogin, userSignup } from "./auth.schema";
+import { userLogin, userSignup, jwtPayload } from "./auth.schema";
 import { errors } from "../error/error.constant";
 
 export const postLogin = async (
@@ -44,7 +44,7 @@ export const postLogin = async (
         authToken: token,
       });
     } else {
-      throw errors.USER_NOT_FOUND;
+      throw errors.UNAUTHORIZED;
     }
   } catch (err) {
     next(err);
@@ -89,6 +89,38 @@ export const postSignup = async (
       success: true,
       authToken: token,
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getUser = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
+  try {
+    let payload = req.env.user;
+    let user: jwtPayload = JSON.parse(payload);
+    if (!user) {
+      throw errors.USER_NOT_FOUND;
+    } else {
+      const dbClient: MongoClient = await getDbClient();
+      if (
+        await dbClient
+          .db("links")
+          .collection("user")
+          .findOne({ email: user.email })
+      ) {
+        delete user.iat;
+        return res.status(200).json({
+          success: true,
+          data: user,
+        });
+      } else {
+        throw errors.USER_NOT_FOUND;
+      }
+    }
   } catch (err) {
     next(err);
   }

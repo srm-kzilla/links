@@ -6,7 +6,10 @@ export const userLoginSchema = yup
     username: yup
       .string()
       .trim()
-      .matches(/^(?=[A-Za-z_.\d]*[A-Za-z])[a-zA-Z_.\d]{5,}$/, "Invalid username"),
+      .matches(
+        /^(?=[A-Za-z_.\d]*[A-Za-z])[a-zA-Z_.\d]{5,}$/,
+        "Invalid username"
+      ),
     email: yup.string().trim().email(),
     password: yup.string().trim().required(),
   })
@@ -38,6 +41,24 @@ export const userSignupSchema = yup.object({
   }),
 });
 
+export const JwtRequestSchema = yup
+  .object({
+    authorization: yup
+      .string()
+      .trim()
+      .min(1, "JWT cannot be null")
+      .matches(/^Bearer .+$/, "JWT should be Bearer Token"),
+  })
+  .required();
+
+export interface jwtPayload {
+  email: string;
+  username: string;
+  iat:number;
+  exp: number,
+  iss: "srmkzilla"
+}
+export type JwtRequest = yup.InferType<typeof JwtRequestSchema>;
 export type userLogin = yup.InferType<typeof userLoginSchema>;
 export type userSignup = yup.InferType<typeof userSignupSchema>;
 export interface userDBSchema extends userSignup {
