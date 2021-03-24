@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-import Logo from "./Logo";
-import DeleteModal from "./DeleteModal";
+import { Logo, DeleteModal } from "./";
 import { Spike, Trash, Pencil, Location } from "../../assets/icons";
 import { activeLinkProps } from "../../utils/sidebarContext";
 

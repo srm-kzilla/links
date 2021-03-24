@@ -3,7 +3,7 @@ import { FaChevronRight } from "react-icons/fa";
 import Slide from "react-reveal/Slide";
 
 import { Tick } from "../../assets/icons";
-import Toggle from "./Toggle";
+import { Toggle } from "./";
 import { SidebarContext } from "../../utils/sidebarContext";
 
 interface SidebarProps {
