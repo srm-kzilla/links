@@ -125,3 +125,45 @@ export const getUser = async (
     next(err);
   }
 };
+
+export const getOTP = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
+  try {
+    let payload = req.env.user;
+    let user: jwtPayload = JSON.parse(payload);
+    if (!user) {
+      throw errors.USER_NOT_FOUND;
+    }
+    const dbClient: MongoClient = await getDbClient();
+    if (
+      await dbClient
+        .db("links")
+        .collection("user")
+        .findOne({ email: user.email })
+    ) {
+      const OTP = Math.floor(Math.random() * 1000000);
+      const createdAt = new Date().getTime();
+      await dbClient
+        .db("links")
+        .collection("otp")
+        .insertOne({
+          email: user.email,
+          otp: OTP,
+          createdAt: createdAt,
+          expiresAt: createdAt + 10 * 60000,
+        });
+      return res.status(200).json({
+        success: true,
+        otp: OTP,
+        createdAt: createdAt,
+        expiresAt: createdAt + 10 * 60000,
+      });
+    }
+    throw errors.USER_NOT_FOUND;
+  } catch (err) {
+    next(err);
+  }
+};
