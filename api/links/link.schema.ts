@@ -30,7 +30,7 @@ export const linkDeleteSchema = yup
 export const linkUpdateSchema = yup.object({
   name: yup.string(),
   url: yup.string().url(),
-  email: yup.string(),
+  enabled: yup.boolean(),
 });
 
 export interface linkDBSchema extends Link {
