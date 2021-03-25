@@ -51,12 +51,22 @@ export const JwtRequestSchema = yup
   })
   .required();
 
+export const userOTPRequestSchema = yup.object({
+  otp: yup
+    .number()
+    .test(
+      "len",
+      "Must be exactly 6 characters",
+      (val) => val && val.toString().length === 6
+    ),
+});
+
 export interface jwtPayload {
   email: string;
   username: string;
-  iat:number;
-  exp: number,
-  iss: "srmkzilla"
+  iat: number;
+  exp: number;
+  iss: "srmkzilla";
 }
 export type JwtRequest = yup.InferType<typeof JwtRequestSchema>;
 export type userLogin = yup.InferType<typeof userLoginSchema>;
@@ -64,3 +74,4 @@ export type userSignup = yup.InferType<typeof userSignupSchema>;
 export interface userDBSchema extends userSignup {
   _id?: ObjectID;
 }
+export type userOTPRequest = yup.InferType<typeof userOTPRequestSchema>;
