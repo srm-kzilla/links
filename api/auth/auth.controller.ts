@@ -169,31 +169,30 @@ export const verifyOTP = async (
     if (!user) {
       throw errors.USER_NOT_FOUND;
     }
-    const dbClient: MongoClient = await getDbClient();
 
     const userRequest = req.body as userOTPRequest;
-    // if (!userRequest) {
-    //   console.log("HI")
-    //   throw errors.INVALID_OTP;
-    // }
-    //TO DO: Throw error if otp!=6 digits
-
+    if (!userRequest) {
+      throw errors.INVALID_OTP;
+    }
+    //TO DO: Throw error if otp!=6 digits, before even reading databaseOTP
+    const dbClient: MongoClient = await getDbClient();
     const databaseOTP = await dbClient
       .db("links")
       .collection("otp")
       .findOne({ otp: userRequest.otp });
 
     if (!databaseOTP) {
-      console.log("hiii");
       throw errors.INVALID_OTP; //if otp by user doesn't match any otp in database
-      //TO DO: error can also be OTP_EXPIRED once the task of deleting documents on expiration is done
     }
     if (databaseOTP.email === user.email) {
       if (databaseOTP.expiresAt < new Date().getTime()) {
-        console.log("HIIIII");
         throw errors.OTP_EXPIRED;
       }
-      //TO DO: Delete OTP document once success:true and also when otp has expired
+      //TO DO: Delete OTP document when otp has expired
+      await dbClient
+        .db("links")
+        .collection("otp")
+        .deleteOne({ _id: databaseOTP._id });
       return res.status(200).json({
         success: true,
       });
