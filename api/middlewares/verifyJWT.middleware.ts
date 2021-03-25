@@ -3,8 +3,10 @@ import nc, { NextHandler } from "next-connect";
 import { verify } from "jsonwebtoken";
 import { JwtRequest, jwtPayload } from "../auth/auth.schema";
 import { errors } from "../error/error.constant";
+import { MongoClient } from "mongodb";
+import { getDbClient } from "../services/mongodb.service";
 
-export const validateUser = (
+export const validateUser = async (
   req: NextApiRequest,
   res: NextApiResponse,
   next: NextHandler
@@ -20,10 +22,20 @@ export const validateUser = (
       process.env.JWT_SECRET || "",
       { issuer: "srmkzilla" }
     ) as jwtPayload;
-    req.env = {
-      user: JSON.stringify(payload),
-    };
-    next();
+    const dbClient: MongoClient = await getDbClient();
+    if (
+      await dbClient
+        .db("links")
+        .collection("user")
+        .findOne({ email: payload.email })
+    ) {
+      req.env = {
+        user: JSON.stringify(payload),
+      };
+      next();
+    } else {
+      next(errors.USER_NOT_FOUND);
+    }
   } catch (err) {
     next({
       httpStatus: 403,

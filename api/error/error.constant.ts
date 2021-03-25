@@ -40,4 +40,12 @@ export const errors = {
     message:
       "This username is not available. Please choose some other username.",
   },
+  OTP_EXPIRED: {
+    httpStatus: 401,
+    message: "OTP expired",
+  },
+  INVALID_OTP: {
+    httpStatus: 401,
+    message: "Wrong OTP",
+  },
 };

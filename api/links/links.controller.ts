@@ -2,11 +2,11 @@ import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import { Link, linkSchema, linkDBSchema, linkUpdate } from "./link.schema";
+import { linkDBSchema, linkUpdate } from "./link.schema";
 import { userDBSchema } from "../auth/auth.schema";
 import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
-import { jwtPayload } from "../middlewares/verifyJWT.middleware";
+import { jwtPayload } from "../auth/auth.schema";
 
 export const addLink = async (
   req: NextApiRequest,
@@ -104,7 +104,7 @@ export const updateLink = async (
   next: NextHandler
 ) => {
   try {
-    let { name, url, email } = req.body as linkUpdate;
+    let { name, url, enabled } = req.body as linkUpdate;
     const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
     const linkId = req.query.linkId as string;
     const dbClient: MongoClient = await getDbClient();
@@ -122,7 +122,7 @@ export const updateLink = async (
       .updateOne(
         { userId: findUser._id, _id: new MongoDB.ObjectID(linkId) },
 
-        { $set: { name, url, email } }
+        { $set: { name, url, enabled } }
       );
     if (updateLink.result.n === 0) {
       throw errors.MONGODB_CONNECT_ERROR;
