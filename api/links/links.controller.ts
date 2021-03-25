@@ -70,7 +70,6 @@ export const deleteLink = async (
   next: NextHandler
 ) => {
   try {
-    console.log(req.env.user);
     const linkId = req.query.linkId as string;
     const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
     const dbClient: MongoClient = await getDbClient();
