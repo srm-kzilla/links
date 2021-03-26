@@ -1,41 +1,62 @@
-import React, { MutableRefObject } from "react";
-import { AiOutlineDelete } from "react-icons/ai";
-import { HiOutlinePencil } from "react-icons/hi";
-import { BsGraphUp } from "react-icons/bs";
-import { GrLocation } from "react-icons/gr";
-import data from "../../shared/constants/data";
-import Logo from "./Logo";
-import DeleteModal from "./DeleteModal";
-import Sidebar from "./Sidebar";
+import React, { useState } from "react";
 
-export default function Card({data}): JSX.Element {
-  const { urlName, url, status, image } = data;
-  const modalRef = React.useRef() as MutableRefObject<HTMLDivElement>;
-  const sidebarRef = React.useRef() as MutableRefObject<HTMLDivElement>;
-  
-  const openDeleteModal = () => {
-    modalRef.current.openDeleteModal();
-  };
-  const openSidebar = () => {
-    sidebarRef.current.openSidebar();
-  }
+import { Logo, DeleteModal } from "./";
+import { Spike, Trash, Pencil, Location } from "../../assets/icons";
+import { activeLinkProps } from "../../utils/sidebarContext";
+
+interface CardProps {
+  onCardClick: () => void;
+  link: activeLinkProps;
+}
+
+const Card = ({ link, onCardClick }: CardProps): JSX.Element => {
+  const [isDeleteModalOpen, setIsdeleteModalOpen] = useState<boolean>(false);
+
   return (
     <>
-      <div className="bg-white h-28 px-0 pt-0 my-6 mx-3 md:mx-20 shadow-custom rounded-xl w-auto md:w-3/5">
-        <div className="float-left"> 
-            <Logo status={status} image={image}/>
-        </div>  
-        <a onClick={openDeleteModal} className="ml-4 md:ml-6 mr-3 cursor-pointer mt-12 float-right"><AiOutlineDelete size={24}/></a>
-        <a onClick={openSidebar} className="ml-4 md:ml-6 cursor-pointer mt-12 float-right"><BsGraphUp size={24}/></a>
-        <a onClick={openSidebar} className="ml-4 md:ml-6 cursor-pointer mt-12 float-right"><HiOutlinePencil size={24}/></a>
-        <a href={url} target="_blank" rel="noopener noreferrer" className="ml-4 md:ml-6 cursor-pointer mt-12 float-right"><GrLocation size={24}/></a>
-        <h2 className="text-2xl md:text-3xl font-bold pt-10 md:pt-7">{urlName}</h2>
-        <a className="hidden md:inline-block">
-          {url}
+      <div
+        onClick={onCardClick}
+        className="bg-white h-28 px-0 pt-0 my-6 mx-3 md:mx-20 shadow-custom rounded-xl w-auto md:w-3/5"
+      >
+        <div className="float-left">
+          <Logo image={link.image} alt={link.title} status={link.status} />
+        </div>
+
+        <button
+          onClick={() => setIsdeleteModalOpen(true)}
+          className="ml-4 md:ml-6 mr-3 focus:outline-none cursor-pointer mt-12 float-right"
+        >
+          <Trash />
+        </button>
+
+        <button className="ml-4 md:ml-6 focus:outline-none cursor-pointer mt-12 float-right">
+          <Spike />
+        </button>
+
+        <button className="ml-4 md:ml-6 focus:outline-none cursor-pointer mt-12 float-right">
+          <Pencil />
+        </button>
+
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-4 md:ml-6 focus:outline-none cursor-pointer mt-12 float-right"
+        >
+          <Location />
         </a>
-        <DeleteModal ref={modalRef} />
-        <Sidebar ref={sidebarRef} />
+
+        <h2 className="text-xl md:text-3xl font-bold pt-9 md:pt-7">
+          {link.title}
+        </h2>
+        <a className="text-xs md:text-sm md:inline-block">{link.url}</a>
+        <DeleteModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsdeleteModalOpen(false)}
+        />
       </div>
     </>
-  );    
-}
+  );
+};
+
+export default Card;
