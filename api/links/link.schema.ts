@@ -1,14 +1,11 @@
 import * as yup from "yup";
 import * as mongoDB from "mongodb";
+import constants from "../../shared/constants/data";
 
 export const linkSchema = yup.object({
   title: yup.string().required(),
   url: yup.string().url().required(),
-  image: yup
-    .string()
-    .default(
-      "https://yt3.ggpht.com/ytc/AAUvwnjBxDbxCCpVNyEEKREl0qhQcIJ8DNaJkpv57LDsCMs=s900-c-k-c0x00ffffff-no-rj"
-    ),
+  image: yup.string().default(constants[0].image),
   status: yup.boolean().default(true),
   views: yup.number().default(0),
   clicks: yup.number().default(0),

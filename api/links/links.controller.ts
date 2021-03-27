@@ -14,9 +14,7 @@ export const addLink = async (
   next: NextHandler
 ) => {
   try {
-    const validatedData = await linkSchema.validate(req.body).catch((err) => {
-      throw { success: false, message: err.errors };
-    });
+    const validateData = await linkSchema.cast(req.body);
     const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
     const dbClient: MongoClient = await getDbClient();
     const userDB = await dbClient.db("links").collection("user");
@@ -27,7 +25,7 @@ export const addLink = async (
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
-    const link: linkDBSchema = { ...validatedData, userId: findUser._id };
+    const link: linkDBSchema = { ...validateData, userId: findUser._id };
     const response = await dbClient.db().collection("links").insertOne(link);
     if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
     res.json({ success: true });
