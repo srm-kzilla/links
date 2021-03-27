@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import { linkDBSchema, linkUpdate } from "./link.schema";
+import { linkDBSchema, linkUpdate, linkSchema } from "./link.schema";
 import { userDBSchema } from "../auth/auth.schema";
 import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
@@ -14,6 +14,9 @@ export const addLink = async (
   next: NextHandler
 ) => {
   try {
+    const validatedData = await linkSchema.validate(req.body).catch((err) => {
+      throw { success: false, message: err.errors };
+    });
     const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
     const dbClient: MongoClient = await getDbClient();
     const userDB = await dbClient.db("links").collection("user");
@@ -24,7 +27,7 @@ export const addLink = async (
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
-    const link: linkDBSchema = { ...req.body, userId: findUser._id };
+    const link: linkDBSchema = { ...validatedData, userId: findUser._id };
     const response = await dbClient.db().collection("links").insertOne(link);
     if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
     res.json({ success: true });
@@ -104,7 +107,7 @@ export const updateLink = async (
   next: NextHandler
 ) => {
   try {
-    let { name, url, enabled } = req.body as linkUpdate;
+    let { title, url, status, image } = req.body as linkUpdate;
     const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
     const linkId = req.query.linkId as string;
     const dbClient: MongoClient = await getDbClient();
@@ -122,7 +125,7 @@ export const updateLink = async (
       .updateOne(
         { userId: findUser._id, _id: new MongoDB.ObjectID(linkId) },
 
-        { $set: { name, url, enabled } }
+        { $set: { title, url, status, image } }
       );
     if (updateLink.result.n === 0) {
       throw errors.MONGODB_CONNECT_ERROR;
