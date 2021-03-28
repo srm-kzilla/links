@@ -1,11 +1,11 @@
 import * as yup from "yup";
 import * as mongoDB from "mongodb";
-import constants from "../../shared/constants/data";
+import { LINK_DEFAULT_IMAGE_URL } from "../constants/data.constants";
 
 export const linkSchema = yup.object({
   title: yup.string().required(),
   url: yup.string().url().required(),
-  image: yup.string().default(constants[0].image),
+  image: yup.string().default(LINK_DEFAULT_IMAGE_URL),
   status: yup.boolean().default(true),
   views: yup.number().default(0),
   clicks: yup.number().default(0),
