@@ -1,19 +1,14 @@
 import * as yup from "yup";
 import * as mongoDB from "mongodb";
+import { LINK_DEFAULT_IMAGE_URL } from "../constants/data.constants";
 
 export const linkSchema = yup.object({
-  name: yup.string().required(),
+  title: yup.string().required(),
   url: yup.string().url().required(),
-  email: yup.string().email(),
-  enabled: yup.boolean().default(true),
+  image: yup.string().default(LINK_DEFAULT_IMAGE_URL),
+  status: yup.boolean().default(true),
   views: yup.number().default(0),
   clicks: yup.number().default(0),
-  createdAt: yup.number().default(() => {
-    return +new Date();
-  }),
-  updatedAt: yup.number().default(() => {
-    return +new Date();
-  }),
 });
 export const linkDeleteSchema = yup
   .object({
@@ -28,9 +23,10 @@ export const linkDeleteSchema = yup
   .required();
 
 export const linkUpdateSchema = yup.object({
-  name: yup.string(),
-  url: yup.string().url(),
-  enabled: yup.boolean(),
+  title: yup.string(),
+  url: yup.string(),
+  status: yup.boolean(),
+  image: yup.string(),
 });
 
 export interface linkDBSchema extends Link {
