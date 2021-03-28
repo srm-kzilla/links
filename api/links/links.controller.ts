@@ -26,7 +26,10 @@ export const addLink = async (
       throw errors.USER_NOT_FOUND;
     }
     const link: linkDBSchema = { ...validateData, userId: findUser._id };
-    const response = await dbClient.db().collection("links").insertOne(link);
+    const response = await dbClient
+      .db("links")
+      .collection("link")
+      .insertOne(link);
     if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
     res.json({ success: true });
   } catch (err) {
@@ -50,12 +53,16 @@ export const getLink = async (
       throw errors.USER_NOT_FOUND;
     }
     const result = await dbClient
-      .db()
-      .collection("links")
-      .find<linkDBSchema>({
-        userId: findUser._id,
-      })
+      .db("links")
+      .collection("link")
+      .find<linkDBSchema>(
+        {
+          userId: findUser._id,
+        },
+        {}
+      )
       .toArray();
+
     if (!result) {
       throw errors.NOT_FOUND;
     }
@@ -85,7 +92,7 @@ export const deleteLink = async (
 
     const deleteLink = await dbClient
       .db("links")
-      .collection("links")
+      .collection("link")
       .findOneAndDelete({
         userId: findUser._id,
         _id: new MongoDB.ObjectID(linkId),
@@ -119,7 +126,7 @@ export const updateLink = async (
     }
     const updateLink = await dbClient
       .db("links")
-      .collection("links")
+      .collection("link")
       .updateOne(
         { userId: findUser._id, _id: new MongoDB.ObjectID(linkId) },
 
