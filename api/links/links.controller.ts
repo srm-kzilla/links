@@ -28,7 +28,7 @@ export const addLink = async (
     const link: linkDBSchema = { ...validateData, userId: findUser._id };
     const response = await dbClient
       .db("links")
-      .collection("link")
+      .collection("links")
       .insertOne(link);
     if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
     res.json({ success: true });
@@ -54,7 +54,7 @@ export const getLink = async (
     }
     const result = await dbClient
       .db("links")
-      .collection("link")
+      .collection("links")
       .find<linkDBSchema>(
         {
           userId: findUser._id,
@@ -92,7 +92,7 @@ export const deleteLink = async (
 
     const deleteLink = await dbClient
       .db("links")
-      .collection("link")
+      .collection("links")
       .findOneAndDelete({
         userId: findUser._id,
         _id: new MongoDB.ObjectID(linkId),
@@ -126,7 +126,7 @@ export const updateLink = async (
     }
     const updateLink = await dbClient
       .db("links")
-      .collection("link")
+      .collection("links")
       .updateOne(
         { userId: findUser._id, _id: new MongoDB.ObjectID(linkId) },
 
