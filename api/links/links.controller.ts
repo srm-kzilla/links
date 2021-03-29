@@ -17,7 +17,7 @@ export const addLink = async (
     const validateData = await linkSchema.cast(req.body);
     const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
     const dbClient: MongoClient = await getDbClient();
-    const userDB = await dbClient.db("links").collection("user");
+    const userDB = await dbClient.db().collection("user");
     const findUser = await userDB.findOne<userDBSchema>({
       email: user.email,
     });
@@ -26,10 +26,7 @@ export const addLink = async (
       throw errors.USER_NOT_FOUND;
     }
     const link: linkDBSchema = { ...validateData, userId: findUser._id };
-    const response = await dbClient
-      .db("links")
-      .collection("links")
-      .insertOne(link);
+    const response = await dbClient.db().collection("links").insertOne(link);
     if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
     res.json({ success: true });
   } catch (err) {
@@ -46,14 +43,14 @@ export const getLink = async (
     const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
     const dbClient: MongoClient = await getDbClient();
     const findUser = await dbClient
-      .db("links")
+      .db()
       .collection("user")
       .findOne<userDBSchema>({ email: user.email });
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
     const result = await dbClient
-      .db("links")
+      .db()
       .collection("links")
       .find<linkDBSchema>(
         {
@@ -83,7 +80,7 @@ export const deleteLink = async (
     const dbClient: MongoClient = await getDbClient();
 
     const findUser = await dbClient
-      .db("links")
+      .db()
       .collection("user")
       .findOne<userDBSchema>({ email: user.email });
     if (!findUser) {
@@ -91,7 +88,7 @@ export const deleteLink = async (
     }
 
     const deleteLink = await dbClient
-      .db("links")
+      .db()
       .collection("links")
       .findOneAndDelete({
         userId: findUser._id,
@@ -117,7 +114,7 @@ export const updateLink = async (
     const linkId = req.query.linkId as string;
     const dbClient: MongoClient = await getDbClient();
     const findUser = await dbClient
-      .db("links")
+      .db()
       .collection("user")
       .findOne<userDBSchema>({ email: user.email });
 
@@ -125,7 +122,7 @@ export const updateLink = async (
       throw errors.USER_NOT_FOUND;
     }
     const updateLink = await dbClient
-      .db("links")
+      .db()
       .collection("links")
       .updateOne(
         { userId: findUser._id, _id: new MongoDB.ObjectID(linkId) },

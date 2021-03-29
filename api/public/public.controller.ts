@@ -15,9 +15,9 @@ export const getLinkPublic = async (
     let userId = req.query.userId as string;
     const dbClient: MongoClient = await getDbClient();
     let result = await dbClient
-      .db("links")
+      .db()
       .collection("links")
-      .find<linkDBSchema>({ userId: new ObjectID(userId), enabled: true })
+      .find<linkDBSchema>({ userId: new ObjectID(userId), status: true }, {})
       .toArray();
     if (!result) {
       throw errors.NOT_FOUND;
