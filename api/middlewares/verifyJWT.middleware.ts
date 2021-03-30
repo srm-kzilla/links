@@ -25,8 +25,8 @@ export const validateUser = async (
     const dbClient: MongoClient = await getDbClient();
     if (
       await dbClient
-        .db("links")
-        .collection("user")
+        .db()
+        .collection("users")
         .findOne({ email: payload.email })
     ) {
       req.env = {

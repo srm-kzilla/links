@@ -11,8 +11,6 @@ import {
   userOTPRequest,
 } from "./auth.schema";
 import { errors } from "../error/error.constant";
-import { ValidationError } from "yup";
-import { FaCommentsDollar } from "react-icons/fa";
 
 export const postLogin = async (
   req: NextApiRequest,
@@ -27,8 +25,8 @@ export const postLogin = async (
     delete body["password"];
 
     let result = await dbClient
-      .db("links")
-      .collection("user")
+      .db()
+      .collection("users")
       .findOne<userLogin>(body, { projection: { _id: 0 } });
     if (!result) {
       throw errors.USER_NOT_FOUND;
@@ -67,16 +65,16 @@ export const postSignup = async (
     let { username, email, password } = req.body as userSignup;
     const dbClient: MongoClient = await getDbClient();
     let result = await dbClient
-      .db("links")
-      .collection("user")
+      .db()
+      .collection("users")
       .findOne({ email: email });
     const saltRounds = 12;
     if (result) {
       throw errors.DUPLICATE_USER;
     }
     let usernameExists = await dbClient
-      .db("links")
-      .collection("user")
+      .db()
+      .collection("users")
       .findOne({ username: username });
     if (usernameExists) {
       throw errors.DUPLICATE_USERNAME;
@@ -84,8 +82,8 @@ export const postSignup = async (
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
     await dbClient
-      .db("links")
-      .collection("user")
+      .db()
+      .collection("users")
       .insertOne({ username, email, password: hash });
 
     const token = jwt.sign({ username, email }, process.env.JWT_SECRET || "", {
@@ -139,7 +137,7 @@ export const getOTP = async (
     const OTP = Math.floor(Math.random() * 1000000);
     const createdAt = new Date().getTime();
     await dbClient
-      .db("links")
+      .db()
       .collection("otp")
       .insertOne({
         email: user.email,
@@ -177,7 +175,7 @@ export const verifyOTP = async (
     //TO DO: Throw error if otp!=6 digits, before even reading databaseOTP
     const dbClient: MongoClient = await getDbClient();
     const databaseOTP = await dbClient
-      .db("links")
+      .db()
       .collection("otp")
       .findOne({ otp: userRequest.otp });
 
@@ -190,9 +188,9 @@ export const verifyOTP = async (
       }
       //TO DO: Delete OTP document when otp has expired
       await dbClient
-        .db("links")
-        .collection("otp")
-        .deleteOne({ _id: databaseOTP._id });
+      .db()
+      .collection("otp")
+      .deleteOne({ _id: databaseOTP._id });
       return res.status(200).json({
         success: true,
       });
