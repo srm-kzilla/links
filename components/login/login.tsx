@@ -33,7 +33,7 @@ const LoginComponent = () => {
         setIsAuth(true);
         router.push("/dashboard");
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -50,8 +50,7 @@ const LoginComponent = () => {
           <Formik
             initialValues={initialValues}
             onSubmit={(values) => submitHandler(values)}
-            validationSchema={validationSchema}
-          >
+            validationSchema={validationSchema}>
             {({ errors }) => (
               <Form>
                 <Field
@@ -111,3 +110,4 @@ const LoginComponent = () => {
 };
 
 export default LoginComponent;
+

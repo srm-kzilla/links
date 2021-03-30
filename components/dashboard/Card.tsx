@@ -50,9 +50,10 @@ const Card = ({ link, onCardClick }: CardProps): JSX.Element => {
           {link.title}
         </h2>
         <a className="text-xs md:text-sm md:inline-block">{link.url}</a>
-        <DeleteModal
+        <DeleteModal 
           isOpen={isDeleteModalOpen}
           onClose={() => setIsdeleteModalOpen(false)}
+          linkId={link._id}
         />
       </div>
     </>
