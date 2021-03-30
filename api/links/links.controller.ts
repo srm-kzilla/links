@@ -17,7 +17,7 @@ export const addLink = async (
     const validateData = await linkSchema.cast(req.body);
     const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
     const dbClient: MongoClient = await getDbClient();
-    const userDB = await dbClient.db().collection("user");
+    const userDB = await dbClient.db().collection("users");
     const findUser = await userDB.findOne<userDBSchema>({
       email: user.email,
     });
@@ -28,7 +28,7 @@ export const addLink = async (
     const link: linkDBSchema = { ...validateData, userId: findUser._id };
     const response = await dbClient.db().collection("links").insertOne(link);
     if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
-    res.json({ success: true });
+    res.json({ success: true, _id: response.insertedId });
   } catch (err) {
     next(err);
   }
@@ -44,7 +44,7 @@ export const getLink = async (
     const dbClient: MongoClient = await getDbClient();
     const findUser = await dbClient
       .db()
-      .collection("user")
+      .collection("users")
       .findOne<userDBSchema>({ email: user.email });
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
@@ -81,7 +81,7 @@ export const deleteLink = async (
 
     const findUser = await dbClient
       .db()
-      .collection("user")
+      .collection("users")
       .findOne<userDBSchema>({ email: user.email });
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
@@ -115,7 +115,7 @@ export const updateLink = async (
     const dbClient: MongoClient = await getDbClient();
     const findUser = await dbClient
       .db()
-      .collection("user")
+      .collection("users")
       .findOne<userDBSchema>({ email: user.email });
 
     if (!findUser) {
