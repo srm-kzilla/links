@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import { linkDBSchema, linkUpdate, linkSchema } from "./link.schema";
+import { linkDBSchema, linkUpdate, linkSchema, AddLink } from "./link.schema";
 import { userDBSchema } from "../auth/auth.schema";
 import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
@@ -15,7 +15,6 @@ export const addLink = async (
   next: NextHandler
 ) => {
   try {
-    const validateData = await linkSchema.cast(req.body);
     const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
     const dbClient: MongoClient = await getDbClient();
     const userDB = await dbClient.db().collection("users");
@@ -26,16 +25,29 @@ export const addLink = async (
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
-    const Favicon = await getFavicons(validateData.url);
-    const FaviconUrl = Favicon.icons[0].src;
-    const link: linkDBSchema = {
-      ...validateData,
+    var Favicon = await getFavicons(req.body.url);
+    if (Favicon.icons.length > 0) {
+      var FaviconUrl = Favicon.icons[0].src;
+    }
+
+    const link: AddLink = {
+      title: req.body.title,
+      url: req.body.url,
+      status: req.body.status,
       userId: findUser._id,
       image: FaviconUrl,
     };
-    const response = await dbClient.db().collection("links").insertOne(link);
+    const validatedData = await linkSchema.cast(link);
+    const response = await dbClient
+      .db()
+      .collection("links")
+      .insertOne(validatedData);
     if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
-    res.json({ success: true, _id: response.insertedId, image: FaviconUrl });
+    res.json({
+      success: true,
+      _id: response.insertedId,
+      image: validatedData.image,
+    });
   } catch (err) {
     next(err);
   }
