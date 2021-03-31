@@ -52,9 +52,8 @@ export const postLink = async (authToken: string, values: object) => {
       data: values,
     });
     successHandler("🎉 Link added successfully!");
-    // TODO: get _id of the new added link and return it
     console.log(_res.data);
-    return true;
+    return _res;
   } catch (err) {
     errorHandler(err);
     return false;

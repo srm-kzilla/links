@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { VscAdd } from "react-icons/vsc";
 import { IconContext } from "react-icons";
 import { parseCookies } from "nookies";
@@ -35,6 +36,29 @@ export default function DashboardComponent(): JSX.Element {
     })();
   }, []);
 
+  // const getServerSideProps: GetServerSideProps = async() => {
+  //   const { authToken } = parseCookies();
+  //   const res = await fetch('http://localhost:3000/api/v1/links/get', {
+  //     headers: {
+  //       Authorization: `Bearer ${authToken}` 
+  //     }
+  //   })
+  //   const data:Link[] = await res.json()
+  //   console.log(data)
+  //   setLinks(data);
+  //   return {
+  //     props: {
+  //       data,
+  //     },
+  //   }
+  // }
+  // getServerSideProps();
+
+  // (function Page({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  //   console.log(data)
+ 
+  // });
+
   const onAddLinkHandler = (
     values: { title: string; url: string },
     resetForm: () => void,
@@ -50,9 +74,8 @@ export default function DashboardComponent(): JSX.Element {
             clicks: 0,
             views: 0,
             status: true,
-            image: "thisWillBeDynamic",
-            // _id : res._id
-            _id: "some",
+            image: res.data.image,
+            _id: res.data._id
           });
           return prevState;
         });
@@ -60,7 +83,6 @@ export default function DashboardComponent(): JSX.Element {
       closeModal();
     })();
   };
-
   return (
     <>
       {links.length > 0 ? (
