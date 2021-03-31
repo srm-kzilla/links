@@ -7,6 +7,7 @@ import { userDBSchema } from "../auth/auth.schema";
 import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
 import { jwtPayload } from "../auth/auth.schema";
+import getFavicons from "get-website-favicon";
 
 export const addLink = async (
   req: NextApiRequest,
@@ -25,10 +26,16 @@ export const addLink = async (
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
-    const link: linkDBSchema = { ...validateData, userId: findUser._id };
+    const Favicon = await getFavicons(validateData.url);
+    const FaviconUrl = Favicon.icons[0].src;
+    const link: linkDBSchema = {
+      ...validateData,
+      userId: findUser._id,
+      image: FaviconUrl,
+    };
     const response = await dbClient.db().collection("links").insertOne(link);
     if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
-    res.json({ success: true, _id: response.insertedId });
+    res.json({ success: true, _id: response.insertedId, image: FaviconUrl });
   } catch (err) {
     next(err);
   }
