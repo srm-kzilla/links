@@ -1,16 +1,39 @@
-import { AppProps } from "next/dist/next-server/lib/router/router";
-import Footer from "../shared/components/footer";
-import Navbar from "../shared/components/navbar";
-import "../styles/globals.css";
+import { useEffect } from "react";
+import { AppProps } from "next/app";
+import { ToastContainer } from "react-toastify";
+import { parseCookies } from "nookies";
+import "react-toastify/dist/ReactToastify.css";
 
-function MyApp({ Component, pageProps }: AppProps) {
+import "../styles/globals.css";
+import { Navbar, Footer } from "../components/shared";
+import AuthContextProvider from "../utils/authContext";
+import { authRoutes } from "../utils/constants";
+
+const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <>
+    <AuthContextProvider>
       <Navbar />
       <Component {...pageProps} />
       <Footer />
-    </>
+      <ToastContainer />
+    </AuthContextProvider>
   );
-}
+};
 
 export default MyApp;
+
+MyApp.getInitialProps = async ({ Component, ctx }) => {
+  let pageProps;
+  const { authToken } = parseCookies(ctx);
+
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+
+  if (!authToken && authRoutes.includes(ctx.asPath)) {
+    ctx.res.writeHead(302, { Location: "/" });
+    ctx.res.end();
+  }
+
+  return { pageProps, pathname: ctx.asPath };
+};

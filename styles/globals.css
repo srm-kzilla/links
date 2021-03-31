@@ -7,20 +7,13 @@
 
 html,
 body {
+  position: relative;
   padding: 0;
   margin: 0;
   font-family: "Work Sans", sans-serif;
   background-color: #e0e0e0;
 }
 .gradientInput {
-  /* border-radius: 8px; */
-  /* border: 3px solid; */
-  /* border-image: linear-gradient(to bottom, #56CCF2, #6FCF97);
-  border-image-slice: 1;   */
-  /* background-image: linear-gradient(white, white),
-    linear-gradient(to bottom, #56CCF2, #6FCF97);
-  background-origin: border-box;
-  background-clip: content-box, border-box; */
   padding: 0.5rem;
   border: double 3px transparent;
   border-radius: 6px;
@@ -39,9 +32,6 @@ body {
   border-image: linear-gradient(to right, #56ccf2, #6fcf97);
   border-image-slice: 1;
 }
-.gradientInputBottom:hover {
-  opacity: 0.8;
-}
 hr {
   border: 0.5px solid;
   border-image: linear-gradient(to right, #56ccf2, #6fcf97);
@@ -49,9 +39,10 @@ hr {
 }
 .styledHeader {
   transform: translate(-254px, 110px) rotate(-90deg);
-  font-family: "Noto Sans", "Work Sans", sans-serif;
-  font-weight: 1000;
-  -webkit-text-stroke-width: 0.1px;
+  font-family:"Times New Roman", "Work Sans", sans-serif;
+  font-weight: 999;
+  text-stroke-width: 1px;
+  -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
 .customGradient {
