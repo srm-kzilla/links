@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { VscAdd } from "react-icons/vsc";
 import { IconContext } from "react-icons";
 import { parseCookies } from "nookies";
@@ -19,10 +19,15 @@ export interface Link {
   clicks: number;
 }
 
-export default function DashboardComponent(): JSX.Element {
-  const { setActiveLink } = useContext(SidebarContext);
+interface DashboardProps {
+  _resLinks: Link[];
+}
 
-  const [links, setLinks] = useState<Link[]>([]);
+export default function DashboardComponent({
+  _resLinks,
+}: DashboardProps): JSX.Element {
+  const { setActiveLink } = useContext(SidebarContext);
+  const [links, setLinks] = useState<Link[]>(_resLinks);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
@@ -35,29 +40,6 @@ export default function DashboardComponent(): JSX.Element {
       setLinks(res);
     })();
   }, []);
-
-  // const getServerSideProps: GetServerSideProps = async() => {
-  //   const { authToken } = parseCookies();
-  //   const res = await fetch('http://localhost:3000/api/v1/links/get', {
-  //     headers: {
-  //       Authorization: `Bearer ${authToken}` 
-  //     }
-  //   })
-  //   const data:Link[] = await res.json()
-  //   console.log(data)
-  //   setLinks(data);
-  //   return {
-  //     props: {
-  //       data,
-  //     },
-  //   }
-  // }
-  // getServerSideProps();
-
-  // (function Page({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  //   console.log(data)
- 
-  // });
 
   const onAddLinkHandler = (
     values: { title: string; url: string },
@@ -75,7 +57,7 @@ export default function DashboardComponent(): JSX.Element {
             views: 0,
             status: true,
             image: res.data.image,
-            _id: res.data._id
+            _id: res.data._id,
           });
           return prevState;
         });
