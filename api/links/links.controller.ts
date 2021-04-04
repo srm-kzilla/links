@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import {
   linkDBSchema,
-  linkUpdate,
+  LinkUpdate,
   linkSchema,
   linkAddSchema,
 } from "./link.schema";
@@ -32,8 +32,9 @@ export const addLink = async (
       throw errors.USER_NOT_FOUND;
     }
     var favicon = await getFavicons(req.body.url);
+    let faviconUrl;
     if (favicon.icons.length > 0) {
-      var faviconUrl = favicon.icons[0].src;
+      faviconUrl = favicon.icons[0].src;
     }
 
     const link: linkAddSchema = {
@@ -41,7 +42,7 @@ export const addLink = async (
       url: req.body.url,
       status: req.body.status,
       userId: findUser._id,
-      image: faviconUrl,
+      image: faviconUrl || LINK_DEFAULT_IMAGE_URL,
     };
     const validatedData = await linkSchema.cast(link);
     const response = await dbClient
@@ -134,7 +135,7 @@ export const updateLink = async (
   next: NextHandler
 ) => {
   try {
-    let { title, url, status } = req.body as linkUpdate;
+    let { title, url, status } = req.body as LinkUpdate;
     const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
     const linkId = req.query.linkId as string;
     const dbClient: MongoClient = await getDbClient();
@@ -146,10 +147,11 @@ export const updateLink = async (
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
+    let faviconUrl;
     if (url) {
       const favicon = await getFavicons(url);
       if (favicon.icons.length > 0) {
-        var faviconUrl = favicon.icons[0].src;
+        faviconUrl = favicon.icons[0].src;
       } else {
         faviconUrl = LINK_DEFAULT_IMAGE_URL;
       }

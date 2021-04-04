@@ -38,10 +38,10 @@ export interface linkDBSchema extends Link {
   _id?: mongoDB.ObjectID;
   userId?: mongoDB.ObjectID;
 }
-export interface linkAddSchema extends linkAdd {
+export interface linkAddSchema extends LinkAdd {
   userId: mongoDB.ObjectID;
 }
 
-export type linkAdd = yup.InferType<typeof linkAddSchema>;
-export type linkUpdate = yup.InferType<typeof linkUpdateSchema>;
+export type LinkAdd = yup.InferType<typeof linkAddSchema>;
+export type LinkUpdate = yup.InferType<typeof linkUpdateSchema>;
 export type Link = yup.InferType<typeof linkSchema>;
