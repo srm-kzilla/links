@@ -1,11 +1,8 @@
 import React from "react";
 import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
-import { parseCookies } from "nookies";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-
-import { Link } from "./dashboard";
 
 interface AddModalProps {
   isOpen: boolean;

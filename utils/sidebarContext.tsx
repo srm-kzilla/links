@@ -12,6 +12,7 @@ export interface activeLinkProps {
 
 export const SidebarContext = React.createContext({
   activeLink: {
+    _id: "",
     title: "",
     url: "",
     image: "",

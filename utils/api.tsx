@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { setCookie, parseCookies } from "nookies";
+import { validateUser } from "../api/middlewares/verifyJWT.middleware";
 
 export const postLogin = async (values) => {
   try {
@@ -78,17 +79,27 @@ export const deleteLink = async (authToken: string, _id: string) => {
   }
 };
 
-// export const updateLink = async () => {
-//   try {
-//     axios.patch("http://localhost:3000/api/v1/links/update", {
-
-//     })
-//   }
-//   catch (err) {
-//     errorHandler(err);
-//     // return false;
-//   }
-// }
+export const updateLink = async (
+  authToken: string,
+  _id: string,
+  values: object
+) => {
+  try {
+    const endpoint = `http://localhost:3000/api/v1/links/update?linkId=${_id}`;
+    await axios({
+      method: "PATCH",
+      url: endpoint,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+      data: values,
+    });
+    return true;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
 
 const errorHandler = (error?: AxiosError | any) => {
   let errMessage: string = "Oops! Something went wrong!";

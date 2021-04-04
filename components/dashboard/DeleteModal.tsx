@@ -2,25 +2,25 @@ import React from "react";
 import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
 import { parseCookies } from "nookies";
+
 import { deleteLink } from "../../utils/api";
 
-interface AddModalProps {
+interface DeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
   linkId: string;
+  onDeleteLink: (_id: string, closeModal: () => void) => void;
 }
 
 const DeleteModal = ({
   isOpen,
   onClose,
   linkId,
-}: AddModalProps): JSX.Element => {
+  onDeleteLink,
+}: DeleteModalProps): JSX.Element => {
   const deleteHandler = (_id: string) => {
-    const { authToken } = parseCookies();
-    console.log(authToken);
-    (async () => {
-      const res = await deleteLink(authToken, _id);
-    })();
+    console.log("deleteModal function run");
+    onDeleteLink(_id, onClose);
   };
 
   return (

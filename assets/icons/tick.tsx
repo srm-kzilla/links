@@ -25,7 +25,7 @@ export default function Tick(): JSX.Element {
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#57A772" />
-            <stop offset="1" stopColor="#33BBFF" />
+            <stop offset="1" stopColor="#57A772" />
           </linearGradient>
         </defs>
       </svg>

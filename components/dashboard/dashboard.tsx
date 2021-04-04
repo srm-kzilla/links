@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { VscAdd } from "react-icons/vsc";
 import { IconContext } from "react-icons";
 import { parseCookies } from "nookies";
@@ -7,7 +6,7 @@ import { parseCookies } from "nookies";
 import { NoLinks } from "../../assets/icons";
 import { SidebarContext } from "../../utils/sidebarContext";
 import { AddModal, Card, Sidebar } from "./";
-import { getLinks, postLink } from "../../utils/api";
+import { getLinks, postLink, deleteLink } from "../../utils/api";
 
 export interface Link {
   _id: string;
@@ -26,10 +25,11 @@ interface DashboardProps {
 export default function DashboardComponent({
   _resLinks,
 }: DashboardProps): JSX.Element {
-  const { setActiveLink } = useContext(SidebarContext);
+  const { activeLink, setActiveLink } = useContext(SidebarContext);
   const [links, setLinks] = useState<Link[]>(_resLinks);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (window.innerWidth <= 768) setIsSidebarOpen(false);
@@ -38,8 +38,9 @@ export default function DashboardComponent({
     (async () => {
       const res = await getLinks(authToken);
       setLinks(res);
+      console.log("run")
     })();
-  }, []);
+  }, [activeLink]);
 
   const onAddLinkHandler = (
     values: { title: string; url: string },
@@ -65,6 +66,20 @@ export default function DashboardComponent({
       closeModal();
     })();
   };
+
+  const onDeleteLinkHandler = (_id: string, closeModal: () => void) => {
+    const { authToken } = parseCookies();
+    (async () => {
+      const res = await deleteLink(authToken, _id);
+      if (res) {
+        setLinks((prevState) => [
+          ...prevState.filter((item) => item._id !== _id),
+        ]);
+        closeModal();
+      }
+    })();
+  };
+
   return (
     <>
       {links.length > 0 ? (
@@ -93,6 +108,7 @@ export default function DashboardComponent({
                   setIsSidebarOpen(true);
                 }}
                 link={link}
+                onDeleteCard={onDeleteLinkHandler}
               />
             ))}
           </div>
