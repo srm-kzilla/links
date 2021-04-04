@@ -8,6 +8,7 @@ import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
 import { jwtPayload } from "../auth/auth.schema";
 import getFavicons from "get-website-favicon";
+import { LINK_DEFAULT_IMAGE_URL } from "../constants/data.constants";
 
 export const addLink = async (
   req: NextApiRequest,
@@ -128,7 +129,7 @@ export const updateLink = async (
   next: NextHandler
 ) => {
   try {
-    let { title, url, status, image } = req.body as linkUpdate;
+    let { title, url, status } = req.body as linkUpdate;
     const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
     const linkId = req.query.linkId as string;
     const dbClient: MongoClient = await getDbClient();
@@ -140,13 +141,22 @@ export const updateLink = async (
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
+    if (url) {
+      const Favicon = await getFavicons(url);
+      if (Favicon.icons.length > 0) {
+        var FaviconUrl = Favicon.icons[0].src;
+      } else {
+        FaviconUrl = LINK_DEFAULT_IMAGE_URL;
+      }
+    }
+
     const updateLink = await dbClient
       .db()
       .collection("links")
       .updateOne(
         { userId: findUser._id, _id: new MongoDB.ObjectID(linkId) },
 
-        { $set: { title, url, status, image } }
+        { $set: { title, url, status, image: FaviconUrl } }
       );
     if (updateLink.result.n === 0) {
       throw errors.MONGODB_CONNECT_ERROR;

@@ -26,7 +26,6 @@ export const linkUpdateSchema = yup.object({
   title: yup.string(),
   url: yup.string(),
   status: yup.boolean(),
-  image: yup.string(),
 });
 
 export interface linkDBSchema extends Link {
