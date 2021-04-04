@@ -2,7 +2,12 @@ import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import { linkDBSchema, linkUpdate, linkSchema, AddLink } from "./link.schema";
+import {
+  linkDBSchema,
+  linkUpdate,
+  linkSchema,
+  linkAddSchema,
+} from "./link.schema";
 import { userDBSchema } from "../auth/auth.schema";
 import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
@@ -26,17 +31,17 @@ export const addLink = async (
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
-    var Favicon = await getFavicons(req.body.url);
-    if (Favicon.icons.length > 0) {
-      var FaviconUrl = Favicon.icons[0].src;
+    var favicon = await getFavicons(req.body.url);
+    if (favicon.icons.length > 0) {
+      var faviconUrl = favicon.icons[0].src;
     }
 
-    const link: AddLink = {
+    const link: linkAddSchema = {
       title: req.body.title,
       url: req.body.url,
       status: req.body.status,
       userId: findUser._id,
-      image: FaviconUrl,
+      image: faviconUrl,
     };
     const validatedData = await linkSchema.cast(link);
     const response = await dbClient
@@ -142,11 +147,11 @@ export const updateLink = async (
       throw errors.USER_NOT_FOUND;
     }
     if (url) {
-      const Favicon = await getFavicons(url);
-      if (Favicon.icons.length > 0) {
-        var FaviconUrl = Favicon.icons[0].src;
+      const favicon = await getFavicons(url);
+      if (favicon.icons.length > 0) {
+        var faviconUrl = favicon.icons[0].src;
       } else {
-        FaviconUrl = LINK_DEFAULT_IMAGE_URL;
+        faviconUrl = LINK_DEFAULT_IMAGE_URL;
       }
     }
 
@@ -156,7 +161,7 @@ export const updateLink = async (
       .updateOne(
         { userId: findUser._id, _id: new MongoDB.ObjectID(linkId) },
 
-        { $set: { title, url, status, image: FaviconUrl } }
+        { $set: { title, url, status, image: faviconUrl } }
       );
     if (updateLink.result.n === 0) {
       throw errors.MONGODB_CONNECT_ERROR;

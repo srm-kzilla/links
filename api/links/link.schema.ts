@@ -10,6 +10,12 @@ export const linkSchema = yup.object({
   views: yup.number().default(0),
   clicks: yup.number().default(0),
 });
+export const linkAddSchema = yup.object({
+  title: yup.string().required(),
+  url: yup.string().url().required(),
+  status: yup.boolean().default(true),
+  image: yup.string(),
+});
 export const linkDeleteSchema = yup
   .object({
     linkId: yup
@@ -32,12 +38,10 @@ export interface linkDBSchema extends Link {
   _id?: mongoDB.ObjectID;
   userId?: mongoDB.ObjectID;
 }
-export interface AddLink {
-  title: string;
-  url: string;
-  status: boolean;
-  image: string;
+export interface linkAddSchema extends linkAdd {
   userId: mongoDB.ObjectID;
 }
+
+export type linkAdd = yup.InferType<typeof linkAddSchema>;
 export type linkUpdate = yup.InferType<typeof linkUpdateSchema>;
 export type Link = yup.InferType<typeof linkSchema>;

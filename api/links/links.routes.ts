@@ -2,7 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import nc, { NextHandler } from "next-connect";
 import { addLink, deleteLink, getLink, updateLink } from "./links.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
-import { linkDeleteSchema, linkSchema, linkUpdateSchema } from "./link.schema";
+import {
+  linkDeleteSchema,
+  linkAddSchema,
+  linkUpdateSchema,
+} from "./link.schema";
 import { onError, onNotFound } from "../error/error.controller";
 
 const linksHandler = nc<NextApiRequest, NextApiResponse>({
@@ -10,7 +14,7 @@ const linksHandler = nc<NextApiRequest, NextApiResponse>({
   onError: onError,
 });
 
-linksHandler.post("/add", validateQuery("body", linkSchema), addLink);
+linksHandler.post("/add", validateQuery("body", linkAddSchema), addLink);
 linksHandler.get("/get", getLink);
 linksHandler.delete(
   "/delete",
