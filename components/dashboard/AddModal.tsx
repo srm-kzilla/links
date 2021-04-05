@@ -2,7 +2,7 @@ import React from "react";
 import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
 import { Formik, Field, Form } from "formik";
-import * as Yup from "yup";
+import { validationSchema } from "../../utils/schema"
 
 interface AddModalProps {
   isOpen: boolean;
@@ -23,17 +23,6 @@ const AddModal = ({
     title: "",
     url: "",
   };
-
-  const validationSchema = Yup.object({
-    title: Yup.string().trim().required("This is a required field"),
-    url: Yup.string()
-      .trim()
-      .matches(
-        /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-        "Enter correct url!"
-      )
-      .required("This is a required field"),
-  });
 
   return (
     <>

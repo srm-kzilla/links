@@ -33,7 +33,9 @@ const LoginComponent = () => {
         setIsAuth(true);
         router.push("/dashboard");
       }
-    } catch (error) { }
+    }
+    // Fire and forget
+    catch (error) { }
   };
 
   return (

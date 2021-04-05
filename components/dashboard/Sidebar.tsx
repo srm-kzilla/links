@@ -88,7 +88,7 @@ const Sidebar = ({ isOpen, onClose, links, clicks }: SidebarProps): any => {
             {activeLink.title ? (
               <div>
                 <div className="mt-12 ml-10">
-                  <Toggle status={activeLink.status} />
+                  <Toggle status={activeLink.status} linkId={activeLink._id} />
                 </div>
                 <p className="mt-10 text-darkgray font-extrabold">TITLE</p>
                 <form

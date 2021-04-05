@@ -1,9 +1,6 @@
 import React from "react";
 import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
-import { parseCookies } from "nookies";
-
-import { deleteLink } from "../../utils/api";
 
 interface DeleteModalProps {
   isOpen: boolean;
