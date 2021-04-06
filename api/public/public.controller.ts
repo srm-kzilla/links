@@ -4,7 +4,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import { linkDBSchema } from "../links/link.schema";
 import { errors } from "../error/error.constant";
-import { ObjectID } from "mongodb";
+import * as MongoDB from "mongodb";
+import { userDBSchema } from "../auth/auth.schema";
 
 export const getLinkPublic = async (
   req: NextApiRequest,
@@ -12,17 +13,27 @@ export const getLinkPublic = async (
   next: NextHandler
 ) => {
   try {
-    let userId = req.query.userId as string;
+    let username = req.query.user as string;
     const dbClient: MongoClient = await getDbClient();
+    let findUser = await dbClient
+      .db()
+      .collection("users")
+      .findOne<userDBSchema>({ username }, {});
+    if (!findUser) {
+      throw errors.USER_NOT_FOUND;
+    }
     let result = await dbClient
       .db()
       .collection("links")
-      .find<linkDBSchema>({ userId: new ObjectID(userId), status: true }, {})
+      .find<linkDBSchema>(
+        { userId: new MongoDB.ObjectId(findUser._id), status: true },
+        {}
+      )
       .toArray();
     if (!result) {
       throw errors.NOT_FOUND;
     }
-    res.json({ success: true, result });
+    res.json({ success: true, result, username: findUser.username });
   } catch (err) {
     next(err);
   }
