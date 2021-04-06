@@ -2,12 +2,24 @@ import React from "react";
 import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
 
-interface AddModalProps {
+interface DeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
+  linkId: string;
+  onDeleteLink: (_id: string, closeModal: () => void) => void;
 }
 
-const DeleteModal = ({ isOpen, onClose }: AddModalProps): JSX.Element => {
+const DeleteModal = ({
+  isOpen,
+  onClose,
+  linkId,
+  onDeleteLink,
+}: DeleteModalProps): JSX.Element => {
+  const deleteHandler = (_id: string) => {
+    console.log("deleteModal function run");
+    onDeleteLink(_id, onClose);
+  };
+
   return (
     <>
       {isOpen && (
@@ -25,7 +37,10 @@ const DeleteModal = ({ isOpen, onClose }: AddModalProps): JSX.Element => {
                   Are you sure you want to delete the link?
                 </p>
                 <div className="flex items-center justify-center">
-                  <button className="bg-statusRed focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 mr-2 mt-7 rounded">
+                  <button
+                    onClick={() => deleteHandler(linkId)}
+                    className="bg-statusRed focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 mr-2 mt-7 rounded"
+                  >
                     Delete
                   </button>
                   <button

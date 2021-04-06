@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { parseCookies } from "nookies";
 import { FaChevronRight } from "react-icons/fa";
 import Slide from "react-reveal/Slide";
 
-import { Tick } from "../../assets/icons";
+import { Tick, Loading } from "../../assets/icons";
 import { Toggle } from "./";
 import { SidebarContext } from "../../utils/sidebarContext";
+import { updateLink } from "../../utils/api";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -13,13 +15,47 @@ interface SidebarProps {
   clicks: number;
 }
 
-const Sidebar = ({
-  isOpen,
-  onClose,
-  links,
-  clicks,
-}: SidebarProps): JSX.Element => {
+const Sidebar = ({ isOpen, onClose, links, clicks }: SidebarProps): any => {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
+
+  const [title, setTitle] = useState<string>();
+  const [linkUrl, setLinkUrl] = useState<string>();
+  const [titleLoading, setTitleLoading] = useState<boolean>(false);
+  const [linkLoading, setLinkLoading] = useState<boolean>(false);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    if (title) {
+      setTitleLoading(true);
+      intervalRef.current = setTimeout(() => {
+        const { authToken } = parseCookies();
+        const values = {
+          title: title,
+        };
+        const res = updateLink(authToken, activeLink._id, values);
+        if (res) {
+          setTitleLoading(false);
+        }
+      }, 1000);
+    } else if (linkUrl) {
+      setLinkLoading(true);
+      intervalRef.current = setTimeout(() => {
+        console.log("Updating...");
+        const { authToken } = parseCookies();
+        const values = {
+          url: linkUrl,
+        };
+        const res = updateLink(authToken, activeLink._id, values);
+        if (res) {
+          setLinkLoading(false);
+          console.log("Updated URL");
+        }
+      }, 1000);
+    } else {
+      clearTimeout(intervalRef.current);
+    }
+    return () => clearTimeout(intervalRef.current);
+  }, [title, linkUrl]);
 
   return (
     <>
@@ -52,7 +88,7 @@ const Sidebar = ({
             {activeLink.title ? (
               <div>
                 <div className="mt-12 ml-10">
-                  <Toggle status={activeLink.status} />
+                  <Toggle status={activeLink.status} linkId={activeLink._id} />
                 </div>
                 <p className="mt-10 text-darkgray font-extrabold">TITLE</p>
                 <form
@@ -66,17 +102,14 @@ const Sidebar = ({
                     className="gradientInputBottom focus:outline-none w-full"
                     placeholder="SRMKZILLA"
                     value={activeLink.title}
-                    onChange={(e) =>
-                      setActiveLink({ ...activeLink, title: e.target.value })
-                    }
-                  ></input>
-                  <button
-                    className="cursor-pointer focus:outline-none absolute right-2 bg-white -top-1"
-                    type="submit"
-                    onClick={() => console.log("post", activeLink)}
-                  >
-                    <Tick />
-                  </button>
+                    onChange={(e) => {
+                      setActiveLink({ ...activeLink, title: e.target.value });
+                      setTitle(e.target.value);
+                    }}
+                  />
+                  <div className="absolute right-2 bg-white -top-1">
+                    {titleLoading ? <Loading /> : <Tick />}
+                  </div>
                 </form>
 
                 <p className="mt-6 text-darkgray font-extrabold">URL</p>
@@ -91,17 +124,14 @@ const Sidebar = ({
                     className="gradientInputBottom focus:outline-none w-full"
                     placeholder="https://facebook.com/kzilla"
                     value={activeLink.url}
-                    onChange={(e) =>
-                      setActiveLink({ ...activeLink, url: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setActiveLink({ ...activeLink, url: e.target.value });
+                      setLinkUrl(e.target.value);
+                    }}
                   />
-                  <button
-                    className="cursor-pointer focus:outline-none absolute right-2 bg-white -top-1"
-                    type="submit"
-                    onClick={() => console.log("post", activeLink)}
-                  >
-                    <Tick />
-                  </button>
+                  <div className="absolute right-2 bg-white -top-1">
+                    {linkLoading ? <Loading /> : <Tick />}
+                  </div>
                 </form>
 
                 <p className="mt-6 text-darkgray font-extrabold">SHORT URL</p>
@@ -130,7 +160,9 @@ const Sidebar = ({
                 </div>
               </div>
             ) : (
-              <div>Click on a link</div>
+              <div className="text-center">
+                <p>Click on a link</p>
+              </div>
             )}
           </div>
         </Slide>

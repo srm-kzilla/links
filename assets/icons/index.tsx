@@ -1,3 +1,4 @@
+export { default as Loading } from "./loading";
 import Location from "./location";
 import NoLinks from "./nolinks";
 import Pencil from "./pencil";

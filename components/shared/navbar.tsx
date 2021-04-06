@@ -54,7 +54,7 @@ export default function Navbar() {
               href="/"
               className="py-2 rounded hover:bg-lightblue text-sm font-normal block"
             >
-              About Us
+              Edit Profile
             </a>
             <a
               href="/"
@@ -66,7 +66,7 @@ export default function Navbar() {
               href="/"
               className="py-2 rounded hover:bg-lightblue text-sm font-normal block"
             >
-              Contact Us
+              Log Out
             </a>
           </div>
         </Flip>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 export interface activeLinkProps {
+  _id: string;
   title: string;
   url: string;
   image: string;
@@ -11,6 +12,7 @@ export interface activeLinkProps {
 
 export const SidebarContext = React.createContext({
   activeLink: {
+    _id: "",
     title: "",
     url: "",
     image: "",
@@ -23,6 +25,7 @@ export const SidebarContext = React.createContext({
 
 const SidebarContextProvider: React.FC = (props): JSX.Element => {
   const [activeLink, setActiveLink] = useState<activeLinkProps>({
+    _id: "",
     title: "",
     url: "",
     image: "",
