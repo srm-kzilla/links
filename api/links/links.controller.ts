@@ -14,6 +14,7 @@ import { errors } from "../error/error.constant";
 import { jwtPayload } from "../auth/auth.schema";
 import getFavicons from "get-website-favicon";
 import { LINK_DEFAULT_IMAGE_URL } from "../constants/data.constants";
+import axios from "axios";
 
 export const addLink = async (
   req: NextApiRequest,
@@ -30,17 +31,25 @@ export const addLink = async (
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
-    var favicon = await getFavicons(req.body.url);
     let faviconUrl;
-    if (favicon.icons.length > 0) {
-      faviconUrl = favicon.icons[0].src;
+    try {
+      const fetchFavicon = await axios.get(
+        `https://besticon-demo.herokuapp.com/allicons.json?url=${req.body.url}`
+      );
+
+      const favIcons = fetchFavicon.data.icons.filter(
+        (url) => url.height >= 32 && url.height <= 57
+      );
+      faviconUrl = favIcons[0].url;
+    } catch (err) {
+      faviconUrl = LINK_DEFAULT_IMAGE_URL;
     }
     const link: linkAddSchema = {
       title: req.body.title,
       url: req.body.url,
       status: req.body.status,
       userId: findUser._id,
-      image: faviconUrl || LINK_DEFAULT_IMAGE_URL,
+      image: faviconUrl,
     };
     const validatedData = await linkSchema.cast(link);
     const response = await dbClient
@@ -147,10 +156,16 @@ export const updateLink = async (
     }
     let faviconUrl;
     if (url) {
-      const favicon = await getFavicons(url);
-      if (favicon.icons.length > 0) {
-        faviconUrl = favicon.icons[0].src;
-      } else {
+      try {
+        const fetchFavicon = await axios.get(
+          `https://besticon-demo.herokuapp.com/allicons.json?url=${req.body.url}`
+        );
+
+        const favIcons = fetchFavicon.data.icons.filter(
+          (url) => url.height >= 32 && url.height <= 57
+        );
+        faviconUrl = favIcons[0].url;
+      } catch (err) {
         faviconUrl = LINK_DEFAULT_IMAGE_URL;
       }
     }
