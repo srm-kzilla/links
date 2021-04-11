@@ -17,8 +17,7 @@ export const errors = {
   },
   USER_NOT_FOUND: {
     httpStatus: 401,
-    message:
-      "User not registered. Please sign up/login with correct credentials",
+    message: "User not registered. Please sign up/login with correct credentials",
   },
   MONGODB_CONNECT_ERROR: {
     httpStatus: 500,
@@ -48,9 +47,5 @@ export const errors = {
   INVALID_OTP: {
     httpStatus: 401,
     message: "Wrong OTP",
-  },
-  USER_NOT_AVAILABLE: {
-    httpStatus: 404,
-    message: "User not Found",
   },
 };

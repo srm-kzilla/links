@@ -2,7 +2,6 @@ import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import axios from "axios";
 import {
   linkDBSchema,
   LinkUpdate,
@@ -13,6 +12,7 @@ import { userDBSchema } from "../auth/auth.schema";
 import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
 import { jwtPayload } from "../auth/auth.schema";
+import getFavicons from "get-website-favicon";
 import { LINK_DEFAULT_IMAGE_URL } from "../constants/data.constants";
 
 export const addLink = async (
@@ -27,31 +27,20 @@ export const addLink = async (
     const findUser = await userDB.findOne<userDBSchema>({
       email: user.email,
     });
-
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
+    var favicon = await getFavicons(req.body.url);
     let faviconUrl;
-    try {
-      const fetchFavicon = await axios.get(
-        `https://besticon-demo.herokuapp.com/allicons.json?url=${req.body.url}`
-      );
-      console.log(fetchFavicon.data.icons);
-      const favIcons = fetchFavicon.data.icons.filter(
-        (url) => url.height >= 32 && url.height <= 57
-      );
-      console.log(favIcons);
-      faviconUrl = favIcons[0].url;
-    } catch (err) {
-      faviconUrl = LINK_DEFAULT_IMAGE_URL;
+    if (favicon.icons.length > 0) {
+      faviconUrl = favicon.icons[0].src;
     }
-
     const link: linkAddSchema = {
       title: req.body.title,
       url: req.body.url,
       status: req.body.status,
       userId: findUser._id,
-      image: faviconUrl,
+      image: faviconUrl || LINK_DEFAULT_IMAGE_URL,
     };
     const validatedData = await linkSchema.cast(link);
     const response = await dbClient
@@ -158,16 +147,10 @@ export const updateLink = async (
     }
     let faviconUrl;
     if (url) {
-      try {
-        const fetchFavicon = await axios.get(
-          `https://besticon-demo.herokuapp.com/allicons.json?url=${req.body.url}`
-        );
-
-        const favIcons = fetchFavicon.data.icons.filter(
-          (url) => url.height >= 32 && url.height <= 57
-        );
-        faviconUrl = favIcons[0].url;
-      } catch (err) {
+      const favicon = await getFavicons(url);
+      if (favicon.icons.length > 0) {
+        faviconUrl = favicon.icons[0].src;
+      } else {
         faviconUrl = LINK_DEFAULT_IMAGE_URL;
       }
     }
