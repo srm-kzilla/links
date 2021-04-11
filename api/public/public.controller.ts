@@ -20,17 +20,7 @@ export const getLinkPublic = async (
       .collection("users")
       .findOne<userDBSchema>({ username }, {});
     if (!findUser) {
-      throw errors.USER_NOT_AVAILABLE;
-    }
-    let updateViews = await dbClient
-      .db()
-      .collection("links")
-      .updateMany(
-        { userId: findUser._id, status: true },
-        { $inc: { views: 1 } }
-      );
-    if (updateViews.result.n == 0) {
-      throw errors.MONGODB_CONNECT_ERROR;
+      throw errors.USER_NOT_FOUND;
     }
     let result = await dbClient
       .db()
