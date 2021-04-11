@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { useRouter } from 'next/router'
 import Flip from "react-reveal/Flip";
 import { FaChevronDown } from "react-icons/fa";
+
 import { Logo } from "../../assets/icons"
+import { altNavbarRoutes } from "../../utils/constants";
 
 export default function Navbar() {
+  const router = useRouter()
   const [isOpen, setisOpen] = useState<boolean>(false);
   return (
     <nav className="fixed top-0 z-50 w-full bg-white shadow-custom rounded-bl-xl">
@@ -14,7 +18,7 @@ export default function Navbar() {
             <div className="ml-2 pt-1">LINKS</div>
           </a>
 
-          <div className="grid grid-cols-1 justify-self-end">
+          {!altNavbarRoutes.includes(router.route) && <div className="grid grid-cols-1 justify-self-end">
             <div className="hidden sm:inline-block">
               <img
                 className="w-12 h-12 rounded-full ml-3 mt-2 mb-2 float-left border"
@@ -36,7 +40,7 @@ export default function Navbar() {
             >
               <img src="https://img.icons8.com/android/24/000000/menu.png" />
             </button>
-          </div>
+          </div>}
         </div>
       </div>
       {isOpen && (

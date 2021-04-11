@@ -30,12 +30,12 @@ export default function LinkPageComponent({ _resLinks }: CardLinkProps) {
       <div className="px-2 lg:px-44">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-10">
           {_resLinks.map((link) => (
-            <LinkCard
-              key={link._id}
-              title={link.title}
-              url={link.url}
-              image={link.image}
-            />
+              <LinkCard
+                key={link._id}
+                title={link.title}
+                url={link.url}
+                image={link.image}
+              />
           ))}
         </div>
       </div>
