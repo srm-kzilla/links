@@ -31,6 +31,7 @@ module.exports = {
       },
       inset: {
         addButton: "70%",
+        '37': "9.5rem",
       },
     },
   },

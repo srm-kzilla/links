@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Flip from "react-reveal/Flip";
 import { FaChevronDown } from "react-icons/fa";
+import { Logo } from "../../assets/icons"
 
 export default function Navbar() {
   const [isOpen, setisOpen] = useState<boolean>(false);
@@ -8,13 +9,16 @@ export default function Navbar() {
     <nav className="fixed top-0 z-50 w-full bg-white shadow-custom rounded-bl-xl">
       <div>
         <div className="grid grid-cols-2">
-          <a className="text-black text-2xl font-bold p-3 text-left">LOGO</a>
+          <a href="/" className="text-black text-2xl font-bold p-3 text-left">
+            <div className="float-left mr-2"><Logo /></div>
+            <div className="ml-2 pt-1">LINKS</div>
+          </a>
 
           <div className="grid grid-cols-1 justify-self-end">
             <div className="hidden sm:inline-block">
               <img
-                className="w-12 h-12 rounded-full ml-3 mt-1 mb-2 float-left"
-                src="https://yt3.ggpht.com/ytc/AAUvwnjBxDbxCCpVNyEEKREl0qhQcIJ8DNaJkpv57LDsCMs=s900-c-k-c0x00ffffff-no-rj"
+                className="w-12 h-12 rounded-full ml-3 mt-2 mb-2 float-left border"
+                src="https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png"
               />
               <div
                 className="mr-4 pl-4 cursor-pointer select-none float-right my-4 hover:text-gray-500"
