@@ -33,6 +33,15 @@ body {
   border-image: linear-gradient(to right, #56ccf2, #6fcf97);
   border-image-slice: 1;
 }
+.gradientTextareaBottom {
+  border-radius: 8px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(to right, #56ccf2, #6fcf97);
+  border-image-slice: 1;
+}
 hr {
   border: 0.5px solid;
   border-image: linear-gradient(to right, #56ccf2, #6fcf97);
@@ -40,11 +49,29 @@ hr {
 }
 .styledHeader {
   transform: translate(-250px, 110px) rotate(-90deg);
-  font-family:"Futura Hv BT", "Times New Roman", sans-serif;
+  font-family: "Futura Hv BT", "Times New Roman", sans-serif;
   font-weight: 999;
   text-stroke-width: 1px;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
+}
+.styledGradientHeader {
+  position: absolute;
+  width: 384px;
+  height: 70px;
+  left: 50px;
+  top: 109px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 53.67px;
+  line-height: 130%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.07em;
+  font-variant: small-caps;
+  border: 3px solid;
+  border-image-source: linear-gradient(180deg, #56ccf2 0%, #6fcf97 100%);
 }
 .customGradient {
   background: -webkit-linear-gradient(#56ccf2, #6fcf97);

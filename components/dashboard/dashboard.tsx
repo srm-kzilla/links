@@ -140,7 +140,7 @@ export default function DashboardComponent({ _resLinks }: DashboardProps) {
             <div className="m-auto w-full">
               <NoLinks className="w-3/4 sm:w-1/2 md:w-1/3 m-auto" />
               <p className="w-full text-center mt-8 text-sm">
-                Looks like you don't have any links, unadd a new link!
+                Looks like you don't have any links, add a new link!
               </p>
             </div>
           </div>

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { DeleteModal } from "./";
 import { Spike, Trash, Pencil, NewWindow } from "../../assets/icons";
 import { activeLinkProps } from "../../utils/sidebarContext";
+import { truncateTitleText, truncateLinkText } from "../../utils/functions";
 
 interface CardProps {
   onCardClick: () => void;
@@ -34,14 +35,14 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
           </figure>
 
           <div className="flex flex-col transition items-start">
-            <h2 className="text-xl md:text-3xl font-bold">{link.title.length > 20 ? link.title.substring(0, 20) + "..." : link.title}</h2>
+            <h2 className="text-xl md:text-3xl font-bold">{truncateTitleText(link.title)}</h2>
             <a
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs md:text-md md:inline-block"
             >
-              {link.url.length > 40 ? link.url.substring(0, 40) + "..." : link.url}
+              {truncateLinkText(link.url)}
             </a>
           </div>
         </div>
