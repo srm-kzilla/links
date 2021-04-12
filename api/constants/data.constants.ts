@@ -1,2 +1,2 @@
 export const LINK_DEFAULT_IMAGE_URL =
-  "https://www.flaticon.com/svg/vstatic/svg/2301/2301129.svg?token=exp=1618041193~hmac=12523ee45e307cdf8fc6d77437d6e2a7";
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Globe_icon.svg/630px-Globe_icon.svg.png";

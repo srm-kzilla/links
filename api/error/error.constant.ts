@@ -18,7 +18,7 @@ export const errors = {
   USER_NOT_FOUND: {
     httpStatus: 401,
     message:
-      "User not registered. Please sign up/login with correct credentials",
+      "User not registered. Please register/login with correct credentials",
   },
   MONGODB_CONNECT_ERROR: {
     httpStatus: 500,

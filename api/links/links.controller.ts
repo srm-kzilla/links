@@ -33,8 +33,9 @@ export const addLink = async (
     }
     let faviconUrl;
     try {
+      const URL = req.body.url;
       const fetchFavicon = await axios.get(
-        `https://besticon-demo.herokuapp.com/allicons.json?url=${req.body.url}`
+        `https://besticon-demo.herokuapp.com/allicons.json?url=${URL}`
       );
 
       const favIcons = fetchFavicon.data.icons.filter(
@@ -158,7 +159,7 @@ export const updateLink = async (
     if (url) {
       try {
         const fetchFavicon = await axios.get(
-          `https://besticon-demo.herokuapp.com/allicons.json?url=${req.body.url}`
+          `https://besticon-demo.herokuapp.com/allicons.json?url=${url}`
         );
 
         const favIcons = fetchFavicon.data.icons.filter(

@@ -30,7 +30,7 @@ export const getLinkPublic = async (
         { $inc: { views: 1 } }
       );
     if (updateViews.result.n == 0) {
-      throw errors.MONGODB_CONNECT_ERROR;
+      throw errors.MONGODB_QUERY_ERROR;
     }
     let result = await dbClient
       .db()
