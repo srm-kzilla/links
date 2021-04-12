@@ -47,7 +47,6 @@ export const postLink = async (authToken: string, values: object) => {
       data: values,
     });
     successHandler("🎉 Link added successfully!");
-    console.log(_res.data);
     return _res;
   } catch (err) {
     errorHandler(err);
@@ -100,7 +99,7 @@ export const getPublicLinks = async (username: string) => {
     const _res = await axios.get(
       `${baseUrl}api/v1/public/links/get?user=${username}`
     );
-    return _res.data.result;
+    return _res.data;
   } catch (err) {
     errorHandler(err);
   }

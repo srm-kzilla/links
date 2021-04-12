@@ -8,7 +8,7 @@ interface LinkPageProps {
   publicLinksData: CardLink[];
 }
 
-export default function LinkPage({ publicLinksData }: LinkPageProps) {
+export default function LinkPage({ publicLinksData }) {
   return (
     <>
       <LinkPageComponent _resLinks={publicLinksData} />

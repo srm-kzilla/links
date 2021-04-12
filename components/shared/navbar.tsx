@@ -59,7 +59,7 @@ export default function Navbar() {
               Login / Sign Up
             </a>
             <a
-              href="/"
+              href="/profile"
               className="py-2 rounded hover:bg-lightblue text-sm font-normal block"
             >
               Edit Profile

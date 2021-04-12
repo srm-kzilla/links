@@ -26,17 +26,19 @@ const Sidebar = ({ isOpen, onClose, links, clicks }: SidebarProps): any => {
 
   useEffect(() => {
     if (title) {
-      setTitleLoading(true);
-      intervalRef.current = setTimeout(() => {
-        const { authToken } = parseCookies();
-        const values = {
-          title: title,
-        };
-        const res = updateLink(authToken, activeLink._id, values);
-        if (res) {
-          setTitleLoading(false);
-        }
-      }, 1000);
+      if (title.length > 0) {
+        setTitleLoading(true);
+        intervalRef.current = setTimeout(() => {
+          const { authToken } = parseCookies();
+          const values = {
+            title: title,
+          };
+          const res = updateLink(authToken, activeLink._id, values);
+          if (res) {
+            setTitleLoading(false);
+          }
+        }, 1000);
+      }
     } else {
       clearTimeout(intervalRef.current);
     }
@@ -45,17 +47,19 @@ const Sidebar = ({ isOpen, onClose, links, clicks }: SidebarProps): any => {
 
   useEffect(() => {
     if (linkUrl) {
-      setLinkLoading(true);
-      intervalRef.current = setTimeout(() => {
-        const { authToken } = parseCookies();
-        const values = {
-          url: linkUrl,
-        };
-        const res = updateLink(authToken, activeLink._id, values);
-        if (res) {
-          setLinkLoading(false);
-        }
-      }, 1000);
+      if (linkUrl.length > 0) {
+        setLinkLoading(true);
+        intervalRef.current = setTimeout(() => {
+          const { authToken } = parseCookies();
+          const values = {
+            url: linkUrl,
+          };
+          const res = updateLink(authToken, activeLink._id, values);
+          if (res) {
+            setLinkLoading(false);
+          }
+        }, 1000);
+      }
     }
     else {
       clearTimeout(intervalRef.current);

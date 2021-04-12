@@ -9,13 +9,11 @@ export interface CardLink {
   views: number;
   clicks: number;
   userId: string;
+  username: string;
 }
 
-interface CardLinkProps {
-  _resLinks: CardLink[];
-}
 
-export default function LinkPageComponent({ _resLinks }: CardLinkProps) {
+export default function LinkPageComponent({ _resLinks }) {
   return (
     <>
       <div className="flex items-center justify-center">
@@ -24,12 +22,12 @@ export default function LinkPageComponent({ _resLinks }: CardLinkProps) {
           src="https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png"
         />
         <h1 className="mt-20 ml-4 font-extrabold text-2xl sm:text-4xl">
-          MULLI GULLI
+          {_resLinks.username}
         </h1>
       </div>
       <div className="px-2 lg:px-44">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-10">
-          {_resLinks.map((link) => (
+          {_resLinks.result.map((link) => (
               <LinkCard
                 key={link._id}
                 title={link.title}
