@@ -16,6 +16,7 @@ module.exports = {
       colors: {
         backdrop: " rgba(0,0,0,0.3)",
         backgroundwhite: "#E0E0E0",
+        backgroundwhiteinset: "#bababa",
         lightblue: "#56CCF2",
         darkgray: "#333333",
         lightgray: "#F2F2F2",
@@ -31,6 +32,7 @@ module.exports = {
       },
       inset: {
         addButton: "70%",
+        '37': "9.5rem",
       },
     },
   },

@@ -1,40 +1,31 @@
+import React, { useContext } from "react";
 import { parseCookies } from "nookies";
-import React, { useState } from "react";
 import Switch from "react-input-switch";
+
 import { updateLink } from "../../utils/api";
+import { SidebarContext } from "../../utils/sidebarContext";
 
 interface ToggleProps {
   status: boolean;
   linkId: string;
 }
 
-const Toggle = ({ status, linkId }: ToggleProps): JSX.Element => {
-  const [value, setValue] = useState<boolean>(status);
+const Toggle = ({ status, linkId }: ToggleProps) => {
+  const { activeLink, setActiveLink } = useContext(SidebarContext);
 
   const toggleStatus = () => {
-    console.log("Toggling");
-    if (value == true) {
-      setValue(false);
-      Switch.value = value;
-    }
-    else {
-      setValue(true);
-      Switch.value = value;
-    }
     const { authToken } = parseCookies();
-    const values = {
-      status: value,
-    };
-    const res = updateLink(authToken, linkId, values);
+    const res = updateLink(authToken, linkId, { status: !status });
     if (res) {
-      console.log("Done!")
+      setActiveLink({ ...activeLink, status: !status });
     }
   };
+
   return (
     <Switch
       on={true}
       off={false}
-      value={value}
+      value={status}
       onChange={toggleStatus}
       styles={{
         track: {

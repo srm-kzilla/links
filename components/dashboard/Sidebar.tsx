@@ -26,36 +26,46 @@ const Sidebar = ({ isOpen, onClose, links, clicks }: SidebarProps): any => {
 
   useEffect(() => {
     if (title) {
-      setTitleLoading(true);
-      intervalRef.current = setTimeout(() => {
-        const { authToken } = parseCookies();
-        const values = {
-          title: title,
-        };
-        const res = updateLink(authToken, activeLink._id, values);
-        if (res) {
-          setTitleLoading(false);
-        }
-      }, 1000);
-    } else if (linkUrl) {
-      setLinkLoading(true);
-      intervalRef.current = setTimeout(() => {
-        console.log("Updating...");
-        const { authToken } = parseCookies();
-        const values = {
-          url: linkUrl,
-        };
-        const res = updateLink(authToken, activeLink._id, values);
-        if (res) {
-          setLinkLoading(false);
-          console.log("Updated URL");
-        }
-      }, 1000);
+      if (title.length > 0) {
+        setTitleLoading(true);
+        intervalRef.current = setTimeout(() => {
+          const { authToken } = parseCookies();
+          const values = {
+            title: title,
+          };
+          const res = updateLink(authToken, activeLink._id, values);
+          if (res) {
+            setTitleLoading(false);
+          }
+        }, 1000);
+      }
     } else {
       clearTimeout(intervalRef.current);
     }
     return () => clearTimeout(intervalRef.current);
-  }, [title, linkUrl]);
+  }, [title]);
+
+  useEffect(() => {
+    if (linkUrl) {
+      if (linkUrl.length > 0) {
+        setLinkLoading(true);
+        intervalRef.current = setTimeout(() => {
+          const { authToken } = parseCookies();
+          const values = {
+            url: linkUrl,
+          };
+          const res = updateLink(authToken, activeLink._id, values);
+          if (res) {
+            setLinkLoading(false);
+          }
+        }, 1000);
+      }
+    }
+    else {
+      clearTimeout(intervalRef.current);
+    }
+    return () => clearTimeout(intervalRef.current);
+  }, [linkUrl]);
 
   return (
     <>
@@ -82,7 +92,8 @@ const Sidebar = ({ isOpen, onClose, links, clicks }: SidebarProps): any => {
                 {links}
               </div>
               <div className="customGradient mt-2 text-5xl font-bold text-center">
-                {clicks}
+                {/* {clicks} */}
+                N.A.
               </div>
             </div>
             {activeLink.title ? (
@@ -155,8 +166,16 @@ const Sidebar = ({ isOpen, onClose, links, clicks }: SidebarProps): any => {
                     {activeLink.views}
                   </div>
                   <div className="customGradient mt-2 text-3xl font-bold text-center">
-                    {activeLink.clicks}
+                    {/* {activeLink.clicks} */}
+                    N.A.
                   </div>
+                </div>
+                <div className="flex items-center justify-center mt-2">
+                  <button
+                    type="submit"
+                    className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 my-2 rounded">
+                    GIVE ME MORE
+                  </button>
                 </div>
               </div>
             ) : (
