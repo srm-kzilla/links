@@ -21,7 +21,7 @@ const AddModal = ({
 }: AddModalProps): JSX.Element => {
   const initialValues = {
     title: "",
-    url: "",
+    url: "http://",
   };
 
   return (

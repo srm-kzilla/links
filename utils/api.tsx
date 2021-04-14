@@ -1,14 +1,11 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { setCookie } from "nookies";
-import { baseUrl } from "../utils/constants"
+import { baseUrl } from "../utils/constants";
 
 export const postLogin = async (values) => {
   try {
-    const _res = await axios.post(
-      `${baseUrl}api/v1/auth/login`,
-      values
-    );
+    const _res = await axios.post(`${baseUrl}api/v1/auth/login`, values);
     setCookie(null, "authToken", _res.data.authToken);
     return true;
   } catch (err) {
@@ -19,10 +16,7 @@ export const postLogin = async (values) => {
 
 export const postSignup = async (values) => {
   try {
-    const _res = await axios.post(
-      `${baseUrl}api/v1/auth/signup`,
-      values
-    );
+    const _res = await axios.post(`${baseUrl}api/v1/auth/signup`, values);
     setCookie(null, "authToken", _res.data.authToken);
     return true;
   } catch (err) {
@@ -53,7 +47,6 @@ export const postLink = async (authToken: string, values: object) => {
       data: values,
     });
     successHandler("🎉 Link added successfully!");
-    console.log(_res.data);
     return _res;
   } catch (err) {
     errorHandler(err);
@@ -98,6 +91,17 @@ export const updateLink = async (
   } catch (err) {
     errorHandler(err);
     return false;
+  }
+};
+
+export const getPublicLinks = async (username: string) => {
+  try {
+    const _res = await axios.get(
+      `${baseUrl}api/v1/public/links/get?user=${username}`
+    );
+    return _res.data;
+  } catch (err) {
+    errorHandler(err);
   }
 };
 
