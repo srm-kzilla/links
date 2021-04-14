@@ -12,6 +12,7 @@ export const userLoginSchema = yup
       ),
     email: yup.string().trim().email(),
     password: yup.string().trim().required(),
+    name: yup.string().trim(),
   })
   .test("xor", "object should have either username or email", (val) => {
     return !!val.username !== !!val.email;
@@ -28,6 +29,7 @@ export const userSignupSchema = yup.object({
     )
     .required(),
   email: yup.string().trim().email().required(),
+  name: yup.string().trim(),
   password: yup
     .string()
     .trim()
@@ -41,7 +43,7 @@ export const userSignupSchema = yup.object({
   }),
 });
 
-export const JwtRequestSchema = yup
+export const jwtRequestSchema = yup
   .object({
     authorization: yup
       .string()
@@ -61,17 +63,17 @@ export const userOTPRequestSchema = yup.object({
     ),
 });
 
-export interface jwtPayload {
+export interface JwtPayload {
   email: string;
   username: string;
   iat: number;
   exp: number;
   iss: "srmkzilla";
 }
-export type JwtRequest = yup.InferType<typeof JwtRequestSchema>;
-export type userLogin = yup.InferType<typeof userLoginSchema>;
-export type userSignup = yup.InferType<typeof userSignupSchema>;
-export interface userDBSchema extends userSignup {
+export type JwtRequest = yup.InferType<typeof jwtRequestSchema>;
+export type UserLogin = yup.InferType<typeof userLoginSchema>;
+export type UserSignup = yup.InferType<typeof userSignupSchema>;
+export interface userDBSchema extends UserSignup {
   _id?: ObjectID;
 }
-export type userOTPRequest = yup.InferType<typeof userOTPRequestSchema>;
+export type UserOTPRequest = yup.InferType<typeof userOTPRequestSchema>;

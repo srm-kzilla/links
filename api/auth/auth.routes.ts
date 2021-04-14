@@ -6,6 +6,7 @@ import {
   getUser,
   getOTP,
   verifyOTP,
+  editProfile,
 } from "./auth.controller";
 import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
@@ -22,6 +23,7 @@ authHandler
   .post("/signup", validateQuery("body", userSignupSchema), postSignup)
   .get("/user", validateUser, getUser)
   .get("/getotp", validateUser, getOTP)
-  .post("/postotp", validateUser, verifyOTP);
+  .post("/postotp", validateUser, verifyOTP)
+  .patch("/editprofile", validateUser, editProfile);
 
 export default authHandler;

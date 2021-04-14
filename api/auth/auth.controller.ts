@@ -5,10 +5,10 @@ import { NextHandler } from "next-connect";
 import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
 import {
-  userLogin,
-  userSignup,
-  jwtPayload,
-  userOTPRequest,
+  UserLogin,
+  UserSignup,
+  JwtPayload,
+  UserOTPRequest,
 } from "./auth.schema";
 import { errors } from "../error/error.constant";
 
@@ -27,7 +27,7 @@ export const postLogin = async (
     let result = await dbClient
       .db()
       .collection("users")
-      .findOne<userLogin>(body, { projection: { _id: 0 } });
+      .findOne<UserLogin>(body, { projection: { _id: 0 } });
     if (!result) {
       throw errors.USER_NOT_FOUND;
     }
@@ -37,6 +37,7 @@ export const postLogin = async (
         {
           email: result.email,
           username: result.username,
+          name: result.name,
         },
         process.env.JWT_SECRET || "",
         {
@@ -62,7 +63,7 @@ export const postSignup = async (
   next: NextHandler
 ) => {
   try {
-    let { username, email, password } = req.body as userSignup;
+    let { username, email, password } = req.body as UserSignup;
     const dbClient: MongoClient = await getDbClient();
     let result = await dbClient
       .db()
@@ -81,15 +82,22 @@ export const postSignup = async (
     }
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
-    await dbClient
-      .db()
-      .collection("users")
-      .insertOne({ username, email, password: hash });
-
-    const token = jwt.sign({ username, email }, process.env.JWT_SECRET || "", {
-      expiresIn: "1d",
-      issuer: "srmkzilla",
+    await dbClient.db().collection("users").insertOne({
+      email,
+      password: hash,
+      name: "",
+      bio: "",
+      username,
     });
+
+    const token = jwt.sign(
+      { username, email, name: "" },
+      process.env.JWT_SECRET || "",
+      {
+        expiresIn: "1d",
+        issuer: "srmkzilla",
+      }
+    );
     res.status(200).json({
       success: true,
       authToken: token,
@@ -106,7 +114,7 @@ export const getUser = async (
 ) => {
   try {
     let payload = req.env.user;
-    let user: jwtPayload = JSON.parse(payload);
+    let user: JwtPayload = JSON.parse(payload);
     if (!user) {
       throw errors.USER_NOT_FOUND;
     } else {
@@ -128,7 +136,7 @@ export const getOTP = async (
 ) => {
   try {
     let payload = req.env.user;
-    let user: jwtPayload = JSON.parse(payload);
+    let user: JwtPayload = JSON.parse(payload);
     if (!user) {
       throw errors.USER_NOT_FOUND;
     }
@@ -163,12 +171,12 @@ export const verifyOTP = async (
 ) => {
   try {
     let payload = req.env.user;
-    let user: jwtPayload = JSON.parse(payload);
+    let user: JwtPayload = JSON.parse(payload);
     if (!user) {
       throw errors.USER_NOT_FOUND;
     }
 
-    const userRequest = req.body as userOTPRequest;
+    const userRequest = req.body as UserOTPRequest;
     if (!userRequest) {
       throw errors.INVALID_OTP;
     }
@@ -187,10 +195,7 @@ export const verifyOTP = async (
         throw errors.OTP_EXPIRED;
       }
       //TO DO: Delete OTP document when otp has expired
-      await dbClient
-      .db()
-      .collection("otp")
-      .deleteOne({ _id: databaseOTP._id });
+      await dbClient.db().collection("otp").deleteOne({ _id: databaseOTP._id });
       return res.status(200).json({
         success: true,
       });
@@ -198,6 +203,23 @@ export const verifyOTP = async (
       throw errors.INVALID_OTP; //when a user enters an otp that another user got
       //(when email in token doesn't match the email in database but the otp in request and the database matches)
     }
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const editProfile = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
+  try {
+    let payload = req.env.user;
+    let user: JwtPayload = JSON.parse(payload);
+    if (!user) {
+      throw errors.USER_NOT_FOUND;
+    }
+    console.log(payload)
   } catch (err) {
     next(err);
   }
