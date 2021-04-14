@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { Db, MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
@@ -9,6 +9,7 @@ import {
   UserSignup,
   JwtPayload,
   UserOTPRequest,
+  UserInfo,
 } from "./auth.schema";
 import { errors } from "../error/error.constant";
 
@@ -219,7 +220,20 @@ export const editProfile = async (
     if (!user) {
       throw errors.USER_NOT_FOUND;
     }
-    console.log(payload)
+    let data = req.body as UserInfo;
+    const dbClient: MongoClient = await getDbClient();
+    //TO DO: if data same as before, don't update
+    //TO DO: check if username already taken
+    dbClient
+      .db()
+      .collection("users")
+      .updateOne({ email: user.email }, { $set: data });
+
+    console.log(user);
+    return res.status(200).json({
+      success: true,
+      data: data,
+    });
   } catch (err) {
     next(err);
   }

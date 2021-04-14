@@ -33,7 +33,7 @@ export const userSignupSchema = yup.object({
   password: yup
     .string()
     .trim()
-    .min(8, "password must have at least 8 characters")
+    .min(8, "Password must have at least 8 characters")
     .required(),
   createdAt: yup.number().default(() => {
     return +new Date();
@@ -42,6 +42,25 @@ export const userSignupSchema = yup.object({
     return +new Date();
   }),
 });
+
+export const userInfoSchema = yup.object({
+  username: yup
+    .string()
+    .trim()
+    .matches(/^(?=[A-Za-z_.\d]*[A-Za-z])[a-zA-Z_.\d]{5,}$/, "Invalid username"),
+  name: yup.string().trim(),
+  bio: yup.string().trim(),
+  
+});
+
+export const changePasswordSchema = yup.object({
+  password: yup.string().trim(),
+  newpassword: yup
+    .string()
+    .trim()
+    .min(8, "Password must have at least 8 characters")
+    .required(),
+})
 
 export const jwtRequestSchema = yup
   .object({
@@ -73,6 +92,10 @@ export interface JwtPayload {
 export type JwtRequest = yup.InferType<typeof jwtRequestSchema>;
 export type UserLogin = yup.InferType<typeof userLoginSchema>;
 export type UserSignup = yup.InferType<typeof userSignupSchema>;
+export type UserInfo = yup.InferType<typeof userInfoSchema>;
+export type ChangePassword = yup.InferType<typeof changePasswordSchema>;
+
+
 export interface userDBSchema extends UserSignup {
   _id?: ObjectID;
 }

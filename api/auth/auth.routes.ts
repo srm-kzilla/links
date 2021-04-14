@@ -11,7 +11,7 @@ import {
 import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { validateUser } from "../middlewares/verifyJWT.middleware";
-import { userLoginSchema, userSignupSchema } from "./auth.schema";
+import { userInfoSchema, userLoginSchema, userOTPRequestSchema, userSignupSchema } from "./auth.schema";
 
 const authHandler = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
@@ -23,7 +23,7 @@ authHandler
   .post("/signup", validateQuery("body", userSignupSchema), postSignup)
   .get("/user", validateUser, getUser)
   .get("/getotp", validateUser, getOTP)
-  .post("/postotp", validateUser, verifyOTP)
-  .patch("/editprofile", validateUser, editProfile);
+  .post("/postotp", validateQuery("body", userOTPRequestSchema), validateUser, verifyOTP)
+  .patch("/editprofile", validateQuery("body", userInfoSchema), validateUser, editProfile);
 
 export default authHandler;
