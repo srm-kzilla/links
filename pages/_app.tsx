@@ -12,15 +12,19 @@ import { authRoutes } from "../utils/constants";
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
-    <Head>
-      <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
-    </Head>
-    <AuthContextProvider>
-      <Navbar />
-      <Component {...pageProps} />
-      <Footer />
-      <ToastContainer />
-    </AuthContextProvider>
+      <Head>
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+      </Head>
+      <AuthContextProvider>
+        <div id="page-container">
+          <div id="content-wrap">
+            <Navbar />
+            <Component {...pageProps} />
+          </div>
+          <Footer />
+          <ToastContainer />
+        </div>
+      </AuthContextProvider>
     </>
   );
 };
