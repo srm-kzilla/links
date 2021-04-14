@@ -6,12 +6,19 @@ import {
   getUser,
   getOTP,
   verifyOTP,
-  editProfile,
+  patchProfile,
+  patchPassword,
 } from "./auth.controller";
 import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { validateUser } from "../middlewares/verifyJWT.middleware";
-import { userInfoSchema, userLoginSchema, userOTPRequestSchema, userSignupSchema } from "./auth.schema";
+import {
+  changePasswordSchema,
+  userInfoSchema,
+  userLoginSchema,
+  userOTPRequestSchema,
+  userSignupSchema,
+} from "./auth.schema";
 
 const authHandler = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
@@ -23,7 +30,23 @@ authHandler
   .post("/signup", validateQuery("body", userSignupSchema), postSignup)
   .get("/user", validateUser, getUser)
   .get("/getotp", validateUser, getOTP)
-  .post("/postotp", validateQuery("body", userOTPRequestSchema), validateUser, verifyOTP)
-  .patch("/editprofile", validateQuery("body", userInfoSchema), validateUser, editProfile);
+  .post(
+    "/postotp",
+    validateQuery("body", userOTPRequestSchema),
+    validateUser,
+    verifyOTP
+  )
+  .patch(
+    "/editprofile",
+    validateQuery("body", userInfoSchema),
+    validateUser,
+    patchProfile
+  )
+  .patch(
+    "/changepassword",
+    validateQuery("body", changePasswordSchema),
+    validateUser,
+    patchPassword
+  );
 
 export default authHandler;

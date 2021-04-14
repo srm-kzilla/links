@@ -10,6 +10,7 @@ import {
   JwtPayload,
   UserOTPRequest,
   UserInfo,
+  ChangePassword,
 } from "./auth.schema";
 import { errors } from "../error/error.constant";
 
@@ -51,7 +52,7 @@ export const postLogin = async (
         authToken: token,
       });
     } else {
-      throw errors.UNAUTHORIZED;
+      throw errors.WRONG_PASSWORD;
     }
   } catch (err) {
     next(err);
@@ -209,7 +210,7 @@ export const verifyOTP = async (
   }
 };
 
-export const editProfile = async (
+export const patchProfile = async (
   req: NextApiRequest,
   res: NextApiResponse,
   next: NextHandler
@@ -224,15 +225,46 @@ export const editProfile = async (
     const dbClient: MongoClient = await getDbClient();
     //TO DO: if data same as before, don't update
     //TO DO: check if username already taken
-    dbClient
+    await dbClient
       .db()
       .collection("users")
       .updateOne({ email: user.email }, { $set: data });
-
-    console.log(user);
     return res.status(200).json({
       success: true,
       data: data,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const patchPassword = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
+  try {
+    let payload = req.env.user;
+    let user = JSON.parse(payload) as JwtPayload;
+    if (!user) {
+      throw errors.USER_NOT_FOUND;
+    }
+    let { oldPassword, newPassword } = req.body as ChangePassword;
+    const dbClient: MongoClient = await getDbClient();
+    let userInfo = await dbClient
+      .db()
+      .collection("users")
+      .findOne<UserLogin>({ email: user.email }, {});
+    if (oldPassword !== userInfo.password) {
+      throw errors.WRONG_PASSWORD;
+    }
+    //TO DO in frontend: check that the new password is not same as old password
+    await dbClient
+      .db()
+      .collection("users")
+      .updateOne({ email: user.email }, { $set: { password: newPassword } });
+    return res.status(200).json({
+      success: true,
     });
   } catch (err) {
     next(err);

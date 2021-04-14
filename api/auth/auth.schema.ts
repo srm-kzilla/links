@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { ObjectID } from "mongodb";
-
+//TO DO: add min length for bio
 export const userLoginSchema = yup
   .object({
     username: yup
@@ -13,6 +13,7 @@ export const userLoginSchema = yup
     email: yup.string().trim().email(),
     password: yup.string().trim().required(),
     name: yup.string().trim(),
+    bio: yup.string().trim(),
   })
   .test("xor", "object should have either username or email", (val) => {
     return !!val.username !== !!val.email;
@@ -30,6 +31,7 @@ export const userSignupSchema = yup.object({
     .required(),
   email: yup.string().trim().email().required(),
   name: yup.string().trim(),
+  bio: yup.string().trim(),
   password: yup
     .string()
     .trim()
@@ -50,17 +52,16 @@ export const userInfoSchema = yup.object({
     .matches(/^(?=[A-Za-z_.\d]*[A-Za-z])[a-zA-Z_.\d]{5,}$/, "Invalid username"),
   name: yup.string().trim(),
   bio: yup.string().trim(),
-  
 });
 
 export const changePasswordSchema = yup.object({
-  password: yup.string().trim(),
-  newpassword: yup
+  oldPassword: yup.string().trim().required(),
+  newPassword: yup
     .string()
     .trim()
     .min(8, "Password must have at least 8 characters")
     .required(),
-})
+});
 
 export const jwtRequestSchema = yup
   .object({
@@ -94,7 +95,6 @@ export type UserLogin = yup.InferType<typeof userLoginSchema>;
 export type UserSignup = yup.InferType<typeof userSignupSchema>;
 export type UserInfo = yup.InferType<typeof userInfoSchema>;
 export type ChangePassword = yup.InferType<typeof changePasswordSchema>;
-
 
 export interface userDBSchema extends UserSignup {
   _id?: ObjectID;

@@ -7,7 +7,7 @@ export const errors = {
     httpStatus: 500,
     message: "Internal Server Error.",
   },
-  UNAUTHORIZED: {
+  WRONG_PASSWORD: {
     httpStatus: 401,
     message: "Wrong Password",
   },
