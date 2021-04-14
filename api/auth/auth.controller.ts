@@ -146,6 +146,7 @@ export const getOTP = async (
 
     const OTP = Math.floor(Math.random() * 1000000);
     const createdAt = new Date().getTime();
+    //TO DO: encode OTP?
     await dbClient
       .db()
       .collection("otp")
@@ -182,21 +183,22 @@ export const verifyOTP = async (
     if (!userRequest) {
       throw errors.INVALID_OTP;
     }
-    //TO DO: Throw error if otp!=6 digits, before even reading databaseOTP
+
     const dbClient: MongoClient = await getDbClient();
     const databaseOTP = await dbClient
       .db()
       .collection("otp")
       .findOne({ otp: userRequest.otp });
-
     if (!databaseOTP) {
       throw errors.INVALID_OTP; //if otp by user doesn't match any otp in database
     }
+
     if (databaseOTP.email === user.email) {
       if (databaseOTP.expiresAt < new Date().getTime()) {
         throw errors.OTP_EXPIRED;
       }
       //TO DO: Delete OTP document when otp has expired
+
       await dbClient.db().collection("otp").deleteOne({ _id: databaseOTP._id });
       return res.status(200).json({
         success: true,
@@ -222,9 +224,18 @@ export const patchProfile = async (
       throw errors.USER_NOT_FOUND;
     }
     let data = req.body as UserInfo;
+
     const dbClient: MongoClient = await getDbClient();
     //TO DO: if data same as before, don't update
-    //TO DO: check if username already taken
+    if (data.username) {
+      let usernameExists = await dbClient
+        .db()
+        .collection("users")
+        .findOne({ username: data.username });
+      if (usernameExists) {
+        throw errors.DUPLICATE_USERNAME;
+      }
+    }
     await dbClient
       .db()
       .collection("users")
