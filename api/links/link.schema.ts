@@ -10,6 +10,9 @@ export const linkSchema = yup.object({
   views: yup.number().default(0),
   shortCode: yup.string(),
   analyticsCode: yup.string(),
+  createdAt: yup.number().default(() => {
+    return +new Date();
+  }),
 });
 export const linkAddSchema = yup.object({
   title: yup.string().required(),

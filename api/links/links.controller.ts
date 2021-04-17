@@ -12,7 +12,11 @@ import { userDBSchema } from "../auth/auth.schema";
 import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
 import { jwtPayload } from "../auth/auth.schema";
-import { LINK_DEFAULT_IMAGE_URL } from "../constants/data.constants";
+import {
+  LINK_DEFAULT_IMAGE_URL,
+  FETCH_FAVICON,
+  KZILLAXYZ_POST,
+} from "../constants/data.constants";
 import axios from "axios";
 
 export const addLink = async (
@@ -31,27 +35,21 @@ export const addLink = async (
       throw errors.USER_NOT_FOUND;
     }
     let faviconUrl;
-    let kzillaXYZ;
+    let kzillaXYZdata;
     try {
       const URL = req.body.url;
       const data = { longUrl: URL };
-      kzillaXYZ = await axios.post(
-        "https://kzilla.xyz/api/v1/webhook/link",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: process.env.TOKEN,
-          },
-        }
-      );
-
-      const fetchFavicon = await axios.get(
-        `https://besticon-demo.herokuapp.com/allicons.json?url=${URL}`
-      );
+      let kzillaXYZ = await axios.post(KZILLAXYZ_POST, data, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: process.env.KZILLAXYZWEEBHOOKTOKEN || "",
+        },
+      });
+      kzillaXYZdata = kzillaXYZ.data;
+      const fetchFavicon = await axios.get(FETCH_FAVICON + URL);
 
       const favIcons = fetchFavicon.data.icons.filter(
-        (url) => url.height >= 32 && url.height <= 70
+        (url) => url.height >= 32 && url.height <= 100
       );
       faviconUrl = favIcons[0].url;
     } catch (err) {
@@ -63,8 +61,8 @@ export const addLink = async (
       status: req.body.status,
       userId: findUser._id,
       image: faviconUrl,
-      shortCode: kzillaXYZ.data.shortCode,
-      analyticsCode: kzillaXYZ.data.analyticsCode,
+      shortCode: kzillaXYZdata.shortCode,
+      analyticsCode: kzillaXYZdata.analyticsCode,
     };
     const validatedData = await linkSchema.cast(link);
     const response = await dbClient
@@ -170,26 +168,21 @@ export const updateLink = async (
       throw errors.USER_NOT_FOUND;
     }
     let faviconUrl;
-    let kzillaXYZ;
+    let kzillaXYZdata;
     if (url) {
       try {
         let data = { longUrl: url };
-        kzillaXYZ = await axios.post(
-          "https://kzilla.xyz/api/v1/webhook/link",
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              authorization: process.env.TOKEN,
-            },
-          }
-        );
-        const fetchFavicon = await axios.get(
-          `https://besticon-demo.herokuapp.com/allicons.json?url=${url}`
-        );
+        let kzillaXYZ = await axios.post(KZILLAXYZ_POST, data, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: process.env.KZILLAXYZWEEBHOOKTOKEN || "",
+          },
+        });
+        kzillaXYZdata = kzillaXYZ.data;
+        const fetchFavicon = await axios.get(FETCH_FAVICON + url);
 
         const favIcons = fetchFavicon.data.icons.filter(
-          (url) => url.height >= 32 && url.height <= 70
+          (url) => url.height >= 32 && url.height <= 100
         );
         faviconUrl = favIcons[0].url;
       } catch (err) {
@@ -209,8 +202,8 @@ export const updateLink = async (
             url,
             status,
             image: faviconUrl,
-            shortCode: kzillaXYZ?.data.shortCode,
-            analyticsCode: kzillaXYZ?.data.analyticsCode,
+            shortCode: kzillaXYZdata?.shortCode,
+            analyticsCode: kzillaXYZdata?.analyticsCode,
           },
         }
       );
