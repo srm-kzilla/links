@@ -12,7 +12,6 @@ import { userDBSchema } from "../auth/auth.schema";
 import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
 import { jwtPayload } from "../auth/auth.schema";
-import getFavicons from "get-website-favicon";
 import { LINK_DEFAULT_IMAGE_URL } from "../constants/data.constants";
 import axios from "axios";
 
@@ -32,14 +31,27 @@ export const addLink = async (
       throw errors.USER_NOT_FOUND;
     }
     let faviconUrl;
+    let kzillaXYZ;
     try {
       const URL = req.body.url;
+      const data = { longUrl: URL };
+      kzillaXYZ = await axios.post(
+        "https://kzilla.xyz/api/v1/webhook/link",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: process.env.TOKEN,
+          },
+        }
+      );
+
       const fetchFavicon = await axios.get(
         `https://besticon-demo.herokuapp.com/allicons.json?url=${URL}`
       );
 
       const favIcons = fetchFavicon.data.icons.filter(
-        (url) => url.height >= 32 && url.height <= 57
+        (url) => url.height >= 32 && url.height <= 70
       );
       faviconUrl = favIcons[0].url;
     } catch (err) {
@@ -51,6 +63,8 @@ export const addLink = async (
       status: req.body.status,
       userId: findUser._id,
       image: faviconUrl,
+      shortCode: kzillaXYZ.data.shortCode,
+      analyticsCode: kzillaXYZ.data.analyticsCode,
     };
     const validatedData = await linkSchema.cast(link);
     const response = await dbClient
@@ -129,7 +143,7 @@ export const deleteLink = async (
         _id: new MongoDB.ObjectID(linkId),
       });
     if (deleteLink.value === null) {
-      throw errors.MONGODB_CONNECT_ERROR;
+      throw errors.MONGODB_QUERY_ERROR;
     }
     res.json({ success: true });
   } catch (err) {
@@ -156,14 +170,26 @@ export const updateLink = async (
       throw errors.USER_NOT_FOUND;
     }
     let faviconUrl;
+    let kzillaXYZ;
     if (url) {
       try {
+        let data = { longUrl: url };
+        kzillaXYZ = await axios.post(
+          "https://kzilla.xyz/api/v1/webhook/link",
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: process.env.TOKEN,
+            },
+          }
+        );
         const fetchFavicon = await axios.get(
           `https://besticon-demo.herokuapp.com/allicons.json?url=${url}`
         );
 
         const favIcons = fetchFavicon.data.icons.filter(
-          (url) => url.height >= 32 && url.height <= 57
+          (url) => url.height >= 32 && url.height <= 70
         );
         faviconUrl = favIcons[0].url;
       } catch (err) {
@@ -177,10 +203,19 @@ export const updateLink = async (
       .updateOne(
         { userId: findUser._id, _id: new MongoDB.ObjectID(linkId) },
 
-        { $set: { title, url, status, image: faviconUrl } }
+        {
+          $set: {
+            title,
+            url,
+            status,
+            image: faviconUrl,
+            shortCode: kzillaXYZ?.data.shortCode,
+            analyticsCode: kzillaXYZ?.data.analyticsCode,
+          },
+        }
       );
     if (updateLink.result.n === 0) {
-      throw errors.MONGODB_CONNECT_ERROR;
+      throw errors.MONGODB_QUERY_ERROR;
     }
     res.json({ success: true, message: "Link has been updated successfully." });
   } catch (err) {

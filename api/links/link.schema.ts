@@ -8,13 +8,16 @@ export const linkSchema = yup.object({
   image: yup.string().default(LINK_DEFAULT_IMAGE_URL),
   status: yup.boolean().default(true),
   views: yup.number().default(0),
-  clicks: yup.number().default(0),
+  shortCode: yup.string(),
+  analyticsCode: yup.string(),
 });
 export const linkAddSchema = yup.object({
   title: yup.string().required(),
   url: yup.string().url().required(),
   status: yup.boolean().default(true),
   image: yup.string(),
+  shortCode: yup.string(),
+  analyticsCode: yup.string(),
 });
 export const linkDeleteSchema = yup
   .object({
