@@ -14,4 +14,19 @@ import NotFoundLeft from "./notfoundleft"
 import NotFoundZero from "./notfoundzero"
 import NotFoundRight from "./notfoundright"
 
-export { NewWindow, NoLinks, Pencil, Spike, Tick, Trash, Logo, Eye, EyeHide, Ellipse, LoadingAuth, NotFoundLeft, NotFoundZero, NotFoundRight };
+export { 
+    NewWindow, 
+    NoLinks, 
+    Pencil, 
+    Spike, 
+    Tick, 
+    Trash, 
+    Logo, 
+    Eye, 
+    EyeHide, 
+    Ellipse, 
+    LoadingAuth, 
+    NotFoundLeft, 
+    NotFoundZero, 
+    NotFoundRight, 
+};

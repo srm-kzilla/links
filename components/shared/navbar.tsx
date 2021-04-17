@@ -1,14 +1,22 @@
 import { useContext, useState } from "react";
 import Flip from "react-reveal/Flip";
 import { FaChevronDown } from "react-icons/fa";
+import { useRouter } from "next/router";
+import { destroyCookie } from "nookies";
 
 import { Logo } from "../../assets/icons"
 import { AuthContext } from "../../utils/authContext";
 
 export default function Navbar() {
-  const { isAuth } = useContext(AuthContext);
-
+  const { isAuth, setIsAuth } = useContext(AuthContext);
   const [isOpen, setisOpen] = useState<boolean>(false);
+  const router = useRouter()
+
+  const logoutUser = () => {
+    destroyCookie(null, "authToken");
+    router.replace('/');
+  }
+
   return (
     <nav className="fixed top-0 z-50 w-full bg-white shadow-custom rounded-bl-xl">
       <div className="grid grid-cols-2">
@@ -91,8 +99,8 @@ export default function Navbar() {
             }
             {isAuth &&
               <a
-                href="/"
-                className="py-2 rounded hover:bg-lightblue text-sm font-normal block"
+                className="py-2 rounded hover:bg-lightblue text-sm font-normal block cursor-pointer"
+                onClick={() => logoutUser()}
               >
                 Log Out
             </a>

@@ -11,5 +11,3 @@ export default function Footer() {
     </footer>
   );
 }
-
-// fixed w-full mx-auto bottom-0 text-sm text-center justify-center items-center

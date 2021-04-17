@@ -24,14 +24,14 @@ body {
 }
 
 #content-wrap {
-  padding-bottom: 2rem;    
+  padding-bottom: 2rem;
 }
 
 #footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 2rem;            
+  height: 2rem;
 }
 .gradientInput {
   padding: 0.5rem;
@@ -104,6 +104,15 @@ hr {
 .hover-trigger:hover .hover-target {
   display: block;
 }
+.gradientHeaderHollow {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: -webkit-linear-gradient(#56ccf2, #6fcf97);
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 6px transparent;
+  color: #e0e0e0;
+}
 
 /* Hover Underline Animation - Navbar */
 .hover-underline-animation {
@@ -114,7 +123,7 @@ hr {
 }
 
 .hover-underline-animation:after {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   transform: scaleX(0);

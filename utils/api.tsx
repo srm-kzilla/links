@@ -105,7 +105,7 @@ export const getPublicLinks = async (username: string) => {
   }
 };
 
-const errorHandler = (error?: AxiosError | any) => {
+export const errorHandler = (error?: AxiosError | any) => {
   let errMessage: string = "Oops! Something went wrong!";
   if (error)
     switch (error.response?.status) {
@@ -130,7 +130,7 @@ const errorHandler = (error?: AxiosError | any) => {
   });
 };
 
-const successHandler = (successMessage: string) => {
+export const successHandler = (successMessage: string) => {
   toast.success(successMessage, {
     position: "top-right",
     autoClose: 5000,
