@@ -74,6 +74,8 @@ export const addLink = async (
       success: true,
       _id: response.insertedId,
       image: validatedData.image,
+      shortCode: kzillaXYZdata.shortCode,
+      analyticsCode: kzillaXYZdata.analyticsCode,
     });
   } catch (err) {
     next(err);
@@ -95,6 +97,16 @@ export const getLink = async (
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
+    const views = await dbClient
+      .db()
+      .collection("links")
+      .aggregate([
+        { $match: { userId: findUser._id } },
+        { $group: { _id: null, viewCount: { $sum: "$views" } } },
+      ])
+      .toArray();
+    const viewCount = views[0]?.viewCount ? views[0].viewCount : 0;
+
     const result = await dbClient
       .db()
       .collection("links")
@@ -109,7 +121,7 @@ export const getLink = async (
     if (!result) {
       throw errors.NOT_FOUND;
     }
-    res.json({ success: true, result });
+    res.json({ success: true, result, viewCount });
   } catch (err) {
     next(err);
   }
