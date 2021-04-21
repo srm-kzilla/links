@@ -16,13 +16,17 @@ export interface Link {
   status: boolean;
   views: number;
   clicks: number;
+  shortCode?: string;
+  analyticsCode?: string;
+  createdAt?: number;
 }
 
 interface DashboardProps {
   _resLinks: Link[];
+  totalViews: number;
 }
 
-export default function DashboardComponent({ _resLinks }: DashboardProps) {
+export default function DashboardComponent({ _resLinks, totalViews }: DashboardProps) {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
   const [links, setLinks] = useState<Link[]>(_resLinks);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
@@ -58,6 +62,8 @@ export default function DashboardComponent({ _resLinks }: DashboardProps) {
             status: true,
             image: res.data.image,
             _id: res.data._id,
+            shortCode: res.data.shortCode,  
+            analyticsCode: res.data.analyticsCode
           });
           return prevState;
         });
@@ -108,6 +114,7 @@ export default function DashboardComponent({ _resLinks }: DashboardProps) {
                 }}
                 link={link}
                 onDeleteCard={onDeleteLinkHandler}
+                
               />
             ))}
           </div>
@@ -115,7 +122,7 @@ export default function DashboardComponent({ _resLinks }: DashboardProps) {
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
             links={links.length}
-            clicks={links[0].clicks}
+            totalViews={totalViews}
           />
         </>
       ) : (

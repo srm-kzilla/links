@@ -25,13 +25,13 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
             } h-6 w-full md:h-full md:w-6 md:group-hover:w-16 hover:transition duration-100 ease-in-out -mt-2 md:mt-0 block md:absolute left-0 bottom-0 top-0 items-center justify-between`}
         >
           <figure className="w-0 group-hover:w-8 cursor-pointer pt-10 shadow-2xl hidden md:flex mx-auto">
-            <img width="40px" src={link.image} />
+            <img className="rounded" width="40px" src={link.image} />
           </figure>
         </div>
 
         <div className="flex justify-end my-2 items-center md:text-left md:justify-start md:ml-20 mx-4 md:mx-0">
           <figure className="md:hidden w-8 mr-4">
-            <img width="40px" src={link.image} alt={link.title.trim()} />
+            <img className="rounded" width="40px" src={link.image} alt={link.title.trim()} />
           </figure>
 
           <div className="flex flex-col transition items-start">
@@ -49,10 +49,10 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
 
         <div className="flex w-full md:w-auto justify-evenly my-2 sm:mr-14">
           <a
-            href={link.url}
+            href={`https://kzilla.xyz/${link.shortCode}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="focus:outline-none cursor-pointer mx-2 md:mx-4"
+            className="focus:outline-none cursor-pointer mx-2 pt-1 md:mx-4"
             title="Open link in new window"
           >
             <NewWindow />
@@ -60,9 +60,17 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
           <button title="Edit Link" className="focus:outline-none cursor-pointer mx-2 md:mx-4">
             <Pencil />
           </button>
-          <button title="Check Analytics" className="focus:outline-none cursor-pointer mx-2 md:mx-4">
-            <Spike />
-          </button>
+          <a
+            href={`https://kzilla.xyz/analytics/${link.analyticsCode}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="focus:outline-none cursor-pointer pt-1"
+            title="Check Analytics"
+          >
+            <button className="focus:outline-none cursor-pointer mx-2 md:mx-4">
+              <Spike />
+            </button>
+          </a>
           <button
             onClick={() => setIsdeleteModalOpen(true)}
             className="focus:outline-none cursor-pointer mx-2 md:mx-4"

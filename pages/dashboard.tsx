@@ -44,7 +44,7 @@ export default function Dashboard({ _resLinks }) {
         draggable
         pauseOnHover
       />
-      <DashboardComponent _resLinks={_resLinks} />
+      <DashboardComponent _resLinks={_resLinks.result} totalViews={_resLinks.viewCount}/>
     </SidebarContextProvider>
   );
 }
@@ -56,7 +56,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
     return {
       props: {
-        _resLinks,
+       _resLinks,
       },
     };
   } catch (err) {

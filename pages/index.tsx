@@ -1,3 +1,9 @@
-export default function Home() {
-  return <div className="mt-8">This is the home page</div>;
+import HomeComponent  from "../components/home/home"
+
+export default function Home() :JSX.Element{
+  return(
+    <>
+    <HomeComponent />
+    </>
+  );
 }
