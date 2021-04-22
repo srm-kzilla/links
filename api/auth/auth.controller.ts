@@ -1,7 +1,8 @@
-import { Db, MongoClient } from "mongodb";
+import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
+import multer from "multer";
 import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
 import {
@@ -13,7 +14,9 @@ import {
   ChangePassword,
 } from "./auth.schema";
 import { errors } from "../error/error.constant";
-
+interface MulterRequest extends NextApiRequest {
+  files: any;
+}
 export const postLogin = async (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -224,6 +227,13 @@ export const patchProfile = async (
       throw errors.USER_NOT_FOUND;
     }
     let data = req.body as UserInfo;
+    let profilePicture = [];
+
+    if ((req as MulterRequest).files.length > 0) {
+      profilePicture = (req as MulterRequest).files.map((file) => {
+        return { img: file.filename };
+      });
+    }
 
     const dbClient: MongoClient = await getDbClient();
     //TO DO: if data same as before, don't update
@@ -236,13 +246,14 @@ export const patchProfile = async (
         throw errors.DUPLICATE_USERNAME;
       }
     }
-    await dbClient
-      .db()
-      .collection("users")
-      .updateOne({ email: user.email }, { $set: data });
+    // await dbClient
+    //   .db()
+    //   .collection("users")
+    //   .updateOne({ email: user.email }, { $set: data });
     return res.status(200).json({
       success: true,
       data: data,
+      profilePicture: profilePicture,
     });
   } catch (err) {
     next(err);
@@ -261,6 +272,7 @@ export const patchPassword = async (
       throw errors.USER_NOT_FOUND;
     }
     let { oldPassword, newPassword } = req.body as ChangePassword;
+
     const dbClient: MongoClient = await getDbClient();
     let userInfo = await dbClient
       .db()
