@@ -12,8 +12,11 @@ import { userDBSchema } from "../auth/auth.schema";
 import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
 import { jwtPayload } from "../auth/auth.schema";
-import getFavicons from "get-website-favicon";
-import { LINK_DEFAULT_IMAGE_URL } from "../constants/data.constants";
+import {
+  LINK_DEFAULT_IMAGE_URL,
+  FETCH_FAVICON,
+  KZILLAXYZ_POST,
+} from "../constants/data.constants";
 import axios from "axios";
 
 export const addLink = async (
@@ -32,14 +35,21 @@ export const addLink = async (
       throw errors.USER_NOT_FOUND;
     }
     let faviconUrl;
+    let kzillaXYZdata;
     try {
       const URL = req.body.url;
-      const fetchFavicon = await axios.get(
-        `https://besticon-demo.herokuapp.com/allicons.json?url=${URL}`
-      );
+      const data = { longUrl: URL };
+      let kzillaXYZ = await axios.post(KZILLAXYZ_POST, data, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: process.env.KZILLAXYZWEEBHOOKTOKEN || "",
+        },
+      });
+      kzillaXYZdata = kzillaXYZ.data;
+      const fetchFavicon = await axios.get(FETCH_FAVICON + URL);
 
       const favIcons = fetchFavicon.data.icons.filter(
-        (url) => url.height >= 32 && url.height <= 57
+        (url) => url.height >= 32 && url.height <= 100
       );
       faviconUrl = favIcons[0].url;
     } catch (err) {
@@ -51,6 +61,8 @@ export const addLink = async (
       status: req.body.status,
       userId: findUser._id,
       image: faviconUrl,
+      shortCode: kzillaXYZdata.shortCode,
+      analyticsCode: kzillaXYZdata.analyticsCode,
     };
     const validatedData = await linkSchema.cast(link);
     const response = await dbClient
@@ -62,6 +74,8 @@ export const addLink = async (
       success: true,
       _id: response.insertedId,
       image: validatedData.image,
+      shortCode: kzillaXYZdata.shortCode,
+      analyticsCode: kzillaXYZdata.analyticsCode,
     });
   } catch (err) {
     next(err);
@@ -83,6 +97,16 @@ export const getLink = async (
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
+    const views = await dbClient
+      .db()
+      .collection("links")
+      .aggregate([
+        { $match: { userId: findUser._id } },
+        { $group: { _id: null, viewCount: { $sum: "$views" } } },
+      ])
+      .toArray();
+    const viewCount = views[0]?.viewCount ? views[0].viewCount : 0;
+
     const result = await dbClient
       .db()
       .collection("links")
@@ -97,7 +121,7 @@ export const getLink = async (
     if (!result) {
       throw errors.NOT_FOUND;
     }
-    res.json({ success: true, result });
+    res.json({ success: true, result, viewCount });
   } catch (err) {
     next(err);
   }
@@ -129,7 +153,7 @@ export const deleteLink = async (
         _id: new MongoDB.ObjectID(linkId),
       });
     if (deleteLink.value === null) {
-      throw errors.MONGODB_CONNECT_ERROR;
+      throw errors.MONGODB_QUERY_ERROR;
     }
     res.json({ success: true });
   } catch (err) {
@@ -156,14 +180,21 @@ export const updateLink = async (
       throw errors.USER_NOT_FOUND;
     }
     let faviconUrl;
+    let kzillaXYZdata;
     if (url) {
       try {
-        const fetchFavicon = await axios.get(
-          `https://besticon-demo.herokuapp.com/allicons.json?url=${url}`
-        );
+        let data = { longUrl: url };
+        let kzillaXYZ = await axios.post(KZILLAXYZ_POST, data, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: process.env.KZILLAXYZWEEBHOOKTOKEN || "",
+          },
+        });
+        kzillaXYZdata = kzillaXYZ.data;
+        const fetchFavicon = await axios.get(FETCH_FAVICON + url);
 
         const favIcons = fetchFavicon.data.icons.filter(
-          (url) => url.height >= 32 && url.height <= 57
+          (url) => url.height >= 32 && url.height <= 100
         );
         faviconUrl = favIcons[0].url;
       } catch (err) {
@@ -177,10 +208,19 @@ export const updateLink = async (
       .updateOne(
         { userId: findUser._id, _id: new MongoDB.ObjectID(linkId) },
 
-        { $set: { title, url, status, image: faviconUrl } }
+        {
+          $set: {
+            title,
+            url,
+            status,
+            image: faviconUrl,
+            shortCode: kzillaXYZdata?.shortCode,
+            analyticsCode: kzillaXYZdata?.analyticsCode,
+          },
+        }
       );
     if (updateLink.result.n === 0) {
-      throw errors.MONGODB_CONNECT_ERROR;
+      throw errors.MONGODB_QUERY_ERROR;
     }
     res.json({ success: true, message: "Link has been updated successfully." });
   } catch (err) {
