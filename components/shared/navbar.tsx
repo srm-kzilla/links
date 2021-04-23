@@ -15,6 +15,7 @@ export default function Navbar() {
   const logoutUser = () => {
     destroyCookie(null, "authToken");
     router.replace('/');
+    router.reload();
   }
 
   return (

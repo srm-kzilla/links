@@ -96,7 +96,7 @@ const LoginComponent = () => {
                   </button>
                 </div>
                 <div className="text-center text-darkgray hover:text-black font-normal mt-3 pb-6 ">
-                  <a href="#">Forgot Password?</a>
+                  <a href="/forgotpassword">Forgot Password?</a>
                 </div>
                 <div className="w-full mx-auto py-4 text-black h-auto bg-blue flex justify-center items-center">
                   <hr className="w-1/5 sm:w-1/4 lg:w-96" />

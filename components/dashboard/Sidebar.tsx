@@ -115,10 +115,10 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                 VIEWS
               </div>
               <div className="customGradient mt-2 text-5xl font-bold text-center">
-                {links}
+                {links || "N.A"}
               </div>
               <div className="customGradient mt-2 text-5xl font-bold text-center">
-                {totalViews}
+                {totalViews || "N.A"}
               </div>
             </div>
             {activeLink.title ? (
@@ -194,7 +194,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     CLICKS
                   </div>
                   <div className="customGradient mt-2 text-3xl font-bold text-center">
-                    {activeLink.views}
+                    {activeLink.views || "N.A"}
                   </div>
                   <div className="customGradient mt-2 text-3xl font-bold text-center flex items-center justify-center">
                     {clicksLoading ? <Loading /> : activeLinkClicks}

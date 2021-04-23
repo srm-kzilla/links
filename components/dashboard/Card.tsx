@@ -4,6 +4,7 @@ import { DeleteModal } from "./";
 import { Spike, Trash, Pencil, NewWindow } from "../../assets/icons";
 import { activeLinkProps } from "../../utils/sidebarContext";
 import { truncateTitleText, truncateLinkText } from "../../utils/functions";
+import { kzillaxyz } from "../../utils/constants";
 
 interface CardProps {
   onCardClick: () => void;
@@ -49,7 +50,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
 
         <div className="flex w-full md:w-auto justify-evenly my-2 sm:mr-14">
           <a
-            href={`https://kzilla.xyz/${link.shortCode}`}
+            href={`${kzillaxyz}${link.shortCode}`}
             target="_blank"
             rel="noopener noreferrer"
             className="focus:outline-none cursor-pointer mx-2 pt-1 md:mx-4"
@@ -61,7 +62,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
             <Pencil />
           </button>
           <a
-            href={`https://kzilla.xyz/analytics/${link.analyticsCode}`}
+            href={`${kzillaxyz}${link.analyticsCode}`}
             target="_blank"
             rel="noopener noreferrer"
             className="focus:outline-none cursor-pointer pt-1"
