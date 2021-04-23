@@ -16,8 +16,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
       </Head>
       <AuthContextProvider>
-        <div id="page-container">
-          <div id="content-wrap">
+        <div className="relative min-h-screen">
+          <div className="pb-4">
             <Navbar />
             <Component {...pageProps} />
           </div>

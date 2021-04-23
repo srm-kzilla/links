@@ -17,24 +17,6 @@ body {
   font-family: "Work Sans", sans-serif;
   background-color: #e0e0e0;
 }
-
-/* Footer positioning */
-#page-container {
-  position: relative;
-  min-height: 100vh;
-}
-
-#content-wrap {
-  padding-bottom: 1rem;
-}
-
-#footer {
-  position: absolute;
-  bottom: 2rem;
-  width: 100%;
-  height: 1rem;
-}
-
 .gradientInput {
   padding: 0.5rem;
   border: double 3px transparent;
