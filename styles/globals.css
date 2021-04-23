@@ -17,22 +17,24 @@ body {
   font-family: "Work Sans", sans-serif;
   background-color: #e0e0e0;
 }
+
 /* Footer positioning */
 #page-container {
   position: relative;
-  min-height: 97vh;
+  min-height: 100vh;
 }
 
 #content-wrap {
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 
 #footer {
   position: absolute;
-  bottom: 0;
+  bottom: 2rem;
   width: 100%;
-  height: 2rem;
+  height: 1rem;
 }
+
 .gradientInput {
   padding: 0.5rem;
   border: double 3px transparent;
@@ -67,7 +69,7 @@ hr {
   border-image-slice: 1;
 }
 .styledHeader {
-  transform: translate(-250px, 110px) rotate(-90deg);
+  transform: translate(-245px, 110px) rotate(-90deg);
   font-family: "Futura Hv BT", "Times New Roman", sans-serif;
   font-weight: 999;
   text-stroke-width: 1px;

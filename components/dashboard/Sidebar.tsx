@@ -123,7 +123,6 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
             </div>
             {activeLink.title ? (
               <div>
-                <p className="text-center mt-2">Created {time_ago(activeLink.createdAt)}</p>
                 <div className="mt-4 ml-10">
                   <Toggle status={activeLink.status} linkId={activeLink._id} />
                 </div>
@@ -186,6 +185,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     <i className="float-right mt-1 mx-3 grid-cols-1 cursor-pointer"><MdContentCopy /></i>
                   </button>
                 </div>
+                <p className="text-center mt-2">Created {time_ago(activeLink.createdAt)}</p>
                 <div className="grid grid-cols-2 mt-5">
                   <div className="text-center text-lg text-buttongray font-extrabold">
                     VIEWS
@@ -207,8 +207,8 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     target="_blank"
                     rel="noopener noreferrer">
                     <button
-                      className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-4/5 shadow-lg font-extrabold py-3 px-4 my-2 rounded">
-                      SHOW DETAILED ANALYTICS
+                      className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-full shadow-lg font-extrabold py-3 px-4 my-2 rounded">
+                      SHOW ANALYTICS
                     </button>
                   </a>
                 </div>

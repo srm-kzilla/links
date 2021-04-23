@@ -33,7 +33,7 @@ export default function Navbar() {
                   src="https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png"
                 />
                 <div
-                  className="mr-4 pl-4 cursor-pointer select-none float-right my-4 hover:text-gray-500"
+                  className="mr-4 pl-4 cursor-pointer select-none float-right my-5 hover:text-gray-500"
                   onClick={() => setisOpen(!isOpen)}
                 >
                   Welcome, User
