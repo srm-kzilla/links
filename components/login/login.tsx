@@ -48,7 +48,7 @@ const LoginComponent = () => {
   return (
     <div className="mx-auto h-screen flex justify-center items-center">
       <div className="m-auto md:w-2/4 lg:w-1/4 relative z-10">
-        <div className="customGradient hidden absolute md:block float-left z-0 styledHeader text-xxl mb-1 text-center">
+        <div className="customGradient styledHeader hidden absolute md:block float-left z-0  text-xxl text-center">
           LINKS
         </div>
         <div className="relative p-8 border-t-12 bg-white mb-6 rounded-lg shadow-2xl">
@@ -96,7 +96,7 @@ const LoginComponent = () => {
                   </button>
                 </div>
                 <div className="text-center text-darkgray hover:text-black font-normal mt-3 pb-6 ">
-                  <a href="#">Forgot Password?</a>
+                  <a href="/forgotpassword">Forgot Password?</a>
                 </div>
                 <div className="w-full mx-auto py-4 text-black h-auto bg-blue flex justify-center items-center">
                   <hr className="w-1/5 sm:w-1/4 lg:w-96" />

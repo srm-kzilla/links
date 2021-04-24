@@ -38,16 +38,16 @@ const DeleteModal = ({
                 </p>
                 <div className="flex items-center justify-center">
                   <button
-                    onClick={() => deleteHandler(linkId)}
-                    className="bg-statusRed focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 mr-2 mt-7 rounded"
-                  >
-                    Delete
-                  </button>
-                  <button
                     onClick={onClose}
-                    className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 mt-7 rounded"
+                    className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold mr-2 py-3 px-4 mt-7 rounded"
                   >
                     Cancel
+                  </button>
+                  <button
+                    onClick={() => deleteHandler(linkId)}
+                    className="bg-statusRed focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 mt-7 rounded"
+                  >
+                    Delete
                   </button>
                 </div>
               </div>

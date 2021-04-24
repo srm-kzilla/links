@@ -25,7 +25,7 @@ const AuthContextProvider: React.FC = ({ children }): React.ReactElement => {
       }}
     >
       {children}
-      {process.env.NODE_ENV === "development" && console.log("isAuth", isAuth)}
+      {process.env.NODE_ENV === "development"}
     </AuthContext.Provider>
   );
 };

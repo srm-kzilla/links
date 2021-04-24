@@ -10,6 +10,9 @@ export interface CardLink {
   clicks: number;
   userId: string;
   username: string;
+  analyticsCode: string;
+  shortCode: string;
+  createdAt: number;
 }
 
 
@@ -31,7 +34,7 @@ export default function LinkPageComponent({ _resLinks }) {
               <LinkCard
                 key={link._id}
                 title={link.title}
-                url={link.url}
+                shortCode={link.shortCode}
                 image={link.image}
               />
           ))}
