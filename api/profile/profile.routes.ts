@@ -24,7 +24,7 @@ profileHandler
     validateUser,
     patchProfile
   )
-  .post("/uploadpicture", validateUser, postPicture)
+  .patch("/uploadpicture", validateUser, postPicture)
   .patch(
     "/changepassword",
     validateQuery("body", changePasswordSchema),
