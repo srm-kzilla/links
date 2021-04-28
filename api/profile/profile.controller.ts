@@ -8,6 +8,28 @@ import { getDbClient } from "../services/mongodb.service";
 import aws from "aws-sdk";
 import * as bcrypt from "bcrypt";
 
+export const getProfile = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
+  try {
+    let payload = req.env.user;
+    let user: JwtPayload = JSON.parse(payload);
+    if (!user) {
+      throw errors.USER_NOT_FOUND;
+    } else {
+      delete user.iat;
+      return res.status(200).json({
+        success: true,
+        data: user,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const patchProfile = async (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -102,15 +124,16 @@ export const patchPassword = async (
       .db()
       .collection("users")
       .findOne<UserLogin>({ email: user.email }, {});
+
     const matchPassword = await bcrypt.compare(oldPassword, userInfo.password);
     if (!matchPassword) {
       throw errors.WRONG_PASSWORD;
     }
     //TO DO in frontend: check that the new password is not same as old password
-    //TO DO: hash password
     const saltRounds = 12;
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(newPassword, salt);
+    
     await dbClient
       .db()
       .collection("users")

@@ -107,28 +107,6 @@ export const postSignup = async (
   }
 };
 
-export const getUser = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-  next: NextHandler
-) => {
-  try {
-    let payload = req.env.user;
-    let user: JwtPayload = JSON.parse(payload);
-    if (!user) {
-      throw errors.USER_NOT_FOUND;
-    } else {
-      delete user.iat;
-      return res.status(200).json({
-        success: true,
-        data: user,
-      });
-    }
-  } catch (err) {
-    next(err);
-  }
-};
-
 export const getOTP = async (
   req: NextApiRequest,
   res: NextApiResponse,
