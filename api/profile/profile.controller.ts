@@ -1,11 +1,12 @@
 import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import { UserInfo, ChangePassword } from "./profile.schema";
+import { UserProfile, ChangePassword } from "./profile.schema";
 import { JwtPayload, UserLogin } from "../auth/auth.schema";
 import { errors } from "../error/error.constant";
 import { getDbClient } from "../services/mongodb.service";
 import aws from "aws-sdk";
+import * as bcrypt from "bcrypt";
 
 export const patchProfile = async (
   req: NextApiRequest,
@@ -18,7 +19,7 @@ export const patchProfile = async (
     if (!user) {
       throw errors.USER_NOT_FOUND;
     }
-    let data = req.body as UserInfo;
+    let data = req.body as UserProfile;
 
     const dbClient: MongoClient = await getDbClient();
     //TO DO: if data same as before, don't update
@@ -101,15 +102,19 @@ export const patchPassword = async (
       .db()
       .collection("users")
       .findOne<UserLogin>({ email: user.email }, {});
-    if (oldPassword !== userInfo.password) {
+    const matchPassword = await bcrypt.compare(oldPassword, userInfo.password);
+    if (!matchPassword) {
       throw errors.WRONG_PASSWORD;
     }
     //TO DO in frontend: check that the new password is not same as old password
     //TO DO: hash password
+    const saltRounds = 12;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(newPassword, salt);
     await dbClient
       .db()
       .collection("users")
-      .updateOne({ email: user.email }, { $set: { password: newPassword } });
+      .updateOne({ email: user.email }, { $set: { password: hash } });
     return res.status(200).json({
       success: true,
     });

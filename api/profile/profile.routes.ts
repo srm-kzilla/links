@@ -4,7 +4,7 @@ import { validateUser } from "../middlewares/verifyJWT.middleware";
 import { onError, onNotFound } from "../error/error.controller";
 import { patchPassword, postPicture, patchProfile } from "./profile.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
-import { userInfoSchema, changePasswordSchema } from "./profile.schema";
+import { userProfileSchema, changePasswordSchema } from "./profile.schema";
 
 const profileHandler = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
@@ -14,7 +14,7 @@ const profileHandler = nc<NextApiRequest, NextApiResponse>({
 profileHandler
   .patch(
     "/editprofile",
-    validateQuery("body", userInfoSchema),
+    validateQuery("body", userProfileSchema),
     validateUser,
     patchProfile
   )

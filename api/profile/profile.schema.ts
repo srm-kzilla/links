@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const userInfoSchema = yup.object({
+export const userProfileSchema = yup.object({
   username: yup
     .string()
     .trim()
@@ -18,5 +18,5 @@ export const changePasswordSchema = yup.object({
     .required(),
 });
 
-export type UserInfo = yup.InferType<typeof userInfoSchema>;
+export type UserProfile = yup.InferType<typeof userProfileSchema>;
 export type ChangePassword = yup.InferType<typeof changePasswordSchema>;
