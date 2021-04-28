@@ -61,4 +61,8 @@ export const errors = {
     httpStatus: 404,
     message: "User not Found",
   },
+  MISSING_ENV_VARIABLES: {
+    httpStatus: 500,
+    message: "Missing env variables",
+  },
 };

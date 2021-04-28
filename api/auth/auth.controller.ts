@@ -29,7 +29,11 @@ export const postLogin = async (
 
     if (await bcrypt.compare(password, result.password)) {
       delete result.password;
-      const token = jwt.sign(result, process.env.JWT_SECRET || "", {
+      const jwtSecret = process.env.JWT_SECRET;
+      if (!jwtSecret) {
+        throw errors.MISSING_ENV_VARIABLES;
+      }
+      const token = jwt.sign(result, jwtSecret, {
         expiresIn: "1d",
         issuer: "srmkzilla",
       });
@@ -87,7 +91,11 @@ export const postSignup = async (
     delete user.password;
     //TO DO: delete _id from token
     //DOUBT: Encode everything in token or retrieve from db in getProfile API
-    const token = jwt.sign(user, process.env.JWT_SECRET || "", {
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw errors.MISSING_ENV_VARIABLES;
+    }
+    const token = jwt.sign(user, jwtSecret, {
       expiresIn: "1d",
       issuer: "srmkzilla",
     });

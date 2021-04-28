@@ -17,17 +17,16 @@ export const validateUser = async (
       return next(errors.JWT_ERROR);
     }
     const authToken = authorization.split(" ")[1];
-    const payload: JwtPayload = verify(
-      authToken,
-      process.env.JWT_SECRET || "",
-      { issuer: "srmkzilla" }
-    ) as JwtPayload;
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw errors.MISSING_ENV_VARIABLES;
+    }
+    const payload: JwtPayload = verify(authToken, jwtSecret, {
+      issuer: "srmkzilla",
+    }) as JwtPayload;
     const dbClient: MongoClient = await getDbClient();
     if (
-      await dbClient
-        .db()
-        .collection("users")
-        .findOne({ email: payload.email })
+      await dbClient.db().collection("users").findOne({ email: payload.email })
     ) {
       req.env = {
         user: JSON.stringify(payload),

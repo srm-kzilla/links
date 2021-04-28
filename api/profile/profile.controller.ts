@@ -97,7 +97,7 @@ export const postPicture = async (
         key: user.username,
         acl: "public-read",
       },
-      Expires: 600, // seconds
+      Expires: 60, // seconds
       Conditions: [
         ["content-length-range", 0, 1048576], // up to 1 MB
       ],
@@ -110,6 +110,10 @@ export const postPicture = async (
       throw errors.MONGODB_CONNECT_ERROR;
     }
     const updatedAt = new Date().getTime();
+    const objectUrl = process.env.S3_BASE_OBJECT_URL;
+    if (!objectUrl) {
+      throw errors.MISSING_ENV_VARIABLES;
+    }
     await dbClient
       .db()
       .collection("users")
@@ -118,9 +122,7 @@ export const postPicture = async (
         {
           $set: {
             updatedAt: updatedAt,
-            profilePicture:
-              "https://srmkzilla-test.s3.ap-south-1.amazonaws.com/" +
-              user.username,
+            profilePicture: objectUrl + user.username,
           },
         }
       );
