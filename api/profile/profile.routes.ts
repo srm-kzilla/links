@@ -17,7 +17,7 @@ const profileHandler = nc<NextApiRequest, NextApiResponse>({
 });
 
 profileHandler
-  .get("/profile", validateUser, getProfile)
+  .get("/", validateUser, getProfile)
   .patch(
     "/editprofile",
     validateQuery("body", userProfileSchema),

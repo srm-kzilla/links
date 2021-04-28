@@ -14,6 +14,7 @@ export const userLoginSchema = yup
     password: yup.string().trim().required(),
     name: yup.string().trim(),
     bio: yup.string().trim(),
+    profilePicture: yup.string().trim().url(),
   })
   .test("xor", "object should have either username or email", (val) => {
     return !!val.username !== !!val.email;
@@ -30,13 +31,14 @@ export const userSignupSchema = yup.object({
     )
     .required(),
   email: yup.string().trim().email().required(),
-  name: yup.string().trim(),
-  bio: yup.string().trim(),
   password: yup
     .string()
     .trim()
     .min(8, "Password must have at least 8 characters")
     .required(),
+  name: yup.string().trim(),
+  bio: yup.string().trim(),
+  profilePicture: yup.string().trim().url(),
   createdAt: yup.number().default(() => {
     return +new Date();
   }),
@@ -73,7 +75,6 @@ export interface JwtPayload {
   iss: "srmkzilla";
 }
 export type JwtRequest = yup.InferType<typeof jwtRequestSchema>;
-export type UserLogin = yup.InferType<typeof userLoginSchema>;
 export type UserSignup = yup.InferType<typeof userSignupSchema>;
 
 export interface userDBSchema extends UserSignup {

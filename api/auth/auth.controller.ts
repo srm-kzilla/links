@@ -4,12 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
-import {
-  UserLogin,
-  UserSignup,
-  JwtPayload,
-  UserOTPRequest,
-} from "./auth.schema";
+import { UserSignup, JwtPayload, UserOTPRequest } from "./auth.schema";
 import { errors } from "../error/error.constant";
 
 export const postLogin = async (
@@ -27,24 +22,17 @@ export const postLogin = async (
     let result = await dbClient
       .db()
       .collection("users")
-      .findOne<UserLogin>(body, { projection: { _id: 0 } });
+      .findOne<UserSignup>(body, { projection: { _id: 0 } });
     if (!result) {
       throw errors.USER_NOT_FOUND;
     }
 
     if (await bcrypt.compare(password, result.password)) {
-      const token = jwt.sign(
-        {
-          email: result.email,
-          username: result.username,
-          name: result.name,
-        },
-        process.env.JWT_SECRET || "",
-        {
-          expiresIn: "1d",
-          issuer: "srmkzilla",
-        }
-      );
+      delete result.password;
+      const token = jwt.sign(result, process.env.JWT_SECRET || "", {
+        expiresIn: "1d",
+        issuer: "srmkzilla",
+      });
       res.status(200).json({
         success: true,
         authToken: token,
@@ -68,7 +56,7 @@ export const postSignup = async (
     let result = await dbClient
       .db()
       .collection("users")
-      .findOne({ email: email });
+      .findOne<UserSignup>({ email: email });
     const saltRounds = 12;
     if (result) {
       throw errors.DUPLICATE_USER;
@@ -76,28 +64,33 @@ export const postSignup = async (
     let usernameExists = await dbClient
       .db()
       .collection("users")
-      .findOne({ username: username });
+      .findOne<UserSignup>({ username: username });
     if (usernameExists) {
       throw errors.DUPLICATE_USERNAME;
     }
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
-    await dbClient.db().collection("users").insertOne({
+
+    const createdAt = new Date().getTime();
+    const user = {
       email,
       password: hash,
       name: "",
       bio: "",
       username,
-    });
+      profilePicture: "",
+      createdAt: createdAt,
+      updatedAt: createdAt,
+    };
 
-    const token = jwt.sign(
-      { username, email, name: "" },
-      process.env.JWT_SECRET || "",
-      {
-        expiresIn: "1d",
-        issuer: "srmkzilla",
-      }
-    );
+    await dbClient.db().collection("users").insertOne(user);
+    delete user.password;
+    //TO DO: delete _id from token
+    //DOUBT: Encode everything in token or retrieve from db in getProfile API
+    const token = jwt.sign(user, process.env.JWT_SECRET || "", {
+      expiresIn: "1d",
+      issuer: "srmkzilla",
+    });
     res.status(200).json({
       success: true,
       authToken: token,

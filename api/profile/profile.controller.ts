@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import { UserProfile, ChangePassword } from "./profile.schema";
-import { JwtPayload, UserLogin } from "../auth/auth.schema";
+import { JwtPayload, UserSignup } from "../auth/auth.schema";
 import { errors } from "../error/error.constant";
 import { getDbClient } from "../services/mongodb.service";
 import aws from "aws-sdk";
@@ -49,15 +49,20 @@ export const patchProfile = async (
       let usernameExists = await dbClient
         .db()
         .collection("users")
-        .findOne({ username: data.username });
+        .findOne<UserSignup>({ username: data.username });
       if (usernameExists) {
         throw errors.DUPLICATE_USERNAME;
       }
     }
+    const updatedAt = new Date().getTime();
     await dbClient
       .db()
       .collection("users")
-      .updateOne({ email: user.email }, { $set: data });
+      .updateOne(
+        { email: user.email },
+        { $set: { data, updatedAt: updatedAt } }
+      );
+
     return res.status(200).json({
       success: true,
       data: data,
@@ -100,6 +105,15 @@ export const postPicture = async (
     if (!postInfo) {
       throw errors.PRESIGNED_URL_ERROR;
     }
+    const dbClient: MongoClient = await getDbClient();
+    if (!dbClient) {
+      throw errors.MONGODB_CONNECT_ERROR;
+    }
+    const updatedAt = new Date().getTime();
+    await dbClient
+      .db()
+      .collection("users")
+      .updateOne({ email: user.email }, { $set: { updatedAt: updatedAt } });
     res.status(200).json(postInfo);
   } catch (err) {
     next(err);
@@ -123,7 +137,7 @@ export const patchPassword = async (
     let userInfo = await dbClient
       .db()
       .collection("users")
-      .findOne<UserLogin>({ email: user.email }, {});
+      .findOne<UserSignup>({ email: user.email }, {});
 
     const matchPassword = await bcrypt.compare(oldPassword, userInfo.password);
     if (!matchPassword) {
@@ -133,7 +147,7 @@ export const patchPassword = async (
     const saltRounds = 12;
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(newPassword, salt);
-    
+
     await dbClient
       .db()
       .collection("users")
