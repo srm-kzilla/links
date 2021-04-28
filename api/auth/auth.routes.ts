@@ -12,7 +12,6 @@ import {
 import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { validateUser } from "../middlewares/verifyJWT.middleware";
-import { uploadProfilePicture } from "../middlewares/uploadProfilePicture.middleware";
 import {
   changePasswordSchema,
   userInfoSchema,
@@ -36,19 +35,6 @@ authHandler
     validateQuery("body", userOTPRequestSchema),
     validateUser,
     verifyOTP
-  )
-  .patch(
-    "/editprofile",
-    // validateQuery("body", userInfoSchema),
-    validateUser,
-    uploadProfilePicture.array("profilePicture", 1),
-    patchProfile
-  )
-  .patch(
-    "/changepassword",
-    validateQuery("body", changePasswordSchema),
-    validateUser,
-    patchPassword
   );
 
 export default authHandler;

@@ -24,6 +24,14 @@ export const errors = {
     httpStatus: 500,
     message: "Could Not Connect to MongoDB.",
   },
+  AWS_CONNECT_ERROR: {
+    httpStatus: 500,
+    message: "Could Not Connect to AWS",
+  },
+  PRESIGNED_URL_ERROR: {
+    httpStatus: 500,
+    message: "Could not create presigned url",
+  },
   MONGODB_QUERY_ERROR: {
     httpStatus: 500,
     message: "Error Executing MongoDB Query",
