@@ -6,6 +6,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 
+* {
+  box-sizing: border-box;
+}
 html,
 body {
   position: relative;
@@ -48,7 +51,7 @@ hr {
   border-image-slice: 1;
 }
 .styledHeader {
-  transform: translate(-250px, 110px) rotate(-90deg);
+  transform: translate(-245px, 110px) rotate(-90deg);
   font-family: "Futura Hv BT", "Times New Roman", sans-serif;
   font-weight: 999;
   text-stroke-width: 1px;
@@ -85,6 +88,38 @@ hr {
 .hover-trigger:hover .hover-target {
   display: block;
 }
-* {
-  box-sizing: border-box;
+.gradientHeaderHollow {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: -webkit-linear-gradient(#56ccf2, #6fcf97);
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 6px transparent;
+  color: #e0e0e0;
+}
+
+/* Hover Underline Animation - Navbar */
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+  color: #000;
+  text-decoration: none;
+}
+
+.hover-underline-animation:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #56ccf2;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }

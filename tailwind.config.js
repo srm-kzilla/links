@@ -34,6 +34,7 @@ module.exports = {
         addButton: "70%",
         '37': "9.5rem",
       },
+
     },
   },
   variants: {

@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <div className="fixed w-full mx-auto bottom-0 text-sm text-center justify-center items-center">
+    <footer className="absolute bottom-8 w-full h-4 text-center text-sm">
       <p className="py-2 mx-3 md:mx-6 text-black">
         Made with
         <span role="img" aria-label="emoji" className="mx-2 animate-pulse">
@@ -8,6 +8,6 @@ export default function Footer() {
         </span>
         by your friends at SRMKZILLA
       </p>
-    </div>
+    </footer>
   );
 }

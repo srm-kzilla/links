@@ -25,6 +25,7 @@ const Toggle = ({ status, linkId }: ToggleProps) => {
     <Switch
       on={true}
       off={false}
+      title="Enable/Disable Link"
       value={status}
       onChange={toggleStatus}
       styles={{

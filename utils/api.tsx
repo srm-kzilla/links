@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { setCookie } from "nookies";
-import { baseUrl } from "../utils/constants";
+import { baseUrl, kzillaxyz } from "../utils/constants";
 
 export const postLogin = async (values) => {
   try {
@@ -30,7 +30,8 @@ export const getLinks = async (authToken: string) => {
     const _res = await axios.get(`${baseUrl}api/v1/links/get`, {
       headers: { Authorization: `Bearer ${authToken}` },
     });
-    return _res.data.result;
+    return _res.data;
+
   } catch (err) {
     errorHandler(err);
   }
@@ -105,7 +106,19 @@ export const getPublicLinks = async (username: string) => {
   }
 };
 
-const errorHandler = (error?: AxiosError | any) => {
+export const getLinkClicks = async (analyticsCode: string) => {
+  try {
+    const _res = await axios.get(
+      `${kzillaxyz}${analyticsCode}`
+    );
+    return _res.data.clicks;
+  }
+  catch (err) {
+    errorHandler(err);
+  }
+};
+
+export const errorHandler = (error?: AxiosError | any) => {
   let errMessage: string = "Oops! Something went wrong!";
   if (error)
     switch (error.response?.status) {
@@ -130,7 +143,7 @@ const errorHandler = (error?: AxiosError | any) => {
   });
 };
 
-const successHandler = (successMessage: string) => {
+export const successHandler = (successMessage: string) => {
   toast.success(successMessage, {
     position: "top-right",
     autoClose: 5000,
