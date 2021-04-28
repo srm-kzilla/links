@@ -113,7 +113,17 @@ export const postPicture = async (
     await dbClient
       .db()
       .collection("users")
-      .updateOne({ email: user.email }, { $set: { updatedAt: updatedAt } });
+      .updateOne(
+        { email: user.email },
+        {
+          $set: {
+            updatedAt: updatedAt,
+            profilePicture:
+              "https://srmkzilla-test.s3.ap-south-1.amazonaws.com/" +
+              user.username,
+          },
+        }
+      );
     res.status(200).json(postInfo);
   } catch (err) {
     next(err);
