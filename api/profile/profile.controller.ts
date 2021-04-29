@@ -18,13 +18,22 @@ export const getProfile = async (
     let user: JwtPayload = JSON.parse(payload);
     if (!user) {
       throw errors.USER_NOT_FOUND;
-    } else {
-      delete user.iat;
-      return res.status(200).json({
-        success: true,
-        data: user,
-      });
     }
+    const dbClient: MongoClient = await getDbClient();
+    if (!dbClient) {
+      throw errors.MONGODB_CONNECT_ERROR;
+    }
+    let userInfo = await dbClient
+      .db()
+      .collection("users")
+      .findOne<UserDB>(
+        { email: user.email },
+        { projection: { _id: 0, password: 0 } }
+      );
+    return res.status(200).json({
+      success: true,
+      data: userInfo,
+    });
   } catch (err) {
     next(err);
   }
@@ -97,7 +106,7 @@ export const postPicture = async (
         key: user._id,
         acl: "public-read",
       },
-      Expires: 600, // seconds
+      Expires: 60, // seconds
       Conditions: [
         ["content-length-range", 0, 1048576], // up to 1 MB
       ],
