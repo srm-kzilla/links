@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import { UserProfile, ChangePassword } from "./profile.schema";
-import { JwtPayload, UserSignup } from "../auth/auth.schema";
+import { JwtPayload, UserDB } from "../auth/auth.schema";
 import { errors } from "../error/error.constant";
 import { getDbClient } from "../services/mongodb.service";
 import aws from "aws-sdk";
@@ -49,7 +49,7 @@ export const patchProfile = async (
       let usernameExists = await dbClient
         .db()
         .collection("users")
-        .findOne<UserSignup>({ username: data.username });
+        .findOne<UserDB>({ username: data.username });
       if (usernameExists) {
         throw errors.DUPLICATE_USERNAME;
       }
@@ -94,10 +94,10 @@ export const postPicture = async (
     const postInfo = await s3.createPresignedPost({
       Bucket: process.env.S3_BUCKET_NAME,
       Fields: {
-        key: user.username,
+        key: user._id,
         acl: "public-read",
       },
-      Expires: 60, // seconds
+      Expires: 600, // seconds
       Conditions: [
         ["content-length-range", 0, 1048576], // up to 1 MB
       ],
@@ -114,6 +114,7 @@ export const postPicture = async (
     if (!objectUrl) {
       throw errors.MISSING_ENV_VARIABLES;
     }
+    console.log(objectUrl + user._id);
     await dbClient
       .db()
       .collection("users")
@@ -122,7 +123,7 @@ export const postPicture = async (
         {
           $set: {
             updatedAt: updatedAt,
-            profilePicture: objectUrl + user.username,
+            profilePicture: objectUrl + user._id,
           },
         }
       );
@@ -149,7 +150,7 @@ export const patchPassword = async (
     let userInfo = await dbClient
       .db()
       .collection("users")
-      .findOne<UserSignup>({ email: user.email }, {});
+      .findOne<UserDB>({ email: user.email }, {});
 
     const matchPassword = await bcrypt.compare(oldPassword, userInfo.password);
     if (!matchPassword) {

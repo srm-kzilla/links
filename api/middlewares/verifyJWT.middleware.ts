@@ -1,7 +1,7 @@
 import next, { NextApiRequest, NextApiResponse } from "next";
 import nc, { NextHandler } from "next-connect";
 import { verify } from "jsonwebtoken";
-import { JwtRequest, JwtPayload } from "../auth/auth.schema";
+import { JwtRequest, JwtPayload, UserDB } from "../auth/auth.schema";
 import { errors } from "../error/error.constant";
 import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
@@ -26,7 +26,10 @@ export const validateUser = async (
     }) as JwtPayload;
     const dbClient: MongoClient = await getDbClient();
     if (
-      await dbClient.db().collection("users").findOne({ email: payload.email })
+      await dbClient
+        .db()
+        .collection("users")
+        .findOne<UserDB>({ email: payload.email })
     ) {
       req.env = {
         user: JSON.stringify(payload),

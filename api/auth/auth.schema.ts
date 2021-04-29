@@ -69,15 +69,16 @@ export const userOTPRequestSchema = yup.object({
 
 export interface JwtPayload {
   email: string;
-  username: string;
+  _id: ObjectID;
   iat: number;
   exp: number;
   iss: "srmkzilla";
 }
 export type JwtRequest = yup.InferType<typeof jwtRequestSchema>;
 export type UserSignup = yup.InferType<typeof userSignupSchema>;
+export type UserLogin = yup.InferType<typeof userLoginSchema>;
 
-export interface userDBSchema extends UserSignup {
+export interface UserDB extends UserSignup {
   _id?: ObjectID;
 }
 export type UserOTPRequest = yup.InferType<typeof userOTPRequestSchema>;

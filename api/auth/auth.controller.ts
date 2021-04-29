@@ -4,7 +4,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
-import { UserSignup, JwtPayload, UserOTPRequest } from "./auth.schema";
+import {
+  UserSignup,
+  JwtPayload,
+  UserOTPRequest,
+  UserDB,
+  UserLogin,
+} from "./auth.schema";
 import { errors } from "../error/error.constant";
 
 export const postLogin = async (
@@ -16,27 +22,28 @@ export const postLogin = async (
     let { password } = req.body;
     const dbClient: MongoClient = await getDbClient();
 
-    let body = req.body;
+    let body = req.body as UserLogin;
     delete body["password"];
 
-    let result = await dbClient
-      .db()
-      .collection("users")
-      .findOne<UserSignup>(body, { projection: { _id: 0 } });
+    let result = await dbClient.db().collection("users").findOne<UserDB>(body);
     if (!result) {
       throw errors.USER_NOT_FOUND;
     }
 
     if (await bcrypt.compare(password, result.password)) {
-      delete result.password;
       const jwtSecret = process.env.JWT_SECRET;
       if (!jwtSecret) {
         throw errors.MISSING_ENV_VARIABLES;
       }
-      const token = jwt.sign(result, jwtSecret, {
-        expiresIn: "1d",
-        issuer: "srmkzilla",
-      });
+
+      const token = jwt.sign(
+        { email: result.email, _id: result._id },
+        jwtSecret,
+        {
+          expiresIn: "1d",
+          issuer: "srmkzilla",
+        }
+      );
       res.status(200).json({
         success: true,
         authToken: token,
@@ -60,7 +67,7 @@ export const postSignup = async (
     let result = await dbClient
       .db()
       .collection("users")
-      .findOne<UserSignup>({ email: email });
+      .findOne<UserDB>({ email: email });
     const saltRounds = 12;
     if (result) {
       throw errors.DUPLICATE_USER;
@@ -68,7 +75,7 @@ export const postSignup = async (
     let usernameExists = await dbClient
       .db()
       .collection("users")
-      .findOne<UserSignup>({ username: username });
+      .findOne<UserDB>({ username: username });
     if (usernameExists) {
       throw errors.DUPLICATE_USERNAME;
     }
@@ -76,7 +83,7 @@ export const postSignup = async (
     const hash = await bcrypt.hash(password, salt);
 
     const createdAt = new Date().getTime();
-    const user = {
+    let user = {
       email,
       password: hash,
       name: "",
@@ -87,18 +94,20 @@ export const postSignup = async (
       updatedAt: createdAt,
     };
 
-    await dbClient.db().collection("users").insertOne(user);
-    delete user.password;
-    //TO DO: delete _id from token
-    //DOUBT: Encode everything in token or retrieve from db in getProfile API
+    const data = await dbClient.db().collection("users").insertOne(user);
+
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
       throw errors.MISSING_ENV_VARIABLES;
     }
-    const token = jwt.sign(user, jwtSecret, {
+    if (!data) {
+      throw errors.MONGODB_QUERY_ERROR;
+    }
+    const token = jwt.sign({ email, _id: data.ops[0]._id }, jwtSecret, {
       expiresIn: "1d",
       issuer: "srmkzilla",
     });
+
     res.status(200).json({
       success: true,
       authToken: token,
