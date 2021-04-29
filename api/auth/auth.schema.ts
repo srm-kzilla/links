@@ -36,9 +36,9 @@ export const userSignupSchema = yup.object({
     .trim()
     .min(8, "Password must have at least 8 characters")
     .required(),
-  name: yup.string().trim(),
-  bio: yup.string().trim(),
-  profilePicture: yup.string().trim().url(),
+  name: yup.string().trim().default(""),
+  bio: yup.string().trim().default(""),
+  profilePicture: yup.string().trim().url().default(""),
   createdAt: yup.number().default(() => {
     return +new Date();
   }),

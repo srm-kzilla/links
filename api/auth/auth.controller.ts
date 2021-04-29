@@ -10,6 +10,8 @@ import {
   UserOTPRequest,
   UserDB,
   UserLogin,
+  userLoginSchema,
+  userSignupSchema,
 } from "./auth.schema";
 import { errors } from "../error/error.constant";
 
@@ -82,19 +84,17 @@ export const postSignup = async (
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
 
-    const createdAt = new Date().getTime();
     let user = {
       email,
       password: hash,
-      name: "",
-      bio: "",
       username,
-      profilePicture: "",
-      createdAt: createdAt,
-      updatedAt: createdAt,
     };
+    const validatedUser = userSignupSchema.cast(user);
 
-    const data = await dbClient.db().collection("users").insertOne(user);
+    const data = await dbClient
+      .db()
+      .collection("users")
+      .insertOne(validatedUser);
 
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
