@@ -1,16 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
-import {
-  postLogin,
-  postSignup,
-  getUser,
-  getOTP,
-  verifyOTP,
-} from "./auth.controller";
+import { postLogin, postSignup, getOTP, verifyOTP } from "./auth.controller";
 import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { validateUser } from "../middlewares/verifyJWT.middleware";
-import { userLoginSchema, userSignupSchema } from "./auth.schema";
+import {
+  userLoginSchema,
+  userOTPRequestSchema,
+  userSignupSchema,
+} from "./auth.schema";
 
 const authHandler = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
@@ -20,8 +18,13 @@ const authHandler = nc<NextApiRequest, NextApiResponse>({
 authHandler
   .post("/login", validateQuery("body", userLoginSchema), postLogin)
   .post("/signup", validateQuery("body", userSignupSchema), postSignup)
-  .get("/user", validateUser, getUser)
+
   .get("/getotp", validateUser, getOTP)
-  .post("/postotp", validateUser, verifyOTP);
+  .post(
+    "/postotp",
+    validateQuery("body", userOTPRequestSchema),
+    validateUser,
+    verifyOTP
+  );
 
 export default authHandler;
