@@ -8,10 +8,10 @@ import {
   linkSchema,
   linkAddSchema,
 } from "./link.schema";
-import { userDBSchema } from "../auth/auth.schema";
+import { UserDB } from "../auth/auth.schema";
 import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
-import { jwtPayload } from "../auth/auth.schema";
+import { JwtPayload } from "../auth/auth.schema";
 import {
   LINK_DEFAULT_IMAGE_URL,
   FETCH_FAVICON,
@@ -25,10 +25,10 @@ export const addLink = async (
   next: NextHandler
 ) => {
   try {
-    const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
+    const user: JwtPayload = JSON.parse(req.env.user) as JwtPayload;
     const dbClient: MongoClient = await getDbClient();
     const userDB = await dbClient.db().collection("users");
-    const findUser = await userDB.findOne<userDBSchema>({
+    const findUser = await userDB.findOne<UserDB>({
       email: user.email,
     });
     if (!findUser) {
@@ -88,12 +88,12 @@ export const getLink = async (
   next: NextHandler
 ) => {
   try {
-    const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
+    const user: JwtPayload = JSON.parse(req.env.user) as JwtPayload;
     const dbClient: MongoClient = await getDbClient();
     const findUser = await dbClient
       .db()
       .collection("users")
-      .findOne<userDBSchema>({ email: user.email });
+      .findOne<UserDB>({ email: user.email });
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
@@ -134,13 +134,13 @@ export const deleteLink = async (
 ) => {
   try {
     const linkId = req.query.linkId as string;
-    const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
+    const user: JwtPayload = JSON.parse(req.env.user) as JwtPayload;
     const dbClient: MongoClient = await getDbClient();
 
     const findUser = await dbClient
       .db()
       .collection("users")
-      .findOne<userDBSchema>({ email: user.email });
+      .findOne<UserDB>({ email: user.email });
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
@@ -168,13 +168,13 @@ export const updateLink = async (
 ) => {
   try {
     let { title, url, status } = req.body as LinkUpdate;
-    const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
+    const user: JwtPayload = JSON.parse(req.env.user) as JwtPayload;
     const linkId = req.query.linkId as string;
     const dbClient: MongoClient = await getDbClient();
     const findUser = await dbClient
       .db()
       .collection("users")
-      .findOne<userDBSchema>({ email: user.email });
+      .findOne<UserDB>({ email: user.email });
 
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
