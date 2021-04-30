@@ -7,7 +7,7 @@ export const errors = {
     httpStatus: 500,
     message: "Internal Server Error.",
   },
-  UNAUTHORIZED: {
+  WRONG_PASSWORD: {
     httpStatus: 401,
     message: "Wrong Password",
   },
@@ -23,6 +23,14 @@ export const errors = {
   MONGODB_CONNECT_ERROR: {
     httpStatus: 500,
     message: "Could Not Connect to MongoDB.",
+  },
+  AWS_CONNECT_ERROR: {
+    httpStatus: 500,
+    message: "Could Not Connect to AWS",
+  },
+  PRESIGNED_URL_ERROR: {
+    httpStatus: 500,
+    message: "Could not create presigned url",
   },
   MONGODB_QUERY_ERROR: {
     httpStatus: 500,
@@ -52,5 +60,9 @@ export const errors = {
   USER_NOT_AVAILABLE: {
     httpStatus: 404,
     message: "User not Found",
+  },
+  MISSING_ENV_VARIABLES: {
+    httpStatus: 500,
+    message: "Missing env variables",
   },
 };

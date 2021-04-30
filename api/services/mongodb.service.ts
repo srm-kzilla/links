@@ -1,8 +1,13 @@
 import { MongoClient } from "mongodb";
+import { errors } from "../error/error.constant";
 
 let dbClient: MongoClient;
 export async function initDbClient(): Promise<MongoClient> {
-  dbClient = await MongoClient.connect(process.env.MONGODB_URI || "", {
+  const mongodbURI = process.env.MONGODB_URI;
+  if (!mongodbURI) {
+    throw errors.MISSING_ENV_VARIABLES;
+  }
+  dbClient = await MongoClient.connect(mongodbURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     ignoreUndefined: true,

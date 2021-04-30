@@ -1,7 +1,6 @@
 import * as yup from "yup";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import { errors } from "../error/error.constant";
 
 type RequestLocations = "query" | "body" | "headers";
 
