@@ -10,6 +10,7 @@ import AuthContextProvider from "../utils/authContext";
 import { authRoutes } from "../utils/constants";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+
   return (
     <>
       <Head>

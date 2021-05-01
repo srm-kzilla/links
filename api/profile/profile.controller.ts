@@ -69,7 +69,7 @@ export const patchProfile = async (
       .collection("users")
       .updateOne(
         { email: user.email },
-        { $set: { data, updatedAt: updatedAt } }
+        { $set: { ...data, updatedAt: updatedAt } }
       );
 
     return res.status(200).json({

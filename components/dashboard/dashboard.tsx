@@ -88,7 +88,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
   return (
     <>
       {links.length > 0 ? (
-        <>
+        <>  
           <div className="mt-24 pb-10">
             <button
               onClick={() => setIsAddModalOpen(true)}

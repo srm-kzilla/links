@@ -2,16 +2,18 @@ import React from "react";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 
 import LinkPageComponent, { CardLink } from "../components/publicPage/index";
-import { getPublicLinks } from "../utils/api";
+import { getPublicLinks, getUserProfile } from "../utils/api";
+import { parseCookies } from "nookies";
 
 interface LinkPageProps {
   publicLinksData: CardLink[];
+  _resProfile: Object;
 }
 
-export default function LinkPage({ publicLinksData }) {
+export default function LinkPage({ publicLinksData, _resProfile }) {
   return (
     <>
-      <LinkPageComponent _resLinks={publicLinksData} />
+      <LinkPageComponent _resLinks={publicLinksData} _resProfile={_resProfile.data} />
     </>
   );
 }
@@ -23,6 +25,8 @@ export const getServerSideProps = async (
 
   try {
     const publicLinksData = await getPublicLinks(username as string);
+    const { authToken } = parseCookies(ctx);
+    const _resProfile = await getUserProfile(authToken);
 
     if (!publicLinksData) {
       return {
@@ -33,6 +37,7 @@ export const getServerSideProps = async (
     return {
       props: {
         publicLinksData,
+        _resProfile
       },
     };
   } catch (err) {
