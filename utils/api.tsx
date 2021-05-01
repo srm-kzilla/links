@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { setCookie } from "nookies";
-import { baseUrl, kzillaxyz } from "../utils/constants";
+import { baseUrl, kzillaxyzclicks } from "../utils/constants";
 
 export const postLogin = async (values) => {
   try {
@@ -109,7 +109,7 @@ export const getPublicLinks = async (username: string) => {
 export const getLinkClicks = async (analyticsCode: string) => {
   try {
     const _res = await axios.get(
-      `${kzillaxyz}${analyticsCode}`
+      `${kzillaxyzclicks}${analyticsCode}`
     );
     return _res.data.clicks;
   }
