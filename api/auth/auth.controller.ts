@@ -10,7 +10,6 @@ import {
   UserOTPRequest,
   UserDB,
   UserLogin,
-  userLoginSchema,
   userSignupSchema,
 } from "./auth.schema";
 import { errors } from "../error/error.constant";
