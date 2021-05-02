@@ -42,12 +42,27 @@ $ yarn
 Start the server
 
 ```
-$ yarn start
+$ yarn dev
 ```
 
 ## License 📜
 
 `links` is available under the MIT license. See the LICENSE file for more info.
+
+## Technologies 👨‍💻
+
+<p align="center">
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />  
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
+  <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/Yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white" /> 
+  <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white" />
+  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" />
+  <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white" />  
+  <img src="https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white" />
+</p>
 
 ## Contributing 🤝
 
@@ -55,9 +70,56 @@ Please read `Contributing.md` for details on our code of conduct, and the proces
 
 ## Shout outs 💥
 
-| <p align="center">![Kushagra Gupta](https://github.com/KG-1510.png?size=128)<br>[Kushagra Gupta](https://github.com/KG-1510)</p> | <p align="center">![Sanskriti Khare](https://github.com/sanskritikhare142.png?size=128)<br>[Sanskriti Khare](https://github.com/sanskritikhare142)</p> | <p align="center">![Nanda Poompavai](https://github.com/whitedevil31.png?size=128)<br>[Nanda Poompavai](https://github.com/whitedevil31)</p> | <p align="center">![Harsh Goel](https://github.com/harshgoel05.png?size=128)<br>[Harsh Goel](https://github.com/harshgoel05)</p> |
-| ---------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+<table>
+<tr align="center">
+<td>
 
+Kushagra Gupta
+
+<p align="center">
+  <img src = "https://github.com/KG-1510.png?size=128"  height="120" alt="Kushagra Gupta">
+</p>
+<p align="center">
+<a href = "https://github.com/KG-1510"><img src = "http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height = "36"/></a>
+<a href = "https://www.linkedin.com/in/kg1510/">
+  <img src = "http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36"/>
+</a>
+</p>
+</td>
+
+<td>
+
+Sanskriti Khare
+
+<p align="center">
+<img src = "https://github.com/sanskritikhare142.png?size=128"  height="120" alt="Sanskriti Khare">
+</p>
+<p align="center">
+<a href = "https://github.com/sanskritikhare142"><img src = "http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height = "36"/></a>
+<a href = "https://www.linkedin.com/in/sanskritikhare/">
+  <img src = "http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36"/>
+</a>
+</p>
+</td>
+
+<td>
+
+Nanda Poompavai
+
+<p align="center">
+<img src = "https://github.com/whitedevil31.png?size=128"  height="120" alt="Nanda">
+</p>
+<p align="center">
+<a href = "https://github.com/whitedevil31"><img src = "http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height = "36"/></a>
+<a href = "https://www.linkedin.com/in/nanda-m-p-24aa37197/">
+  <img src = "http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36"/>
+</a>
+</p>
+</td>
+
+  </table>
+</tr>
+  </table>
 
 ## Forking this repo 🚨
 
