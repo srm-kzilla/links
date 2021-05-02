@@ -50,6 +50,7 @@ export const patchProfile = async (
     if (!user) {
       throw errors.USER_NOT_FOUND;
     }
+
     let data = req.body as UserProfile;
 
     const dbClient: MongoClient = await getDbClient();
@@ -59,7 +60,7 @@ export const patchProfile = async (
         .db()
         .collection("users")
         .findOne<UserDB>({ username: data.username });
-      if (usernameExists) {
+      if (user._id != usernameExists._id) {
         throw errors.DUPLICATE_USERNAME;
       }
     }
@@ -69,7 +70,7 @@ export const patchProfile = async (
       .collection("users")
       .updateOne(
         { email: user.email },
-        { $set: { data, updatedAt: updatedAt } }
+        { $set: { ...data, updatedAt: updatedAt } }
       );
 
     return res.status(200).json({
@@ -123,7 +124,7 @@ export const postPicture = async (
     if (!objectUrl) {
       throw errors.MISSING_ENV_VARIABLES;
     }
-    console.log(objectUrl + user._id);
+  
     await dbClient
       .db()
       .collection("users")

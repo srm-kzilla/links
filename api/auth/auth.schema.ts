@@ -45,6 +45,7 @@ export const userSignupSchema = yup.object({
     .default(
       "https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png"
     ),
+  background: yup.string().trim().default("white"),
   createdAt: yup.number().default(() => {
     return +new Date();
   }),
