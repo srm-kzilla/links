@@ -5,7 +5,7 @@ import { NextHandler } from "next-connect";
 import { linkDBSchema } from "../links/link.schema";
 import { errors } from "../error/error.constant";
 import * as MongoDB from "mongodb";
-import { userDBSchema } from "../auth/auth.schema";
+import { UserDB } from "../auth/auth.schema";
 
 export const getLinkPublic = async (
   req: NextApiRequest,
@@ -18,7 +18,7 @@ export const getLinkPublic = async (
     let findUser = await dbClient
       .db()
       .collection("users")
-      .findOne<userDBSchema>({ username }, {});
+      .findOne<UserDB>({ username }, {});
     if (!findUser) {
       throw errors.USER_NOT_AVAILABLE;
     }
@@ -44,7 +44,14 @@ export const getLinkPublic = async (
     if (!result) {
       throw errors.NOT_FOUND;
     }
-    res.json({ success: true, result, username: findUser.username });
+    res.json({
+      success: true,
+      result,
+      username: findUser.username,
+      name: findUser.name,
+      bio: findUser.bio,
+      profilePicture: findUser.profilePicture,
+    });
   } catch (err) {
     next(err);
   }
