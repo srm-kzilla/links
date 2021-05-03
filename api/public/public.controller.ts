@@ -15,20 +15,17 @@ export const getLinkPublic = async (
   try {
     let username = req.query.user as string;
     const dbClient: MongoClient = await getDbClient();
-    let findUser = await dbClient
+    let user = await dbClient
       .db()
       .collection("users")
       .findOne<UserDB>({ username }, {});
-    if (!findUser) {
+    if (!user) {
       throw errors.USER_NOT_AVAILABLE;
     }
     const updateViews = await dbClient
       .db()
       .collection("links")
-      .updateMany(
-        { userId: findUser._id, status: true },
-        { $inc: { views: 1 } }
-      );
+      .updateMany({ userId: user._id, status: true }, { $inc: { views: 1 } });
     if (updateViews.result.n == 0) {
       throw errors.MONGODB_QUERY_ERROR;
     }
@@ -36,7 +33,7 @@ export const getLinkPublic = async (
       .db()
       .collection("links")
       .find<linkDBSchema>(
-        { userId: new MongoDB.ObjectId(findUser._id), status: true },
+        { userId: new MongoDB.ObjectId(user._id), status: true },
         {}
       )
       .toArray();
@@ -44,13 +41,15 @@ export const getLinkPublic = async (
     if (!result) {
       throw errors.NOT_FOUND;
     }
+    delete user["_id"];
+    delete user["password"];
+    delete user["createdAt"];
+    delete user["updatedAt"];
+    delete user["email"];
     res.json({
       success: true,
       result,
-      username: findUser.username,
-      name: findUser.name,
-      bio: findUser.bio,
-      profilePicture: findUser.profilePicture,
+      ...user,
     });
   } catch (err) {
     next(err);
