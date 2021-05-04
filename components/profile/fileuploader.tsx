@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { HiOutlinePencil } from 'react-icons/hi';
 import { parseCookies } from 'nookies';
 
 import { patchProfilePicture, postProfilePicture } from '../../utils/api';
+import { ImageContext } from '../../utils/profileImageContext';
 
 export default function FileUploader() :JSX.Element {
+    const { fileName, setFileName } = useContext(ImageContext);
     const hiddenFileInput = React.useRef(null);
     const handleClick = event => {
         hiddenFileInput.current.click();
@@ -12,6 +14,7 @@ export default function FileUploader() :JSX.Element {
     const handleChange = event => {
         const { authToken } = parseCookies();
         const file = event.target.files[0];
+        console.log(file);
         (async () => {
             const _res = await patchProfilePicture(authToken);
             if (_res) {
@@ -22,6 +25,9 @@ export default function FileUploader() :JSX.Element {
                     formData.append(key, value);
                 });
                 await postProfilePicture(url, formData); 
+                await console.log(fileName, "is the filename");
+                await setFileName(file);
+                await console.log(fileName, "is the filename which is changed");
             }
         })();
     };

@@ -16,7 +16,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     try {
       const { authToken } = parseCookies(ctx);
       const _resProfile = await getUserProfile(authToken);
-      console.log("getuserprofile", _resProfile)
       return {
         props: {
          _resProfile,

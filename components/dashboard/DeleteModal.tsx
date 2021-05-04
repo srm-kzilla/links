@@ -16,7 +16,6 @@ const DeleteModal = ({
   onDeleteLink,
 }: DeleteModalProps): JSX.Element => {
   const deleteHandler = (_id: string) => {
-    console.log("deleteModal function run");
     onDeleteLink(_id, onClose);
   };
 
