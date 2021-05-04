@@ -1,67 +1,20 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { parseCookies } from "nookies";
 import { FiLink } from "react-icons/fi"
 import { MdContentCopy } from "react-icons/md"
 
-import { successHandler, errorHandler, patchUserProfile, getUserProfile, patchProfilePicture, postProfilePicture } from "../../utils/api";
+import { successHandler, errorHandler, patchUserProfile } from "../../utils/api";
 import { EllipseGreen } from "../../assets/icons";
 import FileUploader from "./fileuploader";
 import { baseUrl } from "../../utils/constants";
 import { ImageContext } from "../../utils/profileImageContext";
 
-import { HiOutlinePencil } from 'react-icons/hi';
+export default function ProfileComponent({ _resProfile }): JSX.Element {
+    const { fileBlob } = useContext(ImageContext);
 
-export default function ProfileComponent({_resProfile}): JSX.Element {  
-    const [profilePicture, setProfilePicture] = useState<any>(_resProfile.profilePicture);
-    const [fileBlob, setFileBlob] = useState<string>();
-
-    const { fileName, setFileName } = useContext(ImageContext);
-    const hiddenFileInput = useRef(null);
-    const handleClick = event => {
-        hiddenFileInput.current.click();
-    };
-    const handleChange = event => {
-        const { authToken } = parseCookies();
-        const file = event.target.files[0];
-        setFileBlob(URL.createObjectURL(event.target.files[0]));
-        console.log(fileBlob);
-        (async () => {
-            const _res = await patchProfilePicture(authToken);
-            if (_res) {
-                const { fields, url } = await _res.data;
-                const formData = new FormData();
-                const formArray: [string, string | File][] = Object.entries({...fields, file});
-                formArray.forEach(([key, value]) => {
-                    formData.append(key, value);
-                });
-                await postProfilePicture(url, formData);
-                // await setProfilePicture(file); 
-                // await console.log(fileName, "is the filename");
-                await setFileName(file);
-                // await console.log(fileName, "is the filename which is changed");
-            }
-        })();
-    };
-
-
-
-    
-    // const {fileName, setFileName} = useContext(ImageContext);
-    
     const [name, setName] = useState<string>(_resProfile.name);
     const [username, setUserName] = useState<string>(_resProfile.username);
     const [bio, setBio] = useState<string>(_resProfile.bio);
-    
-    // useEffect(() => {
-    //     console.log("something");
-    //     (async () => {
-    //         const { authToken } = parseCookies();
-    //         const _res = await getUserProfile(authToken);
-    //         await setProfilePicture(_res.data.profilePicture);
-    //         console.log(_res);
-    //     })();
-
-    // }, [fileName]);
 
     const updateUserProfile = () => {
         (async () => {
@@ -72,11 +25,11 @@ export default function ProfileComponent({_resProfile}): JSX.Element {
                 bio: bio
             }
             const _res = await patchUserProfile(authToken, userData);
-            if(_res) {
+            if (_res) {
                 successHandler("🎉 Successfully Updated profile!");
             }
         })();
-    }
+    };
 
     const copyToClipBoard = async copyMe => {
         try {
@@ -86,6 +39,7 @@ export default function ProfileComponent({_resProfile}): JSX.Element {
             errorHandler(err);
         }
     };
+
     return (
         <>
             <div className="absolute text-xl lg:text-6xl top-20 left-4 hidden lg:block gradientHeaderHollow">
@@ -95,25 +49,9 @@ export default function ProfileComponent({_resProfile}): JSX.Element {
                 <div className="relative">
                     <img
                         className="w-36 h-36 rounded-full mt-20 border shadow-md"
-                        // src={fileBlob}
                         src={fileBlob ? fileBlob : _resProfile.profilePicture}
-                        // src={_resProfile.profilePicture}
-                        // src={profilePicture}
                     />
-                    {/* <FileUploader /> */}
-                    <i
-                className="absolute bg-white rounded-full p-2 bottom-1 right-2 cursor-pointer"
-                onClick={handleClick}
-            >
-                <HiOutlinePencil />
-            </i>
-            <input
-                type="file"
-                ref={hiddenFileInput}
-                onChange={handleChange}
-                className="hidden"
-                accept="image/*"
-            />
+                    <FileUploader />
                 </div>
                 <div className="flex flex-col">
                     <div className="mt-10">

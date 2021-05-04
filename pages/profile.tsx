@@ -7,7 +7,7 @@ import { getUserProfile } from "../utils/api";
 export default function Profile({_resProfile}): JSX.Element {
     return (
         <>
-            <ProfileComponent _resProfile={_resProfile.data}/>
+          <ProfileComponent _resProfile={_resProfile.data}/>
         </>
     );
 }

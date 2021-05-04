@@ -7,12 +7,15 @@ import { parseCookies, destroyCookie } from "nookies";
 import { Logo } from "../../assets/icons"
 import { AuthContext } from "../../utils/authContext";
 import { getUserProfile } from "../../utils/api";
+import { ImageContext } from "../../utils/profileImageContext";
 
 export default function Navbar() {
   const { isAuth } = useContext(AuthContext);
+  const { fileBlob } = useContext(ImageContext);
   useEffect(() => {
     if (isAuth) {
       (async () => {
+        console.log("this ran")
         const { authToken } = parseCookies();
         const _res = await getUserProfile(authToken);
         if (_res) {
@@ -20,7 +23,7 @@ export default function Navbar() {
         }
       })();
     }
-  }, [isAuth]);
+  }, [isAuth, fileBlob]);
   const [userProfileData, setUserProfileData] = useState({
     name: "User",
     username: "User",
@@ -47,7 +50,7 @@ export default function Navbar() {
               <div className="hidden sm:inline-block">
                 <img
                   className="w-12 h-12 rounded-full ml-3 mt-2 mb-2 float-left border"
-                  src={userProfileData.profilePicture}
+                  src={fileBlob ? fileBlob : userProfileData.profilePicture}
                 />
                 <div
                   className="mr-4 pl-4 cursor-pointer select-none float-right my-5 hover:text-gray-500"
