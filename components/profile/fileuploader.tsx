@@ -1,14 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { HiOutlinePencil } from 'react-icons/hi';
+import { parseCookies } from 'nookies';
 
-const FileUploader = props => {
+import { patchProfilePicture, postProfilePicture } from '../../utils/api';
+import { ImageContext } from '../../utils/profileImageContext';
+
+export default function FileUploader() :JSX.Element {
+    const { setFileBlob } = useContext(ImageContext);
     const hiddenFileInput = React.useRef(null);
     const handleClick = event => {
         hiddenFileInput.current.click();
     };
     const handleChange = event => {
-        const fileUploaded = event.target.files[0];
-        props.handleFile(fileUploaded);
+        const { authToken } = parseCookies();
+        const file = event.target.files[0];
+        setFileBlob(URL.createObjectURL(event.target.files[0]));
+
+        (async () => {
+            const _res = await patchProfilePicture(authToken);
+            if (_res) {
+                const { fields, url } = await _res.data;
+                const formData = new FormData();
+                const formArray: [string, string | File][] = Object.entries({...fields, file});
+                formArray.forEach(([key, value]) => {
+                    formData.append(key, value);
+                });
+                await postProfilePicture(url, formData); 
+            }
+        })();
     };
     return (
         <>
@@ -28,4 +47,3 @@ const FileUploader = props => {
         </>
     );
 }
-export default FileUploader;

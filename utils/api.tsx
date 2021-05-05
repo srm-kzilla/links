@@ -1,7 +1,9 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { setCookie } from "nookies";
-import { baseUrl, kzillaxyz } from "../utils/constants";
+
+import { baseUrl, kzillaxyzclicks } from "../utils/constants";
+
 
 export const postLogin = async (values) => {
   try {
@@ -109,12 +111,71 @@ export const getPublicLinks = async (username: string) => {
 export const getLinkClicks = async (analyticsCode: string) => {
   try {
     const _res = await axios.get(
-      `${kzillaxyz}${analyticsCode}`
+      `${kzillaxyzclicks}${analyticsCode}`
     );
     return _res.data.clicks;
   }
   catch (err) {
     errorHandler(err);
+  }
+};
+
+export const patchProfilePicture = async (authToken: string) => {
+  try {
+    const _res = await axios({
+      method: "PATCH",
+      url: `${baseUrl}api/v1/profile/uploadpicture`,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const postProfilePicture = async (url: string, formdata: any) => {
+  try {
+    const _res = await axios({
+      method: "POST",
+      url: url,
+      data: formdata,
+    });
+    successHandler("🎉 Your profile image is updated successfully!");
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const getUserProfile = async (authToken: string) => {
+  try {
+    const _res = await axios.get(`${baseUrl}api/v1/profile`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+    return _res.data;
+  }
+  // Fire and forget
+  catch (err) {}
+};
+
+export const patchUserProfile = async (authToken: string, userData: Object) => {
+  try {
+    const _res = await axios({
+      method: "PATCH",
+      url: `${baseUrl}api/v1/profile/editprofile`,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+      data: userData
+    });
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
   }
 };
 

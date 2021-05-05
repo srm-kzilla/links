@@ -7,23 +7,27 @@ import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
 import { Navbar, Footer } from "../components/shared";
 import AuthContextProvider from "../utils/authContext";
+import ImageContextProvider from "../utils/profileImageContext";
 import { authRoutes } from "../utils/constants";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+
   return (
     <>
       <Head>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
       </Head>
       <AuthContextProvider>
-        <div className="relative min-h-screen">
-          <div className="pb-4">
-            <Navbar />
-            <Component {...pageProps} />
+        <ImageContextProvider>
+          <div className="relative min-h-screen">
+            <div className="pb-4">
+              <Navbar />
+              <Component {...pageProps} />
+            </div>
+            <Footer />
+            <ToastContainer />
           </div>
-          <Footer />
-          <ToastContainer />
-        </div>
+        </ImageContextProvider>
       </AuthContextProvider>
     </>
   );

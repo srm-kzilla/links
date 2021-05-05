@@ -32,7 +32,7 @@ export const getServerSideProps = async (
 
     return {
       props: {
-        publicLinksData,
+        publicLinksData
       },
     };
   } catch (err) {

@@ -1,17 +1,35 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Flip from "react-reveal/Flip";
 import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { destroyCookie } from "nookies";
+import { parseCookies, destroyCookie } from "nookies";
 
 import { Logo } from "../../assets/icons"
 import { AuthContext } from "../../utils/authContext";
+import { getUserProfile } from "../../utils/api";
+import { ImageContext } from "../../utils/profileImageContext";
 
 export default function Navbar() {
-  const { isAuth, setIsAuth } = useContext(AuthContext);
+  const { isAuth } = useContext(AuthContext);
+  const { fileBlob } = useContext(ImageContext);
+  useEffect(() => {
+    if (isAuth) {
+      (async () => {
+        const { authToken } = parseCookies();
+        const _res = await getUserProfile(authToken);
+        if (_res) {
+          setUserProfileData(_res.data);
+        }
+      })();
+    }
+  }, [isAuth, fileBlob]);
+  const [userProfileData, setUserProfileData] = useState({
+    name: "User",
+    username: "User",
+    profilePicture: "https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png"
+  });
   const [isOpen, setisOpen] = useState<boolean>(false);
   const router = useRouter()
-
   const logoutUser = () => {
     destroyCookie(null, "authToken");
     router.replace('/');
@@ -31,14 +49,14 @@ export default function Navbar() {
               <div className="hidden sm:inline-block">
                 <img
                   className="w-12 h-12 rounded-full ml-3 mt-2 mb-2 float-left border"
-                  src="https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png"
+                  src={fileBlob ? fileBlob : userProfileData.profilePicture}
                 />
                 <div
                   className="mr-4 pl-4 cursor-pointer select-none float-right my-5 hover:text-gray-500"
                   onClick={() => setisOpen(!isOpen)}
                 >
-                  Welcome, User
-                <div className="float-right pt-1 ml-2">
+                  Welcome {userProfileData.name == "" ? userProfileData.username : userProfileData.name}
+                  <div className="float-right pt-1 ml-2">
                     <FaChevronDown />
                   </div>
                 </div>
