@@ -1,4 +1,4 @@
-import Head from "next/head"
+import Head from "next/head";
 import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { parseCookies } from "nookies";
@@ -19,8 +19,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       </Head>
       <AuthContextProvider>
         <ImageContextProvider>
-          <div className="relative min-h-screen">
-            <div className="pb-4">
+          <div className={`relative min-h-screen`}>
+            <div className="pb-4">  
               <Navbar />
               <Component {...pageProps} />
             </div>

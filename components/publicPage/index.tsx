@@ -17,27 +17,30 @@ export interface CardLink {
 
 
 export default function LinkPageComponent({ _resLinks }) {
+
   return (
     <>
-      <div className="flex items-center justify-center">
+      <div className={`flex items-center justify-center`}>
         <img
-          className="w-24 h-24 rounded-full mt-20 mr-8 border shadow-md"
+          className="w-24 h-24 rounded-full mt-20 mr-8 ml-3 border shadow-md"
           src={_resLinks.profilePicture}
         />
-        <h1 className="mt-20 ml-4 font-extrabold text-2xl sm:text-4xl">
-          {_resLinks.name == "" ? _resLinks.username : _resLinks.name}
-        </h1>
+        <div className="flex flex-col">
+          <h1 className="mt-24 font-extrabold text-2xl sm:text-4xl">
+            {_resLinks.name == "" ? _resLinks.username : _resLinks.name}
+          </h1>
+          <p className={`my-2 pr-2`}>{_resLinks.bio}</p>
+        </div>
       </div>
-      <p className="text-center my-5">{_resLinks.bio}</p>
       <div className="px-2 lg:px-44">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-10">
           {_resLinks.result.map((link) => (
-              <LinkCard
-                key={link._id}
-                title={link.title}
-                shortCode={link.shortCode}
-                image={link.image}
-              />
+            <LinkCard
+              key={link._id}
+              title={link.title}
+              shortCode={link.shortCode}
+              image={link.image}
+            />
           ))}
         </div>
       </div>

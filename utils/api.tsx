@@ -179,6 +179,27 @@ export const patchUserProfile = async (authToken: string, userData: Object) => {
   }
 };
 
+export const postNewPassword = async (authToken: string, oldPassword: string, newPassword: string) => {
+  try {
+    const _res = await axios({
+      method: "PATCH",
+      url: `${baseUrl}api/v1/profile/changepassword`,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+      data: {
+        oldPassword: oldPassword,
+        newPassword: newPassword
+      },
+    });
+    successHandler("🔐 Password changed successfully!");
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
 export const errorHandler = (error?: AxiosError | any) => {
   let errMessage: string = "Oops! Something went wrong!";
   if (error)
