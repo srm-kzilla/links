@@ -15,7 +15,6 @@ export default function Navbar() {
   useEffect(() => {
     if (isAuth) {
       (async () => {
-        console.log("this ran")
         const { authToken } = parseCookies();
         const _res = await getUserProfile(authToken);
         if (_res) {

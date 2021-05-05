@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export const ImageContext = React.createContext({
-    fileBlob: "",
+    fileBlob: undefined,
     setFileBlob: ({}) => {}
 });
 
