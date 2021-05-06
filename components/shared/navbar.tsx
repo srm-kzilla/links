@@ -55,7 +55,7 @@ export default function Navbar() {
                   className="mr-4 pl-4 cursor-pointer select-none float-right my-5 hover:text-gray-500"
                   onClick={() => setisOpen(!isOpen)}
                 >
-                  Welcome {userProfileData.name == "" ? userProfileData.username : userProfileData.name}
+                  Welcome {userProfileData.name || userProfileData.username }
                   <div className="float-right pt-1 ml-2">
                     <FaChevronDown />
                   </div>

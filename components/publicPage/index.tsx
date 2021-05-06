@@ -20,16 +20,16 @@ export default function LinkPageComponent({ _resLinks }) {
 
   return (
     <>
-      <div className={`flex items-center justify-center`}>
+      <div className="flex items-center justify-center">
         <img
           className="w-24 h-24 rounded-full mt-20 mr-8 ml-3 border shadow-md"
           src={_resLinks.profilePicture}
         />
         <div className="flex flex-col">
           <h1 className="mt-24 font-extrabold text-2xl sm:text-4xl">
-            {_resLinks.name == "" ? _resLinks.username : _resLinks.name}
+            {_resLinks.name || _resLinks.username }
           </h1>
-          <p className={`my-2 pr-2`}>{_resLinks.bio}</p>
+          <p className="my-2 pr-2">{_resLinks.bio}</p>
         </div>
       </div>
       <div className="px-2 lg:px-44">
