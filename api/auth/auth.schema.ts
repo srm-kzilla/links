@@ -64,6 +64,19 @@ export const jwtRequestSchema = yup
   })
   .required();
 
+export const recaptchaResponseTokenSchema = yup
+  .object({
+    responsetoken: yup
+      .string()
+      .trim()
+      .min(1, "Recaptcha response token cannot be null")
+      .matches(
+        /^Bearer .+$/,
+        "Recaptcha response token should be Bearer Token"
+      ),
+  })
+  .required();
+
 export const userOTPRequestSchema = yup.object({
   otp: yup
     .number()
@@ -82,6 +95,9 @@ export interface JwtPayload {
   iss: "srmkzilla";
 }
 export type JwtRequest = yup.InferType<typeof jwtRequestSchema>;
+export type RecaptchaResponseToken = yup.InferType<
+  typeof recaptchaResponseTokenSchema
+>;
 export type UserSignup = yup.InferType<typeof userSignupSchema>;
 export type UserLogin = yup.InferType<typeof userLoginSchema>;
 

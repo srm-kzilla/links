@@ -5,3 +5,5 @@ export const FETCH_FAVICON =
   "https://besticon-demo.herokuapp.com/allicons.json?url=";
 
 export const KZILLAXYZ_POST = "https://kzilla.xyz/api/v1/webhook/link";
+
+export const RECAPTCHA_POST_URL = "https://www.google.com/recaptcha/api/siteverify";

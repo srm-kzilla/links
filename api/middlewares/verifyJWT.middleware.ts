@@ -14,7 +14,7 @@ export const validateUser = async (
   try {
     const { authorization } = req.headers as JwtRequest;
     if (!authorization) {
-      return next(errors.JWT_ERROR);
+      throw errors.JWT_ERROR;
     }
     const authToken = authorization.split(" ")[1];
     const jwtSecret = process.env.JWT_SECRET;
@@ -36,11 +36,11 @@ export const validateUser = async (
       };
       next();
     } else {
-      next(errors.USER_NOT_FOUND);
+      throw errors.USER_NOT_FOUND;
     }
   } catch (err) {
     next({
-      httpStatus: 403,
+      httpStatus: `${err.httpStatus ? err.httpStatus : 403}`,
       message: `${err.name}: ${err.message}`,
     });
   }

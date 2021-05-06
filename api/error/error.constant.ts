@@ -40,6 +40,10 @@ export const errors = {
     httpStatus: 403,
     message: "JWT Token Not Found.",
   },
+  INVALID_RECAPTCHA: {
+    httpStatus: 403,
+    message: "Invalid Recaptcha.",
+  },
   DUPLICATE_USER: {
     httpStatus: 400,
     message: "Email ID Already Registered. Please Login.",
