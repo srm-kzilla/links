@@ -8,7 +8,7 @@ import { EllipseGreen } from "../../assets/icons";
 import { baseUrl } from "../../utils/constants";
 import { ImageContext } from "../../utils/profileImageContext";
 import FileUploader from "./fileuploader";
-import Modal from "./modal"
+import ChangePasswordModal from "./changePasswordModal"
 
 export default function ProfileComponent({ _resProfile }): JSX.Element {
     const { fileBlob } = useContext(ImageContext);
@@ -16,7 +16,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
     const [name, setName] = useState<string>(_resProfile.name);
     const [username, setUserName] = useState<string>(_resProfile.username);
     const [bio, setBio] = useState<string>(_resProfile.bio);
-    const [background, setBackground] = useState<string>(_resProfile.background);
+    const [backgroundColor, setBackgroundColor] = useState<string>(_resProfile.background);
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
     const updateUserProfile = () => {
@@ -26,7 +26,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 name: name,
                 username: username,
                 bio: bio,
-                background: background
+                background: backgroundColor
             }
             const _res = await patchUserProfile(authToken, userData);
             if (_res) {
@@ -101,10 +101,10 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 <div className="mt-6 text-left w-2/3 sm:w-2/6">
                     <p className="text-darkgray font-extrabold text-left">THEME</p>
                     <div className="flex flex-row items-center mt-2">
-                        <input onChange={() => setBackground("light")} className="w-4" type="radio" name="theme" value="light" checked={background == "light" ? true : false} />
+                        <input onChange={() => setBackgroundColor("light")} className="w-4" type="radio" name="theme" value="light" checked={backgroundColor == "light" ? true : false} />
                         <label className="mr-8 ml-1" htmlFor="light">Light</label>
                         
-                        <input onChange={() => setBackground("dark")} className="w-4" type="radio" name="theme" value="dark" checked={background == "dark" ? true : false} />
+                        <input onChange={() => setBackgroundColor("dark")} className="w-4" type="radio" name="theme" value="dark" checked={backgroundColor == "dark" ? true : false} />
                         <label className="mr-8 ml-1" htmlFor="dark">Dark</label>
                     </div>
                 </div>
@@ -120,7 +120,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                     Save!
                 </button>
             </div>
-            <Modal 
+            <ChangePasswordModal 
                 isOpen={isModalOpen}
                 onClose={() => setModalOpen(false)}
             />

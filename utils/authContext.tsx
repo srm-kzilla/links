@@ -7,13 +7,16 @@ export const AuthContext = React.createContext({
 });
 
 const AuthContextProvider: React.FC = ({ children }): React.ReactElement => {
-  const [isAuth, setIsAuth] = useState<boolean>(true);
+  const [isAuth, setIsAuth] = useState<boolean>(false);
 
   useEffect(() => {
     const { authToken } = parseCookies();
     if (!authToken) {
       setIsAuth(false);
       localStorage.removeItem("isAuth");
+    }
+    else {
+      setIsAuth(true);
     }
   }, []);
 

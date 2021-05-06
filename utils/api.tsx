@@ -179,7 +179,7 @@ export const patchUserProfile = async (authToken: string, userData: Object) => {
   }
 };
 
-export const postNewPassword = async (authToken: string, oldPassword: string, newPassword: string) => {
+export const postNewPassword = async (authToken: string, values: Object) => {
   try {
     const _res = await axios({
       method: "PATCH",
@@ -187,10 +187,7 @@ export const postNewPassword = async (authToken: string, oldPassword: string, ne
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
-      data: {
-        oldPassword: oldPassword,
-        newPassword: newPassword
-      },
+      data: values
     });
     successHandler("🔐 Password changed successfully!");
     return _res;

@@ -12,12 +12,16 @@ interface ModalProps {
   onClose: () => void;
 }
 
-const Modal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
+const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
   
   const submitNewPassword = (oldPassword, newPassword) => {
+    const values: Object = {
+      oldPassword: oldPassword,
+      newPassword: newPassword
+    }
     const { authToken } = parseCookies();
     (async () => {
-      const _res = await postNewPassword(authToken, oldPassword, newPassword);
+      const _res = await postNewPassword(authToken, values);
       if (_res) {
         onClose();
       }
@@ -104,4 +108,4 @@ const Modal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
     </>
   );
 };
-export default Modal;
+export default ChangePasswordModal;
