@@ -35,13 +35,13 @@ export const validateQuery = (
     try {
       await schema.validate(_location, { abortEarly: false });
       next();
-    } catch (error) {
+    } catch (err) {
       let message: string = "";
-      error.errors.forEach((e: string) => {
+      err.errors.forEach((e: string) => {
         message += `${e}. `;
       });
       next({
-        httpStatus: 400,
+        httpStatus: err.httpStatus || 400,
         message: message,
       });
     }

@@ -51,6 +51,12 @@ export const JwtRequestSchema = yup
   })
   .required();
 
+export const recaptchaResponseToken = yup
+  .string()
+  .trim()
+  .min(1, "Recaptcha response token cannot be null")
+  .required();
+
 export const userOTPRequestSchema = yup.object({
   otp: yup
     .number()
@@ -68,10 +74,14 @@ export interface jwtPayload {
   exp: number;
   iss: "srmkzilla";
 }
-export type JwtRequest = yup.InferType<typeof JwtRequestSchema>;
-export type userLogin = yup.InferType<typeof userLoginSchema>;
-export type userSignup = yup.InferType<typeof userSignupSchema>;
-export interface userDBSchema extends userSignup {
+export type JwtRequest = yup.InferType<typeof jwtRequestSchema>;
+export type RecaptchaResponseToken = yup.InferType<
+  typeof recaptchaResponseToken
+>;
+export type UserSignup = yup.InferType<typeof userSignupSchema>;
+export type UserLogin = yup.InferType<typeof userLoginSchema>;
+
+export interface UserDB extends UserSignup {
   _id?: ObjectID;
 }
 export type userOTPRequest = yup.InferType<typeof userOTPRequestSchema>;

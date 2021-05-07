@@ -10,7 +10,12 @@ import {
 import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { validateUser } from "../middlewares/verifyJWT.middleware";
-import { userLoginSchema, userSignupSchema } from "./auth.schema";
+import {
+  userLoginSchema,
+  userOTPRequestSchema,
+  userSignupSchema,
+} from "./auth.schema";
+import { verifyRecaptcha } from "../middlewares/verifyRecaptcha";
 
 const authHandler = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
@@ -18,10 +23,26 @@ const authHandler = nc<NextApiRequest, NextApiResponse>({
 });
 
 authHandler
-  .post("/login", validateQuery("body", userLoginSchema), postLogin)
-  .post("/signup", validateQuery("body", userSignupSchema), postSignup)
-  .get("/user", validateUser, getUser)
+  .post(
+    "/login",
+    verifyRecaptcha,
+    validateQuery("body", userLoginSchema),
+    postLogin
+  )
+  .post(
+    "/signup",
+    verifyRecaptcha,
+    validateQuery("body", userSignupSchema),
+    postSignup
+  )
+
   .get("/getotp", validateUser, getOTP)
-  .post("/postotp", validateUser, verifyOTP);
+  .post(
+    "/postotp",
+    verifyRecaptcha,
+    validateQuery("body", userOTPRequestSchema),
+    validateUser,
+    verifyOTP
+  );
 
 export default authHandler;

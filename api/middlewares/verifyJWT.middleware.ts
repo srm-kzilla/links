@@ -38,7 +38,7 @@ export const validateUser = async (
     }
   } catch (err) {
     next({
-      httpStatus: 403,
+      httpStatus: err.httpStatus || 403,
       message: `${err.name}: ${err.message}`,
     });
   }
