@@ -5,9 +5,10 @@ import { MdContentCopy } from "react-icons/md"
 
 import { successHandler, errorHandler, patchUserProfile } from "../../utils/api";
 import { EllipseGreen } from "../../assets/icons";
-import FileUploader from "./fileuploader";
 import { baseUrl } from "../../utils/constants";
 import { ImageContext } from "../../utils/profileImageContext";
+import FileUploader from "./fileuploader";
+import ChangePasswordModal from "./changePasswordModal"
 
 export default function ProfileComponent({ _resProfile }): JSX.Element {
     const { fileBlob } = useContext(ImageContext);
@@ -15,6 +16,8 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
     const [name, setName] = useState<string>(_resProfile.name);
     const [username, setUserName] = useState<string>(_resProfile.username);
     const [bio, setBio] = useState<string>(_resProfile.bio);
+    const [backgroundColor, setBackgroundColor] = useState<string>(_resProfile.background);
+    const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
     const updateUserProfile = () => {
         (async () => {
@@ -22,7 +25,8 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
             const userData = {
                 name: name,
                 username: username,
-                bio: bio
+                bio: bio,
+                background: backgroundColor
             }
             const _res = await patchUserProfile(authToken, userData);
             if (_res) {
@@ -88,19 +92,38 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 <textarea
                     value={bio}
                     className="gradientTextareaBottom w-2/3 sm:w-2/6 focus:outline-none bg-backgroundwhite border"
-                    rows={5}
+                    rows={4}
                     placeholder="Bio"
                     onChange={(e) => {
                         setBio(e.target.value);
                     }}
                 />
+                <div className="mt-6 text-left w-2/3 sm:w-2/6">
+                    <p className="text-darkgray font-extrabold text-left">THEME</p>
+                    <div className="flex flex-row items-center mt-2">
+                        <input onChange={() => setBackgroundColor("light")} className="w-4" type="radio" name="theme" value="light" checked={backgroundColor == "light" ? true : false} />
+                        <label className="mr-8 ml-1" htmlFor="light">Light</label>
+                        
+                        <input onChange={() => setBackgroundColor("dark")} className="w-4" type="radio" name="theme" value="dark" checked={backgroundColor == "dark" ? true : false} />
+                        <label className="mr-8 ml-1" htmlFor="dark">Dark</label>
+                    </div>
+                </div>
+                <button
+                    onClick={() => setModalOpen(true)}
+                    className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/4 text-md shadow-lg font-extrabold py-3 px-4 mt-8 rounded">
+                    Change Password
+                </button>
                 <button
                     type="submit"
                     onClick={() => updateUserProfile()}
-                    className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-1/4 text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded">
+                    className="bg-statusGreen focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/4 text-md shadow-lg font-extrabold py-3 px-4 my-3 rounded">
                     Save!
                 </button>
             </div>
+            <ChangePasswordModal 
+                isOpen={isModalOpen}
+                onClose={() => setModalOpen(false)}
+            />
             <div className="hidden md:block absolute bottom-0 -left-24 z-0">
                 <EllipseGreen />
             </div>
