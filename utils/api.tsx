@@ -1,14 +1,13 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { setCookie } from "nookies";
-import { baseUrl } from "../utils/constants"
+
+import { baseUrl, kzillaxyzclicks } from "../utils/constants";
+
 
 export const postLogin = async (values) => {
   try {
-    const _res = await axios.post(
-      `${baseUrl}api/v1/auth/login`,
-      values
-    );
+    const _res = await axios.post(`${baseUrl}api/v1/auth/login`, values);
     setCookie(null, "authToken", _res.data.authToken);
     return true;
   } catch (err) {
@@ -19,10 +18,7 @@ export const postLogin = async (values) => {
 
 export const postSignup = async (values) => {
   try {
-    const _res = await axios.post(
-      `${baseUrl}api/v1/auth/signup`,
-      values
-    );
+    const _res = await axios.post(`${baseUrl}api/v1/auth/signup`, values);
     setCookie(null, "authToken", _res.data.authToken);
     return true;
   } catch (err) {
@@ -36,7 +32,8 @@ export const getLinks = async (authToken: string) => {
     const _res = await axios.get(`${baseUrl}api/v1/links/get`, {
       headers: { Authorization: `Bearer ${authToken}` },
     });
-    return _res.data.result;
+    return _res.data;
+
   } catch (err) {
     errorHandler(err);
   }
@@ -53,7 +50,6 @@ export const postLink = async (authToken: string, values: object) => {
       data: values,
     });
     successHandler("🎉 Link added successfully!");
-    console.log(_res.data);
     return _res;
   } catch (err) {
     errorHandler(err);
@@ -101,7 +97,107 @@ export const updateLink = async (
   }
 };
 
-const errorHandler = (error?: AxiosError | any) => {
+export const getPublicLinks = async (username: string) => {
+  try {
+    const _res = await axios.get(
+      `${baseUrl}api/v1/public/links/get?user=${username}`
+    );
+    return _res.data;
+  } catch (err) {
+    errorHandler(err);
+  }
+};
+
+export const getLinkClicks = async (analyticsCode: string) => {
+  try {
+    const _res = await axios.get(
+      `${kzillaxyzclicks}${analyticsCode}`
+    );
+    return _res.data.clicks;
+  }
+  catch (err) {
+    errorHandler(err);
+  }
+};
+
+export const patchProfilePicture = async (authToken: string) => {
+  try {
+    const _res = await axios({
+      method: "PATCH",
+      url: `${baseUrl}api/v1/profile/uploadpicture`,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const postProfilePicture = async (url: string, formdata: any) => {
+  try {
+    const _res = await axios({
+      method: "POST",
+      url: url,
+      data: formdata,
+    });
+    successHandler("🎉 Your profile image is updated successfully!");
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const getUserProfile = async (authToken: string) => {
+  try {
+    const _res = await axios.get(`${baseUrl}api/v1/profile`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+    return _res.data;
+  }
+  // Fire and forget
+  catch (err) {}
+};
+
+export const patchUserProfile = async (authToken: string, userData: Object) => {
+  try {
+    const _res = await axios({
+      method: "PATCH",
+      url: `${baseUrl}api/v1/profile/editprofile`,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+      data: userData
+    });
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const postNewPassword = async (authToken: string, values: Object) => {
+  try {
+    const _res = await axios({
+      method: "PATCH",
+      url: `${baseUrl}api/v1/profile/changepassword`,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+      data: values
+    });
+    successHandler("🔐 Password changed successfully!");
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const errorHandler = (error?: AxiosError | any) => {
   let errMessage: string = "Oops! Something went wrong!";
   if (error)
     switch (error.response?.status) {
@@ -126,7 +222,7 @@ const errorHandler = (error?: AxiosError | any) => {
   });
 };
 
-const successHandler = (successMessage: string) => {
+export const successHandler = (successMessage: string) => {
   toast.success(successMessage, {
     position: "top-right",
     autoClose: 5000,

@@ -13,10 +13,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "baseUrl": ".",
-    "paths": {
-      "@components": ["components/dashboard/index.tsx"],
-    }
   },
   
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

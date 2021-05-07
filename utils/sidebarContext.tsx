@@ -8,6 +8,9 @@ export interface activeLinkProps {
   status: boolean;
   views: number;
   clicks: number;
+  analyticsCode?: string;
+  shortCode?: string;
+  createdAt?: number;
 }
 
 export const SidebarContext = React.createContext({
@@ -19,6 +22,9 @@ export const SidebarContext = React.createContext({
     status: false,
     views: 0,
     clicks: 0,
+    analyticsCode: "",
+    shortCode: "",
+    createdAt: 0,
   },
   setActiveLink: ({}: activeLinkProps) => {},
 });
@@ -32,6 +38,9 @@ const SidebarContextProvider: React.FC = (props): JSX.Element => {
     status: false,
     views: 0,
     clicks: 0,
+    analyticsCode: "",
+    shortCode: "",
+    createdAt: 0,
   });
 
   return (

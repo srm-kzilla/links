@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { Formik, Field, Form } from "formik";
+import { load } from 'recaptcha-v3'
 import * as Yup from "yup";
 
 import { postLogin } from "../../utils/api";
 import { AuthContext } from "../../utils/authContext";
+import { Eye, EyeHide, Ellipse, LoadingAuth } from "../../assets/icons"
 
 const LoginComponent = () => {
   const { setIsAuth } = useContext(AuthContext);
@@ -28,7 +30,9 @@ const LoginComponent = () => {
 
   const submitHandler = async (values) => {
     try {
+      setLoading(true);
       const res = await postLogin(values);
+      getRecaptchaToken();
       if (res) {
         setIsAuth(true);
         router.push("/dashboard");
@@ -38,10 +42,23 @@ const LoginComponent = () => {
     catch (error) { }
   };
 
+  async function getRecaptchaToken() {
+    const recaptcha = await load(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
+    const token = await recaptcha.execute();
+  
+    console.log(token) 
+  }
+
+  const [passwordShown, setPasswordShown] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(passwordShown ? false : true);
+  };
+
   return (
     <div className="mx-auto h-screen flex justify-center items-center">
-      <div className="m-auto md:w-2/4 lg:w-1/4">
-        <div className="customGradient hidden absolute md:block float-left z-0 styledHeader text-xxl mb-1 text-center">
+      <div className="m-auto md:w-2/4 lg:w-1/4 relative z-10">
+        <div className="customGradient styledHeader hidden absolute md:block float-left z-0  text-xxl text-center">
           LINKS
         </div>
         <div className="relative p-8 border-t-12 bg-white mb-6 rounded-lg shadow-2xl">
@@ -66,27 +83,30 @@ const LoginComponent = () => {
                     {errors.email}
                   </div>
                 )}
-                <Field
-                  name="password"
-                  type="password"
-                  className="gradientInput mb-4 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
-                  placeholder="Your Password"
-                />
+                <div className="relative">
+                  <Field
+                    name="password"
+                    type={passwordShown ? 'text' : 'password'}
+                    className="gradientInput mb-4 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
+                    placeholder="Your Password"
+                  />
+                  <i className="absolute top-4 right-3 cursor-pointer" onClick={togglePasswordVisiblity}>{passwordShown ? <EyeHide /> : <Eye />}</i>
+                </div>
                 {errors.password && (
                   <div className="text-red-500 text-sm -mt-4 mb-3">
                     {errors.password}
                   </div>
                 )}
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center relative">
                   <button
                     type="submit"
                     className="bg-lightblue outline-none focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-2 px-4 my-2 rounded"
                   >
-                    Let's Go!
+                  {loading && <div className="absolute left-37 top-4"><LoadingAuth /></div>}<div className={`${loading && "invisible"}`}>Let's Go!</div>
                   </button>
                 </div>
                 <div className="text-center text-darkgray hover:text-black font-normal mt-3 pb-6 ">
-                  <a href="#">Forgot Password?</a>
+                  <a href="/forgotpassword">Forgot Password?</a>
                 </div>
                 <div className="w-full mx-auto py-4 text-black h-auto bg-blue flex justify-center items-center">
                   <hr className="w-1/5 sm:w-1/4 lg:w-96" />
@@ -106,6 +126,9 @@ const LoginComponent = () => {
             </p>
           </div>
         </div>
+      </div>
+      <div className="hidden md:block absolute bottom-0 right-0 z-0">
+        <Ellipse />
       </div>
     </div>
   );

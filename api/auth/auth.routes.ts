@@ -1,12 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
-import {
-  postLogin,
-  postSignup,
-  getUser,
-  getOTP,
-  verifyOTP,
-} from "./auth.controller";
+import { postLogin, postSignup, getOTP, verifyOTP } from "./auth.controller";
 import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { validateUser } from "../middlewares/verifyJWT.middleware";

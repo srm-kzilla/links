@@ -7,7 +7,7 @@ export const errors = {
     httpStatus: 500,
     message: "Internal Server Error.",
   },
-  UNAUTHORIZED: {
+  WRONG_PASSWORD: {
     httpStatus: 401,
     message: "Wrong Password",
   },
@@ -17,11 +17,20 @@ export const errors = {
   },
   USER_NOT_FOUND: {
     httpStatus: 401,
-    message: "User not registered. Please sign up/login with correct credentials",
+    message:
+      "User not registered. Please register/login with correct credentials",
   },
   MONGODB_CONNECT_ERROR: {
     httpStatus: 500,
     message: "Could Not Connect to MongoDB.",
+  },
+  AWS_CONNECT_ERROR: {
+    httpStatus: 500,
+    message: "Could Not Connect to AWS",
+  },
+  PRESIGNED_URL_ERROR: {
+    httpStatus: 500,
+    message: "Could not create presigned url",
   },
   MONGODB_QUERY_ERROR: {
     httpStatus: 500,
@@ -30,6 +39,10 @@ export const errors = {
   JWT_ERROR: {
     httpStatus: 403,
     message: "JWT Token Not Found.",
+  },
+  INVALID_RECAPTCHA: {
+    httpStatus: 403,
+    message: "Invalid Recaptcha.",
   },
   DUPLICATE_USER: {
     httpStatus: 400,
@@ -47,5 +60,13 @@ export const errors = {
   INVALID_OTP: {
     httpStatus: 401,
     message: "Wrong OTP",
+  },
+  USER_NOT_AVAILABLE: {
+    httpStatus: 404,
+    message: "User not Found",
+  },
+  MISSING_ENV_VARIABLES: {
+    httpStatus: 500,
+    message: "Missing env variables",
   },
 };

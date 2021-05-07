@@ -3,10 +3,10 @@ import nc from "next-connect";
 import authRoutes from "../../api/auth/auth.routes";
 import linksRoutes from "../../api/links/links.routes";
 import publicRoutes from "../../api/public/public.routes";
+import profileRoutes from "../../api/profile/profile.routes";
 import { validateUser } from "../../api/middlewares/verifyJWT.middleware";
 import { onError, onNotFound } from "../../api/error/error.controller";
 import { rateLimiter } from "../../api/middlewares/rateLimiter";
-
 const indexRouter = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
   onError: onError,
