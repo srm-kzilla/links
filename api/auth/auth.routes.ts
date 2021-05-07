@@ -9,6 +9,7 @@ import {
   userOTPRequestSchema,
   userSignupSchema,
 } from "./auth.schema";
+import { verifyRecaptcha } from "../middlewares/verifyRecaptcha";
 
 const authHandler = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
@@ -16,12 +17,23 @@ const authHandler = nc<NextApiRequest, NextApiResponse>({
 });
 
 authHandler
-  .post("/login", validateQuery("body", userLoginSchema), postLogin)
-  .post("/signup", validateQuery("body", userSignupSchema), postSignup)
+  .post(
+    "/login",
+    verifyRecaptcha,
+    validateQuery("body", userLoginSchema),
+    postLogin
+  )
+  .post(
+    "/signup",
+    verifyRecaptcha,
+    validateQuery("body", userSignupSchema),
+    postSignup
+  )
 
   .get("/getotp", validateUser, getOTP)
   .post(
     "/postotp",
+    verifyRecaptcha,
     validateQuery("body", userOTPRequestSchema),
     validateUser,
     verifyOTP

@@ -10,6 +10,7 @@ import {
 } from "./profile.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { userProfileSchema, changePasswordSchema } from "./profile.schema";
+import { verifyRecaptcha } from "../middlewares/verifyRecaptcha";
 
 const profileHandler = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
@@ -20,13 +21,15 @@ profileHandler
   .get("/", validateUser, getProfile)
   .patch(
     "/editprofile",
+    verifyRecaptcha,
     validateQuery("body", userProfileSchema),
     validateUser,
     patchProfile
   )
-  .patch("/uploadpicture", validateUser, postPicture)
+  .patch("/uploadpicture", verifyRecaptcha, validateUser, postPicture)
   .patch(
     "/changepassword",
+    verifyRecaptcha,
     validateQuery("body", changePasswordSchema),
     validateUser,
     patchPassword
