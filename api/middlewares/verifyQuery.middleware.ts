@@ -40,7 +40,7 @@ export const validateQuery = (
         message += `${e}. `;
       });
       next({
-        httpStatus: `${err.httpStatus ? err.httpStatus : 400}`,
+        httpStatus: err.httpStatus || 400,
         message: message,
       });
     }
