@@ -73,7 +73,9 @@ export default function Navbar() {
           <>
             <div className="grid grid-cols-2 justify-self-end my-auto text-center">
               <a
-                href="/"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://srmkzilla.net"
                 className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
               >
                 About Us

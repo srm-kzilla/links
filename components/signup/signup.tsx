@@ -45,11 +45,15 @@ const SignUpComponent = () => {
 
   const submitHandler = async (values) => {
     try {
+      setLoading(true);
       delete values.confirmPassword;
       const res = await postSignup(values);
       if (res) {
         setIsAuth(true);
         router.push("/dashboard");
+      }
+      else {
+        setLoading(false);
       }
     }
     // Fire and forget
