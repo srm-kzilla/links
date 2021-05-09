@@ -19,7 +19,7 @@ authHandler
   .post("/login", validateQuery("body", userLoginSchema), postLogin)
   .post("/signup", validateQuery("body", userSignupSchema), postSignup)
 
-  .get("/getotp", validateUser, getOTP)
+  .get("/getotp", getOTP)
   .post(
     "/postotp",
     validateQuery("body", userOTPRequestSchema),

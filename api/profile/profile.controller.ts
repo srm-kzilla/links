@@ -94,9 +94,9 @@ export const postPicture = async (
       throw errors.USER_NOT_FOUND;
     }
     const s3 = new aws.S3({
-      accessKeyId: process.env.S3_ACCESS_KEY_ID,
-      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-      region: process.env.S3_REGION,
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: process.env.AWS_REGION,
     });
     if (!s3) {
       throw errors.AWS_CONNECT_ERROR;

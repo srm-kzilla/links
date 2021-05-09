@@ -4,6 +4,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
+import aws from "aws-sdk";
+
 import {
   UserSignup,
   JwtPayload,
@@ -122,13 +124,16 @@ export const getOTP = async (
   next: NextHandler
 ) => {
   try {
-    let payload = req.env.user;
-    let user: JwtPayload = JSON.parse(payload);
+    let { email } = req.body;
+
+    const dbClient: MongoClient = await getDbClient();
+    const user = await dbClient
+      .db()
+      .collection("users")
+      .findOne({ email: email });
     if (!user) {
       throw errors.USER_NOT_FOUND;
     }
-    const dbClient: MongoClient = await getDbClient();
-
     const OTP = Math.floor(Math.random() * 1000000);
     const createdAt = new Date().getTime();
     //TO DO: encode OTP?
@@ -136,19 +141,79 @@ export const getOTP = async (
       .db()
       .collection("otp")
       .insertOne({
-        email: user.email,
+        email: email,
         otp: OTP,
         createdAt: createdAt,
-        expiresAt: createdAt + 10 * 60000,
+        expiresAt: createdAt + 5 * 60000,
       });
+    aws.config.update({
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: process.env.AWS_REGION,
+    });
+
+    const ses = new aws.SES({ apiVersion: "2010-12-01" });
+    if (!ses) {
+      throw errors.AWS_CONNECT_ERROR;
+    }
+    const htmlData = `
+    
+    <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+    <div style="margin:50px auto;width:70%;padding:20px 0">
+      <div style="border-bottom:1px solid #eee">
+      <img src="https://user-images.githubusercontent.com/60519359/116779920-c1e8ae00-aa96-11eb-8952-b2b261d88a08.jpg">
+      </div>
+      <p style="font-size:1.1em">Hi ${user.name || user.username},</p>
+      <p>We got a request to reset your password. Following is the OTP to reset your password. OTP is valid for 5 minutes</p>
+      <h2 style="background: #6fcf97;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;">${OTP}</h2>
+      <p style="font-size:0.9em;">Regards,<br />LINKS by SRMKZILLA</p>
+      <hr style="border:none;border-top:1px solid #eee" />
+    </div>
+  </div>`;
+    const params = {
+      Destination: {
+        ToAddresses: [email],
+      },
+      Message: {
+        Body: {
+          Html: {
+            Charset: "UTF-8",
+            Data: htmlData,
+          },
+        },
+        Subject: {
+          Charset: "UTF-8",
+          Data: "Reset your password",
+        },
+      },
+      Source: "LINKS by SRMKZILLA" + process.env.SES_SOURCE,
+    };
+    const emailSent = await ses.sendEmail(params).promise();
+    if (!emailSent) {
+      throw errors.AWS_CONNECT_ERROR;
+    }
+    console.log("email submitted to SES", emailSent);
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw errors.MISSING_ENV_VARIABLES;
+    }
+    const token = jwt.sign({ email, _id: user._id }, jwtSecret, {
+      expiresIn: "1d",
+      issuer: "srmkzilla",
+    });
+
     return res.status(200).json({
       success: true,
       otp: OTP,
+      authToken: token,
       createdAt: createdAt,
-      expiresAt: createdAt + 10 * 60000,
+      expiresAt: createdAt + 5 * 60000,
     });
   } catch (err) {
-    next(err);
+    next({
+      httpStatus: err.httpStatus || 500,
+      message: `${err.name}: ${err.message}`,
+    });
   }
 };
 
@@ -193,6 +258,10 @@ export const verifyOTP = async (
       //(when email in token doesn't match the email in database but the otp in request and the database matches)
     }
   } catch (err) {
-    next(err);
+    next({
+      httpStatus: err.httpStatus || 500,
+      message: `${err.name}: ${err.message}`,
+    });
   }
 };
+
