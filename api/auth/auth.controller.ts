@@ -5,7 +5,7 @@ import { NextHandler } from "next-connect";
 import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
 import aws from "aws-sdk";
-import { tempFn } from "../../mailTemplate";
+import { resetPasswordTemplate } from "../../resetpassword.template";
 
 import {
   UserSignup,
@@ -14,6 +14,9 @@ import {
   UserDB,
   UserLogin,
   userSignupSchema,
+  UserEmail,
+  resetPasswordOtpDB,
+  ResetPassword,
 } from "./auth.schema";
 import { errors } from "../error/error.constant";
 
@@ -125,26 +128,26 @@ export const getOTP = async (
   next: NextHandler
 ) => {
   try {
-    let { email } = req.body;
+    let { email } = req.body as UserEmail;
 
     const dbClient: MongoClient = await getDbClient();
     const user = await dbClient
       .db()
       .collection("users")
-      .findOne({ email: email });
+      .findOne<UserDB>({ email: email });
     if (!user) {
       throw errors.USER_NOT_FOUND;
     }
     const OTP = Math.floor(Math.random() * 1000000);
     const createdAt = new Date().getTime();
-    //TO DO: encode OTP?
+    //DOUBT: encode OTP before storing in db?
     await dbClient
       .db()
       .collection("otp")
       .insertOne({
         email: email,
         otp: OTP,
-        createdAt: createdAt,
+        createdAt,
         expiresAt: createdAt + 5 * 60000,
       });
     aws.config.update({
@@ -166,7 +169,10 @@ export const getOTP = async (
         Body: {
           Html: {
             Charset: "UTF-8",
-            Data: tempFn({ name: user.name || user.username, otp: OTP }),
+            Data: resetPasswordTemplate({
+              name: user.name || user.username,
+              otp: OTP,
+            }),
           },
         },
         Subject: {
@@ -180,21 +186,18 @@ export const getOTP = async (
     if (!emailSent) {
       throw errors.AWS_CONNECT_ERROR;
     }
-    console.log("email submitted to SES", emailSent);
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
       throw errors.MISSING_ENV_VARIABLES;
     }
-    const token = jwt.sign({ email }, jwtSecret, {
+    const resetPasswordToken = jwt.sign({ email }, jwtSecret, {
       expiresIn: "15m",
       issuer: "srmkzilla",
     });
 
     return res.status(200).json({
       success: true,
-      token: token,
-      createdAt: createdAt,
-      expiresAt: createdAt + 5 * 60000,
+      resetPasswordToken: resetPasswordToken,
     });
   } catch (err) {
     next({
@@ -211,8 +214,8 @@ export const verifyOTP = async (
 ) => {
   try {
     let payload = req.env.user;
-    let user: JwtPayload = JSON.parse(payload);
-    if (!user) {
+    let resetPasswordRequest: JwtPayload = JSON.parse(payload);
+    if (!resetPasswordRequest) {
       throw errors.USER_NOT_FOUND;
     }
 
@@ -225,12 +228,12 @@ export const verifyOTP = async (
     const databaseOTP = await dbClient
       .db()
       .collection("otp")
-      .findOne({ otp: userRequest.otp });
+      .findOne<resetPasswordOtpDB>({ otp: userRequest.otp });
     if (!databaseOTP) {
       throw errors.INVALID_OTP; //if otp by user doesn't match any otp in database
     }
 
-    if (databaseOTP.email === user.email) {
+    if (databaseOTP.email === resetPasswordRequest.email) {
       if (databaseOTP.expiresAt < new Date().getTime()) {
         throw errors.OTP_EXPIRED;
       }
@@ -246,7 +249,7 @@ export const verifyOTP = async (
     }
   } catch (err) {
     next({
-      httpStatus: err.httpStatus || 500,
+      httpStatus: err.httpStatus || 403,
       message: `${err.name}: ${err.message}`,
     });
   }
@@ -263,13 +266,9 @@ export const resetPassword = async (
     if (!user) {
       throw errors.USER_NOT_FOUND;
     }
-    let { newPassword } = req.body;
+    let { newPassword } = req.body as ResetPassword;
 
     const dbClient: MongoClient = await getDbClient();
-    let userInfo = await dbClient
-      .db()
-      .collection("users")
-      .findOne<UserDB>({ email: user.email }, {});
 
     const saltRounds = 12;
     const salt = await bcrypt.genSalt(saltRounds);
@@ -283,6 +282,9 @@ export const resetPassword = async (
       success: true,
     });
   } catch (err) {
-    next(err);
+    next({
+      httpStatus: err.httpStatus || 403,
+      message: `${err.name}: ${err.message}`,
+    });
   }
 };

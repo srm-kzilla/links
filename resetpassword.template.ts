@@ -1,5 +1,5 @@
 import doT from "dot";
-export var tempFn = doT.template(`<!DOCTYPE html>
+export var resetPasswordTemplate = doT.template(`<!DOCTYPE html>
 <html
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:v="urn:schemas-microsoft-com:vml"
@@ -50,7 +50,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
     </style>
     <!--[if !mso]><!-->
     <style type="text/css">
-      @media only screen and (max-width: 480px) {
+      @media only screen and (max-width: 540px) {
         @-ms-viewport {
           width: 320px;
         }
@@ -94,7 +94,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
     <!--<![endif]-->
 
     <style type="text/css">
-      @media only screen and (min-width: 480px) {
+      @media only screen and (min-width: 540px) {
         .mj-column-per-100 {
           width: 100% !important;
           max-width: 100%;
@@ -107,7 +107,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
     </style>
 
     <style type="text/css">
-      @media only screen and (max-width: 480px) {
+      @media only screen and (max-width: 540px) {
         table.full-width-mobile {
           width: 100% !important;
         }
@@ -120,7 +120,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
       .hide_on_mobile {
         display: none !important;
       }
-      @media only screen and (min-width: 480px) {
+      @media only screen and (min-width: 540px) {
         .hide_on_mobile {
           display: block !important;
         }
@@ -128,7 +128,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
       .hide_section_on_mobile {
         display: none !important;
       }
-      @media only screen and (min-width: 480px) {
+      @media only screen and (min-width: 540px) {
         .hide_section_on_mobile {
           display: table !important;
         }
@@ -140,7 +140,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
       .hide_on_desktop {
         display: block !important;
       }
-      @media only screen and (min-width: 480px) {
+      @media only screen and (min-width: 540px) {
         .hide_on_desktop {
           display: none !important;
         }
@@ -148,7 +148,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
       .hide_section_on_desktop {
         display: table !important;
       }
-      @media only screen and (min-width: 480px) {
+      @media only screen and (min-width: 540px) {
         .hide_section_on_desktop {
           display: none !important;
         }
@@ -174,7 +174,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
         color: inherit;
       }
 
-      @media only print and (min-width: 480px) {
+      @media only print and (min-width: 540px) {
         .mj-column-per-100 {
           width: 100% !important;
         }
@@ -189,6 +189,11 @@ export var tempFn = doT.template(`<!DOCTYPE html>
         }
         mj-column-per-33 {
           width: 33.333333333333336% !important;
+        }
+      }
+      @media screen and (max-width: 540px) {
+        .footer {
+          text-align: center !important;
         }
       }
     </style>
@@ -288,7 +293,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
                                   style="color: #0000ee"
                                 >
                                   <img
-                                    alt="Logo for LINKS"
+                                    alt=""
                                     height="auto"
                                     src="https://user-images.githubusercontent.com/60519359/116779920-c1e8ae00-aa96-11eb-8952-b2b261d88a08.jpg"
                                     style="
@@ -665,11 +670,9 @@ export var tempFn = doT.template(`<!DOCTYPE html>
                           </p>
                           <p>&nbsp;</p>
                           <p>
-                            <strong
-                              ><span style="font-size: 16px"
+                            <span style="font-size: 16px"
                                 >Regards,<br />Your friends at SRMKZILLA</span
-                              ></strong
-                            >
+                              >
                           </p>
                         </div>
                       </td>
@@ -765,7 +768,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
                         align="left"
                         style="
                           font-size: 0px;
-                          padding: 0px 35px 0px 35px;
+                          padding: 0px 15px 0px 15px;
                           word-break: break-word;
                         "
                       >
@@ -778,7 +781,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
                             color: #1d1d1d;
                           "
                         >
-                          <p style="text-align: left">
+                          <p style="text-align: left" class="footer">
                             <span style="font-size: 14px; color: #7e8c8d"
                               >The SRMKZILLA Room<br />717, University
                               Building<br />SRM Institute of Science and
@@ -821,10 +824,11 @@ export var tempFn = doT.template(`<!DOCTYPE html>
                   >
                     <tr>
                       <td
+                        class="footer"
                         align="right"
                         style="
                           font-size: 0px;
-                          padding: 10px 10px 0px 0px;
+                          padding: 0px 15px 0px 0px;
                           word-break: break-word;
                         "
                       >
@@ -1180,20 +1184,21 @@ export var tempFn = doT.template(`<!DOCTYPE html>
                         align="left"
                         style="
                           font-size: 0px;
-                          padding: 15px 15px 15px 15px;
+                          padding: 10px 15px 0px 15px;
                           word-break: break-word;
                         "
                       >
                         <div
+                          class="footer"
                           style="
                             font-family: Ubuntu, Helvetica, Arial, sans-serif;
-                            font-size: 11px;
+                            font-size: 14px;
                             line-height: 1.5;
-                            text-align: left;
+                            text-align: right;
                             color: #000000;
                           "
                         >
-                          <p style="text-align: right">
+                          <p style="text-align: right; font-size: 14px; class="footer">
                             <span style="color: #7e8c8d">Join</span>
                             <span style="color: #6fcf97"
                               ><a style="color: #6fcf97" href="http://links.com"
@@ -1311,7 +1316,7 @@ export var tempFn = doT.template(`<!DOCTYPE html>
                           "
                         >
                           <p>
-                            sent with 🧡&nbsp; &nbsp;by your friends at the<span
+                            sent with 🧡&nbsp; by your friends at the<span
                               style="color: #000000"
                               ><strong
                                 ><a

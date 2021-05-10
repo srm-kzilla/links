@@ -11,6 +11,8 @@ import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { validateUser } from "../middlewares/verifyJWT.middleware";
 import {
+  resetPasswordSchema,
+  userEmailSchema,
   userLoginSchema,
   userOTPRequestSchema,
   userSignupSchema,
@@ -36,7 +38,7 @@ authHandler
     validateQuery("body", userSignupSchema),
     postSignup
   )
-  .get("/getotp", getOTP)
+  .get("/getotp", validateQuery("body", userEmailSchema), getOTP)
   .post(
     "/postotp",
     verifyRecaptcha,
@@ -44,6 +46,12 @@ authHandler
     validateToken,
     verifyOTP
   )
-  .patch("/resetpassword", verifyRecaptcha, validateToken, resetPassword);
+  .patch(
+    "/resetpassword",
+    verifyRecaptcha,
+    validateQuery("body", resetPasswordSchema),
+    validateToken,
+    resetPassword
+  );
 
 export default authHandler;
