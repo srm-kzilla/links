@@ -10,11 +10,6 @@ async function getRecaptchaToken() {
   const token = await recaptcha.execute();  
   return token;
 }
-// const instance = axios.create({
-//   headers: {
-//     "x-recaptcha-token": getRecaptchaToken(),
-//   }
-// });
 
 export const postLogin = async (values) => {
   try {
