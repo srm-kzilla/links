@@ -5,7 +5,7 @@ import { GrFormClose } from "react-icons/gr";
 import { Formik, Field, Form } from "formik";
 
 import { passwordValidationSchema } from "../../utils/schema";
-import { postNewPassword } from "../../utils/api";
+import { patchNewPassword } from "../../utils/api";
 
 interface ModalProps {
   isOpen: boolean;
@@ -21,7 +21,7 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
     }
     const { authToken } = parseCookies();
     (async () => {
-      const _res = await postNewPassword(authToken, values);
+      const _res = await patchNewPassword(authToken, values);
       if (_res) {
         onClose();
       }

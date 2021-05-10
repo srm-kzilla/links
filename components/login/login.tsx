@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { Formik, Field, Form } from "formik";
-import { load } from 'recaptcha-v3'
 import * as Yup from "yup";
 
 import { postLogin } from "../../utils/api";
@@ -32,22 +31,17 @@ const LoginComponent = () => {
     try {
       setLoading(true);
       const res = await postLogin(values);
-      getRecaptchaToken();
       if (res) {
         setIsAuth(true);
         router.push("/dashboard");
+      }
+      else {
+        setLoading(false);
       }
     }
     // Fire and forget
     catch (error) { }
   };
-
-  async function getRecaptchaToken() {
-    const recaptcha = await load(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
-    const token = await recaptcha.execute();
-  
-    console.log(token) 
-  }
 
   const [passwordShown, setPasswordShown] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
