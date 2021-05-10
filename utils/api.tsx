@@ -10,6 +10,11 @@ async function getRecaptchaToken() {
   const token = await recaptcha.execute();  
   return token;
 }
+// const instance = axios.create({
+//   headers: {
+//     "x-recaptcha-token": getRecaptchaToken(),
+//   }
+// });
 
 export const postLogin = async (values) => {
   try {
@@ -18,7 +23,7 @@ export const postLogin = async (values) => {
       method: "POST",
       url: `${baseUrl}api/v1/auth/login`,
       headers: {
-        "X-Recaptcha-Token": recaptchaToken,
+        "x-recaptcha-token": recaptchaToken,
       },
       data: values,
     });
@@ -37,7 +42,7 @@ export const postSignup = async (values) => {
       method: "POST",
       url: `${baseUrl}api/v1/auth/signup`,
       headers: {
-        "X-Recaptcha-Token": recaptchaToken,
+        "x-recaptcha-token": recaptchaToken,
       },
       data: values,
     });
@@ -69,7 +74,7 @@ export const postLink = async (authToken: string, values: object) => {
       url: `${baseUrl}api/v1/links/add`,
       headers: {
         Authorization: `Bearer ${authToken}`,
-        "X-Recaptcha-Token": recaptchaToken,
+        "x-recaptcha-token": recaptchaToken,
       },
       data: values,
     });
@@ -90,7 +95,7 @@ export const deleteLink = async (authToken: string, _id: string) => {
       url: endpoint,
       headers: {
         Authorization: `Bearer ${authToken}`,
-        "X-Recaptcha-Token": recaptchaToken,
+        "x-recaptcha-token": recaptchaToken,
       },
     });
     successHandler("🗑️ Link deleted successfully!");
@@ -114,7 +119,7 @@ export const updateLink = async (
       url: endpoint,
       headers: {
         Authorization: `Bearer ${authToken}`,
-        "X-Recaptcha-Token": recaptchaToken,
+        "x-recaptcha-token": recaptchaToken,
       },
       data: values,
     });
@@ -156,7 +161,7 @@ export const patchProfilePicture = async (authToken: string) => {
       url: `${baseUrl}api/v1/profile/uploadpicture`,
       headers: {
         Authorization: `Bearer ${authToken}`,
-        "X-Recaptcha-Token": recaptchaToken,
+        "x-recaptcha-token": recaptchaToken,
       },
     });
     return _res;
@@ -204,7 +209,7 @@ export const patchUserProfile = async (authToken: string, userData: Object) => {
       url: `${baseUrl}api/v1/profile/editprofile`,
       headers: {
         Authorization: `Bearer ${authToken}`,
-        "X-Recaptcha-Token": recaptchaToken,
+        "x-recaptcha-token": recaptchaToken,
       },
       data: userData
     });
@@ -223,7 +228,7 @@ export const patchNewPassword = async (authToken: string, values: Object) => {
       url: `${baseUrl}api/v1/profile/changepassword`,
       headers: {
         Authorization: `Bearer ${authToken}`,
-        "X-Recaptcha-Token": recaptchaToken,
+        "x-recaptcha-token": recaptchaToken,
       },
       data: values
     });
