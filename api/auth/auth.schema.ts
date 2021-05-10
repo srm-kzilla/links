@@ -80,6 +80,14 @@ export const userOTPRequestSchema = yup.object({
     ),
 });
 
+export const forgotPasswordSchema = yup.object({
+  newPassword: yup
+    .string()
+    .trim()
+    .min(8, "Password must have at least 8 characters")
+    .required(),
+});
+
 export interface JwtPayload {
   email: string;
   _id: ObjectID;
@@ -98,3 +106,4 @@ export interface UserDB extends UserSignup {
   _id?: ObjectID;
 }
 export type UserOTPRequest = yup.InferType<typeof userOTPRequestSchema>;
+export type ForgotPassword = yup.InferType<typeof forgotPasswordSchema>;
