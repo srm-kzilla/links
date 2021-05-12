@@ -83,7 +83,6 @@ export const userOTPRequestSchema = yup.object({
       (val) => val && val.toString().length === 6
     )
     .required(),
-  email: yup.string().trim(),
 });
 
 export const resetPasswordSchema = yup.object({
@@ -114,9 +113,9 @@ export interface UserDB extends UserSignup {
 }
 export type UserOTPRequest = yup.InferType<typeof userOTPRequestSchema>;
 export interface resetPasswordOtpDB extends UserOTPRequest {
-  _id?: ObjectID;
-  createdAt: number;
-  expiresAt: number;
+  _id: ObjectID;
+  email: string;
+  createdAt: Date;
 }
 export type ResetPassword = yup.InferType<typeof resetPasswordSchema>;
 export type UserEmail = yup.InferType<typeof userEmailSchema>;

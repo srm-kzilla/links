@@ -139,48 +139,49 @@ export const getOTP = async (
       throw errors.USER_NOT_FOUND;
     }
     const OTP = Math.floor(Math.random() * 1000000);
-    const createdAt = new Date().getTime();
-    //DOUBT: encode OTP before storing in db?
-    await dbClient
+
+    dbClient
       .db()
       .collection("otp")
-      .insertOne({
-        email: email,
-        otp: OTP,
-        createdAt,
-        expiresAt: createdAt + 5 * 60000,
-      });
+      .createIndex({ createdAt: 1 }, { expireAfterSeconds: 300 });
+    await dbClient.db().collection("otp").insertOne({
+      email: email,
+      otp: OTP,
+      createdAt: new Date(),
+    });
     aws.config.update({
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
       region: process.env.AWS_REGION,
     });
 
-    const ses = new aws.SES({ apiVersion: "2010-12-01" });
+    const ses = new aws.SESV2();
     if (!ses) {
       throw errors.AWS_CONNECT_ERROR;
     }
 
     const params = {
+      Content: {
+        Simple: {
+          Body: {
+            Html: {
+              Charset: "UTF-8",
+              Data: resetPasswordTemplate({
+                name: user.name || user.username,
+                otp: OTP,
+              }),
+            },
+          },
+          Subject: {
+            Charset: "UTF-8",
+            Data: "Reset your password",
+          },
+        },
+      },
       Destination: {
         ToAddresses: [email],
       },
-      Message: {
-        Body: {
-          Html: {
-            Charset: "UTF-8",
-            Data: resetPasswordTemplate({
-              name: user.name || user.username,
-              otp: OTP,
-            }),
-          },
-        },
-        Subject: {
-          Charset: "UTF-8",
-          Data: "Reset your password",
-        },
-      },
-      Source: "LINKS by SRMKZILLA" + process.env.SES_SOURCE,
+      FromEmailAddress: "LINKS by SRMKZILLA" + process.env.SES_SOURCE,
     };
     const emailSent = await ses.sendEmail(params).promise();
     if (!emailSent) {
@@ -218,11 +219,7 @@ export const verifyOTP = async (
     if (!resetPasswordRequest) {
       throw errors.USER_NOT_FOUND;
     }
-
     const userRequest = req.body as UserOTPRequest;
-    if (!userRequest) {
-      throw errors.INVALID_OTP;
-    }
 
     const dbClient: MongoClient = await getDbClient();
     const databaseOTP = await dbClient
@@ -232,21 +229,13 @@ export const verifyOTP = async (
     if (!databaseOTP) {
       throw errors.INVALID_OTP; //if otp by user doesn't match any otp in database
     }
-
     if (databaseOTP.email === resetPasswordRequest.email) {
-      if (databaseOTP.expiresAt < new Date().getTime()) {
-        throw errors.OTP_EXPIRED;
-      }
-      //TO DO: Delete OTP document when otp has expired
-
       await dbClient.db().collection("otp").deleteOne({ _id: databaseOTP._id });
       return res.status(200).json({
         success: true,
       });
-    } else {
-      throw errors.INVALID_OTP; //when a user enters an otp that another user got
-      //(when email in token doesn't match the email in database but the otp in request and the database matches)
     }
+    throw errors.INVALID_OTP; //when a user enters an otp that another user got
   } catch (err) {
     next({
       httpStatus: err.httpStatus || 403,

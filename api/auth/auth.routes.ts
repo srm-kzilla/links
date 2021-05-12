@@ -38,7 +38,7 @@ authHandler
     validateQuery("body", userSignupSchema),
     postSignup
   )
-  .get("/getotp", validateQuery("body", userEmailSchema), getOTP)
+  .post("/getotp", validateQuery("body", userEmailSchema), getOTP)
   .post(
     "/postotp",
     verifyRecaptcha,
