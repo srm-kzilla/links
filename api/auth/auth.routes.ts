@@ -12,11 +12,14 @@ import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { validateUser } from "../middlewares/verifyJWT.middleware";
 import {
+  resetPasswordSchema,
+  userEmailSchema,
   userLoginSchema,
   userOTPRequestSchema,
   userSignupSchema,
 } from "./auth.schema";
 import { verifyRecaptcha } from "../middlewares/verifyRecaptcha";
+import { validateToken } from "../middlewares/verifyResetPasswordToken.middleware";
 
 const authHandler = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
@@ -47,8 +50,15 @@ authHandler
     "/postotp",
     verifyRecaptcha,
     validateQuery("body", userOTPRequestSchema),
-    validateUser,
+    validateToken,
     verifyOTP
+  )
+  .patch(
+    "/resetpassword",
+    verifyRecaptcha,
+    validateQuery("body", resetPasswordSchema),
+    validateToken,
+    resetPassword
   );
 
 export default authHandler;

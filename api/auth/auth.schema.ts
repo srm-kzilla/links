@@ -50,6 +50,10 @@ export const userSignupSchema = yup.object({
   updatedAt: yup.date().default(new Date()),
 });
 
+export const userEmailSchema = yup.object({
+  email: yup.string().trim().email().required(),
+});
+
 export const jwtRequestSchema = yup
   .object({
     authorization: yup
@@ -73,16 +77,26 @@ export const userOTPRequestSchema = yup.object({
       "len",
       "Must be exactly 6 characters",
       (val) => val && val.toString().length === 6
-    ),
+    )
+    .required(),
+});
+
+export const resetPasswordSchema = yup.object({
+  newPassword: yup
+    .string()
+    .trim()
+    .min(8, "Password must have at least 8 characters")
+    .required(),
 });
 
 export interface JwtPayload {
   email: string;
-  _id: ObjectID;
+  _id?: ObjectID;
   iat: number;
   exp: number;
   iss: "srmkzilla";
 }
+
 export type JwtRequest = yup.InferType<typeof jwtRequestSchema>;
 export type RecaptchaResponseToken = yup.InferType<
   typeof recaptchaResponseToken
@@ -94,3 +108,10 @@ export interface UserDB extends UserSignup {
   _id?: ObjectID;
 }
 export type UserOTPRequest = yup.InferType<typeof userOTPRequestSchema>;
+export interface resetPasswordOtpDB extends UserOTPRequest {
+  _id: ObjectID;
+  email: string;
+  createdAt: Date;
+}
+export type ResetPassword = yup.InferType<typeof resetPasswordSchema>;
+export type UserEmail = yup.InferType<typeof userEmailSchema>;
