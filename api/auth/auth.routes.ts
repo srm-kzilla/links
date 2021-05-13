@@ -1,6 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
-import { postLogin, postSignup, getOTP, verifyOTP } from "./auth.controller";
+import {
+  postLogin,
+  postSignup,
+  getOTP,
+  verifyOTP,
+  resetPassword,
+  getVerifyAccount,
+} from "./auth.controller";
 import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { validateUser } from "../middlewares/verifyJWT.middleware";
@@ -29,8 +36,13 @@ authHandler
     validateQuery("body", userSignupSchema),
     postSignup
   )
-
-  .get("/getotp", validateUser, getOTP)
+  .get("/verify", getVerifyAccount)
+  .post(
+    "/getotp",
+    verifyRecaptcha,
+    validateQuery("body", userEmailSchema),
+    getOTP
+  )
   .post(
     "/postotp",
     verifyRecaptcha,
