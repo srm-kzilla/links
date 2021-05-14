@@ -33,11 +33,11 @@ export const errors = {
   },
   MONGODB_QUERY_ERROR: {
     httpStatus: 500,
-    message: "🔧Error Executing MongoDB Query",
+    message: "🔧 Error Executing MongoDB Query",
   },
   JWT_ERROR: {
     httpStatus: 404,
-    message: "👻Unauthorized Access",
+    message: "👻 Unauthorized Access",
   },
   INVALID_RECAPTCHA: {
     httpStatus: 403,

@@ -116,7 +116,8 @@ export const postSignup = async (
     res.status(200).json({
       success: true,
       authToken: token,
-      message: "🎊 Account created successfully !",
+      message:
+        "🎊 Account created successfully! . Please verify your Email to proceed",
     });
   } catch (err) {
     next(err);
@@ -234,7 +235,7 @@ export const verifyOTP = async (
       await dbClient.db().collection("otp").deleteOne({ _id: databaseOTP._id });
       return res.status(200).json({
         success: true,
-        message: "🔑 Otp verified successfully ",
+        message: "🔑 OTP verified successfully!",
       });
     }
     throw errors.INVALID_OTP; //when a user enters an otp that another user got
@@ -271,7 +272,7 @@ export const resetPassword = async (
       .updateOne({ email: user.email }, { $set: { password: hash } });
     return res.status(200).json({
       success: true,
-      message: "🔒️ Password updated successfully !",
+      message: "🔒️ Password updated successfully!",
     });
   } catch (err) {
     next({
