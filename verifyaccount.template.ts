@@ -568,7 +568,7 @@ export var verifyAccountTemplate = doT.template(`<!DOCTYPE html>
                                 >
                                   
                                     <a
-                                      href="{{=it.baseUrl}}api/v1/auth/verify?secret={{=it.secret}}"
+                                      href="{{=it.baseUrl}}verifyemail?secret={{=it.secret}}"
                                       style="
                                         display: inline-block;
                                         background: #56ccf2;

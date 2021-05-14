@@ -59,6 +59,10 @@ export const errors = {
     httpStatus: 404,
     message: "🚧 User not Found",
   },
+  UNVERIFIED_ACCOUNT: {
+    httpStatus: 403,
+    message: "🙄 Please verify your email to proceed",
+  },
   MISSING_ENV_VARIABLES: {
     httpStatus: 500,
     message: "🔧 Missing env variables",

@@ -38,7 +38,9 @@ export const postLogin = async (
     if (!result) {
       throw errors.USER_NOT_FOUND;
     }
-
+    if (await dbClient.db().collection("tempusers").findOne<UserDB>({ body })) {
+      throw errors.UNVERIFIED_ACCOUNT;
+    }
     if (await bcrypt.compare(password, result.password)) {
       const jwtSecret = process.env.JWT_SECRET;
       if (!jwtSecret) {
@@ -100,23 +102,21 @@ export const getVerifyAccount = async (
     if (!data) {
       throw errors.MONGODB_QUERY_ERROR;
     }
-    //TO DO: Delete document from tempuser after successful verification,
-    //to not let user verify again
-    //TO DO: setCookie from backend, authToken or send as headers
-    //TO DO: If user verified, directly redirect on button click in mail
-    //TO DO: Send handled errors to frontend
-    //TO DO: edit profile check duplicate username in tempusers
-    //TO DO: login check signed up user in tempusers, request to verify
 
-    // const token = jwt.sign(
-    //   { email: user.email, _id: data.ops[0]._id },
-    //   jwtSecret,
-    //   {
-    //     expiresIn: "1d",
-    //     issuer: "srmkzilla",
-    //   }
-    // );
-    res.redirect(`${baseUrl}login`);
+    //TO DO: edit profile check duplicate username in tempusers
+
+    const token = jwt.sign(
+      { email: user.email, _id: data.ops[0]._id },
+      jwtSecret,
+      {
+        expiresIn: "1d",
+        issuer: "srmkzilla",
+      }
+    );
+    res.status(200).json({
+      success: true,
+      authToken: token,
+    });
   } catch (err) {
     next({
       httpStatus: err.httpStatus || 500,
@@ -144,7 +144,7 @@ export const postSignup = async (
       .collection("tempusers")
       .findOne<UserDB>({ email: email });
     if (tempUser) {
-      throw errors.DUPLICATE_USER;
+      throw errors.UNVERIFIED_ACCOUNT;
     }
     let usernameExists = await dbClient
       .db()
@@ -230,7 +230,7 @@ export const postSignup = async (
       success: true,
       token: secret,
       message:
-        "🎊 Account created successfully! . Please verify your Email to proceed",
+        "🎊 Account created successfully!. Please verify your Email to proceed",
     });
   } catch (err) {
     next({
