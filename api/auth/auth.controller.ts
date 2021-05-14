@@ -116,6 +116,7 @@ export const postSignup = async (
     res.status(200).json({
       success: true,
       authToken: token,
+      message: "🎊 Account created successfully !",
     });
   } catch (err) {
     next(err);
@@ -136,7 +137,7 @@ export const getOTP = async (
       .collection("users")
       .findOne<UserDB>({ email: email });
     if (!user) {
-      throw errors.USER_NOT_FOUND;
+      throw errors.EMAIL_NOT_FOUND;
     }
     const OTP = Math.floor(Math.random() * 1000000);
 
@@ -233,6 +234,7 @@ export const verifyOTP = async (
       await dbClient.db().collection("otp").deleteOne({ _id: databaseOTP._id });
       return res.status(200).json({
         success: true,
+        message: "🔑 Otp verified successfully ",
       });
     }
     throw errors.INVALID_OTP; //when a user enters an otp that another user got
@@ -269,6 +271,7 @@ export const resetPassword = async (
       .updateOne({ email: user.email }, { $set: { password: hash } });
     return res.status(200).json({
       success: true,
+      message: "🔒️ Password updated successfully !",
     });
   } catch (err) {
     next({

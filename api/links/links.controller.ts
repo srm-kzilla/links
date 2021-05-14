@@ -72,6 +72,7 @@ export const addLink = async (
     if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
     res.json({
       success: true,
+      message: "🎉 Link added successfully !",
       _id: response.insertedId,
       image: validatedData.image,
       shortCode: kzillaXYZdata.shortCode,
@@ -155,7 +156,10 @@ export const deleteLink = async (
     if (deleteLink.value === null) {
       throw errors.MONGODB_QUERY_ERROR;
     }
-    res.json({ success: true });
+    res.json({
+      success: true,
+      message: "🗑️ Link deleted successfully !",
+    });
   } catch (err) {
     next(err);
   }
@@ -222,7 +226,10 @@ export const updateLink = async (
     if (updateLink.result.n === 0) {
       throw errors.MONGODB_QUERY_ERROR;
     }
-    res.json({ success: true, message: "Link has been updated successfully." });
+    res.json({
+      success: true,
+      message: "Link updated successfully ✅  !",
+    });
   } catch (err) {
     next(err);
   }
