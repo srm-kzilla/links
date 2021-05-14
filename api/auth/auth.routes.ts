@@ -3,14 +3,22 @@ import nc from "next-connect";
 import {
   postLogin,
   postSignup,
-  getUser,
   getOTP,
   verifyOTP,
+  resetPassword,
 } from "./auth.controller";
 import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import { validateUser } from "../middlewares/verifyJWT.middleware";
-import { userLoginSchema, userSignupSchema } from "./auth.schema";
+import {
+  resetPasswordSchema,
+  userEmailSchema,
+  userLoginSchema,
+  userOTPRequestSchema,
+  userSignupSchema,
+} from "./auth.schema";
+import { verifyRecaptcha } from "../middlewares/verifyRecaptcha";
+import { validateToken } from "../middlewares/verifyResetPasswordToken.middleware";
 
 const authHandler = nc<NextApiRequest, NextApiResponse>({
   onNoMatch: onNotFound,
@@ -18,10 +26,32 @@ const authHandler = nc<NextApiRequest, NextApiResponse>({
 });
 
 authHandler
-  .post("/login", validateQuery("body", userLoginSchema), postLogin)
-  .post("/signup", validateQuery("body", userSignupSchema), postSignup)
-  .get("/user", validateUser, getUser)
-  .get("/getotp", validateUser, getOTP)
-  .post("/postotp", validateUser, verifyOTP);
+  .post(
+    "/login",
+    verifyRecaptcha,
+    validateQuery("body", userLoginSchema),
+    postLogin
+  )
+  .post(
+    "/signup",
+    verifyRecaptcha,
+    validateQuery("body", userSignupSchema),
+    postSignup
+  )
+  .post("/getotp", validateQuery("body", userEmailSchema), getOTP)
+  .post(
+    "/postotp",
+    verifyRecaptcha,
+    validateQuery("body", userOTPRequestSchema),
+    validateToken,
+    verifyOTP
+  )
+  .patch(
+    "/resetpassword",
+    verifyRecaptcha,
+    validateQuery("body", resetPasswordSchema),
+    validateToken,
+    resetPassword
+  );
 
 export default authHandler;

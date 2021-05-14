@@ -15,6 +15,9 @@ const AuthContextProvider: React.FC = ({ children }): React.ReactElement => {
       setIsAuth(false);
       localStorage.removeItem("isAuth");
     }
+    else {
+      setIsAuth(true);
+    }
   }, []);
 
   return (
@@ -25,7 +28,7 @@ const AuthContextProvider: React.FC = ({ children }): React.ReactElement => {
       }}
     >
       {children}
-      {process.env.NODE_ENV === "development" && console.log("isAuth", isAuth)}
+      {process.env.NODE_ENV === "development"}
     </AuthContext.Provider>
   );
 };

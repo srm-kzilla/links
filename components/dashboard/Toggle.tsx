@@ -1,16 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
+import { parseCookies } from "nookies";
 import Switch from "react-input-switch";
 
+import { updateLink } from "../../utils/api";
+import { SidebarContext } from "../../utils/sidebarContext";
+
 interface ToggleProps {
-  status: boolean;    
+  status: boolean;
+  linkId: string;
 }
 
-const Toggle = ({ status }: ToggleProps): JSX.Element => {
+const Toggle = ({ status, linkId }: ToggleProps) => {
+  const { activeLink, setActiveLink } = useContext(SidebarContext);
+
+  const toggleStatus = () => {
+    const { authToken } = parseCookies();
+    const res = updateLink(authToken, linkId, { status: !status });
+    if (res) {
+      setActiveLink({ ...activeLink, status: !status });
+    }
+  };
+
   return (
     <Switch
       on={true}
       off={false}
+      title="Enable/Disable Link"
       value={status}
+      onChange={toggleStatus}
       styles={{
         track: {
           backgroundColor: "#F2F2F2",

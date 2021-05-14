@@ -1,7 +1,6 @@
 import * as yup from "yup";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import { errors } from "../error/error.constant";
 
 type RequestLocations = "query" | "body" | "headers";
 
@@ -35,13 +34,13 @@ export const validateQuery = (
     try {
       await schema.validate(_location, { abortEarly: false });
       next();
-    } catch (error) {
+    } catch (err) {
       let message: string = "";
-      error.errors.forEach((e: string) => {
+      err.errors.forEach((e: string) => {
         message += `${e}. `;
       });
       next({
-        httpStatus: 400,
+        httpStatus: err.httpStatus || 400,
         message: message,
       });
     }

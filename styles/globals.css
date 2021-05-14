@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://db.onlinewebfonts.com/c/af089c51d74ffa3c6a675fd6024b302b?family=Futura+Hv+BT");
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 
+* {
+  box-sizing: border-box;
+}
 html,
 body {
   position: relative;
@@ -32,18 +36,45 @@ body {
   border-image: linear-gradient(to right, #56ccf2, #6fcf97);
   border-image-slice: 1;
 }
+.gradientTextareaBottom {
+  border-radius: 8px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(to right, #56ccf2, #6fcf97);
+  border-image-slice: 1;
+}
 hr {
   border: 0.5px solid;
   border-image: linear-gradient(to right, #56ccf2, #6fcf97);
   border-image-slice: 1;
 }
 .styledHeader {
-  transform: translate(-254px, 110px) rotate(-90deg);
-  font-family:"Times New Roman", "Work Sans", sans-serif;
+  transform: translate(-245px, 110px) rotate(-90deg);
+  font-family: "Futura Hv BT", "Times New Roman", sans-serif;
   font-weight: 999;
   text-stroke-width: 1px;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
+}
+.styledGradientHeader {
+  position: absolute;
+  width: 384px;
+  height: 70px;
+  left: 50px;
+  top: 109px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 53.67px;
+  line-height: 130%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.07em;
+  font-variant: small-caps;
+  border: 3px solid;
+  border-image-source: linear-gradient(180deg, #56ccf2 0%, #6fcf97 100%);
 }
 .customGradient {
   background: -webkit-linear-gradient(#56ccf2, #6fcf97);
@@ -57,6 +88,39 @@ hr {
 .hover-trigger:hover .hover-target {
   display: block;
 }
-* {
-  box-sizing: border-box;
+.gradientHeaderHollow {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: -webkit-linear-gradient(#56ccf2, #6fcf97);
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 6px transparent;
+  color: #e0e0e0;
 }
+
+/* Hover Underline Animation - Navbar */
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+  color: #000;
+  text-decoration: none;
+}
+
+.hover-underline-animation:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #56ccf2;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+

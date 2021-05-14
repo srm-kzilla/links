@@ -1,25 +1,97 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { parseCookies } from "nookies";
 import { FaChevronRight } from "react-icons/fa";
+import { MdContentCopy } from "react-icons/md";
 import Slide from "react-reveal/Slide";
 
-import { Tick } from "../../assets/icons";
+import { Tick, Loading } from "../../assets/icons";
 import { Toggle } from "./";
 import { SidebarContext } from "../../utils/sidebarContext";
+import { errorHandler, successHandler, updateLink, getLinkClicks } from "../../utils/api";
+import { time_ago } from "../../utils/functions";
 
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
   links: number;
-  clicks: number;
+  totalViews: number;
 }
 
-const Sidebar = ({
-  isOpen,
-  onClose,
-  links,
-  clicks,
-}: SidebarProps): JSX.Element => {
+const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
+
+  const [title, setTitle] = useState<string>();
+  const [linkUrl, setLinkUrl] = useState<string>();
+  const [titleLoading, setTitleLoading] = useState<boolean>(false);
+  const [linkLoading, setLinkLoading] = useState<boolean>(false);
+  const [clicksLoading, setClicksLoading] = useState<boolean>(false);
+  const [activeLinkClicks, setActiveLinkClicks] = useState<number>(0);
+  const intervalRef = useRef(null);
+
+  const copyToClipBoard = async copyMe => {
+    try {
+      await navigator.clipboard.writeText(copyMe);
+      successHandler("📋 Link copied to clipboard!");
+    } catch (err) {
+      errorHandler(err);
+    }
+  };
+
+  useEffect(() => {
+    if (title) {
+      if (title.length > 0) {
+        setTitleLoading(true);
+        intervalRef.current = setTimeout(() => {
+          const { authToken } = parseCookies();
+          const values = {
+            title: title,
+          };
+          const res = updateLink(authToken, activeLink._id, values);
+          if (res) {
+            setTitleLoading(false);
+          }
+        }, 1000);
+      }
+    } else {
+      clearTimeout(intervalRef.current);
+    }
+    return () => clearTimeout(intervalRef.current);
+  }, [title]);
+
+  useEffect(() => {
+    if (linkUrl) {
+      if (linkUrl.length > 0) {
+        setLinkLoading(true);
+        intervalRef.current = setTimeout(() => {
+          const { authToken } = parseCookies();
+          const values = {
+            url: linkUrl,
+          };
+          const res = updateLink(authToken, activeLink._id, values);
+          if (res) {
+            setLinkLoading(false);
+          }
+        }, 1000);
+      }
+    }
+    else {
+      clearTimeout(intervalRef.current);
+    }
+    return () => clearTimeout(intervalRef.current);
+  }, [linkUrl]);
+
+  useEffect(() => {
+    setClicksLoading(true);
+    if(activeLink.title){
+      (async () => {
+        const _res = await getLinkClicks(activeLink.analyticsCode);
+        setActiveLinkClicks(_res);
+        if(_res >= 0 ) {
+          setClicksLoading(false);
+        }
+      })();
+    }
+  },[activeLink])
 
   return (
     <>
@@ -40,19 +112,19 @@ const Sidebar = ({
                 LINKS
               </div>
               <div className="text-center text-xl text-buttongray font-extrabold">
-                CLICKS
+                VIEWS
               </div>
               <div className="customGradient mt-2 text-5xl font-bold text-center">
-                {links}
+                {links || "N.A"}
               </div>
               <div className="customGradient mt-2 text-5xl font-bold text-center">
-                {clicks}
+                {totalViews || "N.A"}
               </div>
             </div>
             {activeLink.title ? (
               <div>
-                <div className="mt-12 ml-10">
-                  <Toggle status={activeLink.status} />
+                <div className="mt-4 ml-10">
+                  <Toggle status={activeLink.status} linkId={activeLink._id} />
                 </div>
                 <p className="mt-10 text-darkgray font-extrabold">TITLE</p>
                 <form
@@ -66,17 +138,14 @@ const Sidebar = ({
                     className="gradientInputBottom focus:outline-none w-full"
                     placeholder="SRMKZILLA"
                     value={activeLink.title}
-                    onChange={(e) =>
-                      setActiveLink({ ...activeLink, title: e.target.value })
-                    }
-                  ></input>
-                  <button
-                    className="cursor-pointer focus:outline-none absolute right-2 bg-white -top-1"
-                    type="submit"
-                    onClick={() => console.log("post", activeLink)}
-                  >
-                    <Tick />
-                  </button>
+                    onChange={(e) => {
+                      setActiveLink({ ...activeLink, title: e.target.value });
+                      setTitle(e.target.value);
+                    }}
+                  />
+                  <div className="absolute right-2 bg-white -top-1">
+                    {titleLoading ? <Loading /> : <Tick />}
+                  </div>
                 </form>
 
                 <p className="mt-6 text-darkgray font-extrabold">URL</p>
@@ -91,29 +160,32 @@ const Sidebar = ({
                     className="gradientInputBottom focus:outline-none w-full"
                     placeholder="https://facebook.com/kzilla"
                     value={activeLink.url}
-                    onChange={(e) =>
-                      setActiveLink({ ...activeLink, url: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setActiveLink({ ...activeLink, url: e.target.value });
+                      setLinkUrl(e.target.value);
+                    }}
                   />
-                  <button
-                    className="cursor-pointer focus:outline-none absolute right-2 bg-white -top-1"
-                    type="submit"
-                    onClick={() => console.log("post", activeLink)}
-                  >
-                    <Tick />
-                  </button>
+                  <div className="absolute right-2 bg-white -top-1">
+                    {linkLoading ? <Loading /> : <Tick />}
+                  </div>
                 </form>
 
                 <p className="mt-6 text-darkgray font-extrabold">SHORT URL</p>
-                <input
-                  type="text"
-                  name="link-short-url"
-                  autoComplete="off"
-                  className="gradientInputBottom cursor-not-allowed focus:outline-none w-full"
-                  placeholder="https://kzilla.xyz/abcd"
-                  disabled
-                />
-
+                <div className="flex">
+                  <input
+                    type="text"
+                    name="link-short-url"
+                    autoComplete="off"
+                    className="gradientInputBottom cursor-text focus:outline-none w-full"
+                    placeholder="https://kzilla.xyz/abcd"
+                    value={`https://kzilla.xyz/${activeLink.shortCode}`}
+                    disabled
+                  />
+                  <button onClick={() => copyToClipBoard(`https://kzilla.xyz/${activeLink.shortCode}`)} className="float-right focus:outline-none" title="Copy to Clipboard">
+                    <i className="float-right mt-1 mx-3 grid-cols-1 cursor-pointer"><MdContentCopy /></i>
+                  </button>
+                </div>
+                <p className="text-center mt-2">Created {time_ago(activeLink.createdAt)}</p>
                 <div className="grid grid-cols-2 mt-5">
                   <div className="text-center text-lg text-buttongray font-extrabold">
                     VIEWS
@@ -122,15 +194,29 @@ const Sidebar = ({
                     CLICKS
                   </div>
                   <div className="customGradient mt-2 text-3xl font-bold text-center">
-                    {activeLink.views}
+                    {activeLink.views || "N.A"}
                   </div>
-                  <div className="customGradient mt-2 text-3xl font-bold text-center">
-                    {activeLink.clicks}
+                  <div className="customGradient mt-2 text-3xl font-bold text-center flex items-center justify-center">
+                    {clicksLoading ? <Loading /> : activeLinkClicks}
                   </div>
+                </div>
+                <div className="flex items-center justify-center mt-2">
+                  <a
+                    className="text-center text-sm"
+                    href={`https://kzilla.xyz/analytics/${activeLink.analyticsCode}`}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    <button
+                      className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-full shadow-lg font-extrabold py-3 px-4 my-2 rounded">
+                      SHOW ANALYTICS
+                    </button>
+                  </a>
                 </div>
               </div>
             ) : (
-              <div>Click on a link</div>
+              <div className="text-center">
+                <p>Click on a link</p>
+              </div>
             )}
           </div>
         </Slide>

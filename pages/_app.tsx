@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import Head from "next/head";
 import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { parseCookies } from "nookies";
@@ -7,16 +7,29 @@ import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
 import { Navbar, Footer } from "../components/shared";
 import AuthContextProvider from "../utils/authContext";
+import ImageContextProvider from "../utils/profileImageContext";
 import { authRoutes } from "../utils/constants";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+
   return (
-    <AuthContextProvider>
-      <Navbar />
-      <Component {...pageProps} />
-      <Footer />
-      <ToastContainer />
-    </AuthContextProvider>
+    <>
+      <Head>
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+      </Head>
+      <AuthContextProvider>
+        <ImageContextProvider>
+          <div className="relative min-h-screen">
+            <div className="pb-4">  
+              <Navbar />
+              <Component {...pageProps} />
+            </div>
+            <Footer />
+            <ToastContainer />
+          </div>
+        </ImageContextProvider>
+      </AuthContextProvider>
+    </>
   );
 };
 

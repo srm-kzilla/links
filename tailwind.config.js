@@ -7,8 +7,8 @@ module.exports = {
         WorkSans: ["Work Sans", "sans-serif"],
         NotoSans: ["Noto Sans", "sans-serif"],
       },
-      width:{
-        'custom': '21.66666%',
+      width: {
+        custom: "21.66666%",
       },
       padding: {
         custom: "26px",
@@ -16,6 +16,7 @@ module.exports = {
       colors: {
         backdrop: " rgba(0,0,0,0.3)",
         backgroundwhite: "#E0E0E0",
+        backgroundwhiteinset: "#bababa",
         lightblue: "#56CCF2",
         darkgray: "#333333",
         lightgray: "#F2F2F2",
@@ -26,16 +27,18 @@ module.exports = {
       boxShadow: {
         custom: "1px 1px 6px rgba(0, 0, 0, 0.25)",
       },
-      fontSize:{
-        'xxl':'8.9rem',
+      fontSize: {
+        xxl: "8.9rem",
       },
-      inset:{
-        'addButton':'70%',
-      }
-    }
+      inset: {
+        addButton: "70%",
+        '37': "9.5rem",
+      },
+
+    },
   },
   variants: {
-    width: ["responsive", "hover", "focus"],
+    width: ["responsive", "hover", "focus", "group-hover"],
   },
   plugins: [],
 };

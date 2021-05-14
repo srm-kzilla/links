@@ -2,11 +2,22 @@ import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import { linkDBSchema, linkUpdate, linkSchema } from "./link.schema";
-import { userDBSchema } from "../auth/auth.schema";
+import {
+  linkDBSchema,
+  LinkUpdate,
+  linkSchema,
+  linkAddSchema,
+} from "./link.schema";
+import { UserDB } from "../auth/auth.schema";
 import * as MongoDB from "mongodb";
 import { errors } from "../error/error.constant";
-import { jwtPayload } from "../auth/auth.schema";
+import { JwtPayload } from "../auth/auth.schema";
+import {
+  LINK_DEFAULT_IMAGE_URL,
+  FETCH_FAVICON,
+  KZILLAXYZ_POST,
+} from "../constants/data.constants";
+import axios from "axios";
 
 export const addLink = async (
   req: NextApiRequest,
@@ -14,21 +25,59 @@ export const addLink = async (
   next: NextHandler
 ) => {
   try {
-    const validateData = await linkSchema.cast(req.body);
-    const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
+    const user: JwtPayload = JSON.parse(req.env.user) as JwtPayload;
     const dbClient: MongoClient = await getDbClient();
     const userDB = await dbClient.db().collection("users");
-    const findUser = await userDB.findOne<userDBSchema>({
+    const findUser = await userDB.findOne<UserDB>({
       email: user.email,
     });
-
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
-    const link: linkDBSchema = { ...validateData, userId: findUser._id };
-    const response = await dbClient.db().collection("links").insertOne(link);
+    let faviconUrl;
+    let kzillaXYZdata;
+    try {
+      const URL = req.body.url;
+      const data = { longUrl: URL };
+      let kzillaXYZ = await axios.post(KZILLAXYZ_POST, data, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: process.env.KZILLAXYZWEEBHOOKTOKEN || "",
+        },
+      });
+      kzillaXYZdata = kzillaXYZ.data;
+      const fetchFavicon = await axios.get(FETCH_FAVICON + URL);
+
+      const favIcons = fetchFavicon.data.icons.filter(
+        (url) => url.height >= 32 && url.height <= 100
+      );
+      faviconUrl = favIcons[0].url;
+    } catch (err) {
+      faviconUrl = LINK_DEFAULT_IMAGE_URL;
+    }
+    const link: linkAddSchema = {
+      title: req.body.title,
+      url: req.body.url,
+      status: req.body.status,
+      userId: findUser._id,
+      image: faviconUrl,
+      shortCode: kzillaXYZdata.shortCode,
+      analyticsCode: kzillaXYZdata.analyticsCode,
+    };
+    const validatedData = await linkSchema.cast(link);
+    const response = await dbClient
+      .db()
+      .collection("links")
+      .insertOne(validatedData);
     if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
-    res.json({ success: true, _id: response.insertedId });
+    res.json({
+      success: true,
+      message: "🎉 Link added successfully!",
+      _id: response.insertedId,
+      image: validatedData.image,
+      shortCode: kzillaXYZdata.shortCode,
+      analyticsCode: kzillaXYZdata.analyticsCode,
+    });
   } catch (err) {
     next(err);
   }
@@ -40,15 +89,25 @@ export const getLink = async (
   next: NextHandler
 ) => {
   try {
-    const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
+    const user: JwtPayload = JSON.parse(req.env.user) as JwtPayload;
     const dbClient: MongoClient = await getDbClient();
     const findUser = await dbClient
       .db()
       .collection("users")
-      .findOne<userDBSchema>({ email: user.email });
+      .findOne<UserDB>({ email: user.email });
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
+    const views = await dbClient
+      .db()
+      .collection("links")
+      .aggregate([
+        { $match: { userId: findUser._id } },
+        { $group: { _id: null, viewCount: { $sum: "$views" } } },
+      ])
+      .toArray();
+    const viewCount = views[0]?.viewCount ? views[0].viewCount : 0;
+
     const result = await dbClient
       .db()
       .collection("links")
@@ -63,7 +122,7 @@ export const getLink = async (
     if (!result) {
       throw errors.NOT_FOUND;
     }
-    res.json({ success: true, result });
+    res.json({ success: true, result, viewCount });
   } catch (err) {
     next(err);
   }
@@ -76,13 +135,13 @@ export const deleteLink = async (
 ) => {
   try {
     const linkId = req.query.linkId as string;
-    const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
+    const user: JwtPayload = JSON.parse(req.env.user) as JwtPayload;
     const dbClient: MongoClient = await getDbClient();
 
     const findUser = await dbClient
       .db()
       .collection("users")
-      .findOne<userDBSchema>({ email: user.email });
+      .findOne<UserDB>({ email: user.email });
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
@@ -95,9 +154,12 @@ export const deleteLink = async (
         _id: new MongoDB.ObjectID(linkId),
       });
     if (deleteLink.value === null) {
-      throw errors.MONGODB_CONNECT_ERROR;
+      throw errors.MONGODB_QUERY_ERROR;
     }
-    res.json({ success: true });
+    res.json({
+      success: true,
+      message: "🗑️ Link deleted successfully!",
+    });
   } catch (err) {
     next(err);
   }
@@ -109,30 +171,65 @@ export const updateLink = async (
   next: NextHandler
 ) => {
   try {
-    let { title, url, status, image } = req.body as linkUpdate;
-    const user: jwtPayload = JSON.parse(req.env.user) as jwtPayload;
+    let { title, url, status } = req.body as LinkUpdate;
+    const user: JwtPayload = JSON.parse(req.env.user) as JwtPayload;
     const linkId = req.query.linkId as string;
     const dbClient: MongoClient = await getDbClient();
     const findUser = await dbClient
       .db()
       .collection("users")
-      .findOne<userDBSchema>({ email: user.email });
+      .findOne<UserDB>({ email: user.email });
 
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
+    let faviconUrl;
+    let kzillaXYZdata;
+    if (url) {
+      try {
+        let data = { longUrl: url };
+        let kzillaXYZ = await axios.post(KZILLAXYZ_POST, data, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: process.env.KZILLAXYZWEEBHOOKTOKEN || "",
+          },
+        });
+        kzillaXYZdata = kzillaXYZ.data;
+        const fetchFavicon = await axios.get(FETCH_FAVICON + url);
+
+        const favIcons = fetchFavicon.data.icons.filter(
+          (url) => url.height >= 32 && url.height <= 100
+        );
+        faviconUrl = favIcons[0].url;
+      } catch (err) {
+        faviconUrl = LINK_DEFAULT_IMAGE_URL;
+      }
+    }
+
     const updateLink = await dbClient
       .db()
       .collection("links")
       .updateOne(
         { userId: findUser._id, _id: new MongoDB.ObjectID(linkId) },
 
-        { $set: { title, url, status, image } }
+        {
+          $set: {
+            title,
+            url,
+            status,
+            image: faviconUrl,
+            shortCode: kzillaXYZdata?.shortCode,
+            analyticsCode: kzillaXYZdata?.analyticsCode,
+          },
+        }
       );
     if (updateLink.result.n === 0) {
-      throw errors.MONGODB_CONNECT_ERROR;
+      throw errors.MONGODB_QUERY_ERROR;
     }
-    res.json({ success: true, message: "Link has been updated successfully." });
+    res.json({
+      success: true,
+      message: "✅ Link updated successfully!",
+    });
   } catch (err) {
     next(err);
   }

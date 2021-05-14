@@ -1,51 +1,70 @@
 export const errors = {
   BAD_REQUEST: {
     httpStatus: 400,
-    message: "Bad Request.",
+    message: "🛑 Captcha not found",
   },
   INTERNAL_SERVER_ERROR: {
     httpStatus: 500,
-    message: "Internal Server Error.",
+    message: "🔧 Internal Server Error",
   },
-  UNAUTHORIZED: {
+  WRONG_PASSWORD: {
     httpStatus: 401,
-    message: "Wrong Password",
+    message: "🛂 Wrong Password",
   },
   NOT_FOUND: {
     httpStatus: 404,
-    message: "Resource Not Found.",
+    message: "🚧 Resource Not Found",
   },
   USER_NOT_FOUND: {
     httpStatus: 401,
-    message: "User not registered. Please sign up/login with correct credentials",
+    message: "⛔ User Not Registered. Please Register/Login",
   },
   MONGODB_CONNECT_ERROR: {
     httpStatus: 500,
-    message: "Could Not Connect to MongoDB.",
+    message: "🔧 Could Not Connect to MongoDB",
+  },
+  AWS_CONNECT_ERROR: {
+    httpStatus: 500,
+    message: "🔧Could Not Connect to AWS",
+  },
+  PRESIGNED_URL_ERROR: {
+    httpStatus: 500,
+    message: "🔧Could not create presigned url",
   },
   MONGODB_QUERY_ERROR: {
     httpStatus: 500,
-    message: "Error Executing MongoDB Query",
+    message: "🔧 Error Executing MongoDB Query",
   },
   JWT_ERROR: {
+    httpStatus: 404,
+    message: "👻 Unauthorized Access",
+  },
+  INVALID_RECAPTCHA: {
     httpStatus: 403,
-    message: "JWT Token Not Found.",
+    message: "🚫Invalid Recaptcha",
   },
   DUPLICATE_USER: {
     httpStatus: 400,
-    message: "Email ID Already Registered. Please Login.",
+    message: "🤡 Email ID Already In Use",
   },
   DUPLICATE_USERNAME: {
     httpStatus: 400,
-    message:
-      "This username is not available. Please choose some other username.",
-  },
-  OTP_EXPIRED: {
-    httpStatus: 401,
-    message: "OTP expired",
+    message: "🤡 Username Already In Use",
   },
   INVALID_OTP: {
     httpStatus: 401,
-    message: "Wrong OTP",
+    message: "🛂 Wrong OTP",
+  },
+  USER_NOT_AVAILABLE: {
+    httpStatus: 404,
+    message: "🚧 User not Found",
+  },
+  MISSING_ENV_VARIABLES: {
+    httpStatus: 500,
+    message: "🔧 Missing env variables",
+  },
+  EMAIL_NOT_FOUND: {
+    httpStatus: 404,
+    message: "⛔ No Account was found with this Email ID",
   },
 };
