@@ -79,6 +79,7 @@ export const patchProfile = async (
     return res.status(200).json({
       success: true,
       data: data,
+      message: "✅ Profile updated successfully!",
     });
   } catch (err) {
     next({
@@ -130,7 +131,7 @@ export const postPicture = async (
     if (!objectUrl) {
       throw errors.MISSING_ENV_VARIABLES;
     }
-  
+
     await dbClient
       .db()
       .collection("users")
@@ -143,7 +144,9 @@ export const postPicture = async (
           },
         }
       );
-    res.status(200).json(postInfo);
+    res
+      .status(200)
+      .json({ postInfo, message: "📸 Profile picture added successfully!" });
   } catch (err) {
     next({
       httpStatus: err.httpStatus || 500,
@@ -170,7 +173,6 @@ export const patchPassword = async (
       .db()
       .collection("users")
       .findOne<UserDB>({ email: user.email }, {});
-
     const matchPassword = await bcrypt.compare(oldPassword, userInfo.password);
     if (!matchPassword) {
       throw errors.WRONG_PASSWORD;
@@ -186,6 +188,7 @@ export const patchPassword = async (
       .updateOne({ email: user.email }, { $set: { password: hash } });
     return res.status(200).json({
       success: true,
+      message: "🔐 Password updated successfully!",
     });
   } catch (err) {
     next({
