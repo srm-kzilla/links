@@ -35,7 +35,10 @@ export const getProfile = async (
       data: userInfo,
     });
   } catch (err) {
-    next(err);
+    next({
+      httpStatus: err.httpStatus || 500,
+      message: err.message,
+    });
   }
 };
 
@@ -78,7 +81,10 @@ export const patchProfile = async (
       data: data,
     });
   } catch (err) {
-    next(err);
+    next({
+      httpStatus: err.httpStatus || 500,
+      message: err.message,
+    });
   }
 };
 
@@ -139,7 +145,10 @@ export const postPicture = async (
       );
     res.status(200).json(postInfo);
   } catch (err) {
-    next(err);
+    next({
+      httpStatus: err.httpStatus || 500,
+      message: err.message,
+    });
   }
 };
 
@@ -179,6 +188,9 @@ export const patchPassword = async (
       success: true,
     });
   } catch (err) {
-    next(err);
+    next({
+      httpStatus: err.httpStatus || 500,
+      message: err.message,
+    });
   }
 };

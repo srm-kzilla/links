@@ -39,8 +39,8 @@ export const validateToken = async (
     }
   } catch (err) {
     next({
-      httpStatus: err.httpStatus || 403,
-      message: `${err.name}: ${err.message}`,
+      httpStatus: err.httpStatus || 500,
+      message: err.message,
     });
   }
 };

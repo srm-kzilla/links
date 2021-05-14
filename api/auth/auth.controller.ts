@@ -63,7 +63,7 @@ export const postLogin = async (
   } catch (err) {
     next({
       httpStatus: err.httpStatus || 500,
-      message: `${err.name}: ${err.message}`,
+      message: err.message,
     });
   }
 };
@@ -120,7 +120,7 @@ export const getVerifyAccount = async (
   } catch (err) {
     next({
       httpStatus: err.httpStatus || 500,
-      message: `${err.name}: ${err.message}`,
+      message: err.message,
     });
   }
 };
@@ -233,7 +233,7 @@ export const postSignup = async (
   } catch (err) {
     next({
       httpStatus: err.httpStatus || 500,
-      message: `${err.name}: ${err.message}`,
+      message: err.message,
     });
   }
 };
@@ -319,7 +319,7 @@ export const getOTP = async (
   } catch (err) {
     next({
       httpStatus: err.httpStatus || 500,
-      message: `${err.name}: ${err.message}`,
+      message: err.message,
     });
   }
 };
@@ -354,8 +354,8 @@ export const verifyOTP = async (
     throw errors.INVALID_OTP; //when a user enters an otp that another user got
   } catch (err) {
     next({
-      httpStatus: err.httpStatus || 403,
-      message: `${err.name}: ${err.message}`,
+      httpStatus: err.httpStatus || 500,
+      message: err.message,
     });
   }
 };
@@ -388,8 +388,8 @@ export const resetPassword = async (
     });
   } catch (err) {
     next({
-      httpStatus: err.httpStatus || 403,
-      message: `${err.name}: ${err.message}`,
+      httpStatus: err.httpStatus || 500,
+      message: err.message,
     });
   }
 };
