@@ -73,7 +73,7 @@ export const postLink = async (authToken: string, values: object) => {
       },
       data: values,
     });
-    successHandler("🎉 Link added successfully!");
+    successHandler(_res.data.message);
     return _res;
   } catch (err) {
     errorHandler(err);
@@ -85,7 +85,7 @@ export const deleteLink = async (authToken: string, _id: string) => {
   try {
     const recaptchaToken = await getRecaptchaToken();
     const endpoint = `${baseUrl}api/v1/links/delete?linkId=${_id}`;
-    await axios({
+    const _res = await axios({
       method: "DELETE",
       url: endpoint,
       headers: {
@@ -93,7 +93,7 @@ export const deleteLink = async (authToken: string, _id: string) => {
         "x-recaptcha-token": recaptchaToken,
       },
     });
-    successHandler("🗑️ Link deleted successfully!");
+    successHandler(_res.data.message);
     return true;
   } catch (err) {
     errorHandler(err);
@@ -227,7 +227,7 @@ export const patchNewPassword = async (authToken: string, values: Object) => {
       },
       data: values
     });
-    successHandler("🔐 Password changed successfully!");
+    successHandler(_res.data.message);
     return _res;
   } catch (err) {
     errorHandler(err);
@@ -246,7 +246,7 @@ export const postForgotPasswordEmail = async (values: Object) => {
       },
       data: values,
     });
-    successHandler("🎉 OTP sent to Email ID successfully!");
+    successHandler(_res.data.message);
     return _res;
   } catch (err) {
     errorHandler(err);
@@ -266,7 +266,7 @@ export const postVerifyOtp = async (resetPasswordToken: string, values: Object) 
       },
       data: values,
     });
-    successHandler("🎉 OTP verified! Enter new password");
+    successHandler(_res.data.message);
     return _res;
   } catch (err) {
     errorHandler(err);
@@ -286,7 +286,7 @@ export const patchNewForgotPassword = async (resetPasswordToken: string, values:
       },
       data: values
     });
-    successHandler("🔐 Password changed successfully!");
+    successHandler(_res.data.message);
     return _res;
   } catch (err) {
     errorHandler(err);
@@ -296,17 +296,14 @@ export const patchNewForgotPassword = async (resetPasswordToken: string, values:
 
 
 export const errorHandler = (error?: AxiosError | any) => {
-  let errMessage: string = "Oops! Something went wrong!";
+  let errMessage: string = "😐 Oops! Something went wrong!";
   if (error)
     switch (error.response?.status) {
-      case 401:
-        errMessage = "❌ Uh oh! Invalid credentials, please try again!";
-        break;
-      case 400:
-        errMessage = "❌ User already exists, try logging in!";
+      case 500:
+        errMessage = "😐 Oops! Something went wrong!";
         break;
       default:
-        errMessage = "Oops! Something went wrong!";
+        errMessage = error.response.data.message;
         break;
     }
   toast.error(errMessage, {

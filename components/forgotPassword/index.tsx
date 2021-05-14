@@ -18,7 +18,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const { resetPasswordToken } = parseCookies();
 
   const [enterCode, setEnterCode] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>();
+  const [email, setEmail] = useState<string>("");
   const [otp, setOtp] = useState<number>();
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(true);
@@ -30,13 +30,11 @@ export default function ForgotPasswordComponent(): JSX.Element {
   };
 
   const sendVerificationCode = async () => {
-    console.log(email);
     const values = {
       email: email,
     };
     const _res = await postForgotPasswordEmail(values);
     if (_res) {
-      console.log(_res);
       setEnterCode(true);
       setCookie(null, "resetPasswordToken", _res.data.resetPasswordToken);
     }

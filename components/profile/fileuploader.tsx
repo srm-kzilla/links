@@ -14,12 +14,14 @@ export default function FileUploader() :JSX.Element {
     const handleChange = event => {
         const { authToken } = parseCookies();
         const file = event.target.files[0];
-        setFileBlob(URL.createObjectURL(event.target.files[0]));
+        if(file) {
+            setFileBlob(URL.createObjectURL(event.target.files[0]));
+        }
 
         (async () => {
             const _res = await patchProfilePicture(authToken);
             if (_res) {
-                const { fields, url } = await _res.data;
+                const { fields, url } = await _res.data.postInfo;
                 const formData = new FormData();
                 const formArray: [string, string | File][] = Object.entries({...fields, file});
                 formArray.forEach(([key, value]) => {
