@@ -235,6 +235,66 @@ export const patchNewPassword = async (authToken: string, values: Object) => {
   }
 };
 
+export const postForgotPasswordEmail = async (values: Object) => {
+  try {
+    const recaptchaToken = await getRecaptchaToken();
+    const _res = await axios({
+      method: "POST",
+      url: `${baseUrl}api/v1/auth/getotp`,
+      headers: {
+        "x-recaptcha-token": recaptchaToken,
+      },
+      data: values,
+    });
+    successHandler("🎉 OTP sent to Email ID successfully!");
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const postVerifyOtp = async (resetPasswordToken: string, values: Object) => {
+  try {
+    const recaptchaToken = await getRecaptchaToken();
+    const _res = await axios({
+      method: "POST",
+      url: `${baseUrl}api/v1/auth/postotp`,
+      headers: {
+        "x-recaptcha-token": recaptchaToken,
+        "reset-password": resetPasswordToken
+      },
+      data: values,
+    });
+    successHandler("🎉 OTP verified! Enter new password");
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const patchNewForgotPassword = async (resetPasswordToken: string, values: Object) => {
+  try {
+    const recaptchaToken = await getRecaptchaToken();
+    const _res = await axios({
+      method: "PATCH",
+      url: `${baseUrl}api/v1/auth/resetPassword`,
+      headers: {
+        "x-recaptcha-token": recaptchaToken,
+        "reset-password": resetPasswordToken
+      },
+      data: values
+    });
+    successHandler("🔐 Password changed successfully!");
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+
 export const errorHandler = (error?: AxiosError | any) => {
   let errMessage: string = "Oops! Something went wrong!";
   if (error)

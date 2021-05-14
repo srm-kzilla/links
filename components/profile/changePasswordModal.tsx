@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Fade from "react-reveal/Fade";
 import { parseCookies } from "nookies";
 import { GrFormClose } from "react-icons/gr";
@@ -6,6 +6,7 @@ import { Formik, Field, Form } from "formik";
 
 import { passwordValidationSchema } from "../../utils/schema";
 import { patchNewPassword } from "../../utils/api";
+import { Eye, EyeHide } from "../../assets/icons"
 
 interface ModalProps {
   isOpen: boolean;
@@ -13,12 +14,15 @@ interface ModalProps {
 }
 
 const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
-  
+  const [passwordShown, setPasswordShown] = useState<boolean>(false);
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(passwordShown ? false : true);
+  };
   const submitNewPassword = (oldPassword, newPassword) => {
     const values: Object = {
       oldPassword: oldPassword,
-      newPassword: newPassword
-    }
+      newPassword: newPassword,
+    };
     const { authToken } = parseCookies();
     (async () => {
       const _res = await patchNewPassword(authToken, values);
@@ -67,12 +71,20 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                           {errors.oldPassword}
                         </div>
                       )}
-                      <Field
-                        name="newPassword"
-                        type="password"
-                        className="gradientInput mb-4 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
-                        placeholder="New Password"
-                      />
+                      <div className="relative">
+                        <Field
+                          name="newPassword"
+                          type={passwordShown ? 'text' : 'password'}
+                          className="gradientInput mb-4 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
+                          placeholder="New Password"
+                        />
+                        <i
+                          className="absolute top-4 right-3 cursor-pointer"
+                          onClick={togglePasswordVisiblity}
+                        >
+                          {passwordShown ? <EyeHide /> : <Eye />}
+                        </i>
+                      </div>
                       {errors.newPassword && (
                         <div className="text-red-500 text-sm -mt-4 mb-3">
                           {errors.newPassword}

@@ -162,7 +162,7 @@ const SignUpComponent = () => {
           </div>
         </div>
       </div>
-      <div className="hidden md:block absolute bottom-0 right-0 z-0">
+      <div className="hidden md:block absolute -bottom-5 right-0 z-0">
         <Ellipse />
       </div>
     </div>
