@@ -34,13 +34,14 @@ export const postLogin = async (
     let body = req.body as UserLogin;
     delete body["password"];
 
+    if (await dbClient.db().collection("tempusers").findOne(body)) {
+      throw errors.UNVERIFIED_ACCOUNT;
+    }
     let result = await dbClient.db().collection("users").findOne<UserDB>(body);
     if (!result) {
       throw errors.USER_NOT_FOUND;
     }
-    if (await dbClient.db().collection("tempusers").findOne<UserDB>({ body })) {
-      throw errors.UNVERIFIED_ACCOUNT;
-    }
+
     if (await bcrypt.compare(password, result.password)) {
       const jwtSecret = process.env.JWT_SECRET;
       if (!jwtSecret) {
@@ -102,8 +103,10 @@ export const getVerifyAccount = async (
     if (!data) {
       throw errors.MONGODB_QUERY_ERROR;
     }
-
-    //TO DO: edit profile check duplicate username in tempusers
+    await dbClient
+      .db()
+      .collection("tempusers")
+      .deleteOne({ email: user.email });
 
     const token = jwt.sign(
       { email: user.email, _id: data.ops[0]._id },
@@ -155,7 +158,7 @@ export const postSignup = async (
     }
     let tempUsernameExists = await dbClient
       .db()
-      .collection("users")
+      .collection("tempusers")
       .findOne<UserDB>({ username: username });
     if (tempUsernameExists) {
       throw errors.DUPLICATE_USERNAME;
@@ -228,7 +231,6 @@ export const postSignup = async (
     }
     res.status(200).json({
       success: true,
-      token: secret,
       message:
         "🎊 Account created successfully!. Please verify your Email to proceed",
     });
@@ -381,13 +383,22 @@ export const resetPassword = async (
     const saltRounds = 12;
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(newPassword, salt);
-
     await dbClient
       .db()
       .collection("users")
       .updateOne({ email: user.email }, { $set: { password: hash } });
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw errors.MISSING_ENV_VARIABLES;
+    }
+
+    const token = jwt.sign({ email: user.email, _id: user._id }, jwtSecret, {
+      expiresIn: "1d",
+      issuer: "srmkzilla",
+    });
     return res.status(200).json({
       success: true,
+      authToken: token,
       message: "🔒️ Password updated successfully!",
     });
   } catch (err) {

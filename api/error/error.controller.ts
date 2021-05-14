@@ -9,7 +9,7 @@ export interface ApiError extends Error {
 export const onNotFound = (req: NextApiRequest, res: NextApiResponse) => {
   res.status(404).json({
     success: false,
-    error: `Cannot ${req.method} ${req.url}`,
+    message: `Cannot ${req.method} ${req.url}`,
   });
 };
 

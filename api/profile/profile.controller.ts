@@ -63,12 +63,15 @@ export const patchProfile = async (
         .db()
         .collection("users")
         .findOne<UserDB>({ username: data.username });
+      if (usernameExists && user._id != usernameExists._id) {
+        throw errors.DUPLICATE_USERNAME;
+      }
+
       let tempUsernameExists = await dbClient
         .db()
         .collection("users")
         .findOne<UserDB>({ username: data.username });
-
-      if (user._id != usernameExists._id || tempUsernameExists) {
+      if (tempUsernameExists) {
         throw errors.DUPLICATE_USERNAME;
       }
     }
