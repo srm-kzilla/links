@@ -29,9 +29,6 @@ export const verifyRecaptcha = async (
     }
     next();
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };

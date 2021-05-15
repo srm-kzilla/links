@@ -5,6 +5,7 @@ import { JwtPayload, UserDB } from "../auth/auth.schema";
 import { errors } from "../error/error.constant";
 import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
+import { error } from "console";
 
 export const validateToken = async (
   req: NextApiRequest,
@@ -38,9 +39,6 @@ export const validateToken = async (
       throw errors.USER_NOT_FOUND;
     }
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };

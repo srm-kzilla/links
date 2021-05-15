@@ -64,10 +64,7 @@ export const postLogin = async (
       throw errors.WRONG_PASSWORD;
     }
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };
 
@@ -121,10 +118,7 @@ export const getVerifyAccount = async (
       authToken: token,
     });
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };
 export const postSignup = async (
@@ -235,10 +229,7 @@ export const postSignup = async (
         "🎊 Account created successfully!. Please verify your Email to proceed",
     });
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };
 
@@ -321,10 +312,7 @@ export const getOTP = async (
       resetPasswordToken: resetPasswordToken,
     });
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };
 
@@ -358,10 +346,7 @@ export const verifyOTP = async (
     }
     throw errors.INVALID_OTP; //when a user enters an otp that another user got
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };
 
@@ -402,9 +387,6 @@ export const resetPassword = async (
       message: "🔒️ Password updated successfully!",
     });
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };

@@ -35,10 +35,7 @@ export const getProfile = async (
       data: userInfo,
     });
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };
 
@@ -90,10 +87,7 @@ export const patchProfile = async (
       message: "✅ Profile updated successfully!",
     });
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };
 
@@ -156,10 +150,7 @@ export const postPicture = async (
       .status(200)
       .json({ postInfo, message: "📸 Profile picture added successfully!" });
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };
 
@@ -199,9 +190,6 @@ export const patchPassword = async (
       message: "🔐 Password updated successfully!",
     });
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: err.message,
-    });
+    next(err);
   }
 };

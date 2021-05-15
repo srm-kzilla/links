@@ -29,7 +29,7 @@ export const onError = (
     console.log(err);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: err.message || "Internal Server Error",
     });
   }
 };
