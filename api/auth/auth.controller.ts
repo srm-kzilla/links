@@ -2,11 +2,10 @@ import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
-import jwt, { verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
-import aws from "aws-sdk";
-import { resetPasswordTemplate } from "../../resetpassword.template";
-
+import { resetPasswordTemplate } from "../templates/resetpassword.template";
+import { verifyAccountTemplate } from "../templates/verifyaccount.template";
 import {
   UserSignup,
   JwtPayload,
@@ -19,8 +18,8 @@ import {
   ResetPassword,
 } from "./auth.schema";
 import { errors } from "../error/error.constant";
-import { verifyAccountTemplate } from "../../verifyaccount.template";
 import { baseUrl } from "../../utils/constants";
+import { sendMail } from "../services/mailer.service";
 
 export const postLogin = async (
   req: NextApiRequest,
@@ -80,7 +79,7 @@ export const getVerifyAccount = async (
       throw errors.MISSING_ENV_VARIABLES;
     }
     console.log(secret);
-    const payload: JwtPayload = verify(secret, jwtSecret, {
+    const payload: JwtPayload = jwt.verify(secret, jwtSecret, {
       issuer: "srmkzilla",
     }) as JwtPayload;
 
@@ -184,49 +183,21 @@ export const postSignup = async (
       expiresIn: "1d",
       issuer: "srmkzilla",
     });
-    aws.config.update({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      region: process.env.AWS_REGION,
-    });
 
-    const ses = new aws.SESV2();
-    if (!ses) {
-      throw errors.AWS_CONNECT_ERROR;
-    }
+    await sendMail(
+      [email],
+      "Verify Your Account",
+      verifyAccountTemplate({
+        username: user.username,
+        baseUrl: baseUrl,
+        secret: secret,
+      })
+    );
 
-    const params = {
-      Content: {
-        Simple: {
-          Body: {
-            Html: {
-              Charset: "UTF-8",
-              Data: verifyAccountTemplate({
-                username: user.username,
-                baseUrl: baseUrl,
-                secret: secret,
-              }),
-            },
-          },
-          Subject: {
-            Charset: "UTF-8",
-            Data: "Verify Your Account",
-          },
-        },
-      },
-      Destination: {
-        ToAddresses: [email],
-      },
-      FromEmailAddress: "LINKS by SRMKZILLA" + process.env.SES_SOURCE,
-    };
-    const emailSent = await ses.sendEmail(params).promise();
-    if (!emailSent) {
-      throw errors.AWS_CONNECT_ERROR;
-    }
     res.status(200).json({
       success: true,
       message:
-        "🎊 Account created successfully!. Please verify your Email to proceed",
+        "🎊 Account created successfully! Please verify your email to proceed",
     });
   } catch (err) {
     next(err);
@@ -260,44 +231,14 @@ export const getOTP = async (
       otp: OTP,
       createdAt: new Date(),
     });
-    aws.config.update({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      region: process.env.AWS_REGION,
-    });
-
-    const ses = new aws.SESV2();
-    if (!ses) {
-      throw errors.AWS_CONNECT_ERROR;
-    }
-
-    const params = {
-      Content: {
-        Simple: {
-          Body: {
-            Html: {
-              Charset: "UTF-8",
-              Data: resetPasswordTemplate({
-                name: user.name || user.username,
-                otp: OTP,
-              }),
-            },
-          },
-          Subject: {
-            Charset: "UTF-8",
-            Data: "Reset your password",
-          },
-        },
-      },
-      Destination: {
-        ToAddresses: [email],
-      },
-      FromEmailAddress: "LINKS by SRMKZILLA" + process.env.SES_SOURCE,
-    };
-    const emailSent = await ses.sendEmail(params).promise();
-    if (!emailSent) {
-      throw errors.AWS_CONNECT_ERROR;
-    }
+    await sendMail(
+      [email],
+      "Reset your password",
+      resetPasswordTemplate({
+        name: user.name || user.username,
+        otp: OTP,
+      })
+    );
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
       throw errors.MISSING_ENV_VARIABLES;
