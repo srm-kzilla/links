@@ -34,7 +34,9 @@ module.exports = {
         addButton: "70%",
         '37': "9.5rem",
       },
-
+      minHeight: {
+        'custom': "90vh",
+      }
     },
   },
   variants: {

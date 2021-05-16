@@ -20,3 +20,15 @@ export const passwordValidationSchema = yup.object({
         "Passwords must match")
         .required("This is a required field"),
 });
+
+export const forgotPasswordValidationSchema = yup.object({
+    newPassword: yup
+        .string()
+        .trim()
+        .min(8, "Password must have at least 8 characters")
+        .required("This is a required field"),
+    confirmNewPassword: yup.string().oneOf(
+        [yup.ref("newPassword"), null],
+        "Passwords must match")
+        .required("This is a required field"),
+});
