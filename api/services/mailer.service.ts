@@ -1,23 +1,14 @@
 import aws from "aws-sdk";
 import next from "next";
 import { errors } from "../error/error.constant";
+import { getSesClient } from "./ses.service";
 export async function sendMail(
   toAddresses: string[],
   subject: string,
   data: string
 ) {
   try {
-    aws.config.update({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      region: process.env.AWS_REGION,
-    });
-
-    const ses = new aws.SESV2();
-    if (!ses) {
-      throw errors.AWS_CONNECT_ERROR;
-    }
-
+    const sesClient: aws.SESV2 = await getSesClient();
     const params = {
       Content: {
         Simple: {
@@ -38,7 +29,7 @@ export async function sendMail(
       },
       FromEmailAddress: "LINKS by SRMKZILLA" + process.env.SES_SOURCE,
     };
-    const emailSent = await ses.sendEmail(params).promise();
+    const emailSent = await sesClient.sendEmail(params).promise();
     if (!emailSent) {
       throw errors.AWS_CONNECT_ERROR;
     }

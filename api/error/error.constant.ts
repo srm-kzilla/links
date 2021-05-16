@@ -27,6 +27,10 @@ export const errors = {
     httpStatus: 500,
     message: "🔧 Could not connect to AWS",
   },
+  SES_CONNECT_ERROR: {
+    httpStatus: 500,
+    message: "🔧 Could not connect to SES",
+  },
   PRESIGNED_URL_ERROR: {
     httpStatus: 500,
     message: "🔧 Could not create presigned url",

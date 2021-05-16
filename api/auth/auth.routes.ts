@@ -34,14 +34,14 @@ authHandler
   )
   .post(
     "/signup",
-    verifyRecaptcha,
+
     validateQuery("body", userSignupSchema),
     postSignup
   )
   .get("/verify", getVerifyAccount)
   .post(
     "/getotp",
-    verifyRecaptcha,
+   
     validateQuery("body", userEmailSchema),
     getOTP
   )
