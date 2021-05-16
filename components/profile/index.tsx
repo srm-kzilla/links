@@ -124,7 +124,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 isOpen={isModalOpen}
                 onClose={() => setModalOpen(false)}
             />
-            <div className="hidden md:block absolute bottom-0 -left-24 z-0">
+            <div className="hidden md:block absolute -bottom-20 -left-24 z-0">
                 <EllipseGreen />
             </div>
         </>
