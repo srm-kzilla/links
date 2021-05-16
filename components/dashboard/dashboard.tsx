@@ -16,9 +16,9 @@ export interface Link {
   status: boolean;
   views: number;
   clicks: number;
-  shortCode?: string;
-  analyticsCode?: string;
-  createdAt?: number;
+  analyticsCode: string;
+  shortCode: string;
+  createdAt: number;
 }
 
 interface DashboardProps {
@@ -63,7 +63,8 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
             image: res.data.image,
             _id: res.data._id,
             shortCode: res.data.shortCode,  
-            analyticsCode: res.data.analyticsCode
+            analyticsCode: res.data.analyticsCode,
+            createdAt: res.data.createdAt
           });
           return prevState;
         });
