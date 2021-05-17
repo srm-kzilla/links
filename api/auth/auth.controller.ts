@@ -142,6 +142,7 @@ export const postSignup = async (
     if (tempUser) {
       throw errors.UNVERIFIED_ACCOUNT;
     }
+
     let usernameExists = await dbClient
       .db()
       .collection("users")
@@ -165,20 +166,10 @@ export const postSignup = async (
       username,
       createdAt: new Date(),
     };
-    await dbClient
-      .db()
-      .collection("tempusers")
-      .createIndex({ createdAt: 1 }, { expireAfterSeconds: 86400 });
-    const data = await dbClient.db().collection("tempusers").insertOne(user);
-
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
       throw errors.MISSING_ENV_VARIABLES;
     }
-    if (!data) {
-      throw errors.MONGODB_QUERY_ERROR;
-    }
-
     const secret = jwt.sign({ email }, jwtSecret, {
       expiresIn: "1d",
       issuer: "srmkzilla",
@@ -188,11 +179,20 @@ export const postSignup = async (
       [email],
       "Verify Your Account",
       verifyAccountTemplate({
-        username: user.username,
+        username: username,
         baseUrl: baseUrl,
         secret: secret,
       })
     );
+    await dbClient
+      .db()
+      .collection("tempusers")
+      .createIndex({ createdAt: 1 }, { expireAfterSeconds: 86400 });
+    const data = await dbClient.db().collection("tempusers").insertOne(user);
+
+    if (!data) {
+      throw errors.MONGODB_QUERY_ERROR;
+    }
 
     res.status(200).json({
       success: true,
@@ -239,7 +239,7 @@ export const getOTP = async (
         otp: OTP,
       })
     );
-    const jwtSecret = process.env.JWT_SECRET;
+    const jwtSecret = process.env.RESET_PASSWORD_SECRET;
     if (!jwtSecret) {
       throw errors.MISSING_ENV_VARIABLES;
     }

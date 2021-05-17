@@ -5,7 +5,6 @@ import { JwtPayload, UserDB } from "../auth/auth.schema";
 import { errors } from "../error/error.constant";
 import { MongoClient } from "mongodb";
 import { getDbClient } from "../services/mongodb.service";
-import { error } from "console";
 
 export const validateToken = async (
   req: NextApiRequest,
@@ -17,7 +16,7 @@ export const validateToken = async (
     if (!token) {
       throw errors.JWT_ERROR;
     }
-    const jwtSecret = process.env.JWT_SECRET;
+    const jwtSecret = process.env.RESET_PASSWORD_SECRET;
     if (!jwtSecret) {
       throw errors.MISSING_ENV_VARIABLES;
     }

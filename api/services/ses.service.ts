@@ -7,7 +7,7 @@ export async function initSesClient(): Promise<aws.SESV2> {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     region: process.env.AWS_REGION,
   });
-  const sesClient = new aws.SESV2();
+  sesClient = new aws.SESV2();
   if (!sesClient) {
     throw errors.SES_CONNECT_ERROR;
   }
