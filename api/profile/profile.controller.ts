@@ -7,6 +7,7 @@ import { errors } from "../error/error.constant";
 import { getDbClient } from "../services/mongodb.service";
 import aws from "aws-sdk";
 import * as bcrypt from "bcrypt";
+import { getS3Client } from "../services/s3.service";
 
 export const getProfile = async (
   req: NextApiRequest,
@@ -102,15 +103,8 @@ export const postPicture = async (
     if (!user) {
       throw errors.USER_NOT_FOUND;
     }
-    const s3 = new aws.S3({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      region: process.env.AWS_REGION,
-    });
-    if (!s3) {
-      throw errors.AWS_CONNECT_ERROR;
-    }
-    const postInfo = await s3.createPresignedPost({
+    const s3Client = await getS3Client();
+    const postInfo = s3Client.createPresignedPost({
       Bucket: process.env.S3_BUCKET_NAME,
       Fields: {
         key: user._id,
