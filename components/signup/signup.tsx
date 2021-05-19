@@ -1,17 +1,13 @@
-import React, { useContext, useState } from "react";
-import { useRouter } from "next/router";
+import React, { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
 
 import { postSignup } from "../../utils/api";
-import { AuthContext } from "../../utils/authContext";
 import { Ellipse, Eye, EyeHide, LoadingAuth } from "../../assets/icons"
 
 const SignUpComponent = () => {
-  const { setIsAuth } = useContext(AuthContext);
-  const router = useRouter();
 
   const initialValues = {
     username: "",
@@ -49,8 +45,7 @@ const SignUpComponent = () => {
       delete values.confirmPassword;
       const res = await postSignup(values);
       if (res) {
-        setIsAuth(true);
-        router.push("/dashboard");
+        setLoading(false);
       }
       else {
         setLoading(false);

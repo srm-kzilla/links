@@ -1,13 +1,13 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { setCookie } from "nookies";
-import { load } from 'recaptcha-v3'
+import { load } from "recaptcha-v3";
 
 import { baseUrl, kzillaxyzclicks } from "../utils/constants";
 
 async function getRecaptchaToken() {
-  const recaptcha = await load(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
-  const token = await recaptcha.execute();  
+  const recaptcha = await load(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
+  const token = await recaptcha.execute();
   return token;
 }
 
@@ -41,7 +41,7 @@ export const postSignup = async (values) => {
       },
       data: values,
     });
-    setCookie(null, "authToken", _res.data.authToken);
+    successHandler(_res.data.message);
     return true;
   } catch (err) {
     errorHandler(err);
@@ -55,7 +55,6 @@ export const getLinks = async (authToken: string) => {
       headers: { Authorization: `Bearer ${authToken}` },
     });
     return _res.data;
-
   } catch (err) {
     errorHandler(err);
   }
@@ -105,8 +104,8 @@ export const updateLink = async (
   authToken: string,
   _id: string,
   values: object
-  ) => {
-    try {
+) => {
+  try {
     const recaptchaToken = await getRecaptchaToken();
     const endpoint = `${baseUrl}api/v1/links/update?linkId=${_id}`;
     await axios({
@@ -138,12 +137,9 @@ export const getPublicLinks = async (username: string) => {
 
 export const getLinkClicks = async (analyticsCode: string) => {
   try {
-    const _res = await axios.get(
-      `${kzillaxyzclicks}${analyticsCode}`
-    );
+    const _res = await axios.get(`${kzillaxyzclicks}${analyticsCode}`);
     return _res.data.clicks;
-  }
-  catch (err) {
+  } catch (err) {
     errorHandler(err);
   }
 };
@@ -183,15 +179,14 @@ export const postProfilePicture = async (url: string, formdata: any) => {
 
 export const getUserProfile = async (authToken: string) => {
   try {
-    if(authToken) {
+    if (authToken) {
       const _res = await axios.get(`${baseUrl}api/v1/profile`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       return _res.data;
     }
-  }
-  catch (err) {
-    errorHandler(err); 
+  } catch (err) {
+    errorHandler(err);
     return false;
   }
 };
@@ -206,7 +201,7 @@ export const patchUserProfile = async (authToken: string, userData: Object) => {
         Authorization: `Bearer ${authToken}`,
         "x-recaptcha-token": recaptchaToken,
       },
-      data: userData
+      data: userData,
     });
     return _res;
   } catch (err) {
@@ -225,7 +220,7 @@ export const patchNewPassword = async (authToken: string, values: Object) => {
         Authorization: `Bearer ${authToken}`,
         "x-recaptcha-token": recaptchaToken,
       },
-      data: values
+      data: values,
     });
     successHandler(_res.data.message);
     return _res;
@@ -254,7 +249,10 @@ export const postForgotPasswordEmail = async (values: Object) => {
   }
 };
 
-export const postVerifyOtp = async (resetPasswordToken: string, values: Object) => {
+export const postVerifyOtp = async (
+  resetPasswordToken: string,
+  values: Object
+) => {
   try {
     const recaptchaToken = await getRecaptchaToken();
     const _res = await axios({
@@ -262,7 +260,7 @@ export const postVerifyOtp = async (resetPasswordToken: string, values: Object) 
       url: `${baseUrl}api/v1/auth/postotp`,
       headers: {
         "x-recaptcha-token": recaptchaToken,
-        "reset-password": resetPasswordToken
+        "reset-password": resetPasswordToken,
       },
       data: values,
     });
@@ -294,6 +292,15 @@ export const patchNewForgotPassword = async (resetPasswordToken: string, values:
   }
 };
 
+export const getSecretToken = async (secret: string) => {
+  try {
+    const _res = await axios.get(`${baseUrl}api/v1/auth/verify?secret=${secret}`);
+    return _res.data;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
 
 export const errorHandler = (error?: AxiosError | any) => {
   let errMessage: string = "😐 Oops! Something went wrong!";
