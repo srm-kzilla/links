@@ -6,10 +6,10 @@ import {
   getOTP,
   verifyOTP,
   resetPassword,
+  getVerifyAccount,
 } from "./auth.controller";
 import { onError, onNotFound } from "../error/error.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
-import { validateUser } from "../middlewares/verifyJWT.middleware";
 import {
   resetPasswordSchema,
   userEmailSchema,
@@ -34,11 +34,17 @@ authHandler
   )
   .post(
     "/signup",
-    verifyRecaptcha,
+
     validateQuery("body", userSignupSchema),
     postSignup
   )
-  .post("/getotp", validateQuery("body", userEmailSchema), getOTP)
+  .get("/verify", getVerifyAccount)
+  .post(
+    "/getotp",
+   
+    validateQuery("body", userEmailSchema),
+    getOTP
+  )
   .post(
     "/postotp",
     verifyRecaptcha,

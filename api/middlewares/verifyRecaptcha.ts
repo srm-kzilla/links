@@ -11,7 +11,9 @@ export const verifyRecaptcha = async (
   next: NextHandler
 ) => {
   try {
-    const responsetoken = req.headers["x-recaptcha-token"] as RecaptchaResponseToken;
+    const responsetoken = req.headers[
+      "x-recaptcha-token"
+    ] as RecaptchaResponseToken;
     if (!responsetoken) {
       throw errors.BAD_REQUEST;
     }
@@ -27,9 +29,6 @@ export const verifyRecaptcha = async (
     }
     next();
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 403,
-      message: `${err.name}: ${err.message}`,
-    });
+    next(err);
   }
 };

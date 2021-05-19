@@ -39,10 +39,7 @@ export const validateQuery = (
       err.errors.forEach((e: string) => {
         message += `${e}. `;
       });
-      next({
-        httpStatus: err.httpStatus || 400,
-        message: message,
-      });
+      next(err);
     }
   };
 };

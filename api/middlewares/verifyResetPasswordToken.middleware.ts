@@ -16,7 +16,7 @@ export const validateToken = async (
     if (!token) {
       throw errors.JWT_ERROR;
     }
-    const jwtSecret = process.env.JWT_SECRET;
+    const jwtSecret = process.env.RESET_PASSWORD_SECRET;
     if (!jwtSecret) {
       throw errors.MISSING_ENV_VARIABLES;
     }
@@ -38,9 +38,6 @@ export const validateToken = async (
       throw errors.USER_NOT_FOUND;
     }
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 403,
-      message: `${err.name}: ${err.message}`,
-    });
+    next(err);
   }
 };

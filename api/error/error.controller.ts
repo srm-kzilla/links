@@ -9,7 +9,7 @@ export interface ApiError extends Error {
 export const onNotFound = (req: NextApiRequest, res: NextApiResponse) => {
   res.status(404).json({
     success: false,
-    error: `Cannot ${req.method} ${req.url}`,
+    message: `Cannot ${req.method} ${req.url}`,
   });
 };
 
@@ -29,7 +29,7 @@ export const onError = (
     console.log(err);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: err.message || "Internal Server Error",
     });
   }
 };

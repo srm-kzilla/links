@@ -4,9 +4,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
-import aws from "aws-sdk";
-import { resetPasswordTemplate } from "../../resetpassword.template";
-
+import { resetPasswordTemplate } from "../templates/resetpassword.template";
+import { verifyAccountTemplate } from "../templates/verifyaccount.template";
 import {
   UserSignup,
   JwtPayload,
@@ -19,6 +18,8 @@ import {
   ResetPassword,
 } from "./auth.schema";
 import { errors } from "../error/error.constant";
+import { baseUrl } from "../../utils/constants";
+import { sendMail } from "../services/mailer.service";
 
 export const postLogin = async (
   req: NextApiRequest,
@@ -32,6 +33,9 @@ export const postLogin = async (
     let body = req.body as UserLogin;
     delete body["password"];
 
+    if (await dbClient.db().collection("tempusers").findOne(body)) {
+      throw errors.UNVERIFIED_ACCOUNT;
+    }
     let result = await dbClient.db().collection("users").findOne<UserDB>(body);
     if (!result) {
       throw errors.USER_NOT_FOUND;
@@ -63,6 +67,59 @@ export const postLogin = async (
   }
 };
 
+export const getVerifyAccount = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
+  try {
+    let secret = req.query.secret as string;
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw errors.MISSING_ENV_VARIABLES;
+    }
+    console.log(secret);
+    const payload: JwtPayload = jwt.verify(secret, jwtSecret, {
+      issuer: "srmkzilla",
+    }) as JwtPayload;
+
+    const dbClient: MongoClient = await getDbClient();
+    let user = await dbClient
+      .db()
+      .collection("tempusers")
+      .findOne<UserDB>({ email: payload.email });
+
+    if (!user) {
+      throw errors.USER_NOT_FOUND;
+    }
+    const data = await dbClient
+      .db()
+      .collection("users")
+      .insertOne(userSignupSchema.cast(user));
+    if (!data) {
+      throw errors.MONGODB_QUERY_ERROR;
+    }
+    await dbClient
+      .db()
+      .collection("tempusers")
+      .deleteOne({ email: user.email });
+
+    const token = jwt.sign(
+      { email: user.email, _id: data.ops[0]._id },
+      jwtSecret,
+      {
+        expiresIn: "1d",
+        issuer: "srmkzilla",
+      }
+    );
+    res.status(200).json({
+      success: true,
+      authToken: token,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 export const postSignup = async (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -75,10 +132,17 @@ export const postSignup = async (
       .db()
       .collection("users")
       .findOne<UserDB>({ email: email });
-    const saltRounds = 12;
     if (result) {
       throw errors.DUPLICATE_USER;
     }
+    let tempUser = await dbClient
+      .db()
+      .collection("tempusers")
+      .findOne<UserDB>({ email: email });
+    if (tempUser) {
+      throw errors.UNVERIFIED_ACCOUNT;
+    }
+
     let usernameExists = await dbClient
       .db()
       .collection("users")
@@ -86,38 +150,54 @@ export const postSignup = async (
     if (usernameExists) {
       throw errors.DUPLICATE_USERNAME;
     }
+    let tempUsernameExists = await dbClient
+      .db()
+      .collection("tempusers")
+      .findOne<UserDB>({ username: username });
+    if (tempUsernameExists) {
+      throw errors.DUPLICATE_USERNAME;
+    }
+    const saltRounds = 12;
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
-
     let user = {
       email,
       password: hash,
       username,
+      createdAt: new Date(),
     };
-    const validatedUser = userSignupSchema.cast(user);
-
-    const data = await dbClient
-      .db()
-      .collection("users")
-      .insertOne(validatedUser);
-
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
       throw errors.MISSING_ENV_VARIABLES;
     }
-    if (!data) {
-      throw errors.MONGODB_QUERY_ERROR;
-    }
-    const token = jwt.sign({ email, _id: data.ops[0]._id }, jwtSecret, {
+    const secret = jwt.sign({ email }, jwtSecret, {
       expiresIn: "1d",
       issuer: "srmkzilla",
     });
 
+    await sendMail(
+      [email],
+      "Verify Your Account",
+      verifyAccountTemplate({
+        username: username,
+        baseUrl: baseUrl,
+        secret: secret,
+      })
+    );
+    await dbClient
+      .db()
+      .collection("tempusers")
+      .createIndex({ createdAt: 1 }, { expireAfterSeconds: 86400 });
+    const data = await dbClient.db().collection("tempusers").insertOne(user);
+
+    if (!data) {
+      throw errors.MONGODB_QUERY_ERROR;
+    }
+
     res.status(200).json({
       success: true,
-      authToken: token,
       message:
-        "🎊 Account created successfully! . Please verify your Email to proceed",
+        "🎊 Account created successfully! Please verify your email to proceed",
     });
   } catch (err) {
     next(err);
@@ -151,45 +231,15 @@ export const getOTP = async (
       otp: OTP,
       createdAt: new Date(),
     });
-    aws.config.update({
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      region: process.env.AWS_REGION,
-    });
-
-    const ses = new aws.SESV2();
-    if (!ses) {
-      throw errors.AWS_CONNECT_ERROR;
-    }
-
-    const params = {
-      Content: {
-        Simple: {
-          Body: {
-            Html: {
-              Charset: "UTF-8",
-              Data: resetPasswordTemplate({
-                name: user.name || user.username,
-                otp: OTP,
-              }),
-            },
-          },
-          Subject: {
-            Charset: "UTF-8",
-            Data: "Reset your password",
-          },
-        },
-      },
-      Destination: {
-        ToAddresses: [email],
-      },
-      FromEmailAddress: "LINKS by SRMKZILLA" + process.env.SES_SOURCE,
-    };
-    const emailSent = await ses.sendEmail(params).promise();
-    if (!emailSent) {
-      throw errors.AWS_CONNECT_ERROR;
-    }
-    const jwtSecret = process.env.JWT_SECRET;
+    await sendMail(
+      [email],
+      "Reset your password",
+      resetPasswordTemplate({
+        name: user.name || user.username,
+        otp: OTP,
+      })
+    );
+    const jwtSecret = process.env.RESET_PASSWORD_SECRET;
     if (!jwtSecret) {
       throw errors.MISSING_ENV_VARIABLES;
     }
@@ -203,10 +253,7 @@ export const getOTP = async (
       resetPasswordToken: resetPasswordToken,
     });
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 500,
-      message: `${err.name}: ${err.message}`,
-    });
+    next(err);
   }
 };
 
@@ -240,10 +287,7 @@ export const verifyOTP = async (
     }
     throw errors.INVALID_OTP; //when a user enters an otp that another user got
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 403,
-      message: `${err.name}: ${err.message}`,
-    });
+    next(err);
   }
 };
 
@@ -265,19 +309,25 @@ export const resetPassword = async (
     const saltRounds = 12;
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(newPassword, salt);
-
     await dbClient
       .db()
       .collection("users")
       .updateOne({ email: user.email }, { $set: { password: hash } });
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw errors.MISSING_ENV_VARIABLES;
+    }
+
+    const token = jwt.sign({ email: user.email, _id: user._id }, jwtSecret, {
+      expiresIn: "1d",
+      issuer: "srmkzilla",
+    });
     return res.status(200).json({
       success: true,
+      authToken: token,
       message: "🔒️ Password updated successfully!",
     });
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 403,
-      message: `${err.name}: ${err.message}`,
-    });
+    next(err);
   }
 };
