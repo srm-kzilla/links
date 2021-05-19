@@ -2,6 +2,7 @@ import Head from "next/head";
 import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { parseCookies } from "nookies";
+import { RecoilRoot } from "recoil";
 import "react-toastify/dist/ReactToastify.css";
 
 import "../styles/globals.css";
@@ -11,24 +12,25 @@ import ImageContextProvider from "../utils/profileImageContext";
 import { authRoutes } from "../utils/constants";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-
   return (
     <>
       <Head>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
       </Head>
-      <AuthContextProvider>
-        <ImageContextProvider>
-          <div className="relative min-h-custom">
-            <div className="pb-4">  
-              <Navbar />
-              <Component {...pageProps} />
+      <RecoilRoot>
+        <AuthContextProvider>
+          <ImageContextProvider>
+            <div className="relative min-h-custom">
+              <div className="pb-4">
+                <Navbar />
+                <Component {...pageProps} />
+              </div>
+              <Footer />
+              <ToastContainer />
             </div>
-            <Footer />
-            <ToastContainer />
-          </div>
-        </ImageContextProvider>
-      </AuthContextProvider>
+          </ImageContextProvider>
+        </AuthContextProvider>
+      </RecoilRoot>
     </>
   );
 };

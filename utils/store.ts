@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-const resetPasswordToken = atom({
+const resetPasswordToken = atom<string>({
   key: "resetPasswordToken", 
   default: "", 
 });
