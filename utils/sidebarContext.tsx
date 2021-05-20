@@ -8,9 +8,9 @@ export interface activeLinkProps {
   status: boolean;
   views: number;
   clicks: number;
-  analyticsCode?: string;
-  shortCode?: string;
-  createdAt?: number;
+  analyticsCode: string;
+  shortCode: string;
+  createdAt: number;
 }
 
 export const SidebarContext = React.createContext({

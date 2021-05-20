@@ -39,9 +39,6 @@ export const validateUser = async (
       throw errors.USER_NOT_FOUND;
     }
   } catch (err) {
-    next({
-      httpStatus: err.httpStatus || 403,
-      message: `${err.name}: ${err.message}`,
-    });
+    next(err);
   }
 };

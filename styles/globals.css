@@ -17,6 +17,15 @@ body {
   font-family: "Work Sans", sans-serif;
   background-color: #e0e0e0;
 }
+
+textarea {
+  resize: none;
+}
+
+.grecaptcha-badge { 
+  visibility: hidden; 
+}
+
 .gradientInput {
   padding: 0.5rem;
   border: double 3px transparent;

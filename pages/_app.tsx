@@ -19,7 +19,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       </Head>
       <AuthContextProvider>
         <ImageContextProvider>
-          <div className="relative min-h-screen">
+          <div className="relative min-h-custom">
             <div className="pb-4">  
               <Navbar />
               <Component {...pageProps} />
