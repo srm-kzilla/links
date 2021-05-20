@@ -27,21 +27,27 @@ export const postLogin = async (
   next: NextHandler
 ) => {
   try {
-    let { password } = req.body;
+    let data = req.body as UserLogin;
     const dbClient: MongoClient = await getDbClient();
-
-    let body = req.body as UserLogin;
-    delete body["password"];
-
-    if (await dbClient.db().collection("tempusers").findOne(body)) {
+    if (
+      await dbClient
+        .db()
+        .collection("tempusers")
+        .findOne({ $or: [{ email: data.userId }, { username: data.userId }] })
+    ) {
       throw errors.UNVERIFIED_ACCOUNT;
     }
-    let result = await dbClient.db().collection("users").findOne<UserDB>(body);
+    let result = await dbClient
+      .db()
+      .collection("users")
+      .findOne<UserDB>({
+        $or: [{ email: data.userId }, { username: data.userId }],
+      });
     if (!result) {
       throw errors.USER_NOT_FOUND;
     }
 
-    if (await bcrypt.compare(password, result.password)) {
+    if (await bcrypt.compare(data.password, result.password)) {
       const jwtSecret = process.env.JWT_SECRET;
       if (!jwtSecret) {
         throw errors.MISSING_ENV_VARIABLES;
