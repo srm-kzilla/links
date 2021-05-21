@@ -1,24 +1,10 @@
 import * as yup from "yup";
 import { ObjectID } from "mongodb";
 //TO DO: add min length for bio
-export const userLoginSchema = yup
-  .object({
-    username: yup
-      .string()
-      .trim()
-      .matches(
-        /^(?=[A-Za-z_.\d]*[A-Za-z])[a-zA-Z_.\d]{5,}$/,
-        "Invalid username"
-      ),
-    email: yup.string().trim().email(),
-    password: yup.string().trim().required(),
-    name: yup.string().trim(),
-    bio: yup.string().trim(),
-    profilePicture: yup.string().trim().url(),
-  })
-  .test("xor", "object should have either username or email", (val) => {
-    return !!val.username !== !!val.email;
-  });
+export const userLoginSchema = yup.object({
+  userId: yup.string().trim().required(),
+  password: yup.string().trim().required(),
+});
 
 export const userSignupSchema = yup.object({
   username: yup
