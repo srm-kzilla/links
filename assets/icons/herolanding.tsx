@@ -97,7 +97,7 @@ export default function HeroLanding(): JSX.Element {
           <path
             d="M56.31,263.8a24.4,24.4,0,1,0,24.4,24.4A24.43,24.43,0,0,0,56.31,263.8Z"
             style={{
-              fill: "rgb(38, 50, 56)",
+              fill: "rgb(79, 206, 93)",
               transformOrigin: "56.31px 288.2px",
             }}
             id="elxzbgwhmto4m"
@@ -126,7 +126,7 @@ export default function HeroLanding(): JSX.Element {
           <path
             d="M121,46.64a24.41,24.41,0,0,0,0,48.81h0a24.41,24.41,0,1,0,0-48.81Z"
             style={{
-              fill: "rgb(38, 50, 56)",
+              fill: "rgb(255, 0, 0)",
               transformOrigin: "121.494px 71.045px",
             }}
             id="elelli58silub"
@@ -144,7 +144,7 @@ export default function HeroLanding(): JSX.Element {
           <polygon
             points="117.69 75.86 117.69 66.24 126.14 71.05 117.69 75.86"
             style={{
-              fill: "rgb(38, 50, 56)",
+              fill: "rgb(255, 0, 0)",
               transformOrigin: "121.915px 71.05px",
             }}
             id="elp8qgsykiw3"
@@ -153,7 +153,7 @@ export default function HeroLanding(): JSX.Element {
           <path
             d="M117.53,396a32,32,0,1,0,32,32A32,32,0,0,0,117.53,396Z"
             style={{
-              fill: "rgb(38, 50, 56)",
+              fill: "rgb(24, 119, 242)",
               transformOrigin: "117.53px 428px",
             }}
             id="elrx10fmlihd"
@@ -171,7 +171,7 @@ export default function HeroLanding(): JSX.Element {
           <path
             d="M395.26,364.11a24.41,24.41,0,1,0,24.4,24.4A24.43,24.43,0,0,0,395.26,364.11Z"
             style={{
-              fill: "rgb(38, 50, 56)",
+              fill: "rgb(188, 42, 141)",
               transformOrigin: "395.25px 388.52px",
             }}
             id="el0iapmas8a4y"
@@ -207,7 +207,7 @@ export default function HeroLanding(): JSX.Element {
           <path
             d="M404.18,169.64h0a37,37,0,0,1-37-37h0a37,37,0,0,1,37-37h0a37,37,0,0,1,37,37h0A37,37,0,0,1,404.18,169.64Z"
             style={{
-              fill: "rgb(38, 50, 56)",
+              fill: "rgb(29, 161, 242)",
               stroke: "rgb(38, 50, 56)",
               strokeLinecap: "round",
               strokeLinejoin: "round",
@@ -227,7 +227,10 @@ export default function HeroLanding(): JSX.Element {
           />
           <path
             d="M114.15,200.73A19.27,19.27,0,1,0,133.42,220,19.29,19.29,0,0,0,114.15,200.73Z"
-            style={{ fill: "gray", transformOrigin: "114.15px 220px" }}
+            style={{
+              fill: "rgb(14, 118, 168)",
+              transformOrigin: "114.15px 220px",
+            }}
             id="el1v483biiywg"
             className="animable"
           />
@@ -263,7 +266,10 @@ export default function HeroLanding(): JSX.Element {
           />
           <path
             d="M428.94,337.34h0a20,20,0,0,1-20-20h0a20,20,0,0,1,20-20h0a20,20,0,0,1,20,20h0A20,20,0,0,1,428.94,337.34Z"
-            style={{ fill: "gray", transformOrigin: "428.94px 317.34px" }}
+            style={{
+              fill: "rgb(5, 62, 255)",
+              transformOrigin: "428.94px 317.34px",
+            }}
             id="ellep02aemtjs"
             className="animable"
           />
@@ -299,7 +305,10 @@ export default function HeroLanding(): JSX.Element {
           />
           <path
             d="M283.33,70.61h0a20,20,0,0,1-20-20h0a20,20,0,0,1,20-20h0a20,20,0,0,1,20,20h0A20,20,0,0,1,283.33,70.61Z"
-            style={{ fill: "gray", transformOrigin: "283.33px 50.61px" }}
+            style={{
+              fill: "rgb(255, 252, 0)",
+              transformOrigin: "283.33px 50.61px",
+            }}
             id="el7v6v4ck8izi"
             className="animable"
           />

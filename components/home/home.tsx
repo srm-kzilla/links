@@ -7,10 +7,10 @@ export default function HomeComponent(): JSX.Element {
         <div className=" hover:mx-auto px-8">
           <main className="flex flex-col-reverse sm:flex-row jusitfy-between items-center py-12">
             <div className="sm:w-2/5 flex flex-col items-center sm:items-start text-center sm:text-left pl-3">
-              <h1 className="uppercase text-6xl customGradient font-bold leading-none tracking-wide mb-2">
+              <h1 className="uppercase text-8xl customGradient font-bold leading-none tracking-wide mb-2">
                 One link
               </h1>
-              <h2 className="uppercase text-4xl text-statusGreen text-secondary tracking-widest mb-6">
+              <h2 className="uppercase text-5xl text-statusGreen text-secondary tracking-widest mb-6">
                 For all your links
               </h2>
               <p className="text-gray-600 leading-relaxed mb-12">
