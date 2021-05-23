@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import VerificationInput from "react-verification-input";
-import { parseCookies, setCookie } from "nookies";
 import { Formik, Field, Form } from "formik";
+import { useRecoilState } from "recoil";
 
 import { postForgotPasswordEmail, postVerifyOtp, patchNewForgotPassword } from "../../utils/api";
 import { forgotPasswordValidationSchema } from "../../utils/schema";
 import { Eye, EyeHide } from "../../assets/icons"
+import { resetPasswordToken } from "../../utils/store"
 
 export default function ForgotPasswordComponent(): JSX.Element {
   const [passwordShown, setPasswordShown] = useState<boolean>(false);
@@ -15,13 +16,14 @@ export default function ForgotPasswordComponent(): JSX.Element {
   };
 
   const router = useRouter();
-  const { resetPasswordToken } = parseCookies();
 
   const [enterCode, setEnterCode] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [otp, setOtp] = useState<number>();
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(true);
+
+  const [resetPwdToken, setResetPwdToken] = useRecoilState(resetPasswordToken);
 
   const initialValues = {
     oldPassword: "",
@@ -36,7 +38,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
     const _res = await postForgotPasswordEmail(values);
     if (_res) {
       setEnterCode(true);
-      setCookie(null, "resetPasswordToken", _res.data.resetPasswordToken);
+      setResetPwdToken(_res.data.resetPasswordToken);
     }
   };
 
@@ -50,7 +52,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
     const values = {
       otp: otp,
     };
-    const _res = await postVerifyOtp(resetPasswordToken, values);
+    const _res = await postVerifyOtp(resetPwdToken, values);
     if (_res) {
       setChangePassword(true);
       setOtpVerified(false);
@@ -61,7 +63,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
     const values = {
       newPassword: newPassword
     }
-    const _res = await patchNewForgotPassword(resetPasswordToken, values);
+    const _res = await patchNewForgotPassword(resetPwdToken, values);
     if (_res) {
       router.replace('/login');
     }

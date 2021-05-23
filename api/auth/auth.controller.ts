@@ -257,6 +257,7 @@ export const getOTP = async (
     return res.status(200).json({
       success: true,
       resetPasswordToken: resetPasswordToken,
+      message: "📧 OTP sent to the email successfully!"
     });
   } catch (err) {
     next(err);

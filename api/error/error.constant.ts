@@ -61,7 +61,7 @@ export const errors = {
   },
   UNVERIFIED_ACCOUNT: {
     httpStatus: 403,
-    message: "🙄 Please verify your email to proceed",
+    message: "📧 Please verify your email to proceed",
   },
   MISSING_ENV_VARIABLES: {
     httpStatus: 500,

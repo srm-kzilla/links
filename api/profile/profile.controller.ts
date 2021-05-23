@@ -5,7 +5,6 @@ import { UserProfile, ChangePassword } from "./profile.schema";
 import { JwtPayload, UserDB } from "../auth/auth.schema";
 import { errors } from "../error/error.constant";
 import { getDbClient } from "../services/mongodb.service";
-import aws from "aws-sdk";
 import * as bcrypt from "bcrypt";
 import { getS3Client } from "../services/s3.service";
 
@@ -67,7 +66,7 @@ export const patchProfile = async (
 
       let tempUsernameExists = await dbClient
         .db()
-        .collection("users")
+        .collection("tempusers")
         .findOne<UserDB>({ username: data.username });
       if (tempUsernameExists) {
         throw errors.DUPLICATE_USERNAME;

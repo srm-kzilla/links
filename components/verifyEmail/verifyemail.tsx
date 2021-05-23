@@ -1,4 +1,7 @@
-export default function VerifyEmailComponent(): JSX.Element {
+import { setCookie } from "nookies";
+
+export default function VerifyEmailComponent({ authTokenProp }): JSX.Element {
+  setCookie(null, "authToken", authTokenProp);
   return (
     <>
       <div className="flex w-screen h-screen">
