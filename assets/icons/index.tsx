@@ -14,21 +14,23 @@ import NotFoundLeft from "./notfoundleft";
 import NotFoundZero from "./notfoundzero";
 import NotFoundRight from "./notfoundright";
 import EllipseGreen from "./ellipsegreen";
+import HeroLanding from "./herolanding";
 
-export { 
-    NewWindow, 
-    NoLinks, 
-    Pencil, 
-    Spike, 
-    Tick, 
-    Trash, 
-    Logo, 
-    Eye, 
-    EyeHide, 
-    Ellipse, 
-    LoadingAuth, 
-    NotFoundLeft, 
-    NotFoundZero, 
-    NotFoundRight, 
-    EllipseGreen
+export {
+  NewWindow,
+  NoLinks,
+  Pencil,
+  Spike,
+  Tick,
+  Trash,
+  Logo,
+  Eye,
+  EyeHide,
+  Ellipse,
+  LoadingAuth,
+  NotFoundLeft,
+  NotFoundZero,
+  NotFoundRight,
+  EllipseGreen,
+  HeroLanding,
 };
