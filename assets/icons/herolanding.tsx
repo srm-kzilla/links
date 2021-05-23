@@ -208,7 +208,7 @@ export default function HeroLanding(): JSX.Element {
             d="M404.18,169.64h0a37,37,0,0,1-37-37h0a37,37,0,0,1,37-37h0a37,37,0,0,1,37,37h0A37,37,0,0,1,404.18,169.64Z"
             style={{
               fill: "rgb(29, 161, 242)",
-              stroke: "rgb(38, 50, 56)",
+              stroke: "rgb(29, 161, 242)",
               strokeLinecap: "round",
               strokeLinejoin: "round",
               transformOrigin: "404.18px 132.64px",
