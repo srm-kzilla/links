@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
 import { Formik, Field, Form } from "formik";
