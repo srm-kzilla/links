@@ -48,17 +48,19 @@ export default function Navbar() {
           <>
             <div className="grid grid-cols-1 justify-self-end">
               <div className="hidden sm:inline-block">
-                <img
-                  className="w-12 h-12 rounded-full ml-3 mt-2 mb-2 float-left border"
-                  src={fileBlob ? fileBlob : userProfileData.profilePicture}
-                />
                 <div
-                  className="mr-4 pl-4 cursor-pointer select-none float-right my-5 hover:text-gray-500"
+                  className="flex items-center mr-4 pl-4 cursor-pointer select-none float-left my-1 hover:text-gray-500"
                   onClick={() => setisOpen(!isOpen)}
                 >
-                  Welcome {userProfileData.name || userProfileData.username }
+                  Welcome {userProfileData.name || userProfileData.username}
                   <div className="float-right pt-1 ml-2">
-                    <FaChevronDown />
+                    <img
+                      className="flex items-center w-12 h-12 rounded-full float-left mb-2 border"
+                      src={fileBlob ? fileBlob : userProfileData.profilePicture}
+                    />
+                    <div className="flex items-center py-4 px-2">
+                      <FaChevronDown />
+                    </div>
                   </div>
                 </div>
               </div>
