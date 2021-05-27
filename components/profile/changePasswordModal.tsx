@@ -6,7 +6,7 @@ import { Formik, Field, Form } from "formik";
 
 import { passwordValidationSchema } from "../../utils/schema";
 import { patchNewPassword } from "../../utils/api";
-import { Eye, EyeHide } from "../../assets/icons"
+import { Eye, EyeHide, LoadingAuth } from "../../assets/icons"
 
 interface ModalProps {
   isOpen: boolean;
@@ -15,10 +15,13 @@ interface ModalProps {
 
 const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
   const [passwordShown, setPasswordShown] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const togglePasswordVisiblity = () => {
     setPasswordShown(passwordShown ? false : true);
   };
   const submitNewPassword = (oldPassword, newPassword) => {
+    setLoading(true);
     const values: Object = {
       oldPassword: oldPassword,
       newPassword: newPassword,
@@ -27,7 +30,11 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
     (async () => {
       const _res = await patchNewPassword(authToken, values);
       if (_res) {
+        setLoading(false);
         onClose();
+      }
+      else {
+        setLoading(false);
       }
     })();
   };
@@ -101,12 +108,12 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                           {errors.confirmNewPassword}
                         </div>
                       )}
-                      <div className="flex items-center justify-center">
+                      <div className="flex items-center justify-center relative">
                         <button
                           type="submit"
                           className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 my-2 rounded"
                         >
-                          Save
+                          {loading && <div className="absolute left-1/2"><LoadingAuth /></div>}<div className={`${loading && "invisible"}`}>Save</div>
                         </button>
                       </div>
                     </Form>

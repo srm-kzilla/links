@@ -29,7 +29,8 @@ export default function Navbar() {
     profilePicture: "https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png"
   });
   const [isOpen, setisOpen] = useState<boolean>(false);
-  const router = useRouter()
+  const router = useRouter();
+
   const logoutUser = () => {
     destroyCookie(null, "authToken");
     router.replace('/');
@@ -97,7 +98,7 @@ export default function Navbar() {
             {isAuth &&
               <a
                 href="/"
-                className="py-2 rounded hover:bg-lightblue text-sm font-normal block"
+                className={`py-2 rounded ${router.pathname == "/" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
               >
                 Home
             </a>
@@ -105,7 +106,7 @@ export default function Navbar() {
             {isAuth &&
               <a
                 href="/profile"
-                className="py-2 rounded hover:bg-lightblue text-sm font-normal block"
+                className={`py-2 rounded ${router.pathname == "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
               >
                 Edit Profile
             </a>
@@ -113,7 +114,7 @@ export default function Navbar() {
             {isAuth &&
               <a
                 href="/dashboard"
-                className="py-2 rounded hover:bg-lightblue text-sm font-normal block"
+                className={`py-2 rounded ${router.pathname == "/dashboard" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
               >
                 Dashboard
             </a>

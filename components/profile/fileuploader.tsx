@@ -4,6 +4,7 @@ import { parseCookies } from 'nookies';
 
 import { patchProfilePicture, postProfilePicture } from '../../utils/api';
 import { ImageContext } from '../../utils/profileImageContext';
+import { LoadingAuth } from '../../assets/icons';
 
 export default function FileUploader() :JSX.Element {
     const { setFileBlob } = useContext(ImageContext);
@@ -15,7 +16,7 @@ export default function FileUploader() :JSX.Element {
         const { authToken } = parseCookies();
         const file = event.target.files[0];
         if(file) {
-            setFileBlob(URL.createObjectURL(event.target.files[0]));
+            setFileBlob("https://www.netgear.com/images/mynetgear/slds_spinner_brand.gif");
         }
 
         (async () => {
@@ -27,6 +28,7 @@ export default function FileUploader() :JSX.Element {
                 formArray.forEach(([key, value]) => {
                     formData.append(key, value);
                 });
+                setFileBlob(URL.createObjectURL(event.target.files[0]));
                 await postProfilePicture(url, formData); 
             }
         })();

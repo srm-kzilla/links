@@ -121,7 +121,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                 {totalViews || "N.A"}
               </div>
             </div>
-            {activeLink.title ? (
+            {activeLink.shortCode  ? (
               <div>
                 <div className="mt-4 ml-10">
                   <Toggle status={activeLink.status} linkId={activeLink._id} />

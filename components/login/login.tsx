@@ -5,7 +5,7 @@ import * as Yup from "yup";
 
 import { postLogin } from "../../utils/api";
 import { AuthContext } from "../../utils/authContext";
-import { Eye, EyeHide, Ellipse, LoadingAuth } from "../../assets/icons"
+import { Eye, EyeHide, Ellipse, LoadingAuth } from "../../assets/icons";
 
 const LoginComponent = () => {
   const { setIsAuth } = useContext(AuthContext);
