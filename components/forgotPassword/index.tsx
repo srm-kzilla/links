@@ -70,9 +70,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
       setLoading(false);
       router.replace('/login');
     }
-    else {
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   return (

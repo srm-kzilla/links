@@ -4,7 +4,6 @@ import { parseCookies } from 'nookies';
 
 import { patchProfilePicture, postProfilePicture } from '../../utils/api';
 import { ImageContext } from '../../utils/profileImageContext';
-import { LoadingAuth } from '../../assets/icons';
 
 export default function FileUploader() :JSX.Element {
     const { setFileBlob } = useContext(ImageContext);
@@ -16,7 +15,7 @@ export default function FileUploader() :JSX.Element {
         const { authToken } = parseCookies();
         const file = event.target.files[0];
         if(file) {
-            setFileBlob("https://www.netgear.com/images/mynetgear/slds_spinner_brand.gif");
+            setFileBlob("loading.gif");
         }
 
         (async () => {

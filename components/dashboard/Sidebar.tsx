@@ -83,7 +83,6 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
   useEffect(() => {
     setClicksLoading(true);
     if(activeLink.title.length >= 1){
-      console.log("yes");
       (async () => {
         const _res = await getLinkClicks(activeLink.analyticsCode);
         setActiveLinkClicks(_res);

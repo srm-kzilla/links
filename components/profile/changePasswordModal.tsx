@@ -33,9 +33,7 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
         setLoading(false);
         onClose();
       }
-      else {
-        setLoading(false);
-      }
+      setLoading(false);
     })();
   };
 
