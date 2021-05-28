@@ -60,7 +60,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 <div className="flex flex-col">
                     <div className="mt-10">
                         <a className="text-left" href={`${baseUrl}${_resProfile.username}`} target="_blank" rel="noopener noreferrer"><i className="float-left mt-1 mr-2"><FiLink /></i><strong>{baseUrl}{_resProfile.username}</strong></a>
-                        <button onClick={() => copyToClipBoard(`http://localhost:3000/mulligulli81`)} className="float-right focus:outline-none" title="Copy to Clipboard">
+                        <button onClick={() => copyToClipBoard(`http://localhost:3000/${_resProfile.username}`)} className="float-right focus:outline-none" title="Copy to Clipboard">
                             <i className="float-right mt-1 ml-2 grid-cols-1 cursor-pointer"><MdContentCopy /></i>
                         </button>
                     </div>
