@@ -38,100 +38,103 @@ export default function Navbar() {
   }
 
   return (
-    <nav className={`fixed top-0 z-50 w-full bg-white ${router.pathname != "/" && "shadow-custom"} rounded-bl-xl`}>
-      <div className="grid grid-cols-2">
-        <a href="/" className="text-black text-2xl font-bold p-3 text-left">
-          <div className="float-left mx-3"><Logo /></div>
-          <div className="ml-2 pt-1">LINKS</div>
-        </a>
-        {isAuth ? (
-          <>
-            <div className="grid grid-cols-1 justify-self-end">
-              <div className="hidden sm:inline-block">
-                <div
-                  className="flex items-center mr-4 pl-4 cursor-pointer select-none float-left my-1 hover:text-gray-500"
-                  onClick={() => setisOpen(!isOpen)}
-                >
-                  Welcome {userProfileData.name || userProfileData.username}
-                  <div className="float-right pt-1 ml-2">
-                    <img
-                      className="flex items-center w-12 h-12 rounded-full float-left mb-2 border"
-                      src={fileBlob ? fileBlob : userProfileData.profilePicture}
-                    />
-                    <div className="flex items-center py-4 px-2">
-                      <FaChevronDown />
+    router.pathname != "/" && (
+      <>
+        <nav className={`fixed top-0 z-50 w-full bg-white shadow-custom rounded-bl-xl`}>
+          <div className="grid grid-cols-2">
+            <a href="/" className="text-black text-2xl font-bold p-3 text-left">
+              <div className="float-left mx-3"><Logo /></div>
+              <div className="ml-2 pt-1">LINKS</div>
+            </a>
+            {isAuth ? (
+              <>
+                <div className="grid grid-cols-1 justify-self-end">
+                  <div className="hidden sm:inline-block">
+                    <div
+                      className="flex items-center mr-4 pl-4 cursor-pointer select-none float-left my-1 hover:text-gray-500"
+                      onClick={() => setisOpen(!isOpen)}
+                    >
+                      Welcome {userProfileData.name || userProfileData.username}
+                      <div className="float-right pt-1 ml-2">
+                        <img
+                          className="flex items-center w-12 h-12 rounded-full float-left mb-2 border"
+                          src={fileBlob ? fileBlob : userProfileData.profilePicture}
+                        />
+                        <div className="flex items-center py-4 px-2">
+                          <FaChevronDown />
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  <button
+                    className="inline-block sm:hidden mr-5"
+                    onClick={() => setisOpen(!isOpen)}
+                  >
+                    <img src="https://img.icons8.com/android/24/000000/menu.png" />
+                  </button>
                 </div>
-              </div>
-              <button
-                className="inline-block sm:hidden mr-5"
-                onClick={() => setisOpen(!isOpen)}
-              >
-                <img src="https://img.icons8.com/android/24/000000/menu.png" />
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="grid grid-cols-2 justify-self-end my-auto text-center">
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://srmkzilla.net"
-                className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
-              >
-                About Us
+              </>
+            ) : (
+              <>
+                <div className="grid grid-cols-2 justify-self-end my-auto text-center">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://srmkzilla.net"
+                    className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
+                  >
+                    About Us
               </a>
-              <a
-                href="/login"
-                className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
-              >
-                Login
+                  <a
+                    href="/login"
+                    className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
+                  >
+                    Login
               </a>
-            </div>
-          </>
-        )}
-      </div>
-
-      {isOpen && (
-        <Flip right>
-          <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center">
-            {isAuth &&
-              <a
-                href="/"
-                className={`py-2 rounded ${router.pathname == "/" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
-              >
-                Home
-            </a>
-            }
-            {isAuth &&
-              <a
-                href="/profile"
-                className={`py-2 rounded ${router.pathname == "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
-              >
-                Edit Profile
-            </a>
-            }
-            {isAuth &&
-              <a
-                href="/dashboard"
-                className={`py-2 rounded ${router.pathname == "/dashboard" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
-              >
-                Dashboard
-            </a>
-            }
-            {isAuth &&
-              <a
-                className="py-2 rounded hover:bg-lightblue text-sm font-normal block cursor-pointer"
-                onClick={() => logoutUser()}
-              >
-                Log Out
-            </a>
-            }
+                </div>
+              </>
+            )}
           </div>
-        </Flip>
-      )}
-    </nav>
-  );
+
+          {isOpen && (
+            <Flip right>
+              <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center">
+                {isAuth &&
+                  <a
+                    href="/"
+                    className={`py-2 rounded ${router.pathname == "/" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
+                  >
+                    Home
+            </a>
+                }
+                {isAuth &&
+                  <a
+                    href="/profile"
+                    className={`py-2 rounded ${router.pathname == "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
+                  >
+                    Edit Profile
+            </a>
+                }
+                {isAuth &&
+                  <a
+                    href="/dashboard"
+                    className={`py-2 rounded ${router.pathname == "/dashboard" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
+                  >
+                    Dashboard
+            </a>
+                }
+                {isAuth &&
+                  <a
+                    className="py-2 rounded hover:bg-lightblue text-sm font-normal block cursor-pointer"
+                    onClick={() => logoutUser()}
+                  >
+                    Log Out
+            </a>
+                }
+              </div>
+            </Flip>
+          )}
+        </nav>
+      </>
+    ));
 }
