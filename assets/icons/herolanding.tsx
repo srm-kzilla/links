@@ -17,32 +17,7 @@ export default function HeroLanding({ ...rest }: HTMLProps<HTMLLIElement>) {
                 "svg#freepik_stories-mobile-marketing:not(.animated) .animable {opacity: 0;}svg#freepik_stories-mobile-marketing.animated #freepik--Icons--inject-141 {animation: 1.5s Infinite  linear wind;animation-delay: 0s;}            @keyframes wind {                0% {                    transform: rotate( 0deg );                }                25% {                    transform: rotate( 1deg );                }                75% {                    transform: rotate( -1deg );                }            }        ",
             }}
           />
-          <g
-            id="freepik--background-simple--inject-141"
-            className="animable"
-            style={{ transformOrigin: "251.459px 252.051px" }}
-          >
-            <path
-              d="M35.51,215.39s-8.29,80,50.8,146.34,150.48,88.55,224.2,108.51,136.62-10.71,153.94-72.7-37-92.1-57.92-170.82S391.59,124.71,332.41,67s-165-50.81-229,14.87S35.51,215.39,35.51,215.39Z"
-              style={{
-                fill: "rgb(86, 204, 242)",
-                transformOrigin: "251.459px 252.051px",
-              }}
-              id="ellvm5s2x2dm"
-              className="animable"
-            />
-            <g id="elo08oo31ldi">
-              <path
-                d="M35.51,215.39s-8.29,80,50.8,146.34,150.48,88.55,224.2,108.51,136.62-10.71,153.94-72.7-37-92.1-57.92-170.82S391.59,124.71,332.41,67s-165-50.81-229,14.87S35.51,215.39,35.51,215.39Z"
-                style={{
-                  fill: "rgb(255, 255, 255)",
-                  opacity: "0.7",
-                  transformOrigin: "251.459px 252.051px",
-                }}
-                className="animable"
-              />
-            </g>
-          </g>
+          
           <g
             id="freepik--Icons--inject-141"
             className="animable"

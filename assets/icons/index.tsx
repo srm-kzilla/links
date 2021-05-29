@@ -15,7 +15,8 @@ import NotFoundZero from "./notfoundzero";
 import NotFoundRight from "./notfoundright";
 import EllipseGreen from "./ellipsegreen";
 import HeroLanding from "./herolanding";
-
+import Circle from "./circle";
+import DoubleCircle from "./doublecircle";
 export {
   NewWindow,
   NoLinks,
@@ -33,4 +34,6 @@ export {
   NotFoundRight,
   EllipseGreen,
   HeroLanding,
+  Circle,
+  DoubleCircle,
 };
