@@ -1,10 +1,7 @@
-import { setCookie } from "nookies";
 import Lottie from "react-lottie";
+import animationData from "../../public/lotties/unsubscribe.json";
 
-import animationData from "../../public/lotties/success.json";
-
-export default function VerifyEmailComponent({ authTokenProp }): JSX.Element {
-  setCookie(null, "authToken", authTokenProp);
+export default function UnsubscribeComponent(): JSX.Element {
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -20,18 +17,18 @@ export default function VerifyEmailComponent({ authTokenProp }): JSX.Element {
           <div className="flex flex-col items-center justify-center p-4">
             <Lottie
               options={defaultOptions}
-              height={300}
-              width={300}
+              height={150}
+              width={150}
             />
-            <h1 className="font-bold text-xl sm:text-3xl text-center">Your Email is now verified!</h1>
+            <h1 className="font-bold text-xl sm:text-3xl text-center mt-4">Sad to see you go!</h1>
           </div>
-          <p className="w-full text-center mt-8 text-md sm:text-lg">
-            You can now continue to add your links in your dashboard! 🥳
+          <p className="w-full text-center mt-8 text-md sm:text-lg px-1">
+          You have been unsubscribed from the mailing list
           </p>
           <div className="text-center">
-            <a href="/dashboard">
+            <a href="/">
               <button className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 sm:w-1/5 text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded">
-                TAKE ME TO DASHBOARD
+                TAKE ME HOME
               </button>
             </a>
           </div>
