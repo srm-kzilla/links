@@ -1,39 +1,19 @@
 export { default as Loading } from "./loading";
-import NewWindow from "./newWindow";
-import NoLinks from "./nolinks";
-import Pencil from "./pencil";
-import Spike from "./spike";
-import Tick from "./tick";
-import Trash from "./trash";
-import Logo from "./logo";
-import Eye from "./eye";
-import EyeHide from "./eyehide";
-import Ellipse from "./ellipse";
-import LoadingAuth from "./loadingauth";
-import NotFoundLeft from "./notfoundleft";
-import NotFoundZero from "./notfoundzero";
-import NotFoundRight from "./notfoundright";
-import EllipseGreen from "./ellipsegreen";
-import HeroLanding from "./herolanding";
-import Circle from "./circle";
-import DoubleCircle from "./doublecircle";
-export {
-  NewWindow,
-  NoLinks,
-  Pencil,
-  Spike,
-  Tick,
-  Trash,
-  Logo,
-  Eye,
-  EyeHide,
-  Ellipse,
-  LoadingAuth,
-  NotFoundLeft,
-  NotFoundZero,
-  NotFoundRight,
-  EllipseGreen,
-  HeroLanding,
-  Circle,
-  DoubleCircle,
-};
+export { default as NewWindow } from "./newWindow";
+export { default as NoLinks } from "./nolinks";
+export { default as Pencil } from "./pencil";
+export { default as Spike } from "./spike";
+export { default as Tick } from "./tick";
+export { default as Trash } from "./trash";
+export { default as Logo } from "./logo";
+export { default as Eye } from "./eye";
+export { default as EyeHide } from "./eyehide";
+export { default as Ellipse } from "./ellipse";
+export { default as LoadingAuth } from "./loadingauth";
+export { default as NotFoundLeft } from "./notfoundleft";
+export { default as NotFoundZero } from "./notfoundzero";
+export { default as NotFoundRight } from "./notfoundright";
+export { default as EllipseGreen } from "./ellipsegreen";
+export { default as HeroLanding } from "./herolanding";
+export { default as Circle } from "./circle";
+export { default as DoubleCircle } from "./doublecircle";
