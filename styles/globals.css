@@ -22,8 +22,8 @@ textarea {
   resize: none;
 }
 
-.grecaptcha-badge { 
-  visibility: hidden; 
+.grecaptcha-badge {
+  visibility: hidden;
 }
 
 .gradientInput {
@@ -91,6 +91,12 @@ hr {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.customGradientInverse {
+  background: -webkit-linear-gradient(#6fcf97, #56ccf2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .hover-trigger .hover-target {
   display: none;
 }
@@ -98,7 +104,7 @@ hr {
   display: block;
 }
 .gradientHeaderHollow {
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
   font-weight: 800;
   text-transform: uppercase;
   background: -webkit-linear-gradient(#56ccf2, #6fcf97);
@@ -132,4 +138,3 @@ hr {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
-
