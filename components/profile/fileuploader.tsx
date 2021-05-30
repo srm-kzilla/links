@@ -15,7 +15,7 @@ export default function FileUploader() :JSX.Element {
         const { authToken } = parseCookies();
         const file = event.target.files[0];
         if(file) {
-            setFileBlob(URL.createObjectURL(event.target.files[0]));
+            setFileBlob("loading.gif");
         }
 
         (async () => {
@@ -27,6 +27,7 @@ export default function FileUploader() :JSX.Element {
                 formArray.forEach(([key, value]) => {
                     formData.append(key, value);
                 });
+                setFileBlob(URL.createObjectURL(event.target.files[0]));
                 await postProfilePicture(url, formData); 
             }
         })();

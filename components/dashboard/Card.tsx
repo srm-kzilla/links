@@ -61,7 +61,8 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
           <button title="Edit Link" className="focus:outline-none cursor-pointer mx-2 md:mx-4">
             <Pencil />
           </button>
-          <a
+          {/* Redundant feature */}
+          {/* <a
             href={`${kzillaxyz}${link.analyticsCode}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -71,7 +72,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
             <button className="focus:outline-none cursor-pointer mx-2 md:mx-4">
               <Spike />
             </button>
-          </a>
+          </a> */}
           <button
             onClick={() => setIsdeleteModalOpen(true)}
             className="focus:outline-none cursor-pointer mx-2 md:mx-4"
