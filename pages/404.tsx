@@ -3,7 +3,7 @@ import { NotFoundLeft, NotFoundZero, NotFoundRight } from "../assets/icons";
 export default function Custom404(): JSX.Element {
   return (
     <>
-      <div className="flex w-screen h-screen">
+      <div className="flex h-screen">
         <div className="m-auto w-full">
           <div className="flex items-center justify-center p-4">
             <NotFoundLeft />

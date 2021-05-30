@@ -5,21 +5,20 @@ import * as Yup from "yup";
 
 import { postLogin } from "../../utils/api";
 import { AuthContext } from "../../utils/authContext";
-import { Eye, EyeHide, Ellipse, LoadingAuth } from "../../assets/icons"
+import { Eye, EyeHide, Ellipse, LoadingAuth } from "../../assets/icons";
 
 const LoginComponent = () => {
   const { setIsAuth } = useContext(AuthContext);
   const router = useRouter();
 
   const initialValues = {
-    email: "",
+    userId: "",
     password: "",
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string()
-      .trim()
-      .email("Email must be a valid email")  // not req
+    userId: Yup.string()
+      .trim() 
       .required("This is a required field"),
     password: Yup.string()
       .trim()
@@ -67,14 +66,14 @@ const LoginComponent = () => {
             {({ errors }) => (
               <Form>
                 <Field
-                  name="email"
-                  type="email"
+                  name="userId"
+                  type="text"
                   className="gradientInput mb-4 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
-                  placeholder="Your Email ID"
+                  placeholder="Email ID / Username"
                 />
-                {errors.email && (
+                {errors.userId && (
                   <div className="text-red-500 text-sm -mt-4 mb-3">
-                    {errors.email}
+                    {errors.userId}
                   </div>
                 )}
                 <div className="relative">

@@ -6,8 +6,8 @@ import { useRecoilState } from "recoil";
 
 import { postForgotPasswordEmail, postVerifyOtp, patchNewForgotPassword } from "../../utils/api";
 import { forgotPasswordValidationSchema } from "../../utils/schema";
-import { Eye, EyeHide } from "../../assets/icons"
-import { resetPasswordToken } from "../../utils/store"
+import { Eye, EyeHide, LoadingAuth } from "../../assets/icons";
+import { resetPasswordToken } from "../../utils/store";
 
 export default function ForgotPasswordComponent(): JSX.Element {
   const [passwordShown, setPasswordShown] = useState<boolean>(false);
@@ -22,6 +22,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const [otp, setOtp] = useState<number>();
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [resetPwdToken, setResetPwdToken] = useRecoilState(resetPasswordToken);
 
@@ -60,13 +61,16 @@ export default function ForgotPasswordComponent(): JSX.Element {
   };
 
   const submitNewPassword = async (newPassword: string) => {
+    setLoading(true);
     const values = {
       newPassword: newPassword
     }
     const _res = await patchNewForgotPassword(resetPwdToken, values);
     if (_res) {
+      setLoading(false);
       router.replace('/login');
     }
+    setLoading(false);
   };
 
   return (
@@ -124,13 +128,13 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         NEW PASSWORD
                       </p>
                       <div className="relative">
-                      <Field
-                        type={passwordShown ? 'text' : 'password'}
-                        name="newPassword"
-                        autoComplete="off"
-                        className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-full mt-2 mb-8"
-                      />
-                      <i
+                        <Field
+                          type={passwordShown ? 'text' : 'password'}
+                          name="newPassword"
+                          autoComplete="off"
+                          className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-full mt-2 mb-8"
+                        />
+                        <i
                           className="absolute top-4 right-3 cursor-pointer"
                           onClick={togglePasswordVisiblity}
                         >
@@ -157,12 +161,14 @@ export default function ForgotPasswordComponent(): JSX.Element {
                           {errors.confirmNewPassword}
                         </div>
                       )}
-                      <button
-                        type="submit"
-                        className="bg-statusGreen focus:outline-none hover:bg-opacity-90 text-darkgray mt-20 w-full text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded"
-                      >
-                        SAVE!
-                      </button>
+                      <div className="flex items-center justify-center relative">
+                        <button
+                          type="submit"
+                          className="bg-statusGreen focus:outline-none hover:bg-opacity-90 text-darkgray mt-20 w-full text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded"
+                        >
+                          {loading && <div className="absolute left-1/2"><LoadingAuth /></div>}<div className={`${loading && "invisible"}`}>Save</div>
+                        </button>
+                      </div>
                     </Form>
                   )}
                 </Formik>
@@ -179,23 +185,25 @@ export default function ForgotPasswordComponent(): JSX.Element {
             <p className="flex-initial mt-64 text-darkgray font-extrabold">
               EMAIL
             </p>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              autoComplete="off"
-              className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-3/4 sm:w-1/4 mt-8 mb-8"
-              placeholder="abc@xyzmail.com"
-              onChange={(e) => setEmail(e.target.value)}
-              required={true}
-            />
-            <button
-              type="submit"
-              className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/5 text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded"
-              onClick={() => sendVerificationCode()}
-            >
-              Send Verification Code
+            <form className="flex items-center justify-center flex-col h-full w-full">
+              <input
+                type="email"
+                name="email"
+                value={email}
+                autoComplete="off"
+                className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-3/4 md:w-1/5 mt-8 mb-8"
+                placeholder="abc@xyzmail.com"
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <button
+                type="submit"
+                className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/5 text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded"
+                onClick={() => sendVerificationCode()}
+              >
+                Send Verification Code
             </button>
+            </form>
           </div>
         </>
       )}

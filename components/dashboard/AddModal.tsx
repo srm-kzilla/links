@@ -2,6 +2,7 @@ import React from "react";
 import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
 import { Formik, Field, Form } from "formik";
+
 import { validationSchema } from "../../utils/schema"
 
 interface AddModalProps {
@@ -10,7 +11,7 @@ interface AddModalProps {
   onAddLink: (
     link: { title: string; url: string },
     resetForm: () => void,
-    closeModal: () => void
+    closeModal: () => void,
   ) => void;
 }
 
@@ -69,7 +70,7 @@ const AddModal = ({
                           {errors.url}
                         </div>
                       )}
-                      <div className="flex items-center justify-center">
+                      <div className="flex items-center justify-center relative">
                         <button
                           type="submit"
                           className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 my-2 rounded"

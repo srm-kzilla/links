@@ -60,40 +60,49 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 <div className="flex flex-col">
                     <div className="mt-10">
                         <a className="text-left" href={`${baseUrl}${_resProfile.username}`} target="_blank" rel="noopener noreferrer"><i className="float-left mt-1 mr-2"><FiLink /></i><strong>{baseUrl}{_resProfile.username}</strong></a>
-                        <button onClick={() => copyToClipBoard(`http://localhost:3000/mulligulli81`)} className="float-right focus:outline-none" title="Copy to Clipboard">
+                        <button onClick={() => copyToClipBoard(`http://localhost:3000/${_resProfile.username}`)} className="float-right focus:outline-none" title="Copy to Clipboard">
                             <i className="float-right mt-1 ml-2 grid-cols-1 cursor-pointer"><MdContentCopy /></i>
                         </button>
                     </div>
                 </div>
             </div>
             <div className="flex items-center justify-center flex-col lg:absolute lg:top-40 lg:right-2 lg:pl-48 lg:w-4/5 mt-4">
+                <p className="left-0 text-darkgray font-extrabold">
+                    NAME
+                </p>
                 <input
                     value={name}
                     type="textarea"
                     name="name"
                     autoComplete="off"
-                    className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-2/3 sm:w-2/6 mt-4 mb-8"
-                    placeholder="Name"
+                    className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-2/3 sm:w-2/6 mt-3 mb-8"
+                    placeholder="John Doe"
                     onChange={(e) => {
                         setName(e.target.value);
                     }}
                 />
+                <p className="text-darkgray font-extrabold mb-2">
+                    USERNAME
+                </p>
                 <input
                     value={username}
                     type="text"
                     name="username"
                     autoComplete="off"
                     className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-2/3 sm:w-2/6 mb-8"
-                    placeholder="Username"
+                    placeholder="johndoe123"
                     onChange={(e) => {
                         setUserName(e.target.value);
                     }}
                 />
+                <p className="text-darkgray font-extrabold mb-2">
+                    BIO
+                </p>
                 <textarea
                     value={bio}
                     className="gradientTextareaBottom w-2/3 sm:w-2/6 focus:outline-none bg-backgroundwhite border"
-                    rows={4}
-                    placeholder="Bio"
+                    rows={3}
+                    placeholder="Here goes my cool bio..."
                     onChange={(e) => {
                         setBio(e.target.value);
                     }}
@@ -110,7 +119,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 </div> */}
                 <button
                     onClick={() => setModalOpen(true)}
-                    className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/4 text-md shadow-lg font-extrabold py-3 px-4 mt-14 rounded">
+                    className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/4 text-md shadow-lg font-extrabold py-3 px-4 mt-8 rounded">
                     Change Password
                 </button>
                 <button
