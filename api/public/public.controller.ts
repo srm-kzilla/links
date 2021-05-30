@@ -6,6 +6,7 @@ import { linkDBSchema } from "../links/link.schema";
 import { errors } from "../error/error.constant";
 import * as MongoDB from "mongodb";
 import { UserDB } from "../auth/auth.schema";
+import { SubscribeType, subscribeDBSchema } from "./public.schema";
 
 export const getLinkPublic = async (
   req: NextApiRequest,
@@ -50,6 +51,70 @@ export const getLinkPublic = async (
       success: true,
       result,
       ...user,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const subscribe = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
+  try {
+    const { email } = req.body as SubscribeType;
+    const dbClient: MongoClient = await getDbClient();
+
+    const findSubscriber = await dbClient
+      .db()
+      .collection("subscribers")
+      .findOne<subscribeDBSchema>({ email });
+    if (findSubscriber) {
+      throw errors.SUBSCRIBER_EXIST;
+    }
+    const response = await dbClient
+      .db()
+      .collection("subscribers")
+      .insertOne({ email });
+    if (response.result.n == 0) {
+      throw errors.MONGODB_QUERY_ERROR;
+    }
+    res.json({
+      success: true,
+      message: "🎉 Wohoo! You have been subscribed to the mailing list !",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const unsubscribe = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
+  try {
+    const { email } = req.body as SubscribeType;
+    const dbClient: MongoClient = await getDbClient();
+
+    const findSubscriber = await dbClient
+      .db()
+      .collection("subscribers")
+      .findOne<subscribeDBSchema>({ email });
+    if (!findSubscriber) {
+      throw errors.SUBSCRIBER_NOT_FOUND;
+    }
+    const removeSubscriber = await dbClient
+      .db()
+      .collection("subscribers")
+      .deleteOne({ email });
+    if (removeSubscriber.result.n !== 1) {
+      throw errors.MONGODB_QUERY_ERROR;
+    }
+    res.json({
+      success: true,
+      message: "😢 You have been successfully unsubscribed",
     });
   } catch (err) {
     next(err);
