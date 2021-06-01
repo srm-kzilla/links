@@ -1,6 +1,6 @@
 import { NotFoundLeft, NotFoundZero, NotFoundRight } from "../assets/icons";
 
-export default function Custom404(): JSX.Element {
+export default function Custom404() {
   return (
     <>
       <div className="flex h-screen">
