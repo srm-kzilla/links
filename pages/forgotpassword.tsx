@@ -1,9 +1,9 @@
-import ForgotPasswordComponent from "../components/forgotPassword"
+import { ForgotPasswordComponent } from "../components/forgotPassword";
 
-export default function ForgotPassword(): JSX.Element {
-    return(
+export default function ForgotPassword() {
+    return (
         <>
-        <ForgotPasswordComponent />
+            <ForgotPasswordComponent />
         </>
     );
 }

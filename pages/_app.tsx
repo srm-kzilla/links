@@ -7,8 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "../styles/globals.css";
 import { Navbar, Footer } from "../components/shared";
-import AuthContextProvider from "../utils/authContext";
-import ImageContextProvider from "../utils/profileImageContext";
+import AuthContextProvider from "../store/authContext";
+import ImageContextProvider from "../store/profileImageContext";
 import { authRoutes } from "../utils/constants";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {

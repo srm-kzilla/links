@@ -4,7 +4,7 @@ import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 
 import { postLogin } from "../../utils/api";
-import { AuthContext } from "../../utils/authContext";
+import { AuthContext } from "../../store/authContext";
 import { Eye, EyeHide, Ellipse, LoadingAuth } from "../../assets/icons";
 
 const LoginComponent = () => {

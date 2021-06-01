@@ -6,7 +6,7 @@ import Slide from "react-reveal/Slide";
 
 import { Tick, Loading } from "../../assets/icons";
 import { Toggle } from "./";
-import { SidebarContext } from "../../utils/sidebarContext";
+import { SidebarContext } from "../../store/sidebarContext";
 import { errorHandler, successHandler, updateLink, getLinkClicks } from "../../utils/api";
 import { time_ago } from "../../utils/functions";
 

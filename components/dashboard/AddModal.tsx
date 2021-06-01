@@ -3,7 +3,7 @@ import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
 import { Formik, Field, Form } from "formik";
 
-import { validationSchema } from "../../utils/schema"
+import { addLinkValidationSchema } from "../../utils/schema"
 
 interface AddModalProps {
   isOpen: boolean;
@@ -43,7 +43,7 @@ const AddModal = ({
                   onSubmit={(values, { resetForm }) =>
                     onAddLink(values, resetForm, onClose)
                   }
-                  validationSchema={validationSchema}
+                  validationSchema={addLinkValidationSchema}
                 >
                   {({ errors }) => (
                     <Form>
