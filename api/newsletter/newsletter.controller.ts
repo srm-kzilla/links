@@ -20,32 +20,28 @@ export const subscribe = async (
     const findSubscriber = await dbClient
       .db()
       .collection("subscribers")
-      .findOne<subscribeDBSchema>({ email, subscribe: true });
+      .findOne<subscribeDBSchema>({ email });
     if (findSubscriber) {
-      return res.json({
-        success: true,
-        message: "🤡 You are already subscribed !",
-      });
-    }
-    const findUnsubcriber = await dbClient
-      .db()
-      .collection("subscribers")
-      .findOne<subscribeDBSchema>({ email, subscribe: false });
-    if (findUnsubcriber) {
-      const addSubscriber = await dbClient
-        .db()
-        .collection("subscribers")
-        .updateOne({ email }, { $set: { subscribe: true } });
-      if (addSubscriber.result.n == 0) {
-        throw errors.MONGODB_QUERY_ERROR;
+      if (findSubscriber.subscribe == true) {
+        return res.json({
+          success: true,
+          message: "🤡 You are already subscribed !",
+        });
+      } else {
+        const addSubscriber = await dbClient
+          .db()
+          .collection("subscribers")
+          .updateOne({ email }, { $set: { subscribe: true } });
+        if (addSubscriber.result.n !== 1) {
+          throw errors.MONGODB_QUERY_ERROR;
+        }
+        return res.json({
+          success: true,
+          message: "🎉 Wohoo! You have been subscribed to the mailing list !",
+        });
       }
-      return res.json({
-        success: true,
-        message: "🎉 Wohoo! You have been subscribed to the mailing list !",
-      });
     }
     const validatedData = await subscribeSchema.cast({ email });
-
     const response = await dbClient
       .db()
       .collection("subscribers")
