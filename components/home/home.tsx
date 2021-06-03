@@ -83,32 +83,42 @@ export default function HomeComponent(): JSX.Element {
               onSubmit={(values) => submitHandler(values)}
               validationSchema={validationSchema}
             >
-              <Form>
-                <div className="grid grid-cols-4 pb-5 md:pb-0">
-                  <Field
-                    name="email"
-                    type="email"
-                    className="col-span-3 p-2 sm:p-5 md:pt-2 lg:pt-5 rounded-lg outline-none focus:outline-none block appearance-none w-full bg-lightgray"
-                    placeholder="abc@example.com"
-                  />
-                  <button
-                    disabled={isSubscribed}
-                    type="submit"
-                    className={`${
-                      isSubscribed ? "bg-backgroundwhiteinset" : "bg-lightblue"
-                    } flex items-center justify-center rounded-lg hover:bg-opacity-90 shadow-md focus:outline-none -ml-2 text-sm sm:text-lg md:text-sm lg:text-lg font-bold text-white`}
-                  >
-                    {loading && (
-                      <div className="absolute">
-                        <LoadingAuth />
+              {({ errors }) => (
+                <Form>
+                  <div className="grid grid-cols-4 pb-5 md:pb-0">
+                    <Field
+                      name="email"
+                      type="email"
+                      className="col-span-3 p-2 sm:p-5 md:pt-2 lg:pt-5 rounded-lg outline-none focus:outline-none block appearance-none w-full bg-lightgray"
+                      placeholder="abc@example.com"
+                    />
+
+                    <button
+                      disabled={isSubscribed}
+                      type="submit"
+                      className={`${
+                        isSubscribed
+                          ? "bg-backgroundwhiteinset"
+                          : "bg-lightblue"
+                      } col-span-1 flex items-center justify-center rounded-lg hover:bg-opacity-90 shadow-md focus:outline-none -ml-2 text-sm sm:text-lg md:text-sm lg:text-lg font-bold text-white`}
+                    >
+                      {loading && (
+                        <div className="absolute">
+                          <LoadingAuth />
+                        </div>
+                      )}
+                      <div className={`${loading && "invisible"}`}>
+                        {isSubscribed ? "Subscribed" : "Subscribe"}
                       </div>
-                    )}
-                    <div className={`${loading && "invisible"}`}>
-                      {isSubscribed ? "Subscribed" : "Subscribe"}
+                    </button>
+                  </div>
+                  {errors.email && (
+                    <div className=" text-red-500 text-sm pt-2 pl-2">
+                      {errors.email}
                     </div>
-                  </button>
-                </div>
-              </Form>
+                  )}
+                </Form>
+              )}
             </Formik>
           </div>
           <div className="col-span-1 my-auto hidden md:block">
