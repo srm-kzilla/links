@@ -1,4 +1,10 @@
-import { HeroLanding, Logo, Circle, DoubleCircle } from "../../assets/icons";
+import {
+  HeroLanding,
+  Logo,
+  Circle,
+  DoubleCircle,
+  LoadingAuth,
+} from "../../assets/icons";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
@@ -22,6 +28,7 @@ export default function HomeComponent(): JSX.Element {
       const res = await postSubscribe(values);
       if (res) {
         setLoading(false);
+        setIsSubscribed(true);
       } else {
         setLoading(false);
       }
@@ -30,6 +37,8 @@ export default function HomeComponent(): JSX.Element {
     }
   };
   const [loading, setLoading] = useState<boolean>(false);
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
+
   return (
     <>
       <div className="flex flex-col font-sans min-h-screen pt-4 px-3 sm:px-8 2xl:px-12 relative z-50">
@@ -83,10 +92,20 @@ export default function HomeComponent(): JSX.Element {
                     placeholder="abc@example.com"
                   />
                   <button
+                    disabled={isSubscribed}
                     type="submit"
-                    className="bg-lightblue flex items-center justify-center rounded-lg hover:bg-opacity-90 shadow-md focus:outline-none -ml-2 text-sm sm:text-lg md:text-sm lg:text-lg font-bold text-white"
+                    className={`${
+                      isSubscribed ? "bg-backgroundwhiteinset" : "bg-lightblue"
+                    } flex items-center justify-center rounded-lg hover:bg-opacity-90 shadow-md focus:outline-none -ml-2 text-sm sm:text-lg md:text-sm lg:text-lg font-bold text-white`}
                   >
-                    Subscribe
+                    {loading && (
+                      <div className="absolute">
+                        <LoadingAuth />
+                      </div>
+                    )}
+                    <div className={`${loading && "invisible"}`}>
+                      {isSubscribed ? "Subscribed" : "Subscribe"}
+                    </div>
                   </button>
                 </div>
               </Form>
