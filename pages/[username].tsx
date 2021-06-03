@@ -1,7 +1,8 @@
 import React from "react";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 
-import LinkPageComponent, { CardLink } from "../components/publicPage/index";
+import { CardLink } from "../components/publicPage/LinkPage";
+import { LinkPageComponent } from "../components/publicPage";
 import { getPublicLinks } from "../utils/api";
 
 interface LinkPageProps {

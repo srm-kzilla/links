@@ -5,9 +5,9 @@ import { useRouter } from "next/router";
 import { parseCookies, destroyCookie } from "nookies";
 
 import { Logo } from "../../assets/icons"
-import { AuthContext } from "../../utils/authContext";
+import { AuthContext } from "../../store/authContext";
 import { getUserProfile } from "../../utils/api";
-import { ImageContext } from "../../utils/profileImageContext";
+import { ImageContext } from "../../store/profileImageContext";
 
 export default function Navbar() {
   const { isAuth } = useContext(AuthContext);

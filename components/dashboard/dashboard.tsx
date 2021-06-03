@@ -4,7 +4,7 @@ import { IconContext } from "react-icons";
 import { parseCookies } from "nookies";
 
 import { NoLinks } from "../../assets/icons";
-import { SidebarContext } from "../../utils/sidebarContext";
+import { SidebarContext } from "../../store/sidebarContext";
 import { AddModal, Card, Sidebar } from "./";
 import { postLink, deleteLink } from "../../utils/api";
 

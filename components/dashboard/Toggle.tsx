@@ -3,7 +3,7 @@ import { parseCookies } from "nookies";
 import Switch from "react-input-switch";
 
 import { updateLink } from "../../utils/api";
-import { SidebarContext } from "../../utils/sidebarContext";
+import { SidebarContext } from "../../store/sidebarContext";
 
 interface ToggleProps {
   status: boolean;
