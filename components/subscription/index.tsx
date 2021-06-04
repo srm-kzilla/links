@@ -1,1 +1,1 @@
-export { default as UnsubscribeComponent } from "./unsubscribe";
+export { default as UnsubscribeComponent } from "./Unsubscribe";
