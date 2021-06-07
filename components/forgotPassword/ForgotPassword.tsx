@@ -5,7 +5,7 @@ import { Formik, Field, Form } from "formik";
 import { useRecoilState } from "recoil";
 
 import { postForgotPasswordEmail, postVerifyOtp, patchNewForgotPassword } from "../../utils/api";
-import { forgotPasswordValidationSchema } from "../../utils/schema";
+import { forgotPasswordEmailValidationSchema, forgotPasswordValidationSchema } from "../../utils/schema";
 import { Eye, EyeHide, LoadingAuth } from "../../assets/icons";
 import { resetPasswordToken } from "../../utils/store";
 
@@ -18,11 +18,11 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const router = useRouter();
 
   const [enterCode, setEnterCode] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
   const [otp, setOtp] = useState<number>();
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isSubmittingEmail, setIsSubmittingEmail] = useState<boolean>(false);
 
   const [resetPwdToken, setResetPwdToken] = useRecoilState(resetPasswordToken);
 
@@ -32,15 +32,22 @@ export default function ForgotPasswordComponent(): JSX.Element {
     confirmNewPassword: "",
   };
 
-  const sendVerificationCode = async () => {
+  const emailInitialValue = {
+    email: "",
+  };
+
+  const sendVerificationCode = async (email: string) => {
+    setIsSubmittingEmail(true);
     const values = {
       email: email,
     };
     const _res = await postForgotPasswordEmail(values);
     if (_res) {
+      setIsSubmittingEmail(false);
       setEnterCode(true);
       setResetPwdToken(_res.data.resetPasswordToken);
     }
+    setIsSubmittingEmail(false);
   };
 
   const getOtpValue = (e) => {
@@ -181,29 +188,40 @@ export default function ForgotPasswordComponent(): JSX.Element {
           <div className="absolute text-2xl lg:text-5xl top-20 left-4 gradientHeaderHollow">
             <h1>FORGOT PASSWORD</h1>
           </div>
-          <div className="flex items-center justify-center flex-col">
-            <p className="flex-initial mt-64 text-darkgray font-extrabold">
+          <div className="flex flex-col w-2/3 md:w-2/6 mx-auto">
+            <p className="text-center mt-64 text-darkgray font-extrabold">
               EMAIL
             </p>
-            <form onSubmit={e => e.preventDefault()} className="flex items-center justify-center flex-col h-full w-full">
-              <input
-                type="email"
-                name="email"
-                value={email}
-                autoComplete="off"
-                className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-3/4 md:w-1/5 mt-8 mb-8"
-                placeholder="abc@xyzmail.com"
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <button
-                type="submit"
-                className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/5 text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded"
-                onClick={() => sendVerificationCode()}
-              >
-                Send Verification Code
-            </button>
-            </form>
+            <Formik
+              initialValues={emailInitialValue}
+              onSubmit={(values) => sendVerificationCode(values.email)}
+              validationSchema={forgotPasswordEmailValidationSchema}
+            >
+              {({ errors }) => (
+                <Form>
+                  <div className="flex flex-col">
+                    <Field
+                      type="email"
+                      name="email"  
+                      className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite mt-8 mb-8"
+                      placeholder="abc@xyzmail.com"
+                    />
+                    {errors.email && (
+                      <div className="text-red-500 text-sm -mt-4 mb-3">
+                        {errors.email}
+                      </div>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={isSubmittingEmail}
+                      className={`${isSubmittingEmail ? "bg-backgroundwhiteinset" : "bg-lightblue"} focus:outline-none hover:bg-opacity-90 text-darkgray text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded`}
+                    >
+                      {isSubmittingEmail ? "Please wait..." : "Send Verification Code"}
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </>
       )}

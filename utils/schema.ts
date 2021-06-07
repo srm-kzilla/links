@@ -32,3 +32,11 @@ export const forgotPasswordValidationSchema = yup.object({
         "Passwords must match")
         .required("This is a required field"),
 });
+
+export const forgotPasswordEmailValidationSchema = yup.object({
+    email: yup
+    .string()
+    .trim()
+    .email()
+    .required("This is a required field"),
+});
