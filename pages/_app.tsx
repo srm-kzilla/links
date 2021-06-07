@@ -16,6 +16,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <>
       <Head>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <title>LINKS</title>
       </Head>
       <RecoilRoot>
         <AuthContextProvider>

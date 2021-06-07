@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://db.onlinewebfonts.com/c/af089c51d74ffa3c6a675fd6024b302b?family=Futura+Hv+BT");
+@font-face {
+  font-family: FuturaHvBt;
+  src: url("../public/fonts/FuturaHeavyBT.ttf");
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 
@@ -61,7 +65,7 @@ hr {
 }
 .styledHeader {
   transform: translate(-245px, 110px) rotate(-90deg);
-  font-family: "Futura Hv BT", "Times New Roman", sans-serif;
+  font-family: "FuturaHvBt", "Times New Roman", sans-serif;
   font-weight: 999;
   text-stroke-width: 1px;
   -webkit-text-stroke-width: 1px;
