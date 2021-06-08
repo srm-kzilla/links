@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil";
 
 import { postForgotPasswordEmail, postVerifyOtp, patchNewForgotPassword } from "../../utils/api";
 import { forgotPasswordEmailValidationSchema, forgotPasswordValidationSchema } from "../../utils/schema";
-import { Eye, EyeHide, LoadingAuth } from "../../assets/icons";
+import { Eye, EyeHide } from "../../assets/icons";
 import { resetPasswordToken } from "../../utils/store";
 
 export default function ForgotPasswordComponent(): JSX.Element {
@@ -21,8 +21,9 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const [otp, setOtp] = useState<number>();
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false);
   const [isSubmittingEmail, setIsSubmittingEmail] = useState<boolean>(false);
+  const [isSubmittingOtp, setIsSubmittingOtp] = useState<boolean>(false);
+  const [isSubmittingPassword, setIsSubmittingPassword] = useState<boolean>(false);
 
   const [resetPwdToken, setResetPwdToken] = useRecoilState(resetPasswordToken);
 
@@ -57,6 +58,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
   };
 
   const verifyOtp = async () => {
+    setIsSubmittingOtp(true);
     const values = {
       otp: otp,
     };
@@ -64,20 +66,22 @@ export default function ForgotPasswordComponent(): JSX.Element {
     if (_res) {
       setChangePassword(true);
       setOtpVerified(false);
+      setIsSubmittingOtp(false);
     }
+    setIsSubmittingOtp(false);
   };
 
   const submitNewPassword = async (newPassword: string) => {
-    setLoading(true);
+    setIsSubmittingPassword(true);
     const values = {
       newPassword: newPassword
     }
     const _res = await patchNewForgotPassword(resetPwdToken, values);
     if (_res) {
-      setLoading(false);
+      setIsSubmittingPassword(false);
       router.replace('/login');
     }
-    setLoading(false);
+    setIsSubmittingPassword(false);
   };
 
   return (
@@ -111,16 +115,17 @@ export default function ForgotPasswordComponent(): JSX.Element {
                   character={{
                     className: "mx-2 shadow-md rounded-xl",
                     classNameInactive: "bg-statusGreen rounded-xl cursor-text",
-                    classNameSelected: "border-4 border-indigo-600 rounded-xl",
+                    classNameSelected: "border-4 border-lightblue rounded-xl",
                   }}
                 />
                 <button
                   type="submit"
-                  className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/5 text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded"
+                  disabled={isSubmittingOtp}
+                  className={`${isSubmittingOtp ? "bg-backgroundwhiteinset" : "bg-lightblue"} focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/5 text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded`}
                   onClick={() => verifyOtp()}
                 >
-                  VERIFY
-            </button>
+                  {isSubmittingOtp ? "Please wait..." : "VERIFY"}
+                </button>
               </>)}
             {changePassword && (
               <div className="w-2/3 md:w-3/12">
@@ -149,7 +154,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         </i>
                       </div>
                       {errors.newPassword && (
-                        <div className="text-red-500 text-sm -mt-4 mb-3">
+                        <div className="text-red-500 text-sm -mt-7 mb-6">
                           {errors.newPassword}
                         </div>
                       )}
@@ -164,16 +169,17 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-full mt-2 mb-8"
                       />
                       {errors.confirmNewPassword && (
-                        <div className="text-red-500 text-sm -mt-4 mb-3">
+                        <div className="text-red-500 text-sm -mt-7">
                           {errors.confirmNewPassword}
                         </div>
                       )}
                       <div className="flex items-center justify-center relative">
                         <button
                           type="submit"
-                          className="bg-statusGreen focus:outline-none hover:bg-opacity-90 text-darkgray mt-20 w-full text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded"
+                          disabled={isSubmittingPassword}
+                          className={`${isSubmittingPassword ? "bg-backgroundwhiteinset" : "bg-statusGreen"} focus:outline-none hover:bg-opacity-90 text-darkgray w-full text-md shadow-lg font-extrabold py-3 px-4 my-14 rounded`}
                         >
-                          {loading && <div className="absolute left-1/2"><LoadingAuth /></div>}<div className={`${loading && "invisible"}`}>Save</div>
+                          {isSubmittingPassword ? "Please wait..." : "Save"}
                         </button>
                       </div>
                     </Form>
@@ -202,7 +208,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                   <div className="flex flex-col">
                     <Field
                       type="email"
-                      name="email"  
+                      name="email"
                       className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite mt-8 mb-8"
                       placeholder="abc@xyzmail.com"
                     />

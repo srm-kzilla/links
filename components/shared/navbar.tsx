@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import Flip from "react-reveal/Flip";
+import Fade from 'react-reveal/Fade';
 import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { parseCookies, destroyCookie } from "nookies";
@@ -97,7 +97,7 @@ export default function Navbar() {
           </div>
 
           {isOpen && (
-            <Flip right>
+            <Fade top>
               <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center">
                 {isAuth &&
                   <a
@@ -132,7 +132,7 @@ export default function Navbar() {
             </a>
                 }
               </div>
-            </Flip>
+            </Fade>
           )}
         </nav>
       </>

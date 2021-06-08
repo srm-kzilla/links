@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
 
@@ -17,7 +17,14 @@ const DeleteModal = ({
 }: DeleteModalProps): JSX.Element => {
   const deleteHandler = (_id: string) => {
     onDeleteLink(_id, onClose);
+    setIsDeletingLink(true);
   };
+
+  const [isDeletingLink, setIsDeletingLink] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsDeletingLink(false);
+  }, [isOpen]);
 
   return (
     <>
@@ -44,9 +51,10 @@ const DeleteModal = ({
                   </button>
                   <button
                     onClick={() => deleteHandler(linkId)}
-                    className="bg-statusRed focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 mt-7 rounded"
+                    disabled={isDeletingLink}
+                    className={`${isDeletingLink ? "bg-backgroundwhiteinset" : "bg-statusRed"} focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 mt-7 rounded`}
                   >
-                    Delete
+                    {isDeletingLink ? "Please wait..." : "Delete"}
                   </button>
                 </div>
               </div>

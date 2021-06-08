@@ -26,6 +26,15 @@ textarea {
   resize: none;
 }
 
+/* Text selection color */
+::-moz-selection { 
+  background: #6fcf97;
+}
+
+::selection {
+  background: #6fcf97;
+}
+
 .grecaptcha-badge {
   visibility: hidden;
 }

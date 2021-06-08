@@ -18,9 +18,11 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
     const [bio, setBio] = useState<string>(_resProfile.bio);
     // const [backgroundColor, setBackgroundColor] = useState<string>(_resProfile.background);
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
+    const [isSubmittingProfile, setIsSubmittingProfile] = useState<boolean>(false);
 
     const updateUserProfile = () => {
         (async () => {
+            setIsSubmittingProfile(true);
             const { authToken } = parseCookies();
             const userData = {
                 name: name,
@@ -30,8 +32,10 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
             }
             const _res = await patchUserProfile(authToken, userData);
             if (_res) {
+                setIsSubmittingProfile(false);
                 successHandler("🎉 Successfully Updated profile!");
             }
+            setIsSubmittingProfile(false);
         })();
     };
 
@@ -46,7 +50,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
 
     return (
         <>
-            <div className="absolute text-xl lg:text-6xl top-20 left-4 hidden lg:block gradientHeaderHollow">
+            <div className="absolute text-xl lg:text-6xl top-20 left-8 hidden lg:block gradientHeaderHollow">
                 <h1>Edit Profile</h1>
             </div>
             <div className="relative flex items-center justify-center flex-col mt-4 md:float-left md:ml-60 md:mt-32 z-40">
@@ -60,7 +64,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 <div className="flex flex-col">
                     <div className="mt-10">
                         <a className="text-left" href={`${baseUrl}${_resProfile.username}`} target="_blank" rel="noopener noreferrer"><i className="float-left mt-1 mr-2"><FiLink /></i><strong>{baseUrl}{_resProfile.username}</strong></a>
-                        <button onClick={() => copyToClipBoard(`http://localhost:3000/${_resProfile.username}`)} className="float-right focus:outline-none" title="Copy to Clipboard">
+                        <button onClick={() => copyToClipBoard(`${baseUrl}${_resProfile.username}`)} className="float-right focus:outline-none" title="Copy to Clipboard">
                             <i className="float-right mt-1 ml-2 grid-cols-1 cursor-pointer"><MdContentCopy /></i>
                         </button>
                     </div>
@@ -124,9 +128,10 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 </button>
                 <button
                     type="submit"
+                    disabled={isSubmittingProfile}
                     onClick={() => updateUserProfile()}
-                    className="bg-statusGreen focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/4 text-md shadow-lg font-extrabold py-3 px-4 my-3 rounded">
-                    Save!
+                    className={`${isSubmittingProfile ? "bg-backgroundwhiteinset" : "bg-statusGreen"} focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/4 text-md shadow-lg font-extrabold py-3 px-4 my-3 rounded`}>
+                    {isSubmittingProfile ? "Please wait..." : "Save!"}
                 </button>
             </div>
             <ChangePasswordModal 

@@ -143,7 +143,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                       setTitle(e.target.value);
                     }}
                   />
-                  <div className="absolute right-2 bg-white -top-1">
+                  <div className="absolute right-0 bg-white -top-1 pb-2">
                     {titleLoading ? <Loading /> : <Tick />}
                   </div>
                 </form>
@@ -165,7 +165,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                       setLinkUrl(e.target.value);
                     }}
                   />
-                  <div className="absolute right-2 bg-white -top-1">
+                  <div className="absolute right-0 bg-white -top-1 pb-2">
                     {linkLoading ? <Loading /> : <Tick />}
                   </div>
                 </form>
