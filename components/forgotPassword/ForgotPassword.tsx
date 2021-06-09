@@ -132,6 +132,8 @@ export default function ForgotPasswordComponent(): JSX.Element {
                 <Formik
                   initialValues={initialValues}
                   onSubmit={(values) => submitNewPassword(values.newPassword)}
+                  validateOnBlur={false}
+                  validateOnChange={false}
                   validationSchema={forgotPasswordValidationSchema}
                 >
                   {({ errors }) => (
@@ -201,6 +203,8 @@ export default function ForgotPasswordComponent(): JSX.Element {
             <Formik
               initialValues={emailInitialValue}
               onSubmit={(values) => sendVerificationCode(values.email)}
+              validateOnBlur={false}
+              validateOnChange={false}
               validationSchema={forgotPasswordEmailValidationSchema}
             >
               {({ errors }) => (

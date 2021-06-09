@@ -52,6 +52,8 @@ const AddModal = ({
                     setIsSubmittingLink(true);
                     }
                   }
+                  validateOnBlur={false}
+                  validateOnChange={false}
                   validationSchema={addLinkValidationSchema}
                 >
                   {({ errors }) => (

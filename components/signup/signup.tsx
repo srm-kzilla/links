@@ -84,6 +84,8 @@ const SignUpComponent = () => {
           <Formik
             initialValues={initialValues}
             onSubmit={(values) => submitHandler(values)}
+            validateOnBlur={false}
+            validateOnChange={false}
             validationSchema={validationSchema}
           >
             {({ errors }) => (
