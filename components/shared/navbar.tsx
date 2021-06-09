@@ -43,7 +43,7 @@ export default function Navbar() {
         <nav className={`fixed top-0 z-50 w-full bg-white shadow-custom rounded-bl-xl`}>
           <div className="grid grid-cols-2">
             <a href="/" className="text-black text-2xl font-bold p-3 text-left">
-              <div className="float-left mx-3"><Logo /></div>
+              <div className="float-left mx-3"><img width="45" height="45" src="linkslogo.png" alt="links" /></div>
               <div className="ml-2 pt-1">LINKS</div>
             </a>
             {isAuth ? (

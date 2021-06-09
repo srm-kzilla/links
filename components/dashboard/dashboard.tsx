@@ -143,7 +143,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
             onAddLink={onAddLinkHandler}
           />
 
-          <div className="flex w-screen h-screen">
+          <div className="flex h-screen">
             <div className="m-auto w-full">
               <NoLinks className="w-3/4 sm:w-1/2 md:w-1/3 m-auto" />
               <p className="w-full text-center mt-8 text-sm">

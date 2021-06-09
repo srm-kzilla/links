@@ -71,7 +71,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 </div>
             </div>
             <div className="flex items-center justify-center flex-col lg:absolute lg:top-40 lg:right-2 lg:pl-48 lg:w-4/5 mt-4">
-                <p className="left-0 text-darkgray font-extrabold">
+                <p className="text-gray-600 font-extrabold">
                     NAME
                 </p>
                 <input
@@ -79,13 +79,13 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                     type="textarea"
                     name="name"
                     autoComplete="off"
-                    className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-2/3 sm:w-2/6 mt-3 mb-8"
+                    className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-2/3 sm:w-2/6 mb-8"
                     placeholder="John Doe"
                     onChange={(e) => {
                         setName(e.target.value);
                     }}
                 />
-                <p className="text-darkgray font-extrabold mb-2">
+                <p className="text-gray-600 font-extrabold">
                     USERNAME
                 </p>
                 <input
@@ -99,7 +99,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                         setUserName(e.target.value);
                     }}
                 />
-                <p className="text-darkgray font-extrabold mb-2">
+                <p className="text-gray-600 font-extrabold">
                     BIO
                 </p>
                 <textarea
@@ -134,7 +134,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                     {isSubmittingProfile ? "Please wait..." : "Save!"}
                 </button>
             </div>
-            <ChangePasswordModal 
+            <ChangePasswordModal
                 isOpen={isModalOpen}
                 onClose={() => setModalOpen(false)}
             />

@@ -100,7 +100,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
           <div className="fixed z-40 w-full lg:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white">
             <button
               onClick={onClose}
-              className="relative md:hidden float-right mt-6 cursor-pointer"
+              className="relative lg:hidden float-right mt-6 cursor-pointer"
             >
               <FaChevronRight size={20} />
             </button>
