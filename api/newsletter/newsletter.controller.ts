@@ -24,7 +24,7 @@ export const subscribe = async (
     if (findSubscriber) {
       return res.json({
         success: true,
-        message: "You are already subscribed ",
+        message: "🤡 You are already subscribed ! ",
       });
     }
     const validatedData = await subscribeSchema.cast({ email });
