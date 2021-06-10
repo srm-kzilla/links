@@ -1197,17 +1197,7 @@ export var resetPasswordTemplate = doT.template(`<!DOCTYPE html>
                             text-align: right;
                             color: #000000;
                           "
-                        >
-                          <p style="text-align: right; font-size: 14px; class="footer">
-                            <span style="color: #7e8c8d">Join</span>
-                            <span style="color: #6fcf97"
-                              ><a style="color: #6fcf97" href="http://links.com"
-                                >LINKS</a
-                              ></span
-                            ><br /><span style="color: #7e8c8d"
-                              >One link, for all your links.</span
-                            >
-                          </p>
+                        >  
                         </div>
                       </td>
                     </tr>
