@@ -55,7 +55,7 @@ export default function Navbar() {
                       className="flex items-center mr-4 pl-4 cursor-pointer select-none float-left my-1 hover:text-gray-500"
                       onClick={() => setisOpen(!isOpen)}
                     >
-                      Welcome, {userProfileData.name || userProfileData.username}
+                      {userProfileData.name || userProfileData.username}
                       <div className="float-right pt-1 ml-2">
                         <img
                           className="flex items-center w-12 h-12 rounded-full float-left mb-2 border"

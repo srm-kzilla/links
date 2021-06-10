@@ -25,7 +25,6 @@ const Toggle = ({ status, linkId }: ToggleProps) => {
     <Switch
       on={true}
       off={false}
-      title="Enable/Disable Link"
       value={status}
       onChange={toggleStatus}
       styles={{
@@ -54,7 +53,7 @@ const Toggle = ({ status, linkId }: ToggleProps) => {
           width: "30px",
           height: "30px",
           borderRadius: "3px",
-          marginLeft: "45px",
+          marginLeft: "25px",
           marginTop: "-4px",
         },
       }}

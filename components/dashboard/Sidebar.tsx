@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useRecoilState } from "recoil";
 import { parseCookies } from "nookies";
 import { FaChevronRight } from "react-icons/fa";
 import { MdContentCopy } from "react-icons/md";
@@ -7,6 +8,8 @@ import Slide from "react-reveal/Slide";
 import { Tick, Loading, EditPencil } from "../../assets/icons";
 import { Toggle } from "./";
 import { SidebarContext } from "../../store/sidebarContext";
+import { searchDashboardLink } from "../../utils/store";
+
 import {
   errorHandler,
   successHandler,
@@ -34,6 +37,11 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
   const [activeLinkClicks, setActiveLinkClicks] = useState<number>(0);
   const [showTitleInput, setShowTitleInput] = useState<boolean>(false);
   const [showUrlInput, setShowUrlInput] = useState<boolean>(false);
+  const [showTitleEdit, setShowTitleEdit] = useState<boolean>(false);
+  const [showUrlEdit, setShowUrlEdit] = useState<boolean>(false);
+
+  const [searchLink, setSearchLink] = useRecoilState(searchDashboardLink);
+
   const intervalRef = useRef(null);
 
   const copyToClipBoard = async (copyMe) => {
@@ -44,6 +52,13 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
       errorHandler(err);
     }
   };
+
+  useEffect(() => {
+    if (window.innerWidth <= 768) {
+      setShowTitleEdit(true);
+      setShowUrlEdit(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (title) {
@@ -116,7 +131,11 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
             </h1>
             {activeLink.shortCode && (
               <>
-                <div className="flex flex-row mt-4 mx-5 p-4">
+                <div
+                  onMouseEnter={() => setShowTitleEdit(true)}
+                  onMouseLeave={() => setShowTitleEdit(false)}
+                  className="flex flex-row mt-4 mx-5 p-4"
+                >
                   <img width="45" height="45" className="rounded" src={activeLink.image} alt={activeLink.title} />
                   <div className="flex flex-col">
                     {!showTitleInput && (
@@ -126,9 +145,11 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                           onClick={() => setShowTitleInput(true)}
                           title="Edit Title"
                         >
-                          <div className="absolute -right-8 bottom-2">
-                            <EditPencil />
-                          </div>
+                          {showTitleEdit && (
+                            <div className="absolute -right-8 bottom-2">
+                              <EditPencil />
+                            </div>
+                          )}
                         </button>
                       </h1>
                     )}
@@ -145,30 +166,26 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                             className="gradientInputBottom focus:outline-none w-full ml-2"
                             placeholder="SRMKZILLA"
                             value={activeLink.title}
+                            onBlur={() => setShowTitleInput(false)}
                             onKeyPress={(e) => { e.key == "Enter" && setShowTitleInput(false) }}
                             onChange={(e) => {
                               setActiveLink({ ...activeLink, title: e.target.value });
+                              console.log(activeLink.title);
                               setTitle(e.target.value);
                             }}
                           />
-                          <div className="absolute -right-2 bg-white -top-1 pb-2">
-                            {titleLoading ? <Loading /> : <Tick />}
+                          <div className="absolute -right-2 bg-white -top-1 pb-1 pl-2">
+                            {titleLoading ? <Loading /> : <button
+                              className="focus:outline-none"
+                              onClick={() => setShowTitleInput(false)}>
+                              <Tick />
+                            </button>
+                            }
                           </div>
                         </form>
                       </>
                     )}
-                    {showTitleInput && (
-                      <div className="text-center">
-                        <button
-                          onClick={() => setShowTitleInput(false)}
-                          className="bg-statusGreen focus:outline-none text-white rounded-md w-1/2 ml-2 mt-2">
-                          Save
-                        </button>
-                      </div>
-                    )}
-                    {!showTitleInput && (
-                      <p className="customGradient text-xs font-bold mx-2">Created {time_ago(activeLink.createdAt)}</p>
-                    )}
+                    <p className="customGradient text-xs font-bold mx-2">Created {time_ago(activeLink.createdAt)}</p>
                   </div>
                 </div>
               </>
@@ -181,13 +198,14 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                 <h2 className="px-5 mt-5 font-black text-lg text-buttongray">
                   <input
                     type="text"
+                    onChange={(e) => setSearchLink(e.target.value)}
                     placeholder="Search for a link..."
                     className="gradientInputBottom focus:outline-none w-full"
                   />
                 </h2>
               </>
             )}
-            <div className={`grid grid-cols-2 mt-4 mx-5 ${!activeLink.shortCode && "opacity-100"} ${!activeLink.status && "filter grayscale"}`}>
+            <div className={`grid grid-cols-2 mt-4 mx-5 ${!activeLink.status && "filter grayscale"}`}>
               <div className="rounded-md text-xl text-buttongray bg-offwhite font-extrabold m-1 p-1">
                 <p className="pl-2">Total Links</p>
                 <div className="customGradient p-2">
@@ -220,7 +238,10 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
               </>
             )}
             {activeLink.shortCode ? (
-              <div>
+              <div
+                onMouseEnter={() => setShowUrlEdit(true)}
+                onMouseLeave={() => setShowUrlEdit(false)}
+              >
                 <div className="grid grid-cols-2 mt-4 mx-5">
                   <div>
                     <p className="text-lg font-bold text-darkgray pl-2">ENABLE URL</p>
@@ -232,16 +253,20 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                 <div className="my-3 mx-6">
                   <h1 className="font-bold font-sans customGradient text-lg">
                     URL
-                    {!showUrlInput && (
-                      <button
-                        className="float-right focus:outline-none relative"
-                        title="Edit URL"
-                        onClick={() => setShowUrlInput(true)}
-                      >
-                        <div className="absolute -bottom-11 right-1">
-                          <EditPencil />
-                        </div>
-                      </button>
+                    {showUrlEdit && (
+                      <>
+                        {!showUrlInput && (
+                          <button
+                            className="float-right focus:outline-none relative"
+                            title="Edit URL"
+                            onClick={() => setShowUrlInput(true)}
+                          >
+                            <div className="absolute -bottom-11 right-1">
+                              <EditPencil />
+                            </div>
+                          </button>
+                        )}
+                      </>
                     )}
                   </h1>
                   <div className={`${!showUrlInput && "flex"}`}>
@@ -269,27 +294,24 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                             placeholder="https://facebook.com/kzilla"
                             value={activeLink.url}
                             onKeyPress={(e) => { e.key == "Enter" && setShowUrlInput(false) }}
+                            onBlur={() => setShowUrlInput(false)}
                             onChange={(e) => {
                               setActiveLink({ ...activeLink, url: e.target.value });
                               setLinkUrl(e.target.value);
                             }}
                           />
-                          <div className="absolute right-0 bg-white top-0 pb-1">
-                            {linkLoading ? <Loading /> : <Tick />}
+                          <div className="absolute right-0 bg-white top-0 pb-2 pl-2">
+                            {linkLoading ? <Loading /> : <button
+                              className="focus:outline-none"
+                              onClick={() => setShowUrlInput(false)}>
+                                <Tick />
+                              </button>
+                            }
                           </div>
                         </form>
                       </>
                     )}
                   </div>
-                  {showUrlInput && (
-                    <div className="text-center">
-                      <button
-                        onClick={() => setShowUrlInput(false)}
-                        className="bg-statusGreen focus:outline-none text-white rounded-md w-1/2 ml-2 mt-2">
-                        Save
-                        </button>
-                    </div>
-                  )}
                 </div>
                 <div className="my-3 mx-6">
                   <h1 className="font-bold font-sans customGradient text-lg">SHORT URL</h1>
@@ -303,19 +325,21 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                       </p>
                     </a>
                   </div>
-                  <button
-                    onClick={() =>
-                      copyToClipBoard(
-                        `${kzillaxyzdomain}${activeLink.shortCode}`
-                      )
-                    }
-                    className="float-right focus:outline-none"
-                    title="Copy to Clipboard"
-                  >
-                    <i className="float-right -mt-5 grid-cols-1 cursor-pointer text-lightgraycustom">
-                      <MdContentCopy />
-                    </i>
-                  </button>
+                  {showUrlEdit && (
+                    <button
+                      onClick={() =>
+                        copyToClipBoard(
+                          `${kzillaxyzdomain}${activeLink.shortCode}`
+                        )
+                      }
+                      className="float-right focus:outline-none"
+                      title="Copy to Clipboard"
+                    >
+                      <i className="float-right -mt-5 grid-cols-1 cursor-pointer text-lightgraycustom">
+                        <MdContentCopy />
+                      </i>
+                    </button>
+                  )}
                 </div>
                 <div className="flex items-center justify-center mt-2">
                   <a
