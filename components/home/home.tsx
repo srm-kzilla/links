@@ -1,6 +1,44 @@
-import { HeroLanding, Logo, Circle, DoubleCircle } from "../../assets/icons";
+import {
+  HeroLanding,
+  Logo,
+  Circle,
+  DoubleCircle,
+  LoadingAuth,
+} from "../../assets/icons";
+import { Formik, Field, Form } from "formik";
+import * as Yup from "yup";
+import { useState } from "react";
+import { postSubscribe } from "../../utils/api";
 
 export default function HomeComponent(): JSX.Element {
+  const initialValues = {
+    email: "",
+  };
+
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .trim()
+      .email("Email must be a valid email")
+      .required("This is a required field"),
+  });
+
+  const submitHandler = async (values) => {
+    try {
+      setLoading(true);
+      const res = await postSubscribe(values);
+      if (res) {
+        setLoading(false);
+        setIsSubscribed(true);
+      } else {
+        setLoading(false);
+      }
+    } catch (error) {
+      // Fire and forget
+    }
+  };
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
+
   return (
     <>
       <div className="flex flex-col font-sans min-h-screen pt-4 px-3 sm:px-8 2xl:px-12 relative z-50">
@@ -40,20 +78,48 @@ export default function HomeComponent(): JSX.Element {
               rutrum metus at enim congue scelerisque. Sed suscipit metu non
               iaculis semper consectetur adipiscing elit.
             </p>
-            <div className="grid grid-cols-4 pb-5 md:pb-0">
-              <input
-                name="email"
-                type="email"
-                className="col-span-3 p-2 sm:p-5 md:pt-2 lg:pt-5 rounded-lg outline-none focus:outline-none block appearance-none w-full bg-lightgray"
-                placeholder="abc@example.com"
-              />
-              <a
-                href="/signup"
-                className="bg-lightblue flex items-center justify-center rounded-lg hover:bg-opacity-90 shadow-md focus:outline-none -ml-2 text-sm sm:text-lg md:text-sm lg:text-lg font-bold text-white"
-              >
-                Subscribe
-              </a>
-            </div>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={(values) => submitHandler(values)}
+              validationSchema={validationSchema}
+            >
+              {({ errors }) => (
+                <Form>
+                  <div className="grid grid-cols-4 pb-5 md:pb-0">
+                    <Field
+                      name="email"
+                      type="email"
+                      className="col-span-3 p-2 sm:p-5 md:pt-2 lg:pt-5 rounded-lg outline-none focus:outline-none block appearance-none w-full bg-lightgray"
+                      placeholder="abc@example.com"
+                    />
+
+                    <button
+                      disabled={isSubscribed}
+                      type="submit"
+                      className={`${
+                        isSubscribed
+                          ? "bg-backgroundwhiteinset"
+                          : "bg-lightblue"
+                      } col-span-1 flex items-center justify-center rounded-lg hover:bg-opacity-90 shadow-md focus:outline-none -ml-2 text-sm sm:text-lg md:text-sm lg:text-lg font-bold text-white`}
+                    >
+                      {loading && (
+                        <div className="absolute">
+                          <LoadingAuth />
+                        </div>
+                      )}
+                      <div className={`${loading && "invisible"}`}>
+                        {isSubscribed ? "Subscribed" : "Subscribe"}
+                      </div>
+                    </button>
+                  </div>
+                  {errors.email && (
+                    <div className=" text-red-500 text-sm pt-2 pl-2">
+                      {errors.email}
+                    </div>
+                  )}
+                </Form>
+              )}
+            </Formik>
           </div>
           <div className="col-span-1 my-auto hidden md:block">
             <HeroLanding />

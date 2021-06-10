@@ -49,6 +49,25 @@ export const postSignup = async (values) => {
   }
 };
 
+export const postSubscribe = async (values) => {
+  try {
+    const recaptchaToken = await getRecaptchaToken();
+    const _res = await axios({
+      method: "POST",
+      url: `${baseUrl}api/v1/subscribe/add`,
+      headers: {
+        "x-recaptcha-token": recaptchaToken,
+      },
+      data: values,
+    });
+    successHandler(_res.data.message);
+    return true;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
 export const getLinks = async (authToken: string) => {
   try {
     const _res = await axios.get(`${baseUrl}api/v1/links/get`, {

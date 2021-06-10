@@ -3,7 +3,7 @@ import { HiOutlinePencil } from 'react-icons/hi';
 import { parseCookies } from 'nookies';
 
 import { patchProfilePicture, postProfilePicture } from '../../utils/api';
-import { ImageContext } from '../../utils/profileImageContext';
+import { ImageContext } from '../../store/profileImageContext';
 
 export default function FileUploader() :JSX.Element {
     const { setFileBlob } = useContext(ImageContext);

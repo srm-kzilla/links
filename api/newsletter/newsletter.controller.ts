@@ -3,12 +3,12 @@ import { getDbClient } from "../services/mongodb.service";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import { errors } from "../error/error.constant";
-
 import {
   SubscribeType,
   subscribeDBSchema,
   subscribeSchema,
 } from "./newsletter.schema";
+
 export const subscribe = async (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -22,7 +22,7 @@ export const subscribe = async (
       .collection("subscribers")
       .findOne<subscribeDBSchema>({ email, subscribe: true });
     if (findSubscriber) {
-      return res.json({
+      return res.status(400).json({
         success: true,
         message: "🤡 You are already subscribed ! ",
       });
@@ -35,9 +35,9 @@ export const subscribe = async (
     if (addSubscriber.result.n !== 1) {
       throw errors.MONGODB_QUERY_ERROR;
     }
-    return res.json({
+    return res.status(200).json({
       success: true,
-      message: "🎉 Wohoo! You have been subscribed to the mailing list !",
+      message: "🎉 Wohoo! You have been subscribed to the mailing list!",
     });
   } catch (err) {
     next(err);
@@ -68,7 +68,7 @@ export const unsubscribe = async (
     if (removeSubscriber.result.n !== 1) {
       throw errors.MONGODB_QUERY_ERROR;
     }
-    res.json({
+    res.status(200).json({
       success: true,
       message: "😢 You have been successfully unsubscribed",
     });

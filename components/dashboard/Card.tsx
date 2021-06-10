@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 import { DeleteModal } from "./";
 import { Spike, Trash, Pencil, NewWindow } from "../../assets/icons";
-import { activeLinkProps } from "../../utils/sidebarContext";
+import { activeLinkProps } from "../../store/sidebarContext";
 import { truncateTitleText, truncateLinkText } from "../../utils/functions";
-import { kzillaxyz, kzillaxyzdomain } from "../../utils/constants";
+import { kzillaxyzdomain } from "../../utils/constants";
 
 interface CardProps {
   onCardClick: () => void;
