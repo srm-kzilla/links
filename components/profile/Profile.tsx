@@ -56,7 +56,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
             <div className="relative flex items-center justify-center flex-col mt-4 md:float-left md:ml-60 md:mt-32 z-40">
                 <div className="relative">
                     <img
-                        className="w-36 h-36 rounded-full mt-20 border shadow-md"
+                        className="w-36 rounded-full mt-20 border shadow-md"
                         src={fileBlob ? fileBlob : _resProfile.profilePicture}
                     />
                     <FileUploader />

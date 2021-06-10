@@ -4,7 +4,6 @@ import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { parseCookies, destroyCookie } from "nookies";
 
-import { Logo } from "../../assets/icons"
 import { AuthContext } from "../../store/authContext";
 import { getUserProfile } from "../../utils/api";
 import { ImageContext } from "../../store/profileImageContext";
@@ -23,6 +22,8 @@ export default function Navbar() {
       })();
     }
   }, [isAuth, fileBlob]);
+
+
   const [userProfileData, setUserProfileData] = useState({
     name: "User",
     username: "User",
@@ -54,13 +55,13 @@ export default function Navbar() {
                       className="flex items-center mr-4 pl-4 cursor-pointer select-none float-left my-1 hover:text-gray-500"
                       onClick={() => setisOpen(!isOpen)}
                     >
-                      Welcome {userProfileData.name || userProfileData.username}
+                      Welcome, {userProfileData.name || userProfileData.username}
                       <div className="float-right pt-1 ml-2">
                         <img
                           className="flex items-center w-12 h-12 rounded-full float-left mb-2 border"
                           src={fileBlob ? fileBlob : userProfileData.profilePicture}
                         />
-                        <div className="flex items-center py-4 px-2">
+                        <div className="flex items-center py-5 px-2">
                           <FaChevronDown />
                         </div>
                       </div>
@@ -105,15 +106,7 @@ export default function Navbar() {
                     className={`py-2 rounded ${router.pathname == "/" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
                   >
                     Home
-            </a>
-                }
-                {isAuth &&
-                  <a
-                    href="/profile"
-                    className={`py-2 rounded ${router.pathname == "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
-                  >
-                    Edit Profile
-            </a>
+                  </a>
                 }
                 {isAuth &&
                   <a
@@ -121,7 +114,15 @@ export default function Navbar() {
                     className={`py-2 rounded ${router.pathname == "/dashboard" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
                   >
                     Dashboard
-            </a>
+                  </a>
+                }
+                {isAuth &&
+                  <a
+                    href="/profile"
+                    className={`py-2 rounded ${router.pathname == "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
+                  >
+                    Edit Profile
+                  </a>
                 }
                 {isAuth &&
                   <a
@@ -129,7 +130,7 @@ export default function Navbar() {
                     onClick={() => logoutUser()}
                   >
                     Log Out
-            </a>
+                  </a>
                 }
               </div>
             </Fade>

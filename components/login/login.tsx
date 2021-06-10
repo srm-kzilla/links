@@ -18,7 +18,7 @@ const LoginComponent = () => {
 
   const validationSchema = Yup.object({
     userId: Yup.string()
-      .trim() 
+      .trim()
       .required("This is a required field"),
     password: Yup.string()
       .trim()
@@ -97,7 +97,7 @@ const LoginComponent = () => {
                     type="submit"
                     className="bg-lightblue outline-none focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-2 px-4 my-2 rounded"
                   >
-                  {loading && <div className="absolute left-24 sm:left-37 top-4"><LoadingAuth /></div>}<div className={`${loading && "invisible"}`}>Let's Go!</div>
+                    {loading && <div className="absolute left-24 sm:left-37 top-4"><LoadingAuth /></div>}<div className={`${loading && "invisible"}`}>Let's Go!</div>
                   </button>
                 </div>
                 <div className="text-center text-darkgray hover:text-black font-normal mt-3 pb-6 ">
