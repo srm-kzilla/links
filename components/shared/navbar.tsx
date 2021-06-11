@@ -85,13 +85,31 @@ export default function Navbar() {
                     className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
                   >
                     About Us
-              </a>
-                  <a
-                    href="/login"
-                    className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
-                  >
-                    Login
-              </a>
+                  </a>
+                  {router.pathname == "/signup" && (
+                    <a
+                      href="/login"
+                      className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
+                    >
+                      Login
+                    </a>
+                  )}
+                  {router.pathname == "/login" && (
+                    <a
+                      href="/signup"
+                      className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
+                    >
+                      Signup
+                    </a>
+                  )}
+                  {(router.pathname != "/login" && router.pathname != "/signup") && (
+                    <a
+                      href="/login"
+                      className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
+                    >
+                      Login
+                    </a>
+                  )}
                 </div>
               </>
             )}

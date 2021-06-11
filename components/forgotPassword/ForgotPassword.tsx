@@ -113,9 +113,9 @@ export default function ForgotPasswordComponent(): JSX.Element {
                     className: "h-14 md:h-20 font-extrabold text-4xl md:text-6xl",
                   }}
                   character={{
-                    className: "mx-2 shadow-md rounded-xl",
-                    classNameInactive: "bg-statusGreen rounded-xl cursor-text",
-                    classNameSelected: "border-4 border-lightblue rounded-xl",
+                    className: "mx-2 shadow-md rounded-xl pt-2",
+                    classNameInactive: "bg-statusGreen rounded-md cursor-text",
+                    classNameSelected: "focus: ring rounded-md",
                   }}
                 />
                 <button

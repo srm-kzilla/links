@@ -76,7 +76,8 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 </p>
                 <input
                     value={name}
-                    type="textarea"
+                    type="text"
+                    maxLength={70}
                     name="name"
                     autoComplete="off"
                     className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-2/3 sm:w-2/6 mb-8"
@@ -105,7 +106,8 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 <textarea
                     value={bio}
                     className="gradientTextareaBottom w-2/3 sm:w-2/6 focus:outline-none bg-backgroundwhite border"
-                    rows={3}
+                    rows={2}
+                    maxLength={120}
                     placeholder="Here goes my cool bio..."
                     onChange={(e) => {
                         setBio(e.target.value);
