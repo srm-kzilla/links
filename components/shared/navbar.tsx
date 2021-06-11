@@ -4,7 +4,7 @@ import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { parseCookies, destroyCookie } from "nookies";
 
-import { Logo } from "../../assets/icons"
+import { Logo } from "../../assets/icons";
 import { AuthContext } from "../../store/authContext";
 import { getUserProfile } from "../../utils/api";
 import { ImageContext } from "../../store/profileImageContext";
@@ -26,24 +26,29 @@ export default function Navbar() {
   const [userProfileData, setUserProfileData] = useState({
     name: "User",
     username: "User",
-    profilePicture: "https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png"
+    profilePicture:
+      "https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png",
   });
   const [isOpen, setisOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const logoutUser = () => {
     destroyCookie(null, "authToken");
-    router.replace('/');
+    router.replace("/");
     router.reload();
-  }
+  };
 
   return (
     router.pathname != "/" && (
       <>
-        <nav className={`fixed top-0 z-50 w-full bg-white shadow-custom rounded-bl-xl`}>
+        <nav
+          className={`fixed top-0 z-50 w-full bg-white shadow-custom rounded-bl-xl`}
+        >
           <div className="grid grid-cols-2">
             <a href="/" className="text-black text-2xl font-bold p-3 text-left">
-              <div className="float-left mx-3"><Logo /></div>
+              <div className="float-left mx-3">
+                <Logo />
+              </div>
               <div className="ml-2 pt-1">LINKS</div>
             </a>
             {isAuth ? (
@@ -58,7 +63,9 @@ export default function Navbar() {
                       <div className="float-right pt-1 ml-2">
                         <img
                           className="flex items-center w-12 h-12 rounded-full float-left mb-2 border"
-                          src={fileBlob ? fileBlob : userProfileData.profilePicture}
+                          src={
+                            fileBlob ? fileBlob : userProfileData.profilePicture
+                          }
                         />
                         <div className="flex items-center py-4 px-2">
                           <FaChevronDown />
@@ -84,13 +91,13 @@ export default function Navbar() {
                     className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
                   >
                     About Us
-              </a>
+                  </a>
                   <a
-                    href="/login"
+                    href={router.pathname == "/login" ? "/signup" : "/login"}
                     className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
                   >
-                    Login
-              </a>
+                    {router.pathname == "/login" ? "Signup" : "Login"}
+                  </a>
                 </div>
               </>
             )}
@@ -99,42 +106,49 @@ export default function Navbar() {
           {isOpen && (
             <Flip right>
               <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center">
-                {isAuth &&
+                {isAuth && (
                   <a
                     href="/"
-                    className={`py-2 rounded ${router.pathname == "/" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
+                    className={`py-2 rounded ${
+                      router.pathname == "/" && "font-bold"
+                    } hover:bg-lightblue text-sm font-normal block`}
                   >
                     Home
-            </a>
-                }
-                {isAuth &&
+                  </a>
+                )}
+                {isAuth && (
                   <a
                     href="/profile"
-                    className={`py-2 rounded ${router.pathname == "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
+                    className={`py-2 rounded ${
+                      router.pathname == "/profile" && "font-bold"
+                    } hover:bg-lightblue text-sm font-normal block`}
                   >
                     Edit Profile
-            </a>
-                }
-                {isAuth &&
+                  </a>
+                )}
+                {isAuth && (
                   <a
                     href="/dashboard"
-                    className={`py-2 rounded ${router.pathname == "/dashboard" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
+                    className={`py-2 rounded ${
+                      router.pathname == "/dashboard" && "font-bold"
+                    } hover:bg-lightblue text-sm font-normal block`}
                   >
                     Dashboard
-            </a>
-                }
-                {isAuth &&
+                  </a>
+                )}
+                {isAuth && (
                   <a
                     className="py-2 rounded hover:bg-lightblue text-sm font-normal block cursor-pointer"
                     onClick={() => logoutUser()}
                   >
                     Log Out
-            </a>
-                }
+                  </a>
+                )}
               </div>
             </Flip>
           )}
         </nav>
       </>
-    ));
+    )
+  );
 }
