@@ -162,7 +162,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
         <>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-96 focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
+            className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-8 focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
           >
             <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
               <VscAdd />

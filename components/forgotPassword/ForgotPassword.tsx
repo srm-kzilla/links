@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import VerificationInput from "react-verification-input";
-import { Formik, Field, Form } from "formik";
 import { useRecoilState } from "recoil";
+import { Formik, Field, Form } from "formik";
+import VerificationInput from "react-verification-input";
 
 import { postForgotPasswordEmail, postVerifyOtp, patchNewForgotPassword } from "../../utils/api";
 import { forgotPasswordEmailValidationSchema, forgotPasswordValidationSchema } from "../../utils/schema";
 import { Eye, EyeHide } from "../../assets/icons";
-import { resetPasswordToken } from "../../utils/store";
+import { resetPasswordToken, resendOtpEmail } from "../../utils/store";
 
 export default function ForgotPasswordComponent(): JSX.Element {
   const [passwordShown, setPasswordShown] = useState<boolean>(false);
@@ -19,13 +19,16 @@ export default function ForgotPasswordComponent(): JSX.Element {
 
   const [enterCode, setEnterCode] = useState<boolean>(false);
   const [otp, setOtp] = useState<number>();
+  const [counter, setCounter] = useState<number>(120);
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(true);
   const [isSubmittingEmail, setIsSubmittingEmail] = useState<boolean>(false);
   const [isSubmittingOtp, setIsSubmittingOtp] = useState<boolean>(false);
   const [isSubmittingPassword, setIsSubmittingPassword] = useState<boolean>(false);
+  const [disableResendOtp, setDisableResendOtp] = useState<boolean>(false);
 
   const [resetPwdToken, setResetPwdToken] = useRecoilState(resetPasswordToken);
+  const [forgotPwdEmail, setForgotPwdEmail] = useRecoilState(resendOtpEmail);
 
   const initialValues = {
     oldPassword: "",
@@ -37,8 +40,13 @@ export default function ForgotPasswordComponent(): JSX.Element {
     email: "",
   };
 
+  useEffect(() => {
+    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+  }, [counter]);
+
   const sendVerificationCode = async (email: string) => {
     setIsSubmittingEmail(true);
+    setForgotPwdEmail(email);
     const values = {
       email: email,
     };
@@ -88,10 +96,10 @@ export default function ForgotPasswordComponent(): JSX.Element {
     <>
       {enterCode ? (
         <>
-          <div className="absolute text-2xl lg:text-5xl -top-6 left-4 gradientHeaderHollow">
+          <div className="absolute text-2xl lg:text-5xl -top-20 left-5 gradientHeaderHollow">
             <h1>FORGOT PASSWORD</h1>
           </div>
-          <div className="flex items-center justify-center flex-col mt-24">
+          <div className="flex items-center justify-center flex-col mt-40">
             {otpVerified && (
               <>
                 <p className="flex-initial mt-24 mb-4 text-darkgray font-extrabold">
@@ -118,6 +126,20 @@ export default function ForgotPasswordComponent(): JSX.Element {
                     classNameSelected: "focus: ring rounded-md",
                   }}
                 />
+                {counter != 0 && (
+                  <h1 className="mt-5">Resend OTP in: {counter}s</h1>
+                )}
+                {counter == 0 && (
+                  <button 
+                    className={`focus:outline-none ${disableResendOtp && "opacity-50"}`} 
+                    disabled={disableResendOtp}
+                    onClick={() => {
+                      sendVerificationCode(forgotPwdEmail)
+                      setDisableResendOtp(true)
+                    }}>
+                    <h1 className="mt-5">Resend OTP</h1>
+                  </button>
+                )}
                 <button
                   type="submit"
                   disabled={isSubmittingOtp}
@@ -193,7 +215,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
         </>
       ) : (
         <>
-          <div className="absolute text-2xl lg:text-5xl top-20 left-4 gradientHeaderHollow">
+          <div className="absolute text-2xl lg:text-5xl top-20 left-5 gradientHeaderHollow">
             <h1>FORGOT PASSWORD</h1>
           </div>
           <div className="flex flex-col w-2/3 md:w-2/6 mx-auto">

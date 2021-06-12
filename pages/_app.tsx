@@ -9,7 +9,7 @@ import "../styles/globals.css";
 import { Navbar, Footer } from "../components/shared";
 import AuthContextProvider from "../store/authContext";
 import ImageContextProvider from "../store/profileImageContext";
-import { authRoutes } from "../utils/constants";
+import { authRoutes, authRestrictedRoutes } from "../utils/constants";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
@@ -48,6 +48,11 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
 
   if (!authToken && authRoutes.includes(ctx.asPath)) {
     ctx.res.writeHead(302, { Location: "/" });
+    ctx.res.end();
+  }
+
+  if(authToken && authRestrictedRoutes.includes(ctx.asPath)) {
+    ctx.res.writeHead(302, { Location: "/dashboard" });
     ctx.res.end();
   }
 
