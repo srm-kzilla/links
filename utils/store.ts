@@ -5,4 +5,9 @@ const resetPasswordToken = atom<string>({
   default: "", 
 });
 
-export { resetPasswordToken };
+const searchDashboardLink = atom<string>({
+  key: "searchDashboardLink", 
+  default: "", 
+});
+
+export { resetPasswordToken, searchDashboardLink };

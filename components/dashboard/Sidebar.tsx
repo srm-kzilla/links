@@ -4,6 +4,7 @@ import { parseCookies } from "nookies";
 import { FaChevronRight } from "react-icons/fa";
 import { MdContentCopy } from "react-icons/md";
 import Slide from "react-reveal/Slide";
+import * as Yup from "yup";
 
 import { Tick, Loading, EditPencil } from "../../assets/icons";
 import { Toggle } from "./";
@@ -39,6 +40,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
   const [showUrlInput, setShowUrlInput] = useState<boolean>(false);
   const [showTitleEdit, setShowTitleEdit] = useState<boolean>(false);
   const [showUrlEdit, setShowUrlEdit] = useState<boolean>(false);
+  const [validUrl, setValidUrl] = useState(true);
 
   const [searchLink, setSearchLink] = useRecoilState(searchDashboardLink);
 
@@ -85,14 +87,23 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
     if (linkUrl) {
       if (linkUrl.length > 0) {
         setLinkLoading(true);
+
+        setValidUrl(
+          Yup.string()
+            .url()
+            .isValidSync(linkUrl)
+        );
+
         intervalRef.current = setTimeout(() => {
           const { authToken } = parseCookies();
           const values = {
             url: linkUrl,
           };
-          const res = updateLink(authToken, activeLink._id, values);
-          if (res) {
-            setLinkLoading(false);
+          if(validUrl) {
+            const res = updateLink(authToken, activeLink._id, values);
+            if (res) {
+              setLinkLoading(false);
+            }
           }
         }, 1000);
       }
@@ -165,6 +176,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                             autoComplete="off"
                             className="gradientInputBottom focus:outline-none w-full ml-2"
                             placeholder="SRMKZILLA"
+                            maxLength={30}
                             value={activeLink.title}
                             onBlur={() => setShowTitleInput(false)}
                             onKeyPress={(e) => { e.key == "Enter" && setShowTitleInput(false) }}
@@ -304,10 +316,15 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                             {linkLoading ? <Loading /> : <button
                               className="focus:outline-none"
                               onClick={() => setShowUrlInput(false)}>
-                                <Tick />
-                              </button>
+                              <Tick />
+                            </button>
                             }
                           </div>
+                          {!validUrl && (
+                            <div className="text-red-500 mt-1 text-sm mb-3">
+                              URL is not valid!
+                            </div>
+                          )}
                         </form>
                       </>
                     )}
