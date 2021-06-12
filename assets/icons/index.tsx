@@ -17,3 +17,4 @@ export { default as EllipseGreen } from "./ellipsegreen";
 export { default as HeroLanding } from "./herolanding";
 export { default as Circle } from "./circle";
 export { default as DoubleCircle } from "./doublecircle";
+export { default as EditPencil } from "./editpencil";

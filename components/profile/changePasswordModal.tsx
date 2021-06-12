@@ -60,6 +60,8 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                   onSubmit={(values) =>
                     submitNewPassword(values.oldPassword, values.newPassword)
                   }
+                  validateOnBlur={false}
+                  validateOnChange={false}
                   validationSchema={passwordValidationSchema}
                 >
                   {({ errors }) => (

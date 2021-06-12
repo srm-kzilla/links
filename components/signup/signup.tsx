@@ -28,15 +28,17 @@ const SignUpComponent = () => {
     email: Yup.string()
       .trim()
       .email("Email must be a valid email")
-      .required("This is a required field"),
+      .required("This is a required field"),  
     password: Yup.string()
       .trim()
       .min(8, "Password should have at least 8 characters")
       .required("This is a required field"),
-    confirmPassword: Yup.string().oneOf(
+    confirmPassword: Yup.string()
+    .oneOf(
       [Yup.ref("password"), null],
       "Passwords must match"
-    ),
+    )
+    .required("This is a required field"),
   });
 
   const submitHandler = async (values) => {
@@ -84,6 +86,8 @@ const SignUpComponent = () => {
           <Formik
             initialValues={initialValues}
             onSubmit={(values) => submitHandler(values)}
+            validateOnBlur={false}
+            validateOnChange={false}
             validationSchema={validationSchema}
           >
             {({ errors }) => (

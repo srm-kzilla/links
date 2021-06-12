@@ -6,6 +6,14 @@ export function truncateLinkText(text: string) {
     return (text.length > 40 ? text.substring(0, 40) + "..." : text);
 }
 
+export function truncateSidebarTitleText(text: string) {
+    return (text.length > 15 ? text.substring(0, 12) + "..." : text);
+}
+
+export function truncateSidebarURLText(text: string) {
+    return (text.length > 30 ? text.substring(0, 23) + "..." : text);
+}
+
 export function time_ago(time) {
     switch (typeof time) {
         case 'number':

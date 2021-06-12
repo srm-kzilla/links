@@ -2,8 +2,8 @@ export default function Tick(): JSX.Element {
   return (
     <>
       <svg
-        width="23"
-        height="16"
+        width="20"
+        height="14"
         viewBox="0 0 23 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
