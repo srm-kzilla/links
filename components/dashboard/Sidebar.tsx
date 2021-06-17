@@ -182,7 +182,6 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                             onKeyPress={(e) => { e.key == "Enter" && setShowTitleInput(false) }}
                             onChange={(e) => {
                               setActiveLink({ ...activeLink, title: e.target.value });
-                              console.log(activeLink.title);
                               setTitle(e.target.value);
                             }}
                           />
@@ -243,7 +242,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   <div className="rounded-md text-xl text-buttongray bg-offwhite font-extrabold m-1 p-1">
                     <p className="pl-2">Clicks</p>
                     <div className="customGradient p-2">
-                      <p className="text-4xl">{clicksLoading ? <div className="mt-2"><Loading /></div> : activeLinkClicks}</p>
+                      <div className="text-4xl">{clicksLoading ? <div className="mt-2"><Loading /></div> : activeLinkClicks}</div>
                     </div>
                   </div>
                 </div>

@@ -9,6 +9,7 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;900&display=swap');
 
 * {
   box-sizing: border-box;
@@ -18,8 +19,9 @@ body {
   position: relative;
   padding: 0;
   margin: 0;
-  font-family: "Work Sans", sans-serif;
-  background-color: #e0e0e0;
+  font-family: "Mulish", sans-serif;
+  font-weight: 600;
+  background-color: #ffffff;
 }
 
 textarea {
@@ -29,10 +31,12 @@ textarea {
 /* Text selection color */
 ::-moz-selection { 
   background: #6fcf97;
+  color: #ffffff;
 }
 
 ::selection {
   background: #6fcf97;
+  color: #ffffff;
 }
 
 .grecaptcha-badge {
@@ -51,12 +55,23 @@ textarea {
 .gradientInput:hover {
   opacity: 0.8;
 }
+
+/* TODO: To be removed */
 .gradientInputBottom {
   border-radius: 8px;
   border-bottom: 2px solid;
   border-image: linear-gradient(to right, #56ccf2, #6fcf97);
   border-image-slice: 1;
 }
+
+.grayBottomBorder {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 2px solid;
+  border-color: #A7A6A6;
+}
+
 .gradientTextareaBottom {
   border-radius: 8px;
   border-top: 0;
@@ -114,15 +129,6 @@ hr {
 }
 .hover-trigger:hover .hover-target {
   display: block;
-}
-.gradientHeaderHollow {
-  font-family: "Work Sans", sans-serif;
-  font-weight: 800;
-  text-transform: uppercase;
-  background: -webkit-linear-gradient(#56ccf2, #6fcf97);
-  -webkit-background-clip: text;
-  -webkit-text-stroke: 6px transparent;
-  color: #e0e0e0;
 }
 
 /* Hover Underline Animation - Navbar */

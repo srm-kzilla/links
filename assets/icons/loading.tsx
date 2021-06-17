@@ -1,4 +1,4 @@
-export default function Tick(): JSX.Element {
+export default function Loading(): JSX.Element {
   return (
     <>
       <svg

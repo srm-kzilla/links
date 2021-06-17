@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { HiOutlinePencil } from 'react-icons/hi';
 import { parseCookies } from 'nookies';
 
 import { patchProfilePicture, postProfilePicture } from '../../utils/api';
 import { ImageContext } from '../../store/profileImageContext';
+import { EditPencil } from '../../assets/icons';
 
 export default function FileUploader() :JSX.Element {
     const { setFileBlob } = useContext(ImageContext);
@@ -35,10 +35,10 @@ export default function FileUploader() :JSX.Element {
     return (
         <>
             <i
-                className="absolute bg-white rounded-full p-2 bottom-1 right-2 cursor-pointer"
+                className="absolute bg-white rounded-full p-2 bottom-1 right-2 cursor-pointer shadow-lg"
                 onClick={handleClick}
             >
-                <HiOutlinePencil />
+                <EditPencil />
             </i>
             <input
                 type="file"
