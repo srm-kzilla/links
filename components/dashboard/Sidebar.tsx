@@ -138,7 +138,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
               <FaChevronRight size={20} />
             </button>
             <h1 className="pl-5 mt-5 font-sans font-black text-2xl text-buttongray">
-              TOTAL STATISTICS
+              Total Statistics
             </h1>
             {activeLink.shortCode && (
               <>
@@ -150,7 +150,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   <img width="45" height="45" className="rounded" src={activeLink.image} alt={activeLink.title} />
                   <div className="flex flex-col">
                     {!showTitleInput && (
-                      <h1 className="relative text-xl text-lightgraycustom font-extrabold mx-2">
+                      <h1 className="relative text-xl text-lightgray font-bold mx-2">
                         {truncateSidebarTitleText(activeLink.title)}
                         <button
                           onClick={() => setShowTitleInput(true)}
@@ -174,7 +174,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                             type="text"
                             name="link-title"
                             autoComplete="off"
-                            className="gradientInputBottom focus:outline-none w-full ml-2"
+                            className="border-b-2 border-lightgraycustom focus:outline-none w-full ml-2"
                             placeholder="SRMKZILLA"
                             maxLength={30}
                             value={activeLink.title}
@@ -203,7 +203,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
             )}
             {!activeLink.shortCode && (
               <>
-                <h2 className="pl-5 mt-5 font-black text-lg text-buttongray">
+                <h2 className="pl-5 mt-5 font-bold text-lg text-buttongray">
                   NO LINK SELECTED
                 </h2>
                 <h2 className="px-5 mt-5 font-black text-lg text-buttongray">
@@ -211,19 +211,19 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     type="text"
                     onChange={(e) => setSearchLink(e.target.value)}
                     placeholder="Search for a link..."
-                    className="gradientInputBottom focus:outline-none w-full"
+                    className="border-b-2 border-lightgraycustom focus:outline-none w-full"
                   />
                 </h2>
               </>
             )}
             <div className={`grid grid-cols-2 mt-4 mx-5 ${!activeLink.status && "filter grayscale"}`}>
-              <div className="rounded-md text-xl text-buttongray bg-offwhite font-extrabold m-1 p-1">
+              <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
                 <p className="pl-2">Total Links</p>
                 <div className="customGradient p-2">
                   <p className="text-4xl">{links || "N.A"}</p>
                 </div>
               </div>
-              <div className="rounded-md text-xl text-buttongray bg-offwhite font-extrabold m-1 p-1">
+              <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
                 <p className="pl-2">Total Views</p>
                 <div className="customGradient p-2">
                   <p className="text-4xl">{totalViews || "N.A"}</p>
@@ -301,7 +301,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                             type="text"
                             name="link-url"
                             autoComplete="off"
-                            className="gradientInputBottom focus:outline-none w-full"
+                            className="border-b-2 border-lightgraycustom focus:outline-none w-full"
                             placeholder="https://facebook.com/kzilla"
                             value={activeLink.url}
                             onKeyPress={(e) => { e.key == "Enter" && setShowUrlInput(false) }}
@@ -372,10 +372,10 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
               </div>
             ) : (
               <div className="mx-6 mt-5">
-                <p className="customGradient font-sans text-xl font-bold ">
+                <p className="customGradient font-sans text-xl font-bold">
                   CLICK ON A LINK
                 </p>
-                <p>Click on a link to show stats</p>
+                <p className="text-buttongray">Click on a link to show stats</p>
               </div>
             )}
           </div>

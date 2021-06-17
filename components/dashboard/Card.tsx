@@ -19,11 +19,11 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
     <>
       <div
         onClick={onCardClick}
-        className="flex flex-wrap items-center justify-between bg-white group my-6 mx-3 md:mx-20 cursor-pointer shadow-custom rounded-xl w-auto md:w-3/5 overflow-hidden relative md:py-3"
+        className={`flex flex-wrap items-center justify-between bg-white ${!link.status && "filter grayscale"} group my-6 mx-3 md:mx-20 cursor-pointer rounded-xl w-auto md:w-3/5 overflow-hidden relative md:py-3`}
       >
         <div
-          className={`${link.status ? "bg-statusGreen" : "bg-statusRed"
-            } h-6 w-full md:h-full md:w-6 md:group-hover:w-16 hover:transition duration-75 ease-in-out -mt-2 md:mt-0 block md:absolute left-0 bottom-0 top-0 items-center justify-between`}
+          className={`${link.status ? "bg-statusGreen" : "bg-lightgraycustom"
+            } h-6 w-full md:h-full md:w-3 md:group-hover:w-16 hover:transition duration-75 ease-in-out -mt-2 md:mt-0 block md:absolute left-0 bottom-0 top-0 items-center justify-between`}
         >
           <figure className="w-0 group-hover:w-8 cursor-pointer pt-7 shadow-2xl hidden md:flex mx-auto">
             <img className="rounded" width="40px" src={link.image} />
@@ -36,12 +36,12 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
           </figure>
 
           <div className="flex flex-col transition items-start">
-            <h2 className="text-xl md:text-3xl font-bold">{truncateTitleText(link.title)}</h2>
+            <h2 className="text-xl md:text-3xl font-extrabold text-lightgray">{truncateTitleText(link.title)}</h2>
             <a
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs md:text-md md:inline-block"
+              className="text-xs md:text-md md:inline-block text-lightgray"
             >
               {truncateLinkText(link.url)}
             </a>

@@ -183,7 +183,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                         type="submit"
                         disabled={isSubmittingProfile}
                         onClick={() => updateUserProfile()}
-                        className={`bg-white border-2 ${isSubmittingProfile ? "border-lightgray" : "border-customGreen"} focus:outline-none hover:bg-opacity-80 ${isSubmittingProfile ? "text-lightgray" : "text-customGreen"} text-xs font-bold w-full ml-4 py-2 px-3 rounded`}>
+                        className={`bg-white border-2 ${isSubmittingProfile ? "border-lightgray text-lightgray" : "border-customGreen text-customGreen"} focus:outline-none hover:bg-opacity-80 text-xs font-bold w-full ml-4 py-2 px-3 rounded`}>
                         {isSubmittingProfile ? "Please wait..." : "UPDATE PROFILE"}
                     </button>
                 </div>

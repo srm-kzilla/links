@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { parseCookies } from "nookies";
@@ -12,6 +13,7 @@ import ImageContextProvider from "../store/profileImageContext";
 import { authRoutes, authRestrictedRoutes } from "../utils/constants";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -25,6 +27,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               <div className="pb-4">
                 <Navbar />
                 <Component {...pageProps} />
+                <style jsx global>{`
+                  body, html {
+                    background-color: ${router.pathname == "/dashboard" ? "#E0E0E0" : "#FFFFFF"};
+                  }
+                `}</style>
               </div>
               <Footer />
               <ToastContainer />
@@ -51,7 +58,7 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
     ctx.res.end();
   }
 
-  if(authToken && authRestrictedRoutes.includes(ctx.asPath)) {
+  if (authToken && authRestrictedRoutes.includes(ctx.asPath)) {
     ctx.res.writeHead(302, { Location: "/dashboard" });
     ctx.res.end();
   }
