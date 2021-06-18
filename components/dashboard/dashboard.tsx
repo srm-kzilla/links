@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
 import { VscAdd } from "react-icons/vsc";
 import { IconContext } from "react-icons";
 import { parseCookies } from "nookies";
@@ -7,6 +8,7 @@ import { NoLinks } from "../../assets/icons";
 import { SidebarContext } from "../../store/sidebarContext";
 import { AddModal, Card, Sidebar } from "./";
 import { postLink, deleteLink } from "../../utils/api";
+import { searchDashboardLink } from "../../utils/store";
 
 export interface Link {
   _id: string;
@@ -29,8 +31,11 @@ interface DashboardProps {
 export default function DashboardComponent({ _resLinks, totalViews }: DashboardProps) {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
   const [links, setLinks] = useState<Link[]>(_resLinks);
+  const [searchLinkResults, setSearchLinkResults] = useState<Link[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+
+  const [searchLink, setSearchLink] = useRecoilState(searchDashboardLink);
 
   useEffect(() => {
     if (window.innerWidth <= 768) setIsSidebarOpen(false);
@@ -44,6 +49,19 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
       }),
     ]);
   }, [activeLink]);
+
+  useEffect(() => {
+    let searchResults: Link[] = [];
+
+    if (searchLink != "") {
+      links.map((item) => {
+        if (item.title.toLowerCase().includes(searchLink.toLowerCase())) {
+          searchResults.push(item);
+        }
+      })
+    }
+    setSearchLinkResults(searchResults);
+  }, [searchLink]);
 
   const onAddLinkHandler = (
     values: { title: string; url: string },
@@ -62,7 +80,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
             status: true,
             image: res.data.image,
             _id: res.data._id,
-            shortCode: res.data.shortCode,  
+            shortCode: res.data.shortCode,
             analyticsCode: res.data.analyticsCode,
             createdAt: res.data.createdAt
           });
@@ -89,7 +107,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
   return (
     <>
       {links.length > 0 ? (
-        <>  
+        <>
           <div className="mt-24 pb-10">
             <button
               onClick={() => setIsAddModalOpen(true)}
@@ -106,18 +124,32 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
               onAddLink={onAddLinkHandler}
             />
 
-            {links.map((link) => (
-              <Card
-                key={link._id}
-                onCardClick={() => {
-                  setActiveLink(link);
-                  setIsSidebarOpen(true);
-                }}
-                link={link}
-                onDeleteCard={onDeleteLinkHandler}
-                
-              />
-            ))}
+            {searchLinkResults.length > 0 ? (
+              searchLinkResults.map((link) => (
+                <Card
+                  key={link._id}
+                  onCardClick={() => {
+                    setSearchLinkResults([]);
+                    setActiveLink(link);
+                    setIsSidebarOpen(true);
+                  }}
+                  link={link}
+                  onDeleteCard={onDeleteLinkHandler}
+                />
+              ))
+            ) : (
+              links.map((link) => (
+                <Card
+                  key={link._id}
+                  onCardClick={() => {
+                    setActiveLink(link);
+                    setIsSidebarOpen(true);
+                  }}
+                  link={link}
+                  onDeleteCard={onDeleteLinkHandler}
+                />
+              ))
+            )}
           </div>
           <Sidebar
             isOpen={isSidebarOpen}
@@ -130,7 +162,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
         <>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-96 focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
+            className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-8 focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
           >
             <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
               <VscAdd />
@@ -143,7 +175,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
             onAddLink={onAddLinkHandler}
           />
 
-          <div className="flex w-screen h-screen">
+          <div className="flex h-screen">
             <div className="m-auto w-full">
               <NoLinks className="w-3/4 sm:w-1/2 md:w-1/3 m-auto" />
               <p className="w-full text-center mt-8 text-sm">

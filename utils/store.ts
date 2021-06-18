@@ -5,4 +5,14 @@ const resetPasswordToken = atom<string>({
   default: "", 
 });
 
-export { resetPasswordToken };
+const searchDashboardLink = atom<string>({
+  key: "searchDashboardLink", 
+  default: "", 
+});
+
+const resendOtpEmail = atom<string>({
+  key: "resendOtpEmail", 
+  default: "", 
+});
+
+export { resetPasswordToken, searchDashboardLink, resendOtpEmail };
