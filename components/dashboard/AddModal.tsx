@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
 import { Formik, Field, Form } from "formik";
@@ -15,6 +15,7 @@ interface AddModalProps {
   ) => void;
 }
 
+
 const AddModal = ({
   isOpen,
   onClose,
@@ -24,7 +25,13 @@ const AddModal = ({
     title: "",
     url: "http://",
   };
+  
+  const [isSubmittingLink, setIsSubmittingLink] = useState<boolean>(false);
 
+  useEffect(() => {
+    setIsSubmittingLink(false);
+  }, [isOpen]);
+  
   return (
     <>
       {isOpen && (
@@ -40,9 +47,13 @@ const AddModal = ({
                 </h1>
                 <Formik
                   initialValues={initialValues}
-                  onSubmit={(values, { resetForm }) =>
-                    onAddLink(values, resetForm, onClose)
+                  onSubmit={(values, { resetForm }) => {
+                    onAddLink(values, resetForm, onClose);
+                    setIsSubmittingLink(true);
+                    }
                   }
+                  validateOnBlur={false}
+                  validateOnChange={false}
                   validationSchema={addLinkValidationSchema}
                 >
                   {({ errors }) => (
@@ -73,9 +84,10 @@ const AddModal = ({
                       <div className="flex items-center justify-center relative">
                         <button
                           type="submit"
-                          className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 my-2 rounded"
+                          disabled={isSubmittingLink}
+                          className={`${isSubmittingLink ? "bg-backgroundwhiteinset" : "bg-lightblue"} focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 my-2 rounded`}
                         >
-                          Add Link
+                          {isSubmittingLink ? "Please wait..." : "Add Link"}
                         </button>
                       </div>
                     </Form>

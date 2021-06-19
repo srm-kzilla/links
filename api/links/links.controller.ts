@@ -16,6 +16,7 @@ import {
   LINK_DEFAULT_IMAGE_URL,
   FETCH_FAVICON,
   KZILLAXYZ_POST,
+  YOUTUBE_FAVICON,
 } from "../constants/data.constants";
 import axios from "axios";
 
@@ -46,12 +47,16 @@ export const addLink = async (
         },
       });
       kzillaXYZdata = kzillaXYZ.data;
-      const fetchFavicon = await axios.get(FETCH_FAVICON + URL);
+      if (URL.includes("youtube")) {
+        faviconUrl = YOUTUBE_FAVICON;
+      } else {
+        const fetchFavicon = await axios.get(FETCH_FAVICON + URL);
 
-      const favIcons = fetchFavicon.data.icons.filter(
-        (url) => url.height >= 32 && url.height <= 100
-      );
-      faviconUrl = favIcons[0].url;
+        const favIcons = fetchFavicon.data.icons.filter(
+          (url) => url.height >= 32 && url.height <= 100
+        );
+        faviconUrl = favIcons[0].url;
+      }
     } catch (err) {
       faviconUrl = LINK_DEFAULT_IMAGE_URL;
     }

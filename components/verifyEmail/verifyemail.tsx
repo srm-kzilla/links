@@ -6,7 +6,7 @@ import animationData from "../../public/lotties/success.json";
 export default function VerifyEmailComponent({ authTokenProp }): JSX.Element {
   setCookie(null, "authToken", authTokenProp);
   const defaultOptions = {
-    loop: true,
+    loop: false,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {

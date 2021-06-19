@@ -6,4 +6,7 @@ export const FETCH_FAVICON =
 
 export const KZILLAXYZ_POST = "https://kzilla.xyz/api/v1/webhook/link";
 
-export const RECAPTCHA_POST_URL = "https://www.google.com/recaptcha/api/siteverify";
+export const RECAPTCHA_POST_URL =
+  "https://www.google.com/recaptcha/api/siteverify";
+export const YOUTUBE_FAVICON =
+  "https://www.designbust.com/download/1005/png/transparent_background_youtube_logo_png512.png";

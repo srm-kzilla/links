@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import Flip from "react-reveal/Flip";
+import Fade from 'react-reveal/Fade';
 import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { parseCookies, destroyCookie } from "nookies";
 
-import { Logo } from "../../assets/icons"
 import { AuthContext } from "../../store/authContext";
 import { getUserProfile } from "../../utils/api";
 import { ImageContext } from "../../store/profileImageContext";
@@ -23,6 +22,8 @@ export default function Navbar() {
       })();
     }
   }, [isAuth, fileBlob]);
+
+
   const [userProfileData, setUserProfileData] = useState({
     name: "User",
     username: "User",
@@ -43,7 +44,7 @@ export default function Navbar() {
         <nav className={`fixed top-0 z-50 w-full bg-white shadow-custom rounded-bl-xl`}>
           <div className="grid grid-cols-2">
             <a href="/" className="text-black text-2xl font-bold p-3 text-left">
-              <div className="float-left mx-3"><Logo /></div>
+              <div className="float-left mx-3"><img width="45" height="45" src="linkslogo.png" alt="links" /></div>
               <div className="ml-2 pt-1">LINKS</div>
             </a>
             {isAuth ? (
@@ -54,13 +55,13 @@ export default function Navbar() {
                       className="flex items-center mr-4 pl-4 cursor-pointer select-none float-left my-1 hover:text-gray-500"
                       onClick={() => setisOpen(!isOpen)}
                     >
-                      Welcome {userProfileData.name || userProfileData.username}
+                      {userProfileData.name || userProfileData.username}
                       <div className="float-right pt-1 ml-2">
                         <img
                           className="flex items-center w-12 h-12 rounded-full float-left mb-2 border"
                           src={fileBlob ? fileBlob : userProfileData.profilePicture}
                         />
-                        <div className="flex items-center py-4 px-2">
+                        <div className="flex items-center py-5 px-2">
                           <FaChevronDown />
                         </div>
                       </div>
@@ -84,20 +85,38 @@ export default function Navbar() {
                     className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
                   >
                     About Us
-              </a>
-                  <a
-                    href="/login"
-                    className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
-                  >
-                    Login
-              </a>
+                  </a>
+                  {router.pathname == "/signup" && (
+                    <a
+                      href="/login"
+                      className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
+                    >
+                      Login
+                    </a>
+                  )}
+                  {router.pathname == "/login" && (
+                    <a
+                      href="/signup"
+                      className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
+                    >
+                      Signup
+                    </a>
+                  )}
+                  {(router.pathname != "/login" && router.pathname != "/signup") && (
+                    <a
+                      href="/login"
+                      className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
+                    >
+                      Login
+                    </a>
+                  )}
                 </div>
               </>
             )}
           </div>
 
           {isOpen && (
-            <Flip right>
+            <Fade top>
               <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center">
                 {isAuth &&
                   <a
@@ -105,15 +124,7 @@ export default function Navbar() {
                     className={`py-2 rounded ${router.pathname == "/" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
                   >
                     Home
-            </a>
-                }
-                {isAuth &&
-                  <a
-                    href="/profile"
-                    className={`py-2 rounded ${router.pathname == "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
-                  >
-                    Edit Profile
-            </a>
+                  </a>
                 }
                 {isAuth &&
                   <a
@@ -121,7 +132,15 @@ export default function Navbar() {
                     className={`py-2 rounded ${router.pathname == "/dashboard" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
                   >
                     Dashboard
-            </a>
+                  </a>
+                }
+                {isAuth &&
+                  <a
+                    href="/profile"
+                    className={`py-2 rounded ${router.pathname == "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
+                  >
+                    Edit Profile
+                  </a>
                 }
                 {isAuth &&
                   <a
@@ -129,10 +148,10 @@ export default function Navbar() {
                     onClick={() => logoutUser()}
                   >
                     Log Out
-            </a>
+                  </a>
                 }
               </div>
-            </Flip>
+            </Fade>
           )}
         </nav>
       </>

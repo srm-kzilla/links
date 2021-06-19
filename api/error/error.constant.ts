@@ -71,4 +71,12 @@ export const errors = {
     httpStatus: 404,
     message: "⛔ No account was found with this email ID",
   },
+  SUBSCRIBER_EXIST: {
+    httpStatus: 409,
+    message: "🤡 You are already subscribed !",
+  },
+  SUBSCRIBER_NOT_FOUND: {
+    httpStatus: 404,
+    message: "🧐 Subscriber not found !",
+  },
 };
