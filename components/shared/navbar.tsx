@@ -27,7 +27,7 @@ export default function Navbar() {
   const [userProfileData, setUserProfileData] = useState({
     name: "User",
     username: "User",
-    profilePicture: "https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png"
+    profilePicture: "newUser.png"
   });
   const [isOpen, setisOpen] = useState<boolean>(false);
   const router = useRouter();
@@ -41,11 +41,11 @@ export default function Navbar() {
   return (
     router.pathname != "/" && (
       <>
-        <nav className={`fixed top-0 z-50 w-full bg-white shadow-custom rounded-bl-xl`}>
+        <nav className={`fixed top-0 z-50 w-full bg-white rounded-bl-xl`}>
           <div className="grid grid-cols-2">
             <a href="/" className="text-black text-2xl font-bold p-3 text-left">
               <div className="float-left mx-3"><img width="45" height="45" src="linkslogo.png" alt="links" /></div>
-              <div className="ml-2 pt-1">LINKS</div>
+              <div className="ml-2 pt-1 text-base md:text-xl">LINKS</div>
             </a>
             {isAuth ? (
               <>

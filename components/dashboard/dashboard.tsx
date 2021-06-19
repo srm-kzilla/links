@@ -111,7 +111,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
           <div className="mt-24 pb-10">
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="bg-backgroundwhite z-50 fixed border-dashed border-4 border-buttongray bottom-7 right-4 lg:top-20 lg:left-addButton focus:outline-none w-16 sm:w-20 h-16 sm:h-20 shadow-2xl rounded-full px-2 sm:px-4 hover:opacity-70"
+              className="bg-backgroundwhite z-50 fixed border-dashed border-4 border-buttongray bottom-7 right-4 lg:top-20 lg:left-addButton focus:outline-none w-16 sm:w-20 h-16 sm:h-20 rounded-full px-2 sm:px-4 hover:opacity-70"
               title="Add New Link">
               <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
                 <VscAdd />
@@ -162,7 +162,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
         <>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-8 focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
+            className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-8 focus:outline-none w-20 h-20 rounded-full px-4 hover:opacity-70"
           >
             <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
               <VscAdd />

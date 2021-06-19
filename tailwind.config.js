@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: {
         WorkSans: ["Work Sans", "sans-serif"],
         NotoSans: ["Noto Sans", "sans-serif"],
+        Mulish: ["Mulish", "sans-serif"],
       },
       width: {
         custom: "21.66666%",
@@ -20,10 +21,10 @@ module.exports = {
         offwhite: "#F4FBF7",
         lightblue: "#56CCF2",
         darkgray: "#333333",
-        lightgray: "#F2F2F2",
+        lightgray: "#5F5F5F",
         lightgraycustom: "#A7A6A6",
         buttongray: "#4F4F4F",
-        statusRed: "#EB5757",
+        statusRed: "#EC5A58",
         statusGreen: "#6FCF97",
         customGreen: "#32B583",
       },

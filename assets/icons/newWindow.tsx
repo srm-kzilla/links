@@ -7,7 +7,7 @@ export default function NewWindow(): JSX.Element {
         height={24}
         viewBox="0 0 24 24"
         fill="none"
-        stroke="currentColor"
+        stroke="#5F5F5F"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

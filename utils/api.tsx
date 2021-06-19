@@ -352,5 +352,6 @@ export const successHandler = (successMessage: string) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
+    className: "font-Mulish"
   });
 };
