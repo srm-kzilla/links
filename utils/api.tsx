@@ -291,7 +291,10 @@ export const postVerifyOtp = async (
   }
 };
 
-export const patchNewForgotPassword = async (resetPasswordToken: string, values: Object) => {
+export const patchNewForgotPassword = async (
+  resetPasswordToken: string,
+  values: Object
+) => {
   try {
     const recaptchaToken = await getRecaptchaToken();
     const _res = await axios({
@@ -299,9 +302,9 @@ export const patchNewForgotPassword = async (resetPasswordToken: string, values:
       url: `${baseUrl}api/v1/auth/resetPassword`,
       headers: {
         "x-recaptcha-token": recaptchaToken,
-        "reset-password": resetPasswordToken
+        "reset-password": resetPasswordToken,
       },
-      data: values
+      data: values,
     });
     successHandler(_res.data.message);
     return _res;
@@ -313,7 +316,9 @@ export const patchNewForgotPassword = async (resetPasswordToken: string, values:
 
 export const getSecretToken = async (secret: string) => {
   try {
-    const _res = await axios.get(`${baseUrl}api/v1/auth/verify?secret=${secret}`);
+    const _res = await axios.get(
+      `${baseUrl}api/v1/auth/verify?secret=${secret}`
+    );
     return _res.data;
   } catch (err) {
     errorHandler(err);
@@ -322,16 +327,9 @@ export const getSecretToken = async (secret: string) => {
 };
 
 export const errorHandler = (error?: AxiosError | any) => {
-  let errMessage: string = "😐 Oops! Something went wrong!";
-  if (error)
-    switch (error.response?.status) {
-      case 500:
-        errMessage = "😐 Oops! Something went wrong!";
-        break;
-      default:
-        errMessage = error.response.data.message;
-        break;
-    }
+  let errMessage: string =
+    error?.response?.data?.message || "😐 Oops! Something went wrong!";
+
   toast.error(errMessage, {
     position: "top-right",
     autoClose: 5000,
@@ -352,6 +350,6 @@ export const successHandler = (successMessage: string) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
-    className: "font-Mulish"
+    className: "font-Mulish",
   });
 };

@@ -28,7 +28,10 @@ interface DashboardProps {
   totalViews: number;
 }
 
-export default function DashboardComponent({ _resLinks, totalViews }: DashboardProps) {
+export default function DashboardComponent({
+  _resLinks,
+  totalViews,
+}: DashboardProps) {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
   const [links, setLinks] = useState<Link[]>(_resLinks);
   const [searchLinkResults, setSearchLinkResults] = useState<Link[]>([]);
@@ -58,7 +61,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
         if (item.title.toLowerCase().includes(searchLink.toLowerCase())) {
           searchResults.push(item);
         }
-      })
+      });
     }
     setSearchLinkResults(searchResults);
   }, [searchLink]);
@@ -82,7 +85,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
             _id: res.data._id,
             shortCode: res.data.shortCode,
             analyticsCode: res.data.analyticsCode,
-            createdAt: res.data.createdAt
+            createdAt: res.data.createdAt,
           });
           return prevState;
         });
@@ -108,11 +111,12 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
     <>
       {links.length > 0 ? (
         <>
-          <div className="mt-24 pb-10">
+          <div className="min-h-screen flex flex-col py-24 bg-backgroundwhiteinset">
             <button
               onClick={() => setIsAddModalOpen(true)}
               className="bg-backgroundwhite z-50 fixed border-dashed border-4 border-buttongray bottom-7 right-4 lg:top-20 lg:left-addButton focus:outline-none w-16 sm:w-20 h-16 sm:h-20 rounded-full px-2 sm:px-4 hover:opacity-70"
-              title="Add New Link">
+              title="Add New Link"
+            >
               <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
                 <VscAdd />
               </IconContext.Provider>
@@ -124,33 +128,32 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
               onAddLink={onAddLinkHandler}
             />
 
-            {searchLinkResults.length > 0 ? (
-              searchLinkResults.map((link) => (
-                <Card
-                  key={link._id}
-                  onCardClick={() => {
-                    setSearchLinkResults([]);
-                    setActiveLink(link);
-                    setIsSidebarOpen(true);
-                  }}
-                  link={link}
-                  onDeleteCard={onDeleteLinkHandler}
-                />
-              ))
-            ) : (
-              links.map((link) => (
-                <Card
-                  key={link._id}
-                  onCardClick={() => {
-                    setActiveLink(link);
-                    setIsSidebarOpen(true);
-                  }}
-                  link={link}
-                  onDeleteCard={onDeleteLinkHandler}
-                />
-              ))
-            )}
+            {searchLinkResults.length > 0
+              ? searchLinkResults.map((link) => (
+                  <Card
+                    key={link._id}
+                    onCardClick={() => {
+                      setSearchLinkResults([]);
+                      setActiveLink(link);
+                      setIsSidebarOpen(true);
+                    }}
+                    link={link}
+                    onDeleteCard={onDeleteLinkHandler}
+                  />
+                ))
+              : links.map((link) => (
+                  <Card
+                    key={link._id}
+                    onCardClick={() => {
+                      setActiveLink(link);
+                      setIsSidebarOpen(true);
+                    }}
+                    link={link}
+                    onDeleteCard={onDeleteLinkHandler}
+                  />
+                ))}
           </div>
+
           <Sidebar
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}

@@ -20,22 +20,16 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <title>LINKS</title>
       </Head>
+
       <RecoilRoot>
         <AuthContextProvider>
           <ImageContextProvider>
-            <div className="relative min-h-custom">
-              <div className="pb-4">
-                <Navbar />
-                <Component {...pageProps} />
-                <style jsx global>{`
-                  body, html {
-                    background-color: ${router.pathname == "/dashboard" ? "#E0E0E0" : "#FFFFFF"};
-                  }
-                `}</style>
-              </div>
+            <div className="min-h-screen relative">
+              <Navbar />
+              <Component {...pageProps} />
               <Footer />
-              <ToastContainer />
             </div>
+            <ToastContainer />
           </ImageContextProvider>
         </AuthContextProvider>
       </RecoilRoot>
