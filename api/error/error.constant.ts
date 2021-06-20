@@ -79,4 +79,12 @@ export const errors = {
     httpStatus: 404,
     message: "🧐 Subscriber not found !",
   },
+  LINK_NOT_FOUND: {
+    httpStatus: 404,
+    message: "🚧 Link not found !",
+  },
+  SOMETHING_WENT_WRONG: {
+    httpStatus: 500,
+    message: "🔧 Something went wrong !",
+  },
 };
