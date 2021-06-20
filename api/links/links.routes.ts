@@ -1,6 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nc, { NextHandler } from "next-connect";
-import { addLink, deleteLink, getLink, updateLink } from "./links.controller";
+import {
+  addLink,
+  deleteLink,
+  getLink,
+  updateLink,
+  getLinkStats,
+} from "./links.controller";
 import { validateQuery } from "../middlewares/verifyQuery.middleware";
 import {
   linkDeleteSchema,
@@ -34,5 +40,6 @@ linksHandler.patch(
   validateQuery("body", linkUpdateSchema),
   updateLink
 );
+linksHandler.get("/stats", getLinkStats);
 
 export default linksHandler;
