@@ -28,9 +28,7 @@ export const userSignupSchema = yup.object({
     .string()
     .trim()
     .url()
-    .default(
-      "https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png"
-    ),
+    .default(process.env.DEFAULT_PROFILE_IMAGE),
   background: yup.string().trim().default("white"),
   createdAt: yup.date().default(new Date()),
   updatedAt: yup.date().default(new Date()),
