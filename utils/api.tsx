@@ -188,7 +188,6 @@ export const postProfilePicture = async (url: string, formdata: any) => {
       url: url,
       data: formdata,
     });
-    successHandler("🎉 Your profile image is updated successfully!");
     return _res;
   } catch (err) {
     errorHandler(err);
@@ -291,7 +290,10 @@ export const postVerifyOtp = async (
   }
 };
 
-export const patchNewForgotPassword = async (resetPasswordToken: string, values: Object) => {
+export const patchNewForgotPassword = async (
+  resetPasswordToken: string,
+  values: Object
+) => {
   try {
     const recaptchaToken = await getRecaptchaToken();
     const _res = await axios({
@@ -299,9 +301,9 @@ export const patchNewForgotPassword = async (resetPasswordToken: string, values:
       url: `${baseUrl}api/v1/auth/resetPassword`,
       headers: {
         "x-recaptcha-token": recaptchaToken,
-        "reset-password": resetPasswordToken
+        "reset-password": resetPasswordToken,
       },
-      data: values
+      data: values,
     });
     successHandler(_res.data.message);
     return _res;
@@ -313,7 +315,9 @@ export const patchNewForgotPassword = async (resetPasswordToken: string, values:
 
 export const getSecretToken = async (secret: string) => {
   try {
-    const _res = await axios.get(`${baseUrl}api/v1/auth/verify?secret=${secret}`);
+    const _res = await axios.get(
+      `${baseUrl}api/v1/auth/verify?secret=${secret}`
+    );
     return _res.data;
   } catch (err) {
     errorHandler(err);

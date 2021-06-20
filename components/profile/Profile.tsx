@@ -1,9 +1,13 @@
 import { useContext, useState } from "react";
 import { parseCookies } from "nookies";
-import { FiLink } from "react-icons/fi"
-import { MdContentCopy } from "react-icons/md"
+import { FiLink } from "react-icons/fi";
+import { MdContentCopy } from "react-icons/md";
 
-import { successHandler, errorHandler, patchUserProfile } from "../../utils/api";
+import {
+  successHandler,
+  errorHandler,
+  patchUserProfile,
+} from "../../utils/api";
 import { EllipseGreen } from "../../assets/icons";
 import { baseUrl } from "../../utils/constants";
 import { ImageContext } from "../../store/profileImageContext";
@@ -11,7 +15,7 @@ import { FileUploader } from "../profile";
 import { ChangePasswordModal } from "../profile";
 
 export default function ProfileComponent({ _resProfile }): JSX.Element {
-    const { fileBlob } = useContext(ImageContext);
+  const { fileBlob } = useContext(ImageContext);
 
     const [name, setName] = useState<string>(_resProfile.name);
     const [username, setUserName] = useState<string>(_resProfile.username);
@@ -33,20 +37,20 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
             const _res = await patchUserProfile(authToken, userData);
             if (_res) {
                 setIsSubmittingProfile(false);
-                successHandler("🎉 Successfully Updated profile!");
+                successHandler(_res.data.message);
             }
             setIsSubmittingProfile(false);
         })();
     };
 
-    const copyToClipBoard = async copyMe => {
-        try {
-            await navigator.clipboard.writeText(copyMe);
-            successHandler("📋 Link copied to clipboard!");
-        } catch (err) {
-            errorHandler(err);
-        }
-    };
+  const copyToClipBoard = async (copyMe) => {
+    try {
+      await navigator.clipboard.writeText(copyMe);
+      successHandler("📋 Link copied to clipboard!");
+    } catch (err) {
+      errorHandler(err);
+    }
+  };
 
     return (
         <>

@@ -54,38 +54,46 @@ export const patchProfile = async (
     let data = req.body as UserProfile;
 
     const dbClient: MongoClient = await getDbClient();
-    //TO DO: if data same as before, don't update
-    if (data.username) {
-      let usernameExists = await dbClient
-        .db()
-        .collection("users")
-        .findOne<UserDB>({ username: data.username });
-      if (usernameExists && user._id != usernameExists._id) {
-        throw errors.DUPLICATE_USERNAME;
-      }
 
-      let tempUsernameExists = await dbClient
-        .db()
-        .collection("tempusers")
-        .findOne<UserDB>({ username: data.username });
-      if (tempUsernameExists) {
-        throw errors.DUPLICATE_USERNAME;
-      }
-    }
-    const updatedAt = new Date().getTime();
-    await dbClient
+    let usernameExists = await dbClient
       .db()
       .collection("users")
-      .updateOne(
-        { email: user.email },
-        { $set: { ...data, updatedAt: updatedAt } }
-      );
+      .findOne<UserDB>({ username: data.username });
+    console.log(data);
+    console.log(usernameExists);
+    if (
+      data.name !== usernameExists.name ||
+      data.username !== usernameExists.username ||
+      data.bio !== usernameExists.bio
+    ) {
+      if (data.username) {
+        if (usernameExists && user._id != usernameExists._id) {
+          throw errors.DUPLICATE_USERNAME;
+        }
 
-    return res.status(200).json({
-      success: true,
-      data: data,
-      message: "✅ Profile updated successfully!",
-    });
+        let tempUsernameExists = await dbClient
+          .db()
+          .collection("tempusers")
+          .findOne<UserDB>({ username: data.username });
+        if (tempUsernameExists) {
+          throw errors.DUPLICATE_USERNAME;
+        }
+      }
+      const updatedAt = new Date().getTime();
+      await dbClient
+        .db()
+        .collection("users")
+        .updateOne(
+          { email: user.email },
+          { $set: { ...data, updatedAt: updatedAt } }
+        );
+
+      return res.status(200).json({
+        success: true,
+        data: data,
+        message: "✅  Profile updated successfully!",
+      });
+    }
   } catch (err) {
     next(err);
   }

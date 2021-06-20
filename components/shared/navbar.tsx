@@ -27,21 +27,24 @@ export default function Navbar() {
   const [userProfileData, setUserProfileData] = useState({
     name: "User",
     username: "User",
-    profilePicture: "https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png"
+    profilePicture:
+      "https://bestbody.com.au/wp-content/uploads/2019/11/placeholder-person.png",
   });
   const [isOpen, setisOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const logoutUser = () => {
     destroyCookie(null, "authToken");
-    router.replace('/');
+    router.replace("/");
     router.reload();
-  }
+  };
 
   return (
     router.pathname != "/" && (
       <>
-        <nav className={`fixed top-0 z-50 w-full bg-white shadow-custom rounded-bl-xl`}>
+        <nav
+          className={`fixed top-0 z-50 w-full bg-white shadow-custom rounded-bl-xl`}
+        >
           <div className="grid grid-cols-2">
             <a href="/" className="text-black text-2xl font-bold p-3 text-left">
               <div className="float-left mx-3"><img width="45" height="45" src="linkslogo.png" alt="links" /></div>
@@ -59,7 +62,9 @@ export default function Navbar() {
                       <div className="float-right pt-1 ml-2">
                         <img
                           className="flex items-center w-12 h-12 rounded-full float-left mb-2 border"
-                          src={fileBlob ? fileBlob : userProfileData.profilePicture}
+                          src={
+                            fileBlob ? fileBlob : userProfileData.profilePicture
+                          }
                         />
                         <div className="flex items-center py-5 px-2">
                           <FaChevronDown />
@@ -86,30 +91,12 @@ export default function Navbar() {
                   >
                     About Us
                   </a>
-                  {router.pathname == "/signup" && (
-                    <a
-                      href="/login"
-                      className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
-                    >
-                      Login
-                    </a>
-                  )}
-                  {router.pathname == "/login" && (
-                    <a
-                      href="/signup"
-                      className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
-                    >
-                      Signup
-                    </a>
-                  )}
-                  {(router.pathname != "/login" && router.pathname != "/signup") && (
-                    <a
-                      href="/login"
-                      className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
-                    >
-                      Login
-                    </a>
-                  )}
+                  <a
+                    href={router.pathname == "/login" ? "/signup" : "/login"}
+                    className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
+                  >
+                    {router.pathname == "/login" ? "Signup" : "Login"}
+                  </a>
                 </div>
               </>
             )}
@@ -118,14 +105,16 @@ export default function Navbar() {
           {isOpen && (
             <Fade top>
               <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center">
-                {isAuth &&
+                {isAuth && (
                   <a
                     href="/"
-                    className={`py-2 rounded ${router.pathname == "/" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}
+                    className={`py-2 rounded ${
+                      router.pathname == "/" && "font-bold"
+                    } hover:bg-lightblue text-sm font-normal block`}
                   >
                     Home
                   </a>
-                }
+                )}
                 {isAuth &&
                   <a
                     href="/dashboard"
@@ -155,5 +144,6 @@ export default function Navbar() {
           )}
         </nav>
       </>
-    ));
+    )
+  );
 }
