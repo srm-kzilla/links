@@ -104,7 +104,7 @@ const LoginComponent = () => {
                         <LoadingAuth />
                       </div>
                     )}
-                    <div className={`${loading && "invisible"}`}>Let's Go!</div>
+                    <div className={`${loading ? "invisible" : ""}`}>Let's Go!</div>
                   </button>
                 </div>
                 <div className="text-center text-darkgray hover:text-black font-normal mt-3 pb-6 ">

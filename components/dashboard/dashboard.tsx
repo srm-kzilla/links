@@ -1,10 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { VscAdd } from "react-icons/vsc";
-import { IconContext } from "react-icons";
 import { parseCookies } from "nookies";
 
-import { NoLinks } from "../../assets/icons";
+import { AddLink, NoLinks } from "../../assets/icons";
 import { SidebarContext } from "../../store/sidebarContext";
 import { AddModal, Card, Sidebar } from "./";
 import { postLink, deleteLink } from "../../utils/api";
@@ -111,15 +109,13 @@ export default function DashboardComponent({
     <>
       {links.length > 0 ? (
         <>
-          <div className="min-h-screen flex flex-col py-24 bg-backgroundwhiteinset">
+          <div className="min-h-screen flex flex-col py-24 bg-backgroundwhite">
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="bg-backgroundwhite z-50 fixed border-dashed border-4 border-buttongray bottom-7 right-4 lg:top-20 lg:left-addButton focus:outline-none w-16 sm:w-20 h-16 sm:h-20 rounded-full px-2 sm:px-4 hover:opacity-70"
+              className="z-50 fixed bottom-7 right-4 lg:top-20 lg:left-addButton focus:outline-none w-16 sm:w-20 h-16 sm:h-20 rounded-full px-2 sm:px-4 hover:opacity-70"
               title="Add New Link"
             >
-              <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
-                <VscAdd />
-              </IconContext.Provider>
+              <AddLink />
             </button>
 
             <AddModal
@@ -165,11 +161,9 @@ export default function DashboardComponent({
         <>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-8 focus:outline-none w-20 h-20 rounded-full px-4 hover:opacity-70"
+            className="fixed md:fixed bottom-14 right-8 md:top-20 md:right-8 focus:outline-none w-20 h-20 rounded-full px-4 hover:opacity-70"
           >
-            <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
-              <VscAdd />
-            </IconContext.Provider>
+            <AddLink />
           </button>
 
           <AddModal

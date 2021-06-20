@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { parseCookies } from "nookies";
@@ -13,7 +12,6 @@ import ImageContextProvider from "../store/profileImageContext";
 import { authRoutes, authRestrictedRoutes } from "../utils/constants";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const router = useRouter();
   return (
     <>
       <Head>

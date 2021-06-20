@@ -35,7 +35,7 @@ module.exports = {
         xxl: "8.9rem",
       },
       inset: {
-        addButton: "70%",
+        addButton: "72%",
         '37': "9.5rem",
       },
       minHeight: {

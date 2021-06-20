@@ -19,7 +19,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
     <>
       <div
         onClick={onCardClick}
-        className={`flex flex-wrap items-center justify-between bg-white ${!link.status && "filter grayscale"} group my-6 mx-3 md:mx-20 cursor-pointer rounded-xl w-auto md:w-3/5 overflow-hidden relative md:py-3`}
+        className={`flex flex-wrap items-center justify-between bg-white ${!link.status && "filter grayscale"} group my-3 mx-3 md:mx-20 cursor-pointer rounded-xl w-auto md:w-3/5 overflow-hidden relative md:py-3`}
       >
         <div
           className={`${link.status ? "bg-statusGreen" : "bg-lightgraycustom"
@@ -36,7 +36,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
           </figure>
 
           <div className="flex flex-col transition items-start">
-            <h2 className="text-xl md:text-3xl font-extrabold text-lightgray">{truncateTitleText(link.title)}</h2>
+            <h2 className="text-xl md:text-3xl font-bold text-lightgray">{truncateTitleText(link.title)}</h2>
             <a
               href={link.url}
               target="_blank"

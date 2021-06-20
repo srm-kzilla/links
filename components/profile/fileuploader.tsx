@@ -35,7 +35,7 @@ export default function FileUploader() :JSX.Element {
     return (
         <>
             <i
-                className="absolute bg-white rounded-full p-2 bottom-1 right-2 cursor-pointer shadow-lg"
+                className="absolute bg-white rounded-full p-3 bottom-1 right-0 cursor-pointer shadow-lg"
                 onClick={handleClick}
             >
                 <EditPencil />

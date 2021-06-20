@@ -61,7 +61,7 @@ const AddModal = ({
                       <Field
                         name="title"
                         type="text"
-                        className="gradientInput mb-4 mt-10 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
+                        className="border-b-2 border-lightgraycustom mb-4 mt-10 outline-none focus:outline-none block appearance-none w-full bg-white px-2 py-2"
                         placeholder="Title"
                         autoFocus
                       />
@@ -73,7 +73,7 @@ const AddModal = ({
                       <Field
                         name="url"
                         type="text"
-                        className="gradientInput mb-4 outline-none focus:outline-none block appearance-none w-full bg-lightgray px-2 py-2"
+                        className="border-b-2 border-lightgraycustom mb-4 outline-none focus:outline-none block appearance-none w-full bg-white px-2 py-2"
                         placeholder="URL"
                       />
                       {errors.url && (
@@ -85,9 +85,9 @@ const AddModal = ({
                         <button
                           type="submit"
                           disabled={isSubmittingLink}
-                          className={`${isSubmittingLink ? "bg-backgroundwhiteinset" : "bg-lightblue"} focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 my-2 rounded`}
+                          className={`${isSubmittingLink ? "border-lightgray text-lightgray" : "border-statusGreen text-statusGreen"} bg-white border-2 focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-3 px-4 my-2 rounded`}
                         >
-                          {isSubmittingLink ? "Please wait..." : "Add Link"}
+                          {isSubmittingLink ? "Please wait..." : "ADD LINK"}
                         </button>
                       </div>
                     </Form>

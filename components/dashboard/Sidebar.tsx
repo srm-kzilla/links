@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { parseCookies } from "nookies";
 import { FaChevronRight } from "react-icons/fa";
 import { MdContentCopy } from "react-icons/md";
+import { HiSearch } from "react-icons/hi";
 import Slide from "react-reveal/Slide";
 import * as Yup from "yup";
 
@@ -11,12 +12,7 @@ import { Toggle } from "./";
 import { SidebarContext } from "../../store/sidebarContext";
 import { searchDashboardLink } from "../../utils/store";
 
-import {
-  errorHandler,
-  successHandler,
-  updateLink,
-  getLinkClicks,
-} from "../../utils/api";
+import { errorHandler, successHandler, updateLink, getLinkClicks } from "../../utils/api";
 import { time_ago, truncateSidebarTitleText, truncateSidebarURLText } from "../../utils/functions";
 import { kzillaxyzdomain } from "../../utils/constants";
 
@@ -46,6 +42,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
 
   const intervalRef = useRef(null);
 
+  // INFO: To copy URL to clipboard
   const copyToClipBoard = async (copyMe) => {
     try {
       await navigator.clipboard.writeText(copyMe);
@@ -55,6 +52,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
     }
   };
 
+  // INFO: Remove onHover effect for edit, copy icon for small screens
   useEffect(() => {
     if (window.innerWidth <= 768) {
       setShowTitleEdit(true);
@@ -62,6 +60,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
     }
   }, []);
 
+  // INFO: Debouncing title update
   useEffect(() => {
     if (title) {
       if (title.length > 0) {
@@ -83,6 +82,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
     return () => clearTimeout(intervalRef.current);
   }, [title]);
 
+  // INFO: Debouncing URL update
   useEffect(() => {
     if (linkUrl) {
       if (linkUrl.length > 0) {
@@ -99,7 +99,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
           const values = {
             url: linkUrl,
           };
-          if(validUrl) {
+          if (validUrl) {
             const res = updateLink(authToken, activeLink._id, values);
             if (res) {
               setLinkLoading(false);
@@ -113,6 +113,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
     return () => clearTimeout(intervalRef.current);
   }, [linkUrl]);
 
+  // INFO: Clicks per link API fetch only when _id changes
   useEffect(() => {
     setClicksLoading(true);
     if (activeLink.title.length >= 1) {
@@ -124,7 +125,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
         }
       })();
     }
-  }, [activeLink]);
+  }, [activeLink._id]);
 
   return (
     <>
@@ -147,7 +148,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   onMouseLeave={() => setShowTitleEdit(false)}
                   className="flex flex-row mt-4 mx-5 p-4"
                 >
-                  <img width="45" height="45" className="rounded" src={activeLink.image} alt={activeLink.title} />
+                  <img width="45" className="rounded" src={activeLink.image} alt={activeLink.title} />
                   <div className="flex flex-col">
                     {!showTitleInput && (
                       <h1 className="relative text-xl text-lightgray font-bold mx-2">
@@ -207,16 +208,19 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   NO LINK SELECTED
                 </h2>
                 <h2 className="px-5 mt-5 font-black text-lg text-buttongray">
-                  <input
-                    type="text"
-                    onChange={(e) => setSearchLink(e.target.value)}
-                    placeholder="Search for a link..."
-                    className="border-b-2 border-lightgraycustom focus:outline-none w-full"
-                  />
+                  <div className="flex flex-row">
+                    <div className="pt-1 pr-1 text-lightgraycustom border-b-2 border-lightgraycustom"><HiSearch /></div>
+                    <input
+                      type="text"
+                      onChange={(e) => setSearchLink(e.target.value)}
+                      placeholder="Search for a link..."
+                      className="border-b-2 border-lightgraycustom focus:outline-none w-full"
+                    />
+                  </div>
                 </h2>
               </>
             )}
-            <div className={`grid grid-cols-2 mt-4 mx-5 ${!activeLink.status && "filter grayscale"}`}>
+            <div className={`grid grid-cols-2 mt-4 mx-5`}>
               <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
                 <p className="pl-2">Total Links</p>
                 <div className="customGradient p-2">
@@ -257,7 +261,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   <div>
                     <p className="text-lg font-bold text-darkgray pl-2">ENABLE URL</p>
                   </div>
-                  <div className="ml-12 -mt-2">
+                  <div className="ml-12 -mt-2 text-right pr-11">
                     <Toggle status={activeLink.status} linkId={activeLink._id} />
                   </div>
                 </div>

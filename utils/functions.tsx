@@ -22,6 +22,10 @@ export function truncateProfileBio(text: string) {
     return (text.length > 50 ? text.substring(0, 38) + "..." : text);
 }
 
+export function truncateNavbarName(text: string) {
+    return (text.length > 20 ? text.substring(0, 15) + "..." : text);
+}
+
 export function time_ago(time) {
     switch (typeof time) {
         case 'number':

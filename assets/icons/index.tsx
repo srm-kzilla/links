@@ -20,3 +20,4 @@ export { default as EditPencil } from "./editpencil";
 export { default as LinksLogoBg } from "./linkslogobg";
 export { default as CopyClipboard } from "./copyclipboard";
 export { default as EllipseGray } from "./ellipsegray";
+export { default as AddLink } from "./addlink";
