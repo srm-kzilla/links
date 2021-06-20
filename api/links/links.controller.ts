@@ -17,7 +17,7 @@ import {
   FETCH_FAVICON,
   KZILLAXYZ_POST,
   YOUTUBE_FAVICON,
-  GET_KZILLAXYZ_ANALYTICS,
+  KZILLA_XYZ_ANALYTICS_FETCH_URL,
 } from "../constants/data.constants";
 import axios from "axios";
 
@@ -259,22 +259,19 @@ export const getLinkStats = async (
     if (!findUser) {
       throw errors.USER_NOT_FOUND;
     }
-    const findLink = await dbClient
+    const linkData = await dbClient
       .db()
       .collection("links")
-      .findOne<linkDBSchema>(
-        {
-          _id: new MongoDB.ObjectID(linkId),
-        },
-        {}
-      );
+      .findOne<linkDBSchema>({
+        _id: new MongoDB.ObjectID(linkId),
+      });
 
-    if (!findLink) {
+    if (!linkData) {
       throw errors.LINK_NOT_FOUND;
     }
     try {
       kzillaXYZ = await axios.get(
-        GET_KZILLAXYZ_ANALYTICS + findLink.analyticsCode,
+        KZILLA_XYZ_ANALYTICS_FETCH_URL + linkData.analyticsCode,
         {
           headers: {
             authorization: process.env.KZILLAXYZWEEBHOOKTOKEN || "",
@@ -287,7 +284,7 @@ export const getLinkStats = async (
 
     const kzillaXYZdata = kzillaXYZ.data;
     let conversionRate = Math.floor(
-      (kzillaXYZdata.clicks / findLink.views) * 100
+      (kzillaXYZdata.clicks / linkData.views) * 100
     ).toString();
     if (conversionRate == "Infinity" || conversionRate == "NaN") {
       conversionRate = "NIL";

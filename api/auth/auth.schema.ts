@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import { ObjectID } from "mongodb";
+import { DEFAULT_PROFILE_IMAGE } from "../constants/data.constants";
 //TO DO: add min length for bio
 export const userLoginSchema = yup.object({
   userId: yup.string().trim().required(),
@@ -24,11 +25,7 @@ export const userSignupSchema = yup.object({
     .required(),
   name: yup.string().trim().default(""),
   bio: yup.string().trim().default(""),
-  profilePicture: yup
-    .string()
-    .trim()
-    .url()
-    .default(process.env.DEFAULT_PROFILE_IMAGE),
+  profilePicture: yup.string().trim().url().default(DEFAULT_PROFILE_IMAGE),
   background: yup.string().trim().default("white"),
   createdAt: yup.date().default(new Date()),
   updatedAt: yup.date().default(new Date()),
