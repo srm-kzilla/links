@@ -188,7 +188,6 @@ export const postProfilePicture = async (url: string, formdata: any) => {
       url: url,
       data: formdata,
     });
-    successHandler("🎉 Your profile image is updated successfully!");
     return _res;
   } catch (err) {
     errorHandler(err);

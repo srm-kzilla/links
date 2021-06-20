@@ -1,13 +1,16 @@
 import { HeroLanding, Logo, LoadingAuth } from "../../assets/icons";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { postSubscribe } from "../../utils/api";
+import { AuthContext } from "../../store/authContext";
 
 export default function HomeComponent(): JSX.Element {
   const initialValues = {
     email: "",
   };
+
+  const { isAuth } = useContext(AuthContext);
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -53,6 +56,14 @@ export default function HomeComponent(): JSX.Element {
           >
             Get Started
           </a>
+          <div className="flex flex-row-reverse p-2">
+            <a
+              href={isAuth ? "/dashboard" : "/login"}
+              className="bg-lightblue flex items-center justify-center rounded shadow-md focus:outline-none text-lg font-bold text-white w-10/12 sm:w-2/7 md:w-1/3"
+            >
+              {isAuth ? "My Dashboard" : "Get Started"}
+            </a>
+          </div>
         </div>
       </div>
 

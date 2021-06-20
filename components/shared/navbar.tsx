@@ -36,9 +36,9 @@ export default function Navbar() {
 
   const logoutUser = () => {
     destroyCookie(null, "authToken");
-    router.replace('/');
+    router.replace("/");
     router.reload();
-  }
+  };
 
   return (
     router.pathname != "/" && (
@@ -61,7 +61,9 @@ export default function Navbar() {
                       <div className="float-right pt-1 ml-2">
                         <img
                           className="flex items-center w-12 h-12 rounded-full float-left mb-2 border"
-                          src={fileBlob ? fileBlob : userProfileData.profilePicture}
+                          src={
+                            fileBlob ? fileBlob : userProfileData.profilePicture
+                          }
                         />
                         <div className="flex items-center py-5 px-2">
                           <FaChevronDown />
@@ -88,27 +90,12 @@ export default function Navbar() {
                   >
                     About Us
                   </a>
-                  {router.pathname == "/signup" && (
-                    <Link href="/login">
-                      <a className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation text-lightgray">
-                        Login
-                      </a>
-                    </Link>
-                  )}
-                  {router.pathname == "/login" && (
-                    <Link href="/signup">
-                      <a className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation text-lightgray">
-                        Signup
-                      </a>
-                    </Link>
-                  )}
-                  {(router.pathname != "/login" && router.pathname != "/signup") && (
-                    <Link href="/login">
-                      <a className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation text-lightgray">
-                        Login
-                      </a>
-                    </Link>
-                  )}
+                  <a
+                    href={router.pathname == "/login" ? "/signup" : "/login"}
+                    className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
+                  >
+                    {router.pathname == "/login" ? "Signup" : "Login"}
+                  </a>
                 </div>
               </>
             )}
@@ -153,5 +140,6 @@ export default function Navbar() {
           )}
         </nav>
       </>
-    ));
+    )
+  );
 }

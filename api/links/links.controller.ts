@@ -17,6 +17,7 @@ import {
   FETCH_FAVICON,
   KZILLAXYZ_POST,
   YOUTUBE_FAVICON,
+  KZILLA_XYZ_ANALYTICS_FETCH_URL,
 } from "../constants/data.constants";
 import axios from "axios";
 
@@ -235,6 +236,73 @@ export const updateLink = async (
       success: true,
       message: "✅ Link updated successfully!",
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getLinkStats = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
+  try {
+    let kzillaXYZ;
+    const user: JwtPayload = JSON.parse(req.env.user) as JwtPayload;
+    const linkId = req.query.linkId as string;
+    const dbClient: MongoClient = await getDbClient();
+    const findUser = await dbClient
+      .db()
+      .collection("users")
+      .findOne<UserDB>({ email: user.email });
+
+    if (!findUser) {
+      throw errors.USER_NOT_FOUND;
+    }
+    const linkData = await dbClient
+      .db()
+      .collection("links")
+      .findOne<linkDBSchema>({
+        _id: new MongoDB.ObjectID(linkId),
+      });
+
+    if (!linkData) {
+      throw errors.LINK_NOT_FOUND;
+    }
+    try {
+      kzillaXYZ = await axios.get(
+        KZILLA_XYZ_ANALYTICS_FETCH_URL + linkData.analyticsCode,
+        {
+          headers: {
+            authorization: process.env.KZILLAXYZWEEBHOOKTOKEN || "",
+          },
+        }
+      );
+    } catch (err) {
+      throw errors.SOMETHING_WENT_WRONG;
+    }
+
+    const kzillaXYZdata = kzillaXYZ.data;
+    let conversionRate = Math.floor(
+      (kzillaXYZdata.clicks / linkData.views) * 100
+    ).toString();
+    if (conversionRate == "Infinity" || conversionRate == "NaN") {
+      conversionRate = "NIL";
+    }
+
+    let maxValue =
+      kzillaXYZdata.reports.length > 0
+        ? kzillaXYZdata.reports[1].data.reduce(function (prev, current) {
+            return prev.value > current.value ? prev : current;
+          })
+        : "NIL";
+
+    maxValue.label == "(not set)"
+      ? (maxValue.label = "Unknown City")
+      : maxValue.label;
+
+    const result = { maxValue, conversionRate };
+    res.json({ success: true, result });
   } catch (err) {
     next(err);
   }

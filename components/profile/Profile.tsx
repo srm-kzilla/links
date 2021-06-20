@@ -11,7 +11,7 @@ import { LinksLogoBg, EditPencil, EllipseGray } from "../../assets/icons";
 import { truncateProfileBio, truncateProfileName } from "../../utils/functions";
 
 export default function ProfileComponent({ _resProfile }): JSX.Element {
-    const { fileBlob } = useContext(ImageContext);
+  const { fileBlob } = useContext(ImageContext);
 
     const [name, setName] = useState<string>(_resProfile.name);
     const [username, setUserName] = useState<string>(_resProfile.username);
@@ -36,20 +36,20 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
             const _res = await patchUserProfile(authToken, userData);
             if (_res) {
                 setIsSubmittingProfile(false);
-                successHandler("🎉 Successfully Updated profile!");
+                successHandler(_res.data.message);
             }
             setIsSubmittingProfile(false);
         })();
     };
 
-    const copyToClipBoard = async copyMe => {
-        try {
-            await navigator.clipboard.writeText(copyMe);
-            successHandler("📋 Link copied to clipboard!");
-        } catch (err) {
-            errorHandler(err);
-        }
-    };
+  const copyToClipBoard = async (copyMe) => {
+    try {
+      await navigator.clipboard.writeText(copyMe);
+      successHandler("📋 Link copied to clipboard!");
+    } catch (err) {
+      errorHandler(err);
+    }
+  };
 
     return (
         <>
