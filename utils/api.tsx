@@ -352,6 +352,7 @@ export const errorHandler = (error?: AxiosError | any) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
+    className: "font-Mulish",
   });
 };
 

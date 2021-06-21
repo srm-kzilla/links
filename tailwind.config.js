@@ -27,6 +27,7 @@ module.exports = {
         statusRed: "#EC5A58",
         statusGreen: "#6FCF97",
         customGreen: "#32B583",
+        turquoiseGreen: "#40BEAF",
       },
       boxShadow: {
         custom: "1px 1px 6px rgba(0, 0, 0, 0.25)",
