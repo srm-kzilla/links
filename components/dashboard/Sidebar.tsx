@@ -137,6 +137,8 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
     const { authToken } = parseCookies();
     if (activeLink._id) {
       (async () => {
+        setConversionRate("");
+        setCityValue("");
         const _res = await getLinkStats(authToken, activeLink._id);
         console.log(_res);
         if (_res.maxValue != "NIL") {
@@ -268,7 +270,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2">Conversion</p>
                     <div className="customGradient p-2">
-                      <p className="text-4xl">{`${conversionRate}%` || <Loading />}</p>
+                      <p className="text-4xl">{conversionRate ? `${conversionRate}%` : <div className="p-2"><Loading /></div>}</p>
                     </div>
                     <p 
                       className="flex flex-row-reverse cursor-pointer" 
@@ -281,12 +283,12 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                       backgroundColor="black"
                       clickable={true}
                     />
-                  </div>
+                  </div> 
 
                   <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2 overflow-hidden">{cityLabel || "City"}</p>
                     <div className="customGradient p-2">
-                      <p className="text-4xl">{cityValue || "N.A"}</p>
+                    <p className="text-4xl">{cityValue ? cityValue : <div className="p-2"><Loading /></div>}</p>
                     </div>
                     <p 
                       className="flex flex-row-reverse cursor-pointer" 
@@ -328,7 +330,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   <div className="rounded-md text-xl text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2">Clicks</p>
                     <div className="customGradient p-2">
-                      <div className="text-4xl">{clicksLoading ? <div className="mt-2"><Loading /></div> : activeLinkClicks}</div>
+                      <div className="text-4xl">{clicksLoading ? <div className="p-2"><Loading /></div> : activeLinkClicks}</div>
                     </div>
                     <p 
                       className="flex flex-row-reverse cursor-pointer" 
