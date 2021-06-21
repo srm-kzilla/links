@@ -247,13 +247,13 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
             )}
             {!activeLink._id && (
               <div className={`grid grid-cols-2 mt-4 mx-5`}>
-                <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
+                <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                   <p className="pl-2">Total Links</p>
                   <div className="customGradient p-2">
                     <p className="text-4xl">{links || "N.A"}</p>
                   </div>
                 </div>
-                <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
+                <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                   <p className="pl-2">Total Views</p>
                   <div className="customGradient p-2">
                     <p className="text-4xl">{totalViews || "N.A"}</p>
@@ -265,7 +265,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
             {(conversionRate != "NIL" && cityLabel != "" && activeLink._id) && (
               <Fade>
                 <div className={`grid grid-cols-2 mt-4 mx-5 ${!activeLink.status && "filter grayscale"}`}>
-                  <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
+                  <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2">Conversion</p>
                     <div className="customGradient p-2">
                       <p className="text-4xl">{`${conversionRate}%` || <Loading />}</p>
@@ -283,8 +283,8 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     />
                   </div>
 
-                  <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
-                    <p className="pl-2">{cityLabel || "City"}</p>
+                  <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
+                    <p className="pl-2 overflow-hidden">{cityLabel || "City"}</p>
                     <div className="customGradient p-2">
                       <p className="text-4xl">{cityValue || "N.A"}</p>
                     </div>
@@ -307,7 +307,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
             {activeLink.shortCode && (
               <>
                 <div className={`grid grid-cols-2 mx-5 ${!activeLink.status && "filter grayscale"}`}>
-                  <div className="rounded-md text-xl text-buttongray bg-offwhite font-extrabold m-1 p-1">
+                  <div className="rounded-md text-xl text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2">Views</p>
                     <div className="customGradient p-2">
                       <p className="text-4xl">{activeLink.views || "N.A"}</p>
@@ -325,7 +325,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     />
                   </div>
 
-                  <div className="rounded-md text-xl text-buttongray bg-offwhite font-extrabold m-1 p-1">
+                  <div className="rounded-md text-xl text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2">Clicks</p>
                     <div className="customGradient p-2">
                       <div className="text-4xl">{clicksLoading ? <div className="mt-2"><Loading /></div> : activeLinkClicks}</div>
