@@ -21,3 +21,4 @@ export { default as LinksLogoBg } from "./linkslogobg";
 export { default as CopyClipboard } from "./copyclipboard";
 export { default as EllipseGray } from "./ellipsegray";
 export { default as AddLink } from "./addlink";
+export { default as Info } from "./info";

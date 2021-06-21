@@ -19,7 +19,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
     <>
       <div
         onClick={onCardClick}
-        className={`flex flex-wrap items-center justify-between bg-white ${!link.status && "filter grayscale"} group my-3 mx-3 md:mx-20 cursor-pointer rounded-xl w-auto md:w-3/5 overflow-hidden relative md:py-3`}
+        className={`flex flex-wrap items-center justify-between bg-white group my-3 mx-3 md:mx-20 cursor-pointer rounded-xl w-auto md:w-3/5 overflow-hidden relative md:py-3 ${!link.status && "filter grayscale"}`}
       >
         <div
           className={`${link.status ? "bg-statusGreen" : "bg-lightgraycustom"

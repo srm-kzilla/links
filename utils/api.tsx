@@ -325,6 +325,21 @@ export const getSecretToken = async (secret: string) => {
   }
 };
 
+export const getLinkStats = async (authToken: string, linkId: string) => {
+  try {
+    const _res = await axios.get(
+      `${baseUrl}api/v1/links/stats/?linkId=${linkId}`,
+      {
+        headers: { Authorization: `Bearer ${authToken}`},
+      }
+    );
+    return _res.data.result;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
 export const errorHandler = (error?: AxiosError | any) => {
   let errMessage: string =
     error?.response?.data?.message || "😐 Oops! Something went wrong!";

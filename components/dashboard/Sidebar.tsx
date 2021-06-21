@@ -5,14 +5,16 @@ import { FaChevronRight } from "react-icons/fa";
 import { MdContentCopy } from "react-icons/md";
 import { HiSearch } from "react-icons/hi";
 import Slide from "react-reveal/Slide";
+import Fade from 'react-reveal/Fade';
+import ReactTooltip from 'react-tooltip';
 import * as Yup from "yup";
 
-import { Tick, Loading, EditPencil } from "../../assets/icons";
+import { Tick, Loading, EditPencil, Info } from "../../assets/icons";
 import { Toggle } from "./";
 import { SidebarContext } from "../../store/sidebarContext";
 import { searchDashboardLink } from "../../utils/store";
 
-import { errorHandler, successHandler, updateLink, getLinkClicks } from "../../utils/api";
+import { errorHandler, successHandler, updateLink, getLinkClicks, getLinkStats } from "../../utils/api";
 import { time_ago, truncateSidebarTitleText, truncateSidebarURLText } from "../../utils/functions";
 import { kzillaxyzdomain } from "../../utils/constants";
 
@@ -36,7 +38,10 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
   const [showUrlInput, setShowUrlInput] = useState<boolean>(false);
   const [showTitleEdit, setShowTitleEdit] = useState<boolean>(false);
   const [showUrlEdit, setShowUrlEdit] = useState<boolean>(false);
-  const [validUrl, setValidUrl] = useState(true);
+  const [validUrl, setValidUrl] = useState<boolean>(true);
+  const [conversionRate, setConversionRate] = useState<string>("");
+  const [cityLabel, setCityLabel] = useState<string>("");
+  const [cityValue, setCityValue] = useState<string>("");
 
   const [searchLink, setSearchLink] = useRecoilState(searchDashboardLink);
 
@@ -123,6 +128,26 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
         if (_res >= 0) {
           setClicksLoading(false);
         }
+      })();
+    }
+  }, [activeLink._id]);
+
+  // INFO: Conversion rate, city name and value API call when _id changes
+  useEffect(() => {
+    const { authToken } = parseCookies();
+    if (activeLink._id) {
+      (async () => {
+        const _res = await getLinkStats(authToken, activeLink._id);
+        console.log(_res);
+        if (_res.maxValue != "NIL") {
+          setCityLabel(_res.maxValue.label);
+          setCityValue(_res.maxValue.value);
+        }
+        else {
+          setCityLabel("");
+          setCityValue("");
+        }
+        setConversionRate(_res.conversionRate);
       })();
     }
   }, [activeLink._id]);
@@ -220,20 +245,65 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                 </h2>
               </>
             )}
-            <div className={`grid grid-cols-2 mt-4 mx-5`}>
-              <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
-                <p className="pl-2">Total Links</p>
-                <div className="customGradient p-2">
-                  <p className="text-4xl">{links || "N.A"}</p>
+            {!activeLink._id && (
+              <div className={`grid grid-cols-2 mt-4 mx-5`}>
+                <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
+                  <p className="pl-2">Total Links</p>
+                  <div className="customGradient p-2">
+                    <p className="text-4xl">{links || "N.A"}</p>
+                  </div>
+                </div>
+                <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
+                  <p className="pl-2">Total Views</p>
+                  <div className="customGradient p-2">
+                    <p className="text-4xl">{totalViews || "N.A"}</p>
+                  </div>
                 </div>
               </div>
-              <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
-                <p className="pl-2">Total Views</p>
-                <div className="customGradient p-2">
-                  <p className="text-4xl">{totalViews || "N.A"}</p>
+            )}
+
+            {(conversionRate != "NIL" && cityLabel != "" && activeLink._id) && (
+              <Fade>
+                <div className={`grid grid-cols-2 mt-4 mx-5 ${!activeLink.status && "filter grayscale"}`}>
+                  <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
+                    <p className="pl-2">Conversion</p>
+                    <div className="customGradient p-2">
+                      <p className="text-4xl">{`${conversionRate}%` || <Loading />}</p>
+                    </div>
+                    <p 
+                      className="flex flex-row-reverse cursor-pointer" 
+                      data-tip="Percentage of total clicks over links for a link">
+                        <Info />
+                    </p>
+                    <ReactTooltip 
+                      effect="solid" 
+                      place="bottom"
+                      backgroundColor="black"
+                      clickable={true}
+                    />
+                  </div>
+
+                  <div className="rounded-md text-lg text-buttongray bg-offwhite font-extrabold m-1 p-1">
+                    <p className="pl-2">{cityLabel || "City"}</p>
+                    <div className="customGradient p-2">
+                      <p className="text-4xl">{cityValue || "N.A"}</p>
+                    </div>
+                    <p 
+                      className="flex flex-row-reverse cursor-pointer" 
+                      data-tip="City with the highest number of clicks">
+                        <Info />
+                    </p>
+                    <ReactTooltip 
+                      effect="solid" 
+                      place="bottom"
+                      backgroundColor="black"
+                      clickable={true}
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
+              </Fade>
+            )}
+
             {activeLink.shortCode && (
               <>
                 <div className={`grid grid-cols-2 mx-5 ${!activeLink.status && "filter grayscale"}`}>
@@ -242,12 +312,35 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     <div className="customGradient p-2">
                       <p className="text-4xl">{activeLink.views || "N.A"}</p>
                     </div>
+                    <p 
+                      className="flex flex-row-reverse cursor-pointer" 
+                      data-tip="Total number of views for this link">
+                        <Info />
+                    </p>
+                    <ReactTooltip 
+                      effect="solid" 
+                      place="bottom"
+                      backgroundColor="black"
+                      clickable={true}
+                    />
                   </div>
+
                   <div className="rounded-md text-xl text-buttongray bg-offwhite font-extrabold m-1 p-1">
                     <p className="pl-2">Clicks</p>
                     <div className="customGradient p-2">
                       <div className="text-4xl">{clicksLoading ? <div className="mt-2"><Loading /></div> : activeLinkClicks}</div>
                     </div>
+                    <p 
+                      className="flex flex-row-reverse cursor-pointer" 
+                      data-tip="Total number of clicks for this link">
+                        <Info />
+                    </p>
+                    <ReactTooltip 
+                      effect="solid" 
+                      place="bottom"
+                      backgroundColor="black"
+                      clickable={true}
+                    />
                   </div>
                 </div>
               </>

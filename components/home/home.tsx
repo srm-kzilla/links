@@ -51,19 +51,11 @@ export default function HomeComponent(): JSX.Element {
 
         <div className="flex flex-row-reverse p-2">
           <a
-            href="/signup"
+            href={isAuth ? "/dashboard" : "/login"}
             className="bg-lightblue flex items-center justify-center rounded shadow-md focus:outline-none text-lg font-bold text-white w-10/12 sm:w-2/7 md:w-1/3"
           >
-            Get Started
+            {isAuth ? "My Dashboard" : "Get Started"}
           </a>
-          <div className="flex flex-row-reverse p-2">
-            <a
-              href={isAuth ? "/dashboard" : "/login"}
-              className="bg-lightblue flex items-center justify-center rounded shadow-md focus:outline-none text-lg font-bold text-white w-10/12 sm:w-2/7 md:w-1/3"
-            >
-              {isAuth ? "My Dashboard" : "Get Started"}
-            </a>
-          </div>
         </div>
       </div>
 
