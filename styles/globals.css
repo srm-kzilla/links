@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;900&display=swap");
 
 * {
   box-sizing: border-box;
@@ -22,7 +22,7 @@ textarea {
 }
 
 /* Text selection color */
-::-moz-selection { 
+::-moz-selection {
   background: #6fcf97;
   color: #ffffff;
 }
@@ -46,20 +46,16 @@ textarea {
   background-clip: padding-box, border-box;
 }
 
-.gradientInput:hover {
-  opacity: 0.8;
-}
-
 .grayBottomBorder {
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
   border-bottom: 2px solid;
-  border-color: #A7A6A6;
+  border-color: #a7a6a6;
 }
 
-.styledHeader {
-  transform: translate(-164px, 154px) rotate(-90deg);
+.text-vertical-rl {
+  writing-mode: vertical-rl;
 }
 
 .customGradient {
