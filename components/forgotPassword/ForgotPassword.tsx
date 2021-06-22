@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { Formik, Field, Form } from "formik";
+import Link from "next/link";
 import VerificationInput from "react-verification-input";
 
 import { postForgotPasswordEmail, postVerifyOtp, patchNewForgotPassword } from "../../utils/api";
 import { forgotPasswordEmailValidationSchema, forgotPasswordValidationSchema } from "../../utils/schema";
 import { Eye, EyeHide } from "../../assets/icons";
 import { resetPasswordToken, resendOtpEmail } from "../../utils/store";
+import { FloatingCard } from "../shared";
 
 export default function ForgotPasswordComponent(): JSX.Element {
   const [passwordShown, setPasswordShown] = useState<boolean>(false);
@@ -96,164 +98,205 @@ export default function ForgotPasswordComponent(): JSX.Element {
     <>
       {enterCode ? (
         <>
-          <div className="absolute text-2xl lg:text-5xl -top-20 left-5 gradientHeaderHollow">
-            <h1>FORGOT PASSWORD</h1>
-          </div>
-          <div className="flex items-center justify-center flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen">
             {otpVerified && (
               <>
-                <p className="flex-initial mt-24 mb-4 text-darkgray font-extrabold">
-                  ENTER VERIFICATION CODE
-            </p>
-                <VerificationInput
-                  removeDefaultStyles
-                  length={6}
-                  validChars="0-9"
-                  autoFocus={true}
-                  placeholder=""
-                  inputField={{
-                    onChange: getOtpValue,
-                  }}
-                  container={{
-                    className: "w-full md:w-2/5 text-center",
-                  }}
-                  characters={{
-                    className: "h-14 md:h-20 font-extrabold text-4xl md:text-6xl",
-                  }}
-                  character={{
-                    className: "mx-2 shadow-md rounded-xl pt-2",
-                    classNameInactive: "bg-statusGreen rounded-md cursor-text",
-                    classNameSelected: "focus: ring rounded-md",
-                  }}
-                />
-                {counter != 0 && (
-                  <h1 className="mt-5">Resend OTP in: {counter}s</h1>
-                )}
-                {counter == 0 && (
-                  <button 
-                    className={`focus:outline-none ${disableResendOtp && "opacity-50"}`} 
-                    disabled={disableResendOtp}
-                    onClick={() => {
-                      sendVerificationCode(forgotPwdEmail)
-                      setDisableResendOtp(true)
-                    }}>
-                    <h1 className="mt-5">Resend OTP</h1>
-                  </button>
-                )}
-                <button
-                  type="submit"
-                  disabled={isSubmittingOtp}
-                  className={`${isSubmittingOtp ? "bg-backgroundwhiteinset" : "bg-lightblue"} focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 md:w-1/5 text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded`}
-                  onClick={() => verifyOtp()}
+                <FloatingCard
+                  title="Verify OTP"
+                  verticalHeader="RESET"
+                  bottomText="Don't have an account?"
+                  bottomTextLink="Sign Up"
+                  linkHref="/signup"
                 >
-                  {isSubmittingOtp ? "Please wait..." : "VERIFY"}
-                </button>
-              </>)}
-            {changePassword && (
-              <div className="w-2/3 md:w-3/12">
-                <Formik
-                  initialValues={initialValues}
-                  onSubmit={(values) => submitNewPassword(values.newPassword)}
-                  validateOnBlur={false}
-                  validateOnChange={false}
-                  validationSchema={forgotPasswordValidationSchema}
-                >
-                  {({ errors }) => (
-                    <Form>
-                      <p className="flex-initial text-darkgray font-extrabold mt-20">
-                        NEW PASSWORD
-                      </p>
-                      <div className="relative">
-                        <Field
-                          type={passwordShown ? 'text' : 'password'}
-                          name="newPassword"
-                          autoComplete="off"
-                          className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-full mt-2 mb-8"
-                        />
-                        <i
-                          className="absolute top-4 right-3 cursor-pointer"
-                          onClick={togglePasswordVisiblity}
-                        >
-                          {passwordShown ? <EyeHide /> : <Eye />}
-                        </i>
-                      </div>
-                      {errors.newPassword && (
-                        <div className="text-red-500 text-sm -mt-7 mb-6">
-                          {errors.newPassword}
-                        </div>
+                  <div className="flex justify-between my-3">
+                    <h1 className="text-lightgray font-bold">Enter OTP</h1>
+                    <div className="text-right text-turquoiseGreen hover:opacity-80 font-bold">
+                      {counter != 0 && (
+                        <h1>Resend OTP in: {counter}s</h1>
                       )}
-
-                      <p className="flex-initial text-darkgray font-extrabold">
-                        CONFIRM NEW PASSWORD
-                      </p>
-                      <Field
-                        type="password"
-                        name="confirmNewPassword"
-                        autoComplete="off"
-                        className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite w-full mt-2 mb-8"
-                      />
-                      {errors.confirmNewPassword && (
-                        <div className="text-red-500 text-sm -mt-7">
-                          {errors.confirmNewPassword}
-                        </div>
-                      )}
-                      <div className="flex items-center justify-center relative">
+                      {counter == 0 && (
                         <button
-                          type="submit"
-                          disabled={isSubmittingPassword}
-                          className={`${isSubmittingPassword ? "bg-backgroundwhiteinset" : "bg-statusGreen"} focus:outline-none hover:bg-opacity-90 text-darkgray w-full text-md shadow-lg font-extrabold py-3 px-4 my-14 rounded`}
-                        >
-                          {isSubmittingPassword ? "Please wait..." : "Save"}
+                          className={`font-bold focus:outline-none ${disableResendOtp && "opacity-50"}`}
+                          disabled={disableResendOtp}
+                          onClick={() => {
+                            sendVerificationCode(forgotPwdEmail)
+                            setDisableResendOtp(true)
+                          }}>
+                          <h1>Resend OTP</h1>
                         </button>
-                      </div>
-                    </Form>
-                  )}
-                </Formik>
+                      )}
+                    </div>
+                  </div>
+                  <VerificationInput
+                    removeDefaultStyles
+                    length={6}
+                    validChars="0-9"
+                    autoFocus={true}
+                    placeholder="•"
+                    inputField={{
+                      onChange: getOtpValue,
+                    }}
+                    container={{
+                      className: "w-full text-center text-darkgray",
+                    }}
+                    characters={{
+                      className: "h-10 w-full font-extrabold text-xl text-darkgray",
+                    }}
+                    character={{
+                      className: "bg-backgroundwhite mx-1 md:mx-2 rounded-md pt-2 text-darkgray",
+                      classNameInactive: "bg-backgroundwhite rounded-md cursor-text text-darkgray",
+                      classNameSelected: "bg-backgroundwhite focus: ring rounded-md text-darkgray",
+                    }}
+                  />
+                  <div className="flex justify-between mt-8">
+                    <Link href="/">
+                      <a>
+                        <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded">
+                          CANCEL
+                        </button>
+                      </a>
+                    </Link>
+                    <button
+                      type="submit"
+                      disabled={isSubmittingOtp}
+                      onClick={() => verifyOtp()}
+                      className={`${isSubmittingOtp ? "border-lightgray text-lightgray text-xs" : "border-customGreen text-customGreen"} bg-white border-2 focus:outline-none hover:opacity-80 font-bold py-2 px-4 ml-2 rounded`}
+                    >
+                      {isSubmittingOtp ? "Please wait..." : "PROCEED"}
+                    </button>
+                  </div>
+                </FloatingCard>
+              </>
+            )}
+
+            {changePassword && (
+              <div className="flex flex-col">
+                <FloatingCard
+                  title="Reset Password"
+                  verticalHeader="RESET"
+                  bottomText="Don't have an account?"
+                  bottomTextLink="Sign Up"
+                  linkHref="/signup"
+                >
+                  <Formik
+                    initialValues={initialValues}
+                    onSubmit={(values) => submitNewPassword(values.newPassword)}
+                    validateOnBlur={false}
+                    validateOnChange={false}
+                    validationSchema={forgotPasswordValidationSchema}
+                  >
+                    {({ errors }) => (
+                      <Form>
+                        <h1 className="text-lightgray font-bold">New Password</h1>
+                        <div className="relative">
+                          <Field
+                            type={passwordShown ? 'text' : 'password'}
+                            name="newPassword"
+                            autoComplete="off"
+                            className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none w-full"
+                          />
+                          <i
+                            className="absolute top-2 right-3 cursor-pointer"
+                            onClick={togglePasswordVisiblity}
+                          >
+                            {passwordShown ? <EyeHide /> : <Eye />}
+                          </i>
+                        </div>
+                        {errors.newPassword && (
+                          <div className="text-red-500 text-sm">
+                            {errors.newPassword}
+                          </div>
+                        )}
+
+                        <h1 className="text-lightgray font-bold mt-4">Confirm New Password</h1>
+                        <Field
+                          type="password"
+                          name="confirmNewPassword"
+                          autoComplete="off"
+                          className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none w-full"
+                        />
+                        {errors.confirmNewPassword && (
+                          <div className="text-red-500 text-sm">
+                            {errors.confirmNewPassword}
+                          </div>
+                        )}
+                        <div className="flex justify-between my-8">
+                          <Link href="/">
+                            <a>
+                              <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded">
+                                CANCEL
+                              </button>
+                            </a>
+                          </Link>
+                          <button
+                            type="submit"
+                            disabled={isSubmittingPassword}
+                            className={`${isSubmittingPassword ? "border-lightgray text-lightgray text-xs" : "border-customGreen text-customGreen"} bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
+                          >
+                            {isSubmittingPassword ? "Please wait..." : "UPDATE"}
+                          </button>
+                        </div>
+                      </Form>
+                    )}
+                  </Formik>
+                </FloatingCard>
               </div>
             )}
           </div>
         </>
       ) : (
         <>
-          <div className="absolute text-2xl lg:text-5xl top-20 left-5 gradientHeaderHollow">
-            <h1>FORGOT PASSWORD</h1>
-          </div>
-          <div className="flex flex-col w-2/3 md:w-2/6 mx-auto">
-            <p className="text-center mt-64 text-darkgray font-extrabold">
-              EMAIL
-            </p>
-            <Formik
-              initialValues={emailInitialValue}
-              onSubmit={(values) => sendVerificationCode(values.email)}
-              validateOnBlur={false}
-              validateOnChange={false}
-              validationSchema={forgotPasswordEmailValidationSchema}
+          <div className="flex flex-col">
+            <FloatingCard
+              title="Verify Account"
+              verticalHeader="RESET"
+              bottomText="Don't have an account?"
+              bottomTextLink="Sign Up"
+              linkHref="/signup"
             >
-              {({ errors }) => (
-                <Form>
-                  <div className="flex flex-col">
-                    <Field
-                      type="email"
-                      name="email"
-                      className="gradientInputBottom p-1 focus:outline-none bg-backgroundwhite mt-8 mb-8"
-                      placeholder="abc@xyzmail.com"
-                    />
-                    {errors.email && (
-                      <div className="text-red-500 text-sm -mt-4 mb-3">
-                        {errors.email}
+              <Formik
+                initialValues={emailInitialValue}
+                onSubmit={(values) => sendVerificationCode(values.email)}
+                validateOnBlur={false}
+                validateOnChange={false}
+                validationSchema={forgotPasswordEmailValidationSchema}
+              >
+                {({ errors }) => (
+                  <Form>
+                    <div className="flex flex-col">
+                      <h1 className="text-lightgray font-bold">Email</h1>
+                      <Field
+                        type="email"
+                        name="email"
+                        className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none my-4"
+                        placeholder="abc@xyzmail.com"
+                      />
+                      {errors.email && (
+                        <div className="text-red-500 text-sm -mt-4 mb-3">
+                          {errors.email}
+                        </div>
+                      )}
+                      <div className="flex justify-between my-8">
+                        <Link href="/">
+                          <a>
+                            <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded">
+                              CANCEL
+                            </button>
+                          </a>
+                        </Link>
+                        <button
+                          type="submit"
+                          disabled={isSubmittingEmail}
+                          className={`${isSubmittingEmail ? "border-lightgray text-lightgray text-xs" : "border-customGreen text-customGreen"} bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
+                        >
+                          {isSubmittingEmail ? "Please wait..." : "SEND OTP"}
+                        </button>
                       </div>
-                    )}
-                    <button
-                      type="submit"
-                      disabled={isSubmittingEmail}
-                      className={`${isSubmittingEmail ? "bg-backgroundwhiteinset" : "bg-lightblue"} focus:outline-none hover:bg-opacity-90 text-darkgray text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded`}
-                    >
-                      {isSubmittingEmail ? "Please wait..." : "Send Verification Code"}
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </FloatingCard>
           </div>
         </>
       )}
