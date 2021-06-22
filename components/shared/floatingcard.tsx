@@ -8,7 +8,7 @@ interface FloatingCardProps {
     bottomText: string;
     bottomTextLink: string;
     linkHref: string;
-    children: unknown;
+    children: React.ReactNode;
 }
 
 export default function FloatingCard({ title, verticalHeader, bottomText, bottomTextLink, linkHref, children }: FloatingCardProps): JSX.Element {

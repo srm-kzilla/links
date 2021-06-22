@@ -130,7 +130,7 @@ const SignUpComponent = () => {
                 <div className="flex items-center justify-center relative">
                   <button
                     type="submit"
-                    className={`bg-white border-2 outline-none focus:outline-none hover:opacity-90 w-2/3 text-md font-bold py-2 px-4 my-2 rounded ${loading ? "border-lightgray text-lightgray" : "border-customGreen text-customGreen"}`}
+                    className={`bg-white border-2 outline-none focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-2 px-4 my-2 rounded ${loading ? "border-lightgray text-lightgray" : "border-customGreen text-customGreen"}`}
                   >
                     {loading ? "Please wait..." : "SIGN UP"}
                   </button>
