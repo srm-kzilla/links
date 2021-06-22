@@ -1,10 +1,4 @@
-import {
-  HeroLanding,
-  Logo,
-  Circle,
-  DoubleCircle,
-  LoadingAuth,
-} from "../../assets/icons";
+import { HeroLanding, Logo, LoadingAuth } from "../../assets/icons";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { useContext, useState } from "react";
@@ -44,28 +38,29 @@ export default function HomeComponent(): JSX.Element {
 
   return (
     <>
-      <div className="flex flex-col font-sans min-h-screen pt-4 px-3 sm:px-8 2xl:px-12 relative z-50">
-        <div className="grid grid-cols-2">
-          <a
-            href="/"
-            className="text-black text-2xl sm:text-3xl md:text-5xl font-bold p-3 text-left"
-          >
-            <div className="float-left mr-2 h-9 w-9 sm:h-12 sm:w-12 md:h-14 md:w-14">
-              <Logo />
-            </div>
-            <div className="ml-2 pt-2">LINKS</div>
-          </a>
-          <div className="flex flex-row-reverse p-2">
-            <a
-              href={isAuth ? "/dashboard" : "/login"}
-              className="bg-lightblue flex items-center justify-center rounded shadow-md focus:outline-none text-lg font-bold text-white w-10/12 sm:w-2/7 md:w-1/3"
-            >
-              {isAuth ? "My Dashboard" : "Get Started"}
-            </a>
+      <div className="grid grid-cols-2 absolute top-0 right-0 left-0 pt-2">
+        <a
+          href="/"
+          className="text-black text-2xl sm:text-3xl md:text-5xl font-bold p-3 text-left"
+        >
+          <div className="float-left mr-2 h-9 w-9 sm:h-12 sm:w-12 md:h-14 md:w-14">
+            <Logo />
           </div>
-        </div>
+          <div className="ml-2 pt-2">LINKS</div>
+        </a>
 
-        <div className="grid grid-cols-0 md:grid-cols-2 w-full my-auto">
+        <div className="flex flex-row-reverse p-2">
+          <a
+            href={isAuth ? "/dashboard" : "/login"}
+            className="bg-lightblue flex items-center justify-center rounded shadow-md focus:outline-none text-lg font-bold text-white w-10/12 sm:w-2/7 md:w-1/3"
+          >
+            {isAuth ? "My Dashboard" : "Get Started"}
+          </a>
+        </div>
+      </div>
+
+      <div className="flex justify-center font-sans min-h-screen px-3 sm:px-8 2xl:px-12">
+        <div className="grid grid-cols-0 md:grid-cols-2 w-full">
           <div className="md:col-span-1 my-auto block md:hidden">
             <HeroLanding />
           </div>
@@ -130,12 +125,6 @@ export default function HomeComponent(): JSX.Element {
             <HeroLanding />
           </div>
         </div>
-      </div>
-      <div className="absolute right-0 top-32 hidden md:block z-0">
-        <Circle />
-      </div>
-      <div className="absolute left-0 bottom-16 hidden md:block z-0">
-        <DoubleCircle />
       </div>
     </>
   );

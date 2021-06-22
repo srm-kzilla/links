@@ -325,17 +325,25 @@ export const getSecretToken = async (secret: string) => {
   }
 };
 
+export const getLinkStats = async (authToken: string, linkId: string) => {
+  try {
+    const _res = await axios.get(
+      `${baseUrl}api/v1/links/stats/?linkId=${linkId}`,
+      {
+        headers: { Authorization: `Bearer ${authToken}`},
+      }
+    );
+    return _res.data.result;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
 export const errorHandler = (error?: AxiosError | any) => {
-  let errMessage: string = "😐 Oops! Something went wrong!";
-  if (error)
-    switch (error.response?.status) {
-      case 500:
-        errMessage = "😐 Oops! Something went wrong!";
-        break;
-      default:
-        errMessage = error.response.data.message;
-        break;
-    }
+  let errMessage: string =
+    error?.response?.data?.message || "😐 Oops! Something went wrong!";
+
   toast.error(errMessage, {
     position: "top-right",
     autoClose: 5000,
@@ -344,6 +352,7 @@ export const errorHandler = (error?: AxiosError | any) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
+    className: "font-Mulish",
   });
 };
 
@@ -356,5 +365,6 @@ export const successHandler = (successMessage: string) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
+    className: "font-Mulish",
   });
 };

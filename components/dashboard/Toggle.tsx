@@ -42,7 +42,7 @@ const Toggle = ({ status, linkId }: ToggleProps) => {
         },
         button: {
           backgroundColor: "#A7A6A6",
-          width: "22px",
+          width: "25px",
           height: "25px",
           borderRadius: "3px",
           marginLeft: "-2px",

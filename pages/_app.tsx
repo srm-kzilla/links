@@ -18,17 +18,16 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <title>LINKS</title>
       </Head>
+
       <RecoilRoot>
         <AuthContextProvider>
           <ImageContextProvider>
-            <div className="relative min-h-custom">
-              <div className="pb-4">
-                <Navbar />
-                <Component {...pageProps} />
-              </div>
+            <div className="min-h-screen relative">
+              <Navbar />
+              <Component {...pageProps} />
               <Footer />
-              <ToastContainer />
             </div>
+            <ToastContainer />
           </ImageContextProvider>
         </AuthContextProvider>
       </RecoilRoot>
@@ -51,7 +50,7 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
     ctx.res.end();
   }
 
-  if(authToken && authRestrictedRoutes.includes(ctx.asPath)) {
+  if (authToken && authRestrictedRoutes.includes(ctx.asPath)) {
     ctx.res.writeHead(302, { Location: "/dashboard" });
     ctx.res.end();
   }

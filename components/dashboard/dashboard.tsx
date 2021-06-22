@@ -1,10 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { VscAdd } from "react-icons/vsc";
-import { IconContext } from "react-icons";
 import { parseCookies } from "nookies";
 
-import { NoLinks } from "../../assets/icons";
+import { AddLink, NoLinks } from "../../assets/icons";
 import { SidebarContext } from "../../store/sidebarContext";
 import { AddModal, Card, Sidebar } from "./";
 import { postLink, deleteLink } from "../../utils/api";
@@ -28,7 +26,10 @@ interface DashboardProps {
   totalViews: number;
 }
 
-export default function DashboardComponent({ _resLinks, totalViews }: DashboardProps) {
+export default function DashboardComponent({
+  _resLinks,
+  totalViews,
+}: DashboardProps) {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
   const [links, setLinks] = useState<Link[]>(_resLinks);
   const [searchLinkResults, setSearchLinkResults] = useState<Link[]>([]);
@@ -58,7 +59,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
         if (item.title.toLowerCase().includes(searchLink.toLowerCase())) {
           searchResults.push(item);
         }
-      })
+      });
     }
     setSearchLinkResults(searchResults);
   }, [searchLink]);
@@ -82,7 +83,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
             _id: res.data._id,
             shortCode: res.data.shortCode,
             analyticsCode: res.data.analyticsCode,
-            createdAt: res.data.createdAt
+            createdAt: res.data.createdAt,
           });
           return prevState;
         });
@@ -108,14 +109,13 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
     <>
       {links.length > 0 ? (
         <>
-          <div className="mt-24 pb-10">
+          <div className="min-h-screen flex flex-col py-24 bg-backgroundwhite">
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="bg-backgroundwhite z-50 fixed border-dashed border-4 border-buttongray bottom-7 right-4 lg:top-20 lg:left-addButton focus:outline-none w-16 sm:w-20 h-16 sm:h-20 shadow-2xl rounded-full px-2 sm:px-4 hover:opacity-70"
-              title="Add New Link">
-              <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
-                <VscAdd />
-              </IconContext.Provider>
+              className="z-50 fixed bottom-7 right-4 lg:top-20 lg:left-addButton focus:outline-none w-16 sm:w-20 h-16 sm:h-20 rounded-full px-2 sm:px-4 hover:opacity-70"
+              title="Add New Link"
+            >
+              <AddLink />
             </button>
 
             <AddModal
@@ -124,33 +124,32 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
               onAddLink={onAddLinkHandler}
             />
 
-            {searchLinkResults.length > 0 ? (
-              searchLinkResults.map((link) => (
-                <Card
-                  key={link._id}
-                  onCardClick={() => {
-                    setSearchLinkResults([]);
-                    setActiveLink(link);
-                    setIsSidebarOpen(true);
-                  }}
-                  link={link}
-                  onDeleteCard={onDeleteLinkHandler}
-                />
-              ))
-            ) : (
-              links.map((link) => (
-                <Card
-                  key={link._id}
-                  onCardClick={() => {
-                    setActiveLink(link);
-                    setIsSidebarOpen(true);
-                  }}
-                  link={link}
-                  onDeleteCard={onDeleteLinkHandler}
-                />
-              ))
-            )}
+            {searchLinkResults.length > 0
+              ? searchLinkResults.map((link) => (
+                  <Card
+                    key={link._id}
+                    onCardClick={() => {
+                      setSearchLinkResults([]);
+                      setActiveLink(link);
+                      setIsSidebarOpen(true);
+                    }}
+                    link={link}
+                    onDeleteCard={onDeleteLinkHandler}
+                  />
+                ))
+              : links.map((link) => (
+                  <Card
+                    key={link._id}
+                    onCardClick={() => {
+                      setActiveLink(link);
+                      setIsSidebarOpen(true);
+                    }}
+                    link={link}
+                    onDeleteCard={onDeleteLinkHandler}
+                  />
+                ))}
           </div>
+
           <Sidebar
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
@@ -162,11 +161,9 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
         <>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-8 focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
+            className="fixed md:fixed bottom-14 right-8 md:top-20 md:right-8 focus:outline-none w-20 h-20 rounded-full px-4 hover:opacity-70"
           >
-            <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
-              <VscAdd />
-            </IconContext.Provider>
+            <AddLink />
           </button>
 
           <AddModal
