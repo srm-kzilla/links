@@ -1,29 +1,5 @@
-export function truncateTitleText(text: string) {
-    return (text.length > 20 ? text.substring(0, 20) + "..." : text);
-}
-
-export function truncateLinkText(text: string) {
-    return (text.length > 40 ? text.substring(0, 40) + "..." : text);
-}
-
-export function truncateSidebarTitleText(text: string) {
-    return (text.length > 15 ? text.substring(0, 12) + "..." : text);
-}
-
-export function truncateSidebarURLText(text: string) {
-    return (text.length > 30 ? text.substring(0, 23) + "..." : text);
-}
-
-export function truncateProfileName(text: string) {
-    return (text.length > 20 ? text.substring(0, 16) + "..." : text);
-}
-
-export function truncateProfileBio(text: string) {
-    return (text.length > 50 ? text.substring(0, 38) + "..." : text);
-}
-
-export function truncateNavbarName(text: string) {
-    return (text.length > 20 ? text.substring(0, 15) + "..." : text);
+export function truncateText(text: string, maxLength: number, truncateValue: number) {
+    return (text.length > maxLength ? text.substring(0, truncateValue) + "..." : text);
 }
 
 export function time_ago(time) {

@@ -4,7 +4,7 @@ import * as Yup from "yup";
 
 import { postSignup } from "../../utils/api";
 import { Eye, EyeHide } from "../../assets/icons";
-import FloatingCard from "../shared/floatingcard";
+import { FloatingCard } from "../shared";
 
 const SignUpComponent = () => {
   const initialValues = {

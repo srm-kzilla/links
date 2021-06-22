@@ -8,7 +8,7 @@ import { parseCookies, destroyCookie } from "nookies";
 import { AuthContext } from "../../store/authContext";
 import { getUserProfile } from "../../utils/api";
 import { ImageContext } from "../../store/profileImageContext";
-import { truncateNavbarName } from "../../utils/functions";
+import { truncateText } from "../../utils/functions";
 
 export default function Navbar() {
   const { isAuth } = useContext(AuthContext);
@@ -57,7 +57,7 @@ export default function Navbar() {
                       className="flex items-center mr-4 pl-4 cursor-pointer select-none float-left my-1 text-lightgray hover:text-lightgraycustom"
                       onClick={() => setisOpen(!isOpen)}
                     >
-                      {truncateNavbarName(userProfileData.name || userProfileData.username)}
+                      {truncateText(userProfileData.name || userProfileData.username, 20, 15)}
                       <div className="float-right pt-1 ml-2">
                         <img
                           className="flex items-center w-12 h-12 rounded-full float-left mb-2 border"

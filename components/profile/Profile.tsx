@@ -8,7 +8,7 @@ import { ImageContext } from "../../store/profileImageContext";
 import { FileUploader } from "../profile";
 import { ChangePasswordModal } from "../profile";
 import { LinksLogoBg, EditPencil, EllipseGray } from "../../assets/icons";
-import { truncateProfileBio, truncateProfileName } from "../../utils/functions";
+import { truncateText } from "../../utils/functions";
 
 export default function ProfileComponent({ _resProfile }): JSX.Element {
   const { fileBlob } = useContext(ImageContext);
@@ -16,7 +16,6 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
     const [name, setName] = useState<string>(_resProfile.name);
     const [username, setUserName] = useState<string>(_resProfile.username);
     const [bio, setBio] = useState<string>(_resProfile.bio);
-    // const [backgroundColor, setBackgroundColor] = useState<string>(_resProfile.background);
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
     const [isSubmittingProfile, setIsSubmittingProfile] = useState<boolean>(false);
     const [showNameInput, setShowNameInput] = useState<boolean>(false);
@@ -31,7 +30,6 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 name: name,
                 username: username,
                 bio: bio,
-                // background: backgroundColor
             }
             const _res = await patchUserProfile(authToken, userData);
             if (_res) {
@@ -70,7 +68,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 <div className="flex flex-col">
                     <div className="flex flex-row items-center justify-center m-2">
                         {!showNameInput && (
-                            <p className="text-center font-bold text-lg text-lightgray">{truncateProfileName(name)}</p>
+                            <p className="text-center font-bold text-lg text-lightgray">{truncateText(name, 20, 16)}</p>
                         )}
                         {showNameInput && (
                             <input
@@ -142,7 +140,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 {!showBioInput && (
                     <div className="flex flex-row w-5/6 md:w-2/6">
                         <p className="flex text-lightgraycustom text-lg font-semibold">
-                            {truncateProfileBio(bio)}
+                            {truncateText(bio, 50, 38)}
                         </p>
                         <button onClick={() => setShowBioInput(true)} className="pl-3 focus:outline-none">
                             <i><EditPencil /></i>
@@ -163,16 +161,6 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                         }}
                     />
                 )}
-                {/* <div className="mt-6 text-left w-2/3 sm:w-2/6">
-                    <p className="text-darkgray font-extrabold text-left">THEME</p>
-                    <div className="flex flex-row items-center mt-2">
-                        <input onChange={() => setBackgroundColor("light")} className="w-4" type="radio" name="theme" value="light" checked={backgroundColor == "light" ? true : false} />
-                        <label className="mr-8 ml-1" htmlFor="light">Light</label>
-                        
-                        <input onChange={() => setBackgroundColor("dark")} className="w-4" type="radio" name="theme" value="dark" checked={backgroundColor == "dark" ? true : false} />
-                        <label className="mr-8 ml-1" htmlFor="dark">Dark</label>
-                    </div>
-                </div> */}
                 <div className="flex flex-col sm:flex-row items-center justify-center w-2/3 sm:w-2/6 mt-14">
                     <button
                         onClick={() => setModalOpen(true)}

@@ -15,7 +15,7 @@ import { SidebarContext } from "../../store/sidebarContext";
 import { searchDashboardLink } from "../../utils/store";
 
 import { errorHandler, successHandler, updateLink, getLinkClicks, getLinkStats } from "../../utils/api";
-import { time_ago, truncateSidebarTitleText, truncateSidebarURLText } from "../../utils/functions";
+import { time_ago, truncateText } from "../../utils/functions";
 import { kzillaxyzdomain } from "../../utils/constants";
 
 interface SidebarProps {
@@ -179,7 +179,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   <div className="flex flex-col">
                     {!showTitleInput && (
                       <h1 className="relative text-xl text-lightgray font-bold mx-2">
-                        {truncateSidebarTitleText(activeLink.title)}
+                        {truncateText(activeLink.title, 15, 12)}
                         <button
                           onClick={() => setShowTitleInput(true)}
                           title="Edit Title"
@@ -386,7 +386,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                         rel="noopener noreferrer"
                         href={activeLink.url}>
                         <p className="text-lightgraycustom flex-initial">
-                          {truncateSidebarURLText(activeLink.url)}
+                          {truncateText(activeLink.url, 30, 23)}
                         </p>
                       </a>
                     )}

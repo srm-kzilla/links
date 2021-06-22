@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 import { DeleteModal } from "./";
-import { Spike, Trash, Pencil, NewWindow } from "../../assets/icons";
+import { Trash, Pencil, NewWindow } from "../../assets/icons";
 import { activeLinkProps } from "../../store/sidebarContext";
-import { truncateTitleText, truncateLinkText } from "../../utils/functions";
+import { truncateText } from "../../utils/functions";
 import { kzillaxyzdomain } from "../../utils/constants";
 
 interface CardProps {
@@ -19,7 +19,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
     <>
       <div
         onClick={onCardClick}
-        className={`flex flex-wrap items-center justify-between bg-white group my-3 mx-3 md:mx-20 cursor-pointer rounded-xl w-auto md:w-3/5 overflow-hidden relative md:py-3 ${!link.status && "filter grayscale"}`}
+        className={`flex flex-wrap items-center justify-between bg-white group my-3 mx-3 md:mx-20 cursor-pointer rounded-xl w-auto md:w-3/5 overflow-hidden relative md:py-3 ${!link.status ? "filter grayscale" : ""}`}
       >
         <div
           className={`${link.status ? "bg-statusGreen" : "bg-lightgraycustom"
@@ -36,14 +36,14 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
           </figure>
 
           <div className="flex flex-col transition items-start">
-            <h2 className="text-xl md:text-3xl font-bold text-lightgray">{truncateTitleText(link.title)}</h2>
+            <h2 className="text-xl md:text-3xl font-bold text-lightgray">{truncateText(link.title, 20, 20)}</h2>
             <a
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs md:text-md md:inline-block text-lightgray"
             >
-              {truncateLinkText(link.url)}
+              {truncateText(link.url, 40, 40)}
             </a>
           </div>
         </div>
@@ -61,18 +61,6 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
           <button title="Edit Link" className="focus:outline-none cursor-pointer mx-2 md:mx-4">
             <Pencil />
           </button>
-          {/* Redundant feature */}
-          {/* <a
-            href={`${kzillaxyz}${link.analyticsCode}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="focus:outline-none cursor-pointer pt-1"
-            title="Check Analytics"
-          >
-            <button className="focus:outline-none cursor-pointer mx-2 md:mx-4">
-              <Spike />
-            </button>
-          </a> */}
           <button
             onClick={() => setIsdeleteModalOpen(true)}
             className="focus:outline-none cursor-pointer mx-2 md:mx-4"

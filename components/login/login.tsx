@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { postLogin } from "../../utils/api";
 import { AuthContext } from "../../store/authContext";
 import { Eye, EyeHide } from "../../assets/icons";
-import FloatingCard from "../shared/floatingcard";
+import { FloatingCard } from "../shared";
 
 const LoginComponent = () => {
   const { setIsAuth } = useContext(AuthContext);

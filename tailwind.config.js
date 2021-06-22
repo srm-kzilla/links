@@ -4,8 +4,6 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        WorkSans: ["Work Sans", "sans-serif"],
-        NotoSans: ["Noto Sans", "sans-serif"],
         Mulish: ["Mulish", "sans-serif"],
       },
       width: {
