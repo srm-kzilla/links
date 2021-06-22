@@ -48,8 +48,8 @@ const LoginComponent = () => {
   return (
     <>
       <div className="flex flex-col">
-        <FloatingCard 
-          title="Welcome Back" 
+        <FloatingCard
+          title="Welcome Back"
           verticalHeader="SIGN IN"
           bottomText="Don't have an account?"
           bottomTextLink="Sign Up"
@@ -105,7 +105,11 @@ const LoginComponent = () => {
                   <div className="flex items-center justify-center relative">
                     <button
                       type="submit"
-                      className={`bg-white border-2 outline-none focus:outline-none hover:bg-opacity-90 w-2/3 text-md font-bold py-2 px-4 my-6 rounded ${loading ? "border-lightgray text-lightgray" : "border-customGreen text-customGreen"}`}
+                      className={`bg-white border-2 outline-none focus:outline-none hover:bg-opacity-90 w-2/3 text-md font-bold py-2 px-4 my-6 rounded ${
+                        loading
+                          ? "border-lightgray text-lightgray"
+                          : "border-statusGreen text-statusGreen"
+                      }`}
                     >
                       {loading ? "Please wait..." : "SIGN IN"}
                     </button>

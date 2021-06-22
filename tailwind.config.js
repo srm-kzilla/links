@@ -26,7 +26,6 @@ module.exports = {
         buttongray: "#4F4F4F",
         statusRed: "#EC5A58",
         statusGreen: "#6FCF97",
-        customGreen: "#32B583",
         lightestGreen: "#F1FAF5",
         turquoiseGreen: "#40BEAF",
       },
