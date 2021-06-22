@@ -4,9 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        WorkSans: ["Work Sans", "sans-serif"],
-        NotoSans: ["Noto Sans", "sans-serif"],
         Inter: ["Inter", "sans-serif"],
+        Mulish: ["Mulish", "sans-serif"],
       },
       width: {
         custom: "21.66666%",
@@ -22,12 +21,14 @@ module.exports = {
         lightblue: "#56CCF2",
         darkgray: "#333333",
         lightestgray: "#F2F2F2",
+        lightgray: "#5F5F5F",
         lightgraycustom: "#A7A6A6",
         buttongray: "#4F4F4F",
-        statusRed: "#EB5757",
+        statusRed: "#EC5A58",
         statusGreen: "#6FCF97",
         customGreen: "#32B583",
         lightestGreen: "#F1FAF5",
+        turquoiseGreen: "#40BEAF",
       },
       boxShadow: {
         custom: "1px 1px 6px rgba(0, 0, 0, 0.25)",
@@ -36,8 +37,8 @@ module.exports = {
         xxl: "8.9rem",
       },
       inset: {
-        addButton: "70%",
-        37: "9.5rem",
+        addButton: "72%",
+        '37': "9.5rem",
       },
       minHeight: {
         custom: "90vh",

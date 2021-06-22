@@ -99,7 +99,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
           <div className="absolute text-2xl lg:text-5xl -top-20 left-5 gradientHeaderHollow">
             <h1>FORGOT PASSWORD</h1>
           </div>
-          <div className="flex items-center justify-center flex-col mt-40">
+          <div className="flex items-center justify-center flex-col min-h-screen">
             {otpVerified && (
               <>
                 <p className="flex-initial mt-24 mb-4 text-darkgray font-extrabold">

@@ -45,16 +45,16 @@ const DeleteModal = ({
                 <div className="flex items-center justify-center">
                   <button
                     onClick={onClose}
-                    className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold mr-2 py-3 px-4 mt-7 rounded"
+                    className="bg-white border-2 border-statusGreen focus:outline-none hover:opacity-80 text-statusGreen w-2/3 text-md font-bold mr-2 py-3 px-4 mt-7 rounded"
                   >
-                    Cancel
+                    CANCEL
                   </button>
                   <button
                     onClick={() => deleteHandler(linkId)}
                     disabled={isDeletingLink}
-                    className={`${isDeletingLink ? "bg-backgroundwhiteinset" : "bg-statusRed"} focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 text-md shadow-lg font-extrabold py-3 px-4 mt-7 rounded`}
+                    className={`${isDeletingLink ? "border-lightgray text-lightgray" : "border-statusRed text-statusRed"} bg-white border-2 focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-3 px-4 mt-7 rounded`}
                   >
-                    {isDeletingLink ? "Please wait..." : "Delete"}
+                    {isDeletingLink ? "Please wait..." : "DELETE"}
                   </button>
                 </div>
               </div>

@@ -32,6 +32,7 @@
     "react-lottie": "^1.2.3",
     "react-reveal": "^1.2.2",
     "react-toastify": "^7.0.3",
+    "react-tooltip": "^4.2.21",
     "react-verification-input": "^0.1.5",
     "recaptcha-v3": "^1.9.1",
     "recoil": "^0.3.1",

@@ -2,13 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: FuturaHvBt;
-  src: url("../public/fonts/FuturaHeavyBT.ttf");
-}
-
-@import url("https://fonts.googleapis.com/css2?family=Work+Sans&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;900&display=swap');
 
 * {
@@ -19,8 +13,9 @@ body {
   position: relative;
   padding: 0;
   margin: 0;
-  font-family: "Work Sans", sans-serif;
-  background-color: #e0e0e0;
+  font-family: "Mulish", sans-serif;
+  font-weight: 600;
+  background-color: #ffffff;
 }
 
 textarea {
@@ -30,10 +25,12 @@ textarea {
 /* Text selection color */
 ::-moz-selection { 
   background: #6fcf97;
+  color: #ffffff;
 }
 
 ::selection {
   background: #6fcf97;
+  color: #ffffff;
 }
 
 .grecaptcha-badge {
@@ -49,55 +46,23 @@ textarea {
   background-origin: border-box;
   background-clip: padding-box, border-box;
 }
+
 .gradientInput:hover {
   opacity: 0.8;
 }
-.gradientInputBottom {
-  border-radius: 8px;
+
+.grayBottomBorder {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
   border-bottom: 2px solid;
-  border-image: linear-gradient(to right, #56ccf2, #6fcf97);
-  border-image-slice: 1;
+  border-color: #A7A6A6;
 }
-.gradientTextareaBottom {
-  border-radius: 8px;
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 2px solid;
-  border-image: linear-gradient(to right, #56ccf2, #6fcf97);
-  border-image-slice: 1;
-}
-hr {
-  border: 0.5px solid;
-  border-image: linear-gradient(to right, #56ccf2, #6fcf97);
-  border-image-slice: 1;
-}
+
 .styledHeader {
-  transform: translate(-245px, 110px) rotate(-90deg);
-  font-family: "FuturaHvBt", "Times New Roman", sans-serif;
-  font-weight: 999;
-  text-stroke-width: 1px;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
+  transform: translate(-164px, 154px) rotate(-90deg);
 }
-.styledGradientHeader {
-  position: absolute;
-  width: 384px;
-  height: 70px;
-  left: 50px;
-  top: 109px;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 53.67px;
-  line-height: 130%;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  letter-spacing: 0.07em;
-  font-variant: small-caps;
-  border: 3px solid;
-  border-image-source: linear-gradient(180deg, #56ccf2 0%, #6fcf97 100%);
-}
+
 .customGradient {
   background: -webkit-linear-gradient(#56ccf2, #6fcf97);
   -webkit-background-clip: text;
@@ -115,15 +80,6 @@ hr {
 }
 .hover-trigger:hover .hover-target {
   display: block;
-}
-.gradientHeaderHollow {
-  font-family: "Work Sans", sans-serif;
-  font-weight: 800;
-  text-transform: uppercase;
-  background: -webkit-linear-gradient(#56ccf2, #6fcf97);
-  -webkit-background-clip: text;
-  -webkit-text-stroke: 6px transparent;
-  color: #e0e0e0;
 }
 
 /* Hover Underline Animation - Navbar */

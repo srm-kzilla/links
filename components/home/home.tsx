@@ -57,17 +57,19 @@ export default function HomeComponent(): JSX.Element {
             </div>
             <div className="ml-2 pt-2">LINKS</div>
           </a>
-          <div className="flex flex-row-reverse p-2">
-            <a
-              href={isAuth ? "/dashboard" : "/login"}
-              className="bg-lightblue flex items-center justify-center rounded shadow-md focus:outline-none text-lg font-bold text-white w-10/12 sm:w-2/7 md:w-1/3"
-            >
-              {isAuth ? "My Dashboard" : "Get Started"}
-            </a>
-          </div>
         </div>
+        <div className="flex flex-row-reverse p-2">
+          <a
+            href={isAuth ? "/dashboard" : "/login"}
+            className="bg-lightblue flex items-center justify-center rounded shadow-md focus:outline-none text-lg font-bold text-white w-10/12 sm:w-2/7 md:w-1/3"
+          >
+            {isAuth ? "My Dashboard" : "Get Started"}
+          </a>
+        </div>
+      </div>
 
-        <div className="grid grid-cols-0 md:grid-cols-2 w-full my-auto">
+      <div className="flex justify-center font-sans min-h-screen px-3 sm:px-8 2xl:px-12">
+        <div className="grid grid-cols-0 md:grid-cols-2 w-full">
           <div className="md:col-span-1 my-auto block md:hidden">
             <HeroLanding />
           </div>
