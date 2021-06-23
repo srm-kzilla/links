@@ -111,10 +111,10 @@ export default function ForgotPasswordComponent(): JSX.Element {
                   <div className="flex justify-between my-3">
                     <h1 className="text-lightgray font-bold">Enter OTP</h1>
                     <div className="text-right text-turquoiseGreen hover:opacity-80 font-bold">
-                      {counter != 0 && (
+                      {counter !== 0 && (
                         <h1>Resend OTP in: {counter}s</h1>
                       )}
-                      {counter == 0 && (
+                      {counter === 0 && (
                         <button
                           className={`font-bold focus:outline-none ${disableResendOtp && "opacity-50"}`}
                           disabled={disableResendOtp}
@@ -159,7 +159,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                     <button
                       type="submit"
                       disabled={isSubmittingOtp}
-                      onClick={() => verifyOtp()}
+                      onClick={verifyOtp}
                       className={`${isSubmittingOtp ? "border-lightgray text-lightgray text-xs" : "border-customGreen text-customGreen"} bg-white border-2 focus:outline-none hover:opacity-80 font-bold py-2 px-4 ml-2 rounded`}
                     >
                       {isSubmittingOtp ? "Please wait..." : "PROCEED"}
