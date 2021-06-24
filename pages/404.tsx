@@ -1,29 +1,49 @@
-import { NotFoundLeft, NotFoundZero, NotFoundRight } from "../assets/icons";
+import Link from "next/link";
 
+import {
+  NotFoundLeft,
+  NotFoundZero,
+  NotFoundRight,
+  LinksLogoBg,
+} from "../assets/icons";
 export default function Custom404() {
   return (
     <>
-      <div className="flex h-screen">
-        <div className="m-auto w-full">
-          <div className="flex items-center justify-center p-4">
-            <NotFoundLeft />
-            <div className="animate-bounce">
-              <NotFoundZero />
+      <div className="flex min-h-screen">
+        <div className="container mx-auto px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-center">
+          <div className="sm:w-3/5 m-2 flex justify-center">
+            <div className="flex items-center justify-evenly w-4/5 max-w-lg">
+              <NotFoundLeft />
+              <div className="animate-bounce">
+                <NotFoundZero />
+              </div>
+              <NotFoundRight />
             </div>
-            <NotFoundRight />
           </div>
-          <p className="w-full text-center mt-8 text-sm">
-            Oops! This page is not found!
-          </p>
-          <div className="text-center">
-            <a href="/">
-              <button
-                className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 sm:w-1/5 text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded">
-                TAKE ME HOME!
-              </button>
-            </a>
+          <div className="sm:w-2/5 flex flex-col items-start mt-8 sm:mt-0 text-center sm:text-left">
+            <h1 className="w-full my-4 font-Inter text-6xl font-black text-turquoiseGreen">
+              Oops!
+            </h1>
+            <h1 className="font-Inter text-6xl font-black text-lightgray">
+              The page was
+            </h1>
+            <h1 className="w-full font-Inter text-6xl font-black text-lightgray">
+              not found<span className="text-turquoiseGreen">.</span>
+            </h1>
+
+            <Link href="/">
+              <a className="w-full text-center sm:text-left">
+                <button className="bg-white border-2 border-turquoiseGreen text-turquoiseGreen outline-none focus:outline-none font-bold px-6 py-2 mt-10 rounded-md">
+                  TAKE ME HOME
+                </button>
+              </a>
+            </Link>
           </div>
         </div>
+      </div>
+
+      <div className="hidden lg:block absolute bottom-0 z-0">
+        <LinksLogoBg />
       </div>
     </>
   );

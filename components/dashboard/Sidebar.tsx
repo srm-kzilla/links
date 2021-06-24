@@ -252,13 +252,13 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                 <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                   <p className="pl-2">Total Links</p>
                   <div className="customGradient p-2">
-                    <p className="text-4xl">{links || "N.A"}</p>
+                    <p className="text-3xl">{links || "N.A"}</p>
                   </div>
                 </div>
                 <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                   <p className="pl-2">Total Views</p>
                   <div className="customGradient p-2">
-                    <p className="text-4xl">{totalViews || "N.A"}</p>
+                    <p className="text-3xl">{totalViews || "N.A"}</p>
                   </div>
                 </div>
               </div>
@@ -270,7 +270,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2">Conversion</p>
                     <div className="customGradient p-2">
-                      <p className="text-4xl">{conversionRate ? `${conversionRate}%` : <div className="p-2"><Loading /></div>}</p>
+                      <p className="text-3xl">{conversionRate ? `${conversionRate}%` : <div className="p-2"><Loading /></div>}</p>
                     </div>
                     <p 
                       className="flex flex-row-reverse cursor-pointer" 
@@ -288,7 +288,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2 overflow-hidden">{cityLabel || "City"}</p>
                     <div className="customGradient p-2">
-                    <p className="text-4xl">{cityValue ? cityValue : <div className="p-2"><Loading /></div>}</p>
+                    <p className="text-3xl">{cityValue ? cityValue : <div className="p-2"><Loading /></div>}</p>
                     </div>
                     <p 
                       className="flex flex-row-reverse cursor-pointer" 
@@ -312,7 +312,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   <div className="rounded-md text-xl text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2">Views</p>
                     <div className="customGradient p-2">
-                      <p className="text-4xl">{activeLink.views || "N.A"}</p>
+                      <p className="text-3xl">{activeLink.views || "N.A"}</p>
                     </div>
                     <p 
                       className="flex flex-row-reverse cursor-pointer" 
@@ -330,7 +330,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   <div className="rounded-md text-xl text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2">Clicks</p>
                     <div className="customGradient p-2">
-                      <div className="text-4xl">{clicksLoading ? <div className="p-2"><Loading /></div> : activeLinkClicks}</div>
+                      <div className="text-3xl">{clicksLoading ? <div className="p-2"><Loading /></div> : activeLinkClicks}</div>
                     </div>
                     <p 
                       className="flex flex-row-reverse cursor-pointer" 

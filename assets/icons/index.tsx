@@ -16,6 +16,5 @@ export { default as Circle } from "./circle";
 export { default as DoubleCircle } from "./doublecircle";
 export { default as EditPencil } from "./editpencil";
 export { default as LinksLogoBg } from "./linkslogobg";
-export { default as EllipseGray } from "./ellipsegray";
 export { default as AddLink } from "./addlink";
 export { default as Info } from "./info";

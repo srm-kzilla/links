@@ -102,7 +102,7 @@ export default function Navbar() {
           </div>
 
           {isOpen && (
-            <Fade top>
+            <Fade top duration={100}>
               <div className="relative">
                 <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center text-buttongray">
                   {isAuth &&
