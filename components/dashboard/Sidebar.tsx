@@ -140,7 +140,6 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
         setConversionRate("");
         setCityValue("");
         const _res = await getLinkStats(authToken, activeLink._id);
-        console.log(_res);
         if (_res.maxValue != "NIL") {
           setCityLabel(_res.maxValue.label);
           setCityValue(_res.maxValue.value);
@@ -158,7 +157,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
     <>
       {isOpen && (
         <Slide right>
-          <div className="fixed z-40 w-full lg:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white">
+          <div className="fixed z-40 w-full lg:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white overflow-auto">
             <button
               onClick={onClose}
               className="relative lg:hidden float-right mt-6 cursor-pointer"
@@ -179,7 +178,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   <div className="flex flex-col">
                     {!showTitleInput && (
                       <h1 className="relative text-xl text-lightgray font-bold mx-2">
-                        {truncateText(activeLink.title, 15, 12)}
+                        {activeLink.title ? truncateText(activeLink.title, 15, 12) : "untitled"}
                         <button
                           onClick={() => setShowTitleInput(true)}
                           title="Edit Title"
@@ -272,31 +271,31 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     <div className="customGradient p-2">
                       <p className="text-3xl">{conversionRate ? `${conversionRate}%` : <div className="p-2"><Loading /></div>}</p>
                     </div>
-                    <p 
-                      className="flex flex-row-reverse cursor-pointer" 
+                    <p
+                      className="flex flex-row-reverse cursor-pointer"
                       data-tip="Percentage of total clicks over links for a link">
-                        <Info />
+                      <Info />
                     </p>
-                    <ReactTooltip 
-                      effect="solid" 
+                    <ReactTooltip
+                      effect="solid"
                       place="bottom"
                       backgroundColor="black"
                       clickable={true}
                     />
-                  </div> 
+                  </div>
 
                   <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2 overflow-hidden">{cityLabel || "City"}</p>
                     <div className="customGradient p-2">
-                    <p className="text-3xl">{cityValue ? cityValue : <div className="p-2"><Loading /></div>}</p>
+                      <p className="text-3xl">{cityValue ? cityValue : <div className="p-2"><Loading /></div>}</p>
                     </div>
-                    <p 
-                      className="flex flex-row-reverse cursor-pointer" 
+                    <p
+                      className="flex flex-row-reverse cursor-pointer"
                       data-tip="City with the highest number of clicks">
-                        <Info />
+                      <Info />
                     </p>
-                    <ReactTooltip 
-                      effect="solid" 
+                    <ReactTooltip
+                      effect="solid"
                       place="bottom"
                       backgroundColor="black"
                       clickable={true}
@@ -314,13 +313,13 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     <div className="customGradient p-2">
                       <p className="text-3xl">{activeLink.views || "N.A"}</p>
                     </div>
-                    <p 
-                      className="flex flex-row-reverse cursor-pointer" 
+                    <p
+                      className="flex flex-row-reverse cursor-pointer"
                       data-tip="Total number of views for this link">
-                        <Info />
+                      <Info />
                     </p>
-                    <ReactTooltip 
-                      effect="solid" 
+                    <ReactTooltip
+                      effect="solid"
                       place="bottom"
                       backgroundColor="black"
                       clickable={true}
@@ -332,13 +331,13 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     <div className="customGradient p-2">
                       <div className="text-3xl">{clicksLoading ? <div className="p-2"><Loading /></div> : activeLinkClicks}</div>
                     </div>
-                    <p 
-                      className="flex flex-row-reverse cursor-pointer" 
+                    <p
+                      className="flex flex-row-reverse cursor-pointer"
                       data-tip="Total number of clicks for this link">
-                        <Info />
+                      <Info />
                     </p>
-                    <ReactTooltip 
-                      effect="solid" 
+                    <ReactTooltip
+                      effect="solid"
                       place="bottom"
                       backgroundColor="black"
                       clickable={true}
@@ -386,7 +385,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                         rel="noopener noreferrer"
                         href={activeLink.url}>
                         <p className="text-lightgraycustom flex-initial">
-                          {truncateText(activeLink.url, 30, 23)}
+                          {activeLink.url ? truncateText(activeLink.url, 30, 23) : "No URL specified"}
                         </p>
                       </a>
                     )}

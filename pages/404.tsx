@@ -11,7 +11,7 @@ export default function Custom404() {
     <>
       <div className="flex min-h-screen">
         <div className="container mx-auto px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-center">
-          <div className="sm:w-3/5 m-2 flex justify-center">
+          <div className="sm:w-6/12 m-2 flex justify-center">
             <div className="flex items-center justify-evenly w-4/5 max-w-lg">
               <NotFoundLeft />
               <div className="animate-bounce">
@@ -20,7 +20,7 @@ export default function Custom404() {
               <NotFoundRight />
             </div>
           </div>
-          <div className="sm:w-2/5 flex flex-col items-start mt-8 sm:mt-0 text-center sm:text-left">
+          <div className="sm:w-6/12 flex flex-col items-start mt-8 sm:mt-0 text-center sm:text-left">
             <h1 className="w-full my-4 font-Inter text-6xl font-black text-turquoiseGreen">
               Oops!
             </h1>

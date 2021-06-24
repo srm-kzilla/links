@@ -36,14 +36,14 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
           </figure>
 
           <div className="flex flex-col transition items-start">
-            <h2 className="text-xl md:text-3xl font-bold text-lightgray">{truncateText(link.title, 20, 20)}</h2>
+            <h2 className="text-xl md:text-3xl font-bold text-lightgray">{link.title ? truncateText(link.title, 20, 20) : "untitled"}</h2>
             <a
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs md:text-md md:inline-block text-lightgray"
             >
-              {truncateText(link.url, 40, 40)}
+              {link.url ? truncateText(link.url, 40, 40) : "No URL specified"}
             </a>
           </div>
         </div>

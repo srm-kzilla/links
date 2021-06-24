@@ -7,11 +7,16 @@ import { Eye, EyeHide } from "../../assets/icons";
 import { FloatingCard } from "../shared";
 
 const SignUpComponent = () => {
+  const [usernameInput, setUsernameInput] = useState<string>("");
+  const [emailInput, setEmailInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
+  const [confirmPasswordInput, setConfirmPasswordInput] = useState<string>("");
+
   const initialValues = {
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    username: usernameInput,
+    email: emailInput,
+    password: passwordInput,
+    confirmPassword: confirmPasswordInput,
   };
 
   const validationSchema = Yup.object({
@@ -69,6 +74,7 @@ const SignUpComponent = () => {
           <Formik
             initialValues={initialValues}
             onSubmit={(values) => submitHandler(values)}
+            enableReinitialize
             validateOnBlur={false}
             validateOnChange={false}
             validationSchema={validationSchema}
@@ -79,6 +85,7 @@ const SignUpComponent = () => {
                 <Field
                   name="email"
                   type="email"
+                  onKeyUp={(e) => setEmailInput(e.target.value)}
                   className="mb-4 border-b-2 border-lightgraycustom text-lightgraycustom font-semibold outline-none focus:outline-none w-full px-2 py-1"
                 />
                 {errors.email && (
@@ -90,6 +97,7 @@ const SignUpComponent = () => {
                 <Field
                   name="username"
                   type="text"
+                  onKeyUp={(e) => setUsernameInput(e.target.value)}
                   className="mb-4 border-b-2 border-lightgraycustom text-lightgraycustom font-semibold outline-none focus:outline-none w-full px-2 py-1"
                 />
                 {errors.username && (
@@ -102,6 +110,7 @@ const SignUpComponent = () => {
                   <Field
                     name="password"
                     type={passwordShown ? "text" : "password"}
+                    onKeyUp={(e) => setPasswordInput(e.target.value)}
                     className="mb-4 border-b-2 border-lightgraycustom text-lightgraycustom font-semibold outline-none focus:outline-none w-full px-2 py-1"
                   />
                   <i
@@ -120,6 +129,7 @@ const SignUpComponent = () => {
                 <Field
                   name="confirmPassword"
                   type="password"
+                  onKeyUp={(e) => setConfirmPasswordInput(e.target.value)}
                   className="mb-4 border-b-2 border-lightgraycustom text-lightgraycustom font-semibold outline-none focus:outline-none w-full px-2 py-1"
                 />
                 {errors.confirmPassword && (

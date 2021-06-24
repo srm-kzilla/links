@@ -11,11 +11,13 @@ import { FloatingCard } from "../shared";
 
 const LoginComponent = () => {
   const { setIsAuth } = useContext(AuthContext);
+  const [userIdInput, setUserIdInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
   const router = useRouter();
 
   const initialValues = {
-    userId: "",
-    password: "",
+    userId: userIdInput,
+    password: passwordInput,
   };
 
   const validationSchema = Yup.object({
@@ -59,6 +61,7 @@ const LoginComponent = () => {
             <Formik
               initialValues={initialValues}
               onSubmit={(values) => submitHandler(values)}
+              enableReinitialize
               validateOnBlur={false}
               validateOnChange={false}
               validationSchema={validationSchema}
@@ -69,6 +72,7 @@ const LoginComponent = () => {
                   <Field
                     name="userId"
                     type="text"
+                    onKeyUp={(e) => setUserIdInput(e.target.value)}
                     className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold mb-4 outline-none focus:outline-none w-full px-2 py-2"
                   />
                   {errors.userId && (
@@ -88,6 +92,7 @@ const LoginComponent = () => {
                     <Field
                       name="password"
                       type={passwordShown ? "text" : "password"}
+                      onKeyUp={(e) => setPasswordInput(e.target.value)}
                       className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold mb-4 outline-none focus:outline-none w-full px-2 py-2"
                     />
                     <i
