@@ -15,7 +15,7 @@ module.exports = {
       },
       colors: {
         backdrop: " rgba(0,0,0,0.3)",
-        backgroundwhite: "#E0E0E0",
+        backgroundwhite: "#F5F5F5",
         backgroundwhiteinset: "#bababa",
         offwhite: "#F4FBF7",
         lightblue: "#56CCF2",
@@ -28,6 +28,11 @@ module.exports = {
         statusGreen: "#6FCF97",
         lightestGreen: "#F1FAF5",
         turquoiseGreen: "#40BEAF",
+        lightgray: {
+          DEFAULT: "#5F5F5F",
+          25: "rgba(95, 95, 95, 0.25)",
+          50: "rgba(95, 95, 95, 0.50)"
+        },
       },
       boxShadow: {
         custom: "1px 1px 6px rgba(0, 0, 0, 0.25)",
@@ -37,7 +42,7 @@ module.exports = {
       },
       inset: {
         addButton: "72%",
-        '37': "9.5rem",
+        37: "9.5rem",
       },
       minHeight: {
         custom: "90vh",

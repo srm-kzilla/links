@@ -22,6 +22,5 @@ export { default as Instagram } from "./instagram";
 export { default as LeftDotted } from "./leftdotted";
 export { default as RightDotted } from "./rightdotted";
 export { default as LinksLogoBg } from "./linkslogobg";
-export { default as EllipseGray } from "./ellipsegray";
 export { default as AddLink } from "./addlink";
 export { default as Info } from "./info";

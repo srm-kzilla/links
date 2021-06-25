@@ -31,8 +31,10 @@ const DeleteModal = ({
       {isOpen && (
         <div className="fixed z-50 top-0 right-0 bottom-0 left-0">
           <div className="fixed top-0 bottom-0 left-0 right-0 z-0 bg-backdrop">
-            <Fade bottom duration={500}>
-              <div className="fixed bottom-0 p-8 md:left-1/3 w-full md:w-1/3 bg-white rounded-t-lg shadow-2xl">
+          <div className="flex h-screen">
+          <div className="flex w-full items-center justify-evenly">
+            <Fade bottom duration={200}>
+              <div className="p-8 w-full md:w-1/3 bg-white rounded-lg shadow-2xl max-w-md">
                 <a onClick={onClose} className="float-right cursor-pointer">
                   <GrFormClose size={24} />
                 </a>
@@ -59,6 +61,8 @@ const DeleteModal = ({
                 </div>
               </div>
             </Fade>
+            </div>
+            </div>
           </div>
         </div>
       )}

@@ -11,7 +11,7 @@ import { baseUrl } from "../../utils/constants";
 import { ImageContext } from "../../store/profileImageContext";
 import { FileUploader } from "../profile";
 import { ChangePasswordModal } from "../profile";
-import { LinksLogoBg, EditPencil, EllipseGray } from "../../assets/icons";
+import { LinksLogoBg, EditPencil } from "../../assets/icons";
 import { truncateText } from "../../utils/functions";
 
 export default function ProfileComponent({ _resProfile }): JSX.Element {
@@ -231,9 +231,6 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
       />
-      <div className="hidden lg:block absolute top-0 right-0 z-0">
-        <EllipseGray />
-      </div>
       <div className="hidden lg:block absolute bottom-0 z-0">
         <LinksLogoBg />
       </div>
