@@ -2,8 +2,8 @@ export default function RightDotted(): JSX.Element {
   return (
     <>
       <svg
-        width={101}
-        height={116}
+        width="inherit"
+        height="inherit"
         viewBox="0 0 101 116"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

@@ -2,8 +2,8 @@ export default function LeftDotted(): JSX.Element {
   return (
     <>
       <svg
-        width={74}
-        height={116}
+        width="inherit"
+        height="inherit"
         viewBox="0 0 74 116"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
