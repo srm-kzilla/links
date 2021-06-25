@@ -4,14 +4,6 @@ export default function HeroLanding() {
     <>
       <div className=" max-w-2xl mx-0 sm:mx-12 md:mx-16 lg:mx-auto">
         <div className="flex flex-col">
-          {/* <div className="flex items-center py-4 bg-white shadow-md rounded-lg w-2/3">
-            <div className="mx-4">
-              <Linkedin />
-            </div>
-            <p className="text-gray-400 mx-3 text-lg text-center">
-              https://www.linkedin.com/in/
-            </p>
-          </div> */}
           <div className="flex flex-row">
             <div className="flex items-end">
               <div className="flex items-center px-2 py-2 sm:py-4 sm:px-4 bg-white shadow-md rounded-lg">
