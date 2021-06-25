@@ -32,11 +32,10 @@ export default function DashboardComponent({
 }: DashboardProps) {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
   const [links, setLinks] = useState<Link[]>(_resLinks);
-  const [searchLinkResults, setSearchLinkResults] = useState<Link[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
-  const [searchLink, setSearchLink] = useRecoilState(searchDashboardLink);
+  const [searchLink] = useRecoilState(searchDashboardLink);
 
   useEffect(() => {
     if (window.innerWidth <= 768) setIsSidebarOpen(false);
@@ -54,14 +53,17 @@ export default function DashboardComponent({
   useEffect(() => {
     let searchResults: Link[] = [];
 
-    if (searchLink != "") {
+    if (searchLink !== "") {
       links.map((item) => {
         if (item.title.toLowerCase().includes(searchLink.toLowerCase())) {
           searchResults.push(item);
         }
       });
+      if (!searchResults.length) setLinks(_resLinks);
+      else setLinks(searchResults);
+      return;
     }
-    setSearchLinkResults(searchResults);
+    setLinks(_resLinks);
   }, [searchLink]);
 
   const onAddLinkHandler = (
@@ -124,30 +126,18 @@ export default function DashboardComponent({
               onAddLink={onAddLinkHandler}
             />
 
-            {searchLinkResults.length > 0
-              ? searchLinkResults.map((link) => (
-                  <Card
-                    key={link._id}
-                    onCardClick={() => {
-                      setSearchLinkResults([]);
-                      setActiveLink(link);
-                      setIsSidebarOpen(true);
-                    }}
-                    link={link}
-                    onDeleteCard={onDeleteLinkHandler}
-                  />
-                ))
-              : links.map((link) => (
-                  <Card
-                    key={link._id}
-                    onCardClick={() => {
-                      setActiveLink(link);
-                      setIsSidebarOpen(true);
-                    }}
-                    link={link}
-                    onDeleteCard={onDeleteLinkHandler}
-                  />
-                ))}
+            {links.map((link) => (
+              <Card
+                key={link._id}
+                onCardClick={() => {
+                  setLinks(_resLinks);
+                  setActiveLink(link);
+                  setIsSidebarOpen(true);
+                }}
+                link={link}
+                onDeleteCard={onDeleteLinkHandler}
+              />
+            ))}
           </div>
 
           <Sidebar
