@@ -58,7 +58,7 @@ export default function HomeComponent(): JSX.Element {
         <div className="flex flex-row-reverse p-2 mr-2">
           <a
             href={isAuth ? "/dashboard" : "/login"}
-            className=" flex items-center justify-center bg-white border-2 rounded hover:opacity-80 border-statusGreen focus:outline-none uppercase text-md lg:text-lg text-statusGreen font-bold w-8/12 sm:w-2/7 md:w-1/3 "
+            className=" flex items-center justify-center bg-white border-2 rounded hover:opacity-80 border-statusGreen focus:outline-none uppercase text-sm lg:text-lg text-statusGreen font-bold w-9/12 sm:w-2/7 md:w-1/3 "
           >
             {isAuth ? "My Dashboard" : "Get Started"}
           </a>
@@ -67,14 +67,14 @@ export default function HomeComponent(): JSX.Element {
 
       <div className="flex justify-center font-sans min-h-screen px-3 sm:px-8 2xl:px-12">
         <div className="grid grid-cols-0 lg:grid-cols-2 w-full">
-          <div className="lg:col-span-1 my-auto py-20 block lg:hidden">
+          <div className="lg:col-span-1 my-auto pt-10 block lg:hidden">
             <HeroLanding />
           </div>
-          <div className="text-gray-600 font-Inter lg:col-span-1 my-auto px-5 text-center lg:text-left font-bold ">
-            <h1 className="py-3 text-4xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider">
+          <div className="text-gray-600 font-Inter lg:col-span-1 lg:my-auto px-5 text-center lg:text-left font-bold ">
+            <h1 className="py-3 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider">
               Your ultimate
             </h1>
-            <h2 className="py-3 lg:ml-0 text-4xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider mb-24">
+            <h2 className="py-3 lg:ml-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider mb-10 lg:mb-24">
               URL <span className="text-statusGreen">warehouse</span>
             </h2>
 
@@ -87,11 +87,11 @@ export default function HomeComponent(): JSX.Element {
             >
               {({ errors }) => (
                 <Form>
-                  <div className="grid grid-cols-8 pb-5 md:pb-0">
+                  <div className="grid grid-cols-8 pb-10 sm:pb-5 md:pb-0 text-center sm:text-left">
                     <Field
                       name="email"
                       type="email"
-                      className="col-span-5 p-2 sm:p-7 md:pt-2 lg:pt-5 border-statusGreen border-l-8 focus:outline-none block w-full bg-lightestgray"
+                      className="col-span-7 lg:col-span-5 p-2 sm:p-7 md:pt-2 lg:pt-5 border-statusGreen border-l-8 focus:outline-none block w-full bg-lightestgray"
                       placeholder="abc@example.com"
                     />
 
