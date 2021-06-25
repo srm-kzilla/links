@@ -1,6 +1,7 @@
 import { MdContentCopy } from "react-icons/md";
 import { errorHandler, successHandler } from "../../utils/api";
 import { baseUrl } from "../../utils/constants";
+import { truncateText } from "../../utils/functions";
 import { LinkCard } from "../publicPage";
 
 export interface CardLink {
@@ -37,8 +38,8 @@ export default function LinkPageComponent({ _resLinks }) {
             className="w-2/6 h-2/6 rounded-full border shadow-md mt-20"
             src={_resLinks.profilePicture}
           />
-          <h1 className="my-5 font-extrabold tracking-wide text-2xl uppercase text-turquoiseGreen">
-            {_resLinks.name || _resLinks.username}
+          <h1 className="my-5 text-sm xs:text-2xl font-extrabold tracking-wide uppercase text-turquoiseGreen">
+            {truncateText((_resLinks.name || _resLinks.username), 25, 20)}
           </h1>
           <p className="text-center my-2 p-2">{_resLinks.bio}</p>
         </div>
@@ -88,7 +89,7 @@ export default function LinkPageComponent({ _resLinks }) {
           </div>
           <div className="flex flex-col min-h-full justify-center sm:w-3/5">
             <h1 className="text-5xl tracking-wide font-bold uppercase text-lightgray-50">
-              {_resLinks.name || _resLinks.username}
+              {truncateText((_resLinks.name || _resLinks.username), 25, 20)}
             </h1>
             <div className="bg-backgroundwhite my-4 overflow-auto max-h-96 rounded-lg p-8">
               <div className="grid grid-cols-1 gap-3">

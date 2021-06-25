@@ -17,6 +17,12 @@ body {
   background-color: #ffffff;
 }
 
+/* Disable password reveal icon on Microsoft Edge Browser */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
 textarea {
   resize: none;
 }
@@ -44,7 +50,7 @@ textarea {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #40BEAF;
+  background: #40beaf;
 }
 
 .grecaptcha-badge {

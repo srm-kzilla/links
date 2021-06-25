@@ -20,7 +20,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const router = useRouter();
 
   const [enterCode, setEnterCode] = useState<boolean>(false);
-  const [otp, setOtp] = useState<number>();
+  const [otp, setOtp] = useState<number>(0);
   const [counter, setCounter] = useState<number>(120);
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(true);
@@ -29,17 +29,20 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const [isSubmittingPassword, setIsSubmittingPassword] = useState<boolean>(false);
   const [disableResendOtp, setDisableResendOtp] = useState<boolean>(false);
 
+  const [emailInput, setEmailnput] = useState<string>("");
+  const [newPasswordInput, setNewPasswordInput] = useState<string>("");
+  const [confirmNewPasswordInput, setConfirmNewPasswordInput] = useState<string>("");
+
   const [resetPwdToken, setResetPwdToken] = useRecoilState(resetPasswordToken);
   const [forgotPwdEmail, setForgotPwdEmail] = useRecoilState(resendOtpEmail);
 
   const initialValues = {
-    oldPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
+    newPassword: newPasswordInput,
+    confirmNewPassword: confirmNewPasswordInput,
   };
 
   const emailInitialValue = {
-    email: "",
+    email: emailInput,
   };
 
   useEffect(() => {
@@ -68,15 +71,17 @@ export default function ForgotPasswordComponent(): JSX.Element {
   };
 
   const verifyOtp = async () => {
-    setIsSubmittingOtp(true);
-    const values = {
-      otp: otp,
-    };
-    const _res = await postVerifyOtp(resetPwdToken, values);
-    if (_res) {
-      setChangePassword(true);
-      setOtpVerified(false);
-      setIsSubmittingOtp(false);
+    if(String(otp).length === 6) {
+      setIsSubmittingOtp(true);
+      const values = {
+        otp: otp,
+      };
+      const _res = await postVerifyOtp(resetPwdToken, values);
+      if (_res) {
+        setChangePassword(true);
+        setOtpVerified(false);
+        setIsSubmittingOtp(false);
+      } 
     }
     setIsSubmittingOtp(false);
   };
@@ -181,6 +186,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                   <Formik
                     initialValues={initialValues}
                     onSubmit={(values) => submitNewPassword(values.newPassword)}
+                    enableReinitialize
                     validateOnBlur={false}
                     validateOnChange={false}
                     validationSchema={forgotPasswordValidationSchema}
@@ -193,6 +199,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                             type={passwordShown ? 'text' : 'password'}
                             name="newPassword"
                             autoComplete="off"
+                            onKeyUp={(e) => setNewPasswordInput(e.target.value)}
                             className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none w-full"
                           />
                           <i
@@ -213,6 +220,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                           type="password"
                           name="confirmNewPassword"
                           autoComplete="off"
+                          onKeyUp={(e) => setConfirmNewPasswordInput(e.target.value)}
                           className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none w-full"
                         />
                         {errors.confirmNewPassword && (
@@ -257,6 +265,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
               <Formik
                 initialValues={emailInitialValue}
                 onSubmit={(values) => sendVerificationCode(values.email)}
+                enableReinitialize
                 validateOnBlur={false}
                 validateOnChange={false}
                 validationSchema={forgotPasswordEmailValidationSchema}
@@ -268,6 +277,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                       <Field
                         type="email"
                         name="email"
+                        onKeyUp={(e) => setEmailnput(e.target.value)}
                         className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none my-4"
                         placeholder="abc@xyzmail.com"
                       />

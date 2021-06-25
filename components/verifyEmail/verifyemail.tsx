@@ -1,4 +1,5 @@
 import { setCookie } from "nookies";
+import Link from "next/link";
 import Lottie from "react-lottie";
 
 import animationData from "../../public/lotties/success.json";
@@ -29,11 +30,13 @@ export default function VerifyEmailComponent({ authTokenProp }): JSX.Element {
             You can now continue to add your links in your dashboard! 🥳
           </p>
           <div className="text-center">
-            <a href="/dashboard">
-              <button className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 sm:w-1/5 text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded">
-                TAKE ME TO DASHBOARD
-              </button>
-            </a>
+            <Link href="/dashboard">
+              <a>
+                <button className="bg-white border-2 border-statusGreen text-statusGreen font-bold outline-none focus:outline-none hover:opacity-80 w-2/3 sm:w-1/5 text-md py-3 px-4 my-10 rounded-md">
+                  TAKE ME TO DASHBOARD
+                </button>
+              </a>
+            </Link>
           </div>
         </div>
       </div>
