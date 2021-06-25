@@ -67,10 +67,10 @@ export default function HomeComponent(): JSX.Element {
 
       <div className="flex justify-center font-sans min-h-screen px-3 sm:px-8 2xl:px-12">
         <div className="grid grid-cols-0 lg:grid-cols-2 w-full">
-          <div className="lg:col-span-1 my-auto pt-10 block lg:hidden">
+          <div className="lg:col-span-1 mt-20 mb-10 lg:mb-0 lg:my-auto mx-auto block lg:hidden">
             <HeroLanding />
           </div>
-          <div className="text-gray-600 font-Inter lg:col-span-1 lg:my-auto px-5 text-center lg:text-left font-bold ">
+          <div className="text-gray-600 font-Inter lg:col-span-1 md:my-5 lg:my-auto px-5 text-center lg:text-left font-bold ">
             <h1 className="py-3 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider">
               Your ultimate
             </h1>
@@ -87,7 +87,7 @@ export default function HomeComponent(): JSX.Element {
             >
               {({ errors }) => (
                 <Form>
-                  <div className="grid grid-cols-8 pb-10 sm:pb-5 md:pb-0 text-center sm:text-left">
+                  <div className="grid grid-cols-8 text-center sm:text-left">
                     <Field
                       name="email"
                       type="email"
@@ -118,6 +118,9 @@ export default function HomeComponent(): JSX.Element {
                 </Form>
               )}
             </Formik>
+            <h1 className="py-3 mb-5 text-left text-md sm:text-xl md:text-2xl 2xl:text-4xl tracking-wider">
+              Subscribe to mailer
+            </h1>
           </div>
           <div className="col-span-1 my-auto hidden lg:block">
             <HeroLanding />
