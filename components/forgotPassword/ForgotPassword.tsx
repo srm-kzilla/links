@@ -5,8 +5,15 @@ import { Formik, Field, Form } from "formik";
 import Link from "next/link";
 import VerificationInput from "react-verification-input";
 
-import { postForgotPasswordEmail, postVerifyOtp, patchNewForgotPassword } from "../../utils/api";
-import { forgotPasswordEmailValidationSchema, forgotPasswordValidationSchema } from "../../utils/schema";
+import {
+  postForgotPasswordEmail,
+  postVerifyOtp,
+  patchNewForgotPassword,
+} from "../../utils/api";
+import {
+  forgotPasswordEmailValidationSchema,
+  forgotPasswordValidationSchema,
+} from "../../utils/schema";
 import { Eye, EyeHide } from "../../assets/icons";
 import { resetPasswordToken, resendOtpEmail } from "../../utils/store";
 import { FloatingCard } from "../shared";
@@ -26,7 +33,8 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const [otpVerified, setOtpVerified] = useState<boolean>(true);
   const [isSubmittingEmail, setIsSubmittingEmail] = useState<boolean>(false);
   const [isSubmittingOtp, setIsSubmittingOtp] = useState<boolean>(false);
-  const [isSubmittingPassword, setIsSubmittingPassword] = useState<boolean>(false);
+  const [isSubmittingPassword, setIsSubmittingPassword] =
+    useState<boolean>(false);
   const [disableResendOtp, setDisableResendOtp] = useState<boolean>(false);
 
   const [resetPwdToken, setResetPwdToken] = useRecoilState(resetPasswordToken);
@@ -84,12 +92,12 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const submitNewPassword = async (newPassword: string) => {
     setIsSubmittingPassword(true);
     const values = {
-      newPassword: newPassword
-    }
+      newPassword: newPassword,
+    };
     const _res = await patchNewForgotPassword(resetPwdToken, values);
     if (_res) {
       setIsSubmittingPassword(false);
-      router.replace('/login');
+      router.replace("/login");
     }
     setIsSubmittingPassword(false);
   };
@@ -110,18 +118,19 @@ export default function ForgotPasswordComponent(): JSX.Element {
                 >
                   <div className="flex justify-between my-3">
                     <h1 className="text-lightgray font-bold">Enter OTP</h1>
-                    <div className="text-right text-turquoiseGreen hover:opacity-80 font-bold">
-                      {counter !== 0 && (
-                        <h1>Resend OTP in: {counter}s</h1>
-                      )}
+                    <div className="text-right text-primaryGreen-300 hover:opacity-80 font-bold">
+                      {counter !== 0 && <h1>Resend OTP in: {counter}s</h1>}
                       {counter === 0 && (
                         <button
-                          className={`font-bold focus:outline-none ${disableResendOtp && "opacity-50"}`}
+                          className={`font-bold focus:outline-none ${
+                            disableResendOtp && "opacity-50"
+                          }`}
                           disabled={disableResendOtp}
                           onClick={() => {
-                            sendVerificationCode(forgotPwdEmail)
-                            setDisableResendOtp(true)
-                          }}>
+                            sendVerificationCode(forgotPwdEmail);
+                            setDisableResendOtp(true);
+                          }}
+                        >
                           <h1>Resend OTP</h1>
                         </button>
                       )}
@@ -140,12 +149,16 @@ export default function ForgotPasswordComponent(): JSX.Element {
                       className: "w-full text-center text-darkgray",
                     }}
                     characters={{
-                      className: "h-10 w-full font-extrabold text-xl text-darkgray",
+                      className:
+                        "h-10 w-full font-extrabold text-xl text-darkgray",
                     }}
                     character={{
-                      className: "bg-backgroundwhite mx-1 md:mx-2 rounded-md pt-2 text-darkgray",
-                      classNameInactive: "bg-backgroundwhite rounded-md cursor-text text-darkgray",
-                      classNameSelected: "bg-backgroundwhite focus: ring rounded-md text-darkgray",
+                      className:
+                        "bg-backgroundwhite mx-1 md:mx-2 rounded-md pt-2 text-darkgray",
+                      classNameInactive:
+                        "bg-backgroundwhite rounded-md cursor-text text-darkgray",
+                      classNameSelected:
+                        "bg-backgroundwhite focus: ring rounded-md text-darkgray",
                     }}
                   />
                   <div className="flex justify-between mt-8">
@@ -160,7 +173,11 @@ export default function ForgotPasswordComponent(): JSX.Element {
                       type="submit"
                       disabled={isSubmittingOtp}
                       onClick={verifyOtp}
-                      className={`${isSubmittingOtp ? "border-lightgray text-lightgray text-xs" : "border-customGreen text-customGreen"} bg-white border-2 focus:outline-none hover:opacity-80 font-bold py-2 px-4 ml-2 rounded`}
+                      className={`${
+                        isSubmittingOtp
+                          ? "border-lightgray text-lightgray text-xs"
+                          : "border-customGreen text-customGreen"
+                      } bg-white border-2 focus:outline-none hover:opacity-80 font-bold py-2 px-4 ml-2 rounded`}
                     >
                       {isSubmittingOtp ? "Please wait..." : "PROCEED"}
                     </button>
@@ -187,10 +204,12 @@ export default function ForgotPasswordComponent(): JSX.Element {
                   >
                     {({ errors }) => (
                       <Form>
-                        <h1 className="text-lightgray font-bold">New Password</h1>
+                        <h1 className="text-lightgray font-bold">
+                          New Password
+                        </h1>
                         <div className="relative">
                           <Field
-                            type={passwordShown ? 'text' : 'password'}
+                            type={passwordShown ? "text" : "password"}
                             name="newPassword"
                             autoComplete="off"
                             className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none w-full"
@@ -208,7 +227,9 @@ export default function ForgotPasswordComponent(): JSX.Element {
                           </div>
                         )}
 
-                        <h1 className="text-lightgray font-bold mt-4">Confirm New Password</h1>
+                        <h1 className="text-lightgray font-bold mt-4">
+                          Confirm New Password
+                        </h1>
                         <Field
                           type="password"
                           name="confirmNewPassword"
@@ -231,7 +252,11 @@ export default function ForgotPasswordComponent(): JSX.Element {
                           <button
                             type="submit"
                             disabled={isSubmittingPassword}
-                            className={`${isSubmittingPassword ? "border-lightgray text-lightgray text-xs" : "border-customGreen text-customGreen"} bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
+                            className={`${
+                              isSubmittingPassword
+                                ? "border-lightgray text-lightgray text-xs"
+                                : "border-customGreen text-customGreen"
+                            } bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
                           >
                             {isSubmittingPassword ? "Please wait..." : "UPDATE"}
                           </button>
@@ -287,7 +312,11 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         <button
                           type="submit"
                           disabled={isSubmittingEmail}
-                          className={`${isSubmittingEmail ? "border-lightgray text-lightgray text-xs" : "border-customGreen text-customGreen"} bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
+                          className={`${
+                            isSubmittingEmail
+                              ? "border-lightgray text-lightgray text-xs"
+                              : "border-customGreen text-customGreen"
+                          } bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
                         >
                           {isSubmittingEmail ? "Please wait..." : "SEND OTP"}
                         </button>

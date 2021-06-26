@@ -3,7 +3,7 @@ import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
 import { Formik, Field, Form } from "formik";
 
-import { addLinkValidationSchema } from "../../utils/schema"
+import { addLinkValidationSchema } from "../../utils/schema";
 
 interface AddModalProps {
   isOpen: boolean;
@@ -11,10 +11,9 @@ interface AddModalProps {
   onAddLink: (
     link: { title: string; url: string },
     resetForm: () => void,
-    closeModal: () => void,
+    closeModal: () => void
   ) => void;
 }
-
 
 const AddModal = ({
   isOpen,
@@ -44,7 +43,7 @@ const AddModal = ({
                     <a onClick={onClose} className="float-right cursor-pointer">
                       <GrFormClose size={24} />
                     </a>
-                    <h1 className="text-turquoiseGreen font-extrabold text-3xl text-center">
+                    <h1 className="text-primaryGreen-300 font-extrabold text-3xl text-center">
                       Add New Link
                     </h1>
                     <Formik
@@ -52,8 +51,7 @@ const AddModal = ({
                       onSubmit={(values, { resetForm }) => {
                         onAddLink(values, resetForm, onClose);
                         setIsSubmittingLink(true);
-                      }
-                      }
+                      }}
                       validateOnBlur={false}
                       validateOnChange={false}
                       validationSchema={addLinkValidationSchema}
@@ -87,7 +85,11 @@ const AddModal = ({
                             <button
                               type="submit"
                               disabled={isSubmittingLink}
-                              className={`${isSubmittingLink ? "border-lightgray text-lightgray" : "border-statusGreen text-statusGreen"} bg-white border-2 focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-3 px-4 my-2 rounded`}
+                              className={`${
+                                isSubmittingLink
+                                  ? "border-lightgray text-lightgray"
+                                  : "border-primaryGreen text-primaryGreen"
+                              } bg-white border-2 focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-3 px-4 my-2 rounded`}
                             >
                               {isSubmittingLink ? "Please wait..." : "ADD LINK"}
                             </button>

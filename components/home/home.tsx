@@ -2,6 +2,7 @@
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { useContext, useState } from "react";
+import Link from "next/link";
 
 //Local imports
 import { errorHandler, postSubscribe } from "../../utils/api";
@@ -48,23 +49,21 @@ export default function HomeComponent(): JSX.Element {
   return (
     <>
       <div className="grid grid-cols-2 absolute top-0 right-0 left-0 pt-2">
-        <a
-          href="/"
-          className="ml-2 pt-1 text-lightgray text-lg sm:text-2xl font-bold p-3 text-left"
-        >
-          <div className="float-left mr-2 h-9 w-9 sm:h-12 sm:w-12">
-            <Logo />
-          </div>
-          <div className="ml-2 pt-2">LINKS</div>
-        </a>
+        <Link href="/">
+          <a className="ml-2 pt-1 text-lightgray text-lg sm:text-2xl font-bold p-3 text-left">
+            <div className="float-left mr-2 h-9 w-9 sm:h-12 sm:w-12">
+              <Logo />
+            </div>
+            <div className="ml-2 pt-2">LINKS</div>
+          </a>
+        </Link>
 
         <div className="flex flex-row-reverse p-2 mr-2">
-          <a
-            href={isAuth ? "/dashboard" : "/login"}
-            className=" flex items-center justify-center bg-white border-2 rounded hover:opacity-80 border-statusGreen focus:outline-none uppercase text-sm lg:text-lg text-statusGreen font-bold w-9/12 sm:w-2/7 md:w-1/3 "
-          >
-            {isAuth ? "My Dashboard" : "Get Started"}
-          </a>
+          <Link href={isAuth ? "/dashboard" : "/login"}>
+            <a className=" flex items-center justify-center bg-white border-2 rounded hover:opacity-80 border-primaryGreen focus:outline-none uppercase text-sm lg:text-lg text-primaryGreen font-bold w-9/12 sm:w-2/7 md:w-1/3 ">
+              {isAuth ? "My Dashboard" : "Get Started"}
+            </a>
+          </Link>
         </div>
       </div>
 
@@ -78,7 +77,7 @@ export default function HomeComponent(): JSX.Element {
               Your ultimate
             </h1>
             <h2 className="py-3 lg:ml-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider mb-10 lg:mb-24">
-              URL <span className="text-statusGreen">warehouse</span>
+              URL <span className="text-primaryGreen">warehouse</span>
             </h2>
 
             <Formik
@@ -94,14 +93,14 @@ export default function HomeComponent(): JSX.Element {
                     <Field
                       name="email"
                       type="email"
-                      className="col-span-7 lg:col-span-5 p-2 sm:p-7 md:pt-2 lg:pt-5 border-statusGreen border-l-8 focus:outline-none block w-full bg-lightestgray"
+                      className="col-span-7 lg:col-span-5 p-2 sm:p-7 md:pt-2 lg:pt-5 border-primaryGreen border-l-8 focus:outline-none block w-full bg-lightgray-10"
                       placeholder="abc@example.com"
                     />
 
                     <button
                       disabled={isSubscribed}
                       type="submit"
-                      className="bg-lightestGreen col-span-1 flex items-center justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
+                      className="bg-primaryGreen-100 col-span-1 flex items-center justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
                     >
                       {loading && (
                         <div className="absolute">

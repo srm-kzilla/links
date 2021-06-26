@@ -219,7 +219,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
             className={`bg-white border-2 ${
               isSubmittingProfile
                 ? "border-lightgray text-lightgray"
-                : "border-statusGreen text-statusGreen"
+                : "border-primaryGreen text-primaryGreen"
             } focus:outline-none hover:bg-opacity-80 text-xs font-bold w-full sm:ml-4 mt-4 sm:mt-0 mb-12 sm:mb-0 py-2 px-3 rounded`}
           >
             {isSubmittingProfile ? "Please wait..." : "SAVE CHANGES"}

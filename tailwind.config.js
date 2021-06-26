@@ -20,18 +20,19 @@ module.exports = {
         offwhite: "#F4FBF7",
         lightblue: "#56CCF2",
         darkgray: "#333333",
-        lightestgray: "#F2F2F2",
-        lightgray: "#5F5F5F",
         lightgraycustom: "#A7A6A6",
         buttongray: "#4F4F4F",
         statusRed: "#EC5A58",
-        statusGreen: "#6FCF97",
-        lightestGreen: "#F1FAF5",
-        turquoiseGreen: "#40BEAF",
+        primaryGreen: {
+          DEFAULT: "#6FCF97",
+          100: "#F1FAF5",
+          300: "#40BEAF",
+        },
         lightgray: {
           DEFAULT: "#5F5F5F",
+          10: "#F2F2F2",
           25: "rgba(95, 95, 95, 0.25)",
-          50: "rgba(95, 95, 95, 0.50)"
+          50: "rgba(95, 95, 95, 0.50)",
         },
       },
       boxShadow: {
