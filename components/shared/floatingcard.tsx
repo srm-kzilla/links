@@ -5,9 +5,9 @@ import { LinksLogoBg } from "../../assets/icons";
 interface FloatingCardProps {
   title: string;
   verticalHeader: string;
-  bottomText: string;
-  bottomTextLink: string;
-  linkHref: string;
+  bottomText?: string;
+  bottomTextLink?: string;
+  linkHref?: string;
   children: React.ReactNode;
 }
 

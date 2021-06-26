@@ -1,3 +1,11 @@
+//Package imports
+import { Formik, Field, Form } from "formik";
+import * as Yup from "yup";
+import { useContext, useState } from "react";
+
+//Local imports
+import { errorHandler, postSubscribe } from "../../utils/api";
+import { AuthContext } from "../../store/authContext";
 import {
   HeroLanding,
   Logo,
@@ -5,11 +13,6 @@ import {
   HomeTick,
   Arrow,
 } from "../../assets/icons";
-import { Formik, Field, Form } from "formik";
-import * as Yup from "yup";
-import { useContext, useState } from "react";
-import { errorHandler, postSubscribe } from "../../utils/api";
-import { AuthContext } from "../../store/authContext";
 
 export default function HomeComponent(): JSX.Element {
   const initialValues = {
