@@ -72,7 +72,7 @@ export default function Navbar() {
                     </div>
                   </div>
                   <button
-                    className="inline-block sm:hidden mr-5"
+                    className="inline-block sm:hidden mr-5 outline-none focus:outline-none"
                     onClick={() => setisOpen(!isOpen)}
                   >
                     <img src="https://img.icons8.com/android/24/000000/menu.png" />

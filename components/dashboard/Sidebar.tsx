@@ -158,7 +158,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
     <>
       {isOpen && (
         <Slide right>
-          <div className="fixed z-40 w-full lg:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white overflow-auto">
+          <div className="fixed z-40 w-full lg:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white min-w-max xl:max-w-lg overflow-auto">
             <button
               onClick={onClose}
               className="relative lg:hidden float-right mt-6 cursor-pointer"
@@ -181,7 +181,11 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     src={activeLink.image}
                     alt={activeLink.title}
                   />
-                  <div className="flex flex-col">
+                  <div
+                    className={`flex flex-col ${
+                      showTitleInput ? "w-full" : ""
+                    }`}
+                  >
                     {!showTitleInput && (
                       <h1 className="relative text-xl text-lightgray font-bold mx-2">
                         {activeLink.title
@@ -548,17 +552,19 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center mt-auto">
-                  <a
-                    className="text-center text-sm"
-                    href={`https://kzilla.xyz/analytics/${activeLink.analyticsCode}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <button className="bg-white border-2 border-customGreen focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 my-4 rounded-md">
-                      <p className="text-customGreen">SHOW MORE ANALYTICS</p>
-                    </button>
-                  </a>
+                <div className="w-full absolute bottom-10">
+                  <div className="flex items-center justify-center">
+                    <a
+                      className="text-center text-sm"
+                      href={`https://kzilla.xyz/analytics/${activeLink.analyticsCode}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <button className="bg-white border-2 border-customGreen focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 my-4 rounded-md">
+                        <p className="text-customGreen">SHOW MORE ANALYTICS</p>
+                      </button>
+                    </a>
+                  </div>
                 </div>
               </>
             ) : (

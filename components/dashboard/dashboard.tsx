@@ -112,13 +112,22 @@ export default function DashboardComponent({
       {links.length > 0 ? (
         <>
           <div className="min-h-screen flex flex-col py-24 bg-backgroundwhite">
-            <button
+            {/* <button
               onClick={() => setIsAddModalOpen(true)}
               className="z-50 fixed bottom-7 right-4 lg:top-20 lg:left-addButton focus:outline-none w-16 sm:w-20 h-16 sm:h-20 rounded-full px-2 sm:px-4 hover:opacity-70"
               title="Add New Link"
             >
               <AddLink />
-            </button>
+            </button> */}
+            <div className="fixed md:absolute z-50 bottom-7 lg:top-20 right-4 xl:left-addButton focus:outline-none hover:opacity-70">
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className=""
+                title="Add New Link"
+              >
+                <AddLink />
+              </button>
+            </div>
 
             <AddModal
               isOpen={isAddModalOpen}
