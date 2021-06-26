@@ -100,7 +100,7 @@ export default function HomeComponent(): JSX.Element {
                     <button
                       disabled={isSubscribed}
                       type="submit"
-                      className="bg-primaryGreen-200-100 col-span-1 flex items-center justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
+                      className="bg-primaryGreen-100 col-span-1 flex items-center justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
                     >
                       {loading && (
                         <div className="absolute">

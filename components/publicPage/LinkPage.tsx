@@ -36,7 +36,7 @@ export default function LinkPageComponent({ _resLinks }) {
             className="w-2/6 h-2/6 rounded-full border shadow-md mt-20"
             src={_resLinks.profilePicture}
           />
-          <h1 className="my-5 font-extrabold tracking-wide text-2xl uppercase text-primaryGreen-200-300">
+          <h1 className="my-5 font-extrabold tracking-wide text-2xl uppercase text-primaryGreen-300">
             {_resLinks.name || _resLinks.username}
           </h1>
           <p className="text-center my-2 p-2">{_resLinks.bio}</p>
@@ -66,7 +66,7 @@ export default function LinkPageComponent({ _resLinks }) {
               />
 
               <div className="flex flex-col w-4/6 my-2">
-                <h1 className="font-bold text-primaryGreen-200-300 text-lg">
+                <h1 className="font-bold text-primaryGreen-300 text-lg">
                   Username
                 </h1>
                 <div className="flex">
@@ -85,9 +85,7 @@ export default function LinkPageComponent({ _resLinks }) {
               </div>
 
               <div className="flex flex-col w-4/6 my-2">
-                <h1 className="font-bold text-primaryGreen-200-300 text-lg">
-                  Bio
-                </h1>
+                <h1 className="font-bold text-primaryGreen-300 text-lg">Bio</h1>
                 <p className=" text-lightgraycustom font-bold">
                   {_resLinks.bio}
                 </p>
