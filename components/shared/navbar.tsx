@@ -8,7 +8,7 @@ import { AuthContext } from "../../store/authContext";
 import { getUserProfile } from "../../utils/api";
 import { ImageContext } from "../../store/profileImageContext";
 import { truncateText } from "../../utils/functions";
-import { KzillaLogo } from "../../assets/icons";
+import { SrmKzillaLogo } from "../../assets/icons";
 
 export default function Navbar() {
   const { isAuth } = useContext(AuthContext);
@@ -41,7 +41,7 @@ export default function Navbar() {
   };
 
   return (
-    router.pathname != "/" && (
+    router.pathname !== "/" && (
       <>
         <nav className={`fixed top-0 z-50 w-full bg-white rounded-bl-xl`}>
           <div className="grid grid-cols-2">
@@ -86,7 +86,7 @@ export default function Navbar() {
                     <a target="_blank"
                       rel="noopener noreferrer"
                       href="https://srmkzilla.net">
-                      <KzillaLogo />
+                      <SrmKzillaLogo />
                     </a>
                   </div>
                   <a
@@ -107,21 +107,21 @@ export default function Navbar() {
               <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center text-buttongray">
                 {isAuth &&
                   <Link href="/">
-                    <a className={`py-2 rounded ${router.pathname == "/" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
+                    <a className={`py-2 rounded ${router.pathname === "/" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
                       Home
                     </a>
                   </Link>
                 }
                 {isAuth &&
                   <Link href="/dashboard">
-                    <a className={`py-2 rounded ${router.pathname == "/dashboard" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
+                    <a className={`py-2 rounded ${router.pathname === "/dashboard" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
                       Dashboard
                     </a>
                   </Link>
                 }
                 {isAuth &&
                   <Link href="/profile">
-                    <a className={`py-2 rounded ${router.pathname == "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
+                    <a className={`py-2 rounded ${router.pathname === "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
                       Edit Profile
                     </a>
                   </Link>

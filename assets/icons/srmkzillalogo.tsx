@@ -1,4 +1,4 @@
-export default function KzillaLogo(): JSX.Element {
+export default function SrmKzillaLogo(): JSX.Element {
   return (
     <svg
       width={35}
