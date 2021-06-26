@@ -118,7 +118,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                 >
                   <div className="flex justify-between my-3">
                     <h1 className="text-lightgray font-bold">Enter OTP</h1>
-                    <div className="text-right text-primaryGreen-300 hover:opacity-80 font-bold">
+                    <div className="text-right text-primaryGreen-200-300 hover:opacity-80 font-bold">
                       {counter !== 0 && <h1>Resend OTP in: {counter}s</h1>}
                       {counter === 0 && (
                         <button

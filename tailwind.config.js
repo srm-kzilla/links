@@ -24,8 +24,8 @@ module.exports = {
         buttongray: "#4F4F4F",
         statusRed: "#EC5A58",
         primaryGreen: {
-          DEFAULT: "#6FCF97",
           100: "#F1FAF5",
+          200: "#6FCF97",
           300: "#40BEAF",
         },
         lightgray: {

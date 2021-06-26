@@ -60,7 +60,7 @@ export default function HomeComponent(): JSX.Element {
 
         <div className="flex flex-row-reverse p-2 mr-2">
           <Link href={isAuth ? "/dashboard" : "/login"}>
-            <a className=" flex items-center justify-center bg-white border-2 rounded hover:opacity-80 border-primaryGreen focus:outline-none uppercase text-sm lg:text-lg text-primaryGreen font-bold w-9/12 sm:w-2/7 md:w-1/3 ">
+            <a className=" flex items-center justify-center bg-white border-2 rounded hover:opacity-80 border-primaryGreen-200 focus:outline-none uppercase text-sm lg:text-lg text-primaryGreen-200 font-bold w-9/12 sm:w-2/7 md:w-1/3 ">
               {isAuth ? "My Dashboard" : "Get Started"}
             </a>
           </Link>
@@ -77,7 +77,7 @@ export default function HomeComponent(): JSX.Element {
               Your ultimate
             </h1>
             <h2 className="py-3 lg:ml-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider mb-10 lg:mb-24">
-              URL <span className="text-primaryGreen">warehouse</span>
+              URL <span className="text-primaryGreen-200">warehouse</span>
             </h2>
 
             <Formik
@@ -93,14 +93,14 @@ export default function HomeComponent(): JSX.Element {
                     <Field
                       name="email"
                       type="email"
-                      className="col-span-7 lg:col-span-5 p-2 sm:p-7 md:pt-2 lg:pt-5 border-primaryGreen border-l-8 focus:outline-none block w-full bg-lightgray-10"
+                      className="col-span-7 lg:col-span-5 p-2 sm:p-7 md:pt-2 lg:pt-5 border-primaryGreen-200 border-l-8 focus:outline-none block w-full bg-lightgray-10"
                       placeholder="abc@example.com"
                     />
 
                     <button
                       disabled={isSubscribed}
                       type="submit"
-                      className="bg-primaryGreen-100 col-span-1 flex items-center justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
+                      className="bg-primaryGreen-200-100 col-span-1 flex items-center justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
                     >
                       {loading && (
                         <div className="absolute">

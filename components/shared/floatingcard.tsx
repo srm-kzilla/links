@@ -32,7 +32,7 @@ export default function FloatingCard({
           </h1>
 
           <div className="text-left relative p-8 border-2 bg-white mb-2 rounded-lg">
-            <h2 className="text-center text-2xl mb-5 font-black text-primaryGreen-300 tracking-wide">
+            <h2 className="text-center text-2xl mb-5 font-black text-primaryGreen-200-300 tracking-wide">
               {title}
             </h2>
             {children}
@@ -42,7 +42,7 @@ export default function FloatingCard({
             <p className="text-darkgray hover:text-black text-sm">
               {bottomText}{" "}
               <Link href={linkHref}>
-                <a className="no-underline text-primaryGreen-300 font-bold">
+                <a className="no-underline text-primaryGreen-200-300 font-bold">
                   {bottomTextLink}
                 </a>
               </Link>

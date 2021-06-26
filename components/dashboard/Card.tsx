@@ -25,7 +25,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
       >
         <div
           className={`${
-            link.status ? "bg-primaryGreen" : "bg-lightgraycustom"
+            link.status ? "bg-primaryGreen-200" : "bg-lightgraycustom"
           } h-6 w-full md:h-full md:w-3 md:group-hover:w-16 hover:transition duration-75 ease-in-out -mt-2 md:mt-0 block md:absolute left-0 bottom-0 top-0 items-center justify-between`}
         >
           <figure className="w-0 group-hover:w-8 cursor-pointer pt-7 shadow-2xl hidden md:flex mx-auto">

@@ -538,8 +538,10 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <button className="bg-white border-2 border-primaryGreen focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 my-4 rounded-md">
-                      <p className="text-primaryGreen">SHOW MORE ANALYTICS</p>
+                    <button className="bg-white border-2 border-primaryGreen-200 focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 my-4 rounded-md">
+                      <p className="text-primaryGreen-200">
+                        SHOW MORE ANALYTICS
+                      </p>
                     </button>
                   </a>
                 </div>

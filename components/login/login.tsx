@@ -79,7 +79,7 @@ const LoginComponent = () => {
                   <div className="relative">
                     <div className="flex justify-between">
                       <h1 className="text-lightgray font-bold">Password</h1>
-                      <div className="text-right text-primaryGreen-300 hover:opacity-80 font-bold">
+                      <div className="text-right text-primaryGreen-200-300 hover:opacity-80 font-bold">
                         <Link href="/forgotpassword">
                           <a>Forgot?</a>
                         </Link>
