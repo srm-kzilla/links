@@ -32,11 +32,10 @@ export default function DashboardComponent({
 }: DashboardProps) {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
   const [links, setLinks] = useState<Link[]>(_resLinks);
-  const [searchLinkResults, setSearchLinkResults] = useState<Link[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
-  const [searchLink, setSearchLink] = useRecoilState(searchDashboardLink);
+  const [searchLink] = useRecoilState(searchDashboardLink);
 
   useEffect(() => {
     if (window.innerWidth <= 768) setIsSidebarOpen(false);
@@ -54,14 +53,17 @@ export default function DashboardComponent({
   useEffect(() => {
     let searchResults: Link[] = [];
 
-    if (searchLink != "") {
+    if (searchLink !== "") {
       links.map((item) => {
         if (item.title.toLowerCase().includes(searchLink.toLowerCase())) {
           searchResults.push(item);
         }
       });
+      if (!searchResults.length) setLinks(_resLinks);
+      else setLinks(searchResults);
+      return;
     }
-    setSearchLinkResults(searchResults);
+    setLinks(_resLinks);
   }, [searchLink]);
 
   const onAddLinkHandler = (
@@ -110,13 +112,22 @@ export default function DashboardComponent({
       {links.length > 0 ? (
         <>
           <div className="min-h-screen flex flex-col py-24 bg-backgroundwhite">
-            <button
+            {/* <button
               onClick={() => setIsAddModalOpen(true)}
               className="z-50 fixed bottom-7 right-4 lg:top-20 lg:left-addButton focus:outline-none w-16 sm:w-20 h-16 sm:h-20 rounded-full px-2 sm:px-4 hover:opacity-70"
               title="Add New Link"
             >
               <AddLink />
-            </button>
+            </button> */}
+            <div className="fixed md:absolute z-50 bottom-7 lg:top-20 right-4 xl:left-addButton focus:outline-none hover:opacity-70">
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className=""
+                title="Add New Link"
+              >
+                <AddLink />
+              </button>
+            </div>
 
             <AddModal
               isOpen={isAddModalOpen}
@@ -124,30 +135,18 @@ export default function DashboardComponent({
               onAddLink={onAddLinkHandler}
             />
 
-            {searchLinkResults.length > 0
-              ? searchLinkResults.map((link) => (
-                  <Card
-                    key={link._id}
-                    onCardClick={() => {
-                      setSearchLinkResults([]);
-                      setActiveLink(link);
-                      setIsSidebarOpen(true);
-                    }}
-                    link={link}
-                    onDeleteCard={onDeleteLinkHandler}
-                  />
-                ))
-              : links.map((link) => (
-                  <Card
-                    key={link._id}
-                    onCardClick={() => {
-                      setActiveLink(link);
-                      setIsSidebarOpen(true);
-                    }}
-                    link={link}
-                    onDeleteCard={onDeleteLinkHandler}
-                  />
-                ))}
+            {links.map((link) => (
+              <Card
+                key={link._id}
+                onCardClick={() => {
+                  setLinks(_resLinks);
+                  setActiveLink(link);
+                  setIsSidebarOpen(true);
+                }}
+                link={link}
+                onDeleteCard={onDeleteLinkHandler}
+              />
+            ))}
           </div>
 
           <Sidebar

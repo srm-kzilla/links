@@ -4,9 +4,17 @@ import { useRecoilState } from "recoil";
 import { Formik, Field, Form } from "formik";
 import Link from "next/link";
 import VerificationInput from "react-verification-input";
+import * as Yup from "yup";
 
-import { postForgotPasswordEmail, postVerifyOtp, patchNewForgotPassword } from "../../utils/api";
-import { forgotPasswordEmailValidationSchema, forgotPasswordValidationSchema } from "../../utils/schema";
+import {
+  postForgotPasswordEmail,
+  postVerifyOtp,
+  patchNewForgotPassword,
+} from "../../utils/api";
+import {
+  forgotPasswordEmailValidationSchema,
+  forgotPasswordValidationSchema,
+} from "../../utils/schema";
 import { Eye, EyeHide } from "../../assets/icons";
 import { resetPasswordToken, resendOtpEmail } from "../../utils/store";
 import { FloatingCard } from "../shared";
@@ -20,27 +28,28 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const router = useRouter();
 
   const [enterCode, setEnterCode] = useState<boolean>(false);
-  const [otp, setOtp] = useState<number>();
+  const [otp, setOtp] = useState<number>(0);
   const [counter, setCounter] = useState<number>(120);
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(true);
   const [isSubmittingEmail, setIsSubmittingEmail] = useState<boolean>(false);
   const [isSubmittingOtp, setIsSubmittingOtp] = useState<boolean>(false);
-  const [isSubmittingPassword, setIsSubmittingPassword] = useState<boolean>(false);
+  const [isSubmittingPassword, setIsSubmittingPassword] =
+    useState<boolean>(false);
   const [disableResendOtp, setDisableResendOtp] = useState<boolean>(false);
 
   const [resetPwdToken, setResetPwdToken] = useRecoilState(resetPasswordToken);
   const [forgotPwdEmail, setForgotPwdEmail] = useRecoilState(resendOtpEmail);
 
-  const initialValues = {
-    oldPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
-  };
+  type EmailFormData = Partial<
+    Yup.InferType<typeof forgotPasswordEmailValidationSchema>
+  >;
+  const emailInitialValue: EmailFormData = {};
 
-  const emailInitialValue = {
-    email: "",
-  };
+  type PasswordFormData = Partial<
+    Yup.InferType<typeof forgotPasswordValidationSchema>
+  >;
+  const initialValues: PasswordFormData = {};
 
   useEffect(() => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
@@ -68,15 +77,17 @@ export default function ForgotPasswordComponent(): JSX.Element {
   };
 
   const verifyOtp = async () => {
-    setIsSubmittingOtp(true);
-    const values = {
-      otp: otp,
-    };
-    const _res = await postVerifyOtp(resetPwdToken, values);
-    if (_res) {
-      setChangePassword(true);
-      setOtpVerified(false);
-      setIsSubmittingOtp(false);
+    if (String(otp).length === 6) {
+      setIsSubmittingOtp(true);
+      const values = {
+        otp: otp,
+      };
+      const _res = await postVerifyOtp(resetPwdToken, values);
+      if (_res) {
+        setChangePassword(true);
+        setOtpVerified(false);
+        setIsSubmittingOtp(false);
+      }
     }
     setIsSubmittingOtp(false);
   };
@@ -84,12 +95,12 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const submitNewPassword = async (newPassword: string) => {
     setIsSubmittingPassword(true);
     const values = {
-      newPassword: newPassword
-    }
+      newPassword: newPassword,
+    };
     const _res = await patchNewForgotPassword(resetPwdToken, values);
     if (_res) {
       setIsSubmittingPassword(false);
-      router.replace('/login');
+      router.replace("/login");
     }
     setIsSubmittingPassword(false);
   };
@@ -111,22 +122,24 @@ export default function ForgotPasswordComponent(): JSX.Element {
                   <div className="flex justify-between my-3">
                     <h1 className="text-lightgray font-bold">Enter OTP</h1>
                     <div className="text-right text-turquoiseGreen hover:opacity-80 font-bold">
-                      {counter !== 0 && (
-                        <h1>Resend OTP in: {counter}s</h1>
-                      )}
+                      {counter !== 0 && <h1>Resend OTP in: {counter}s</h1>}
                       {counter === 0 && (
                         <button
-                          className={`font-bold focus:outline-none ${disableResendOtp && "opacity-50"}`}
+                          className={`font-bold focus:outline-none ${
+                            disableResendOtp && "opacity-50"
+                          }`}
                           disabled={disableResendOtp}
                           onClick={() => {
-                            sendVerificationCode(forgotPwdEmail)
-                            setDisableResendOtp(true)
-                          }}>
+                            sendVerificationCode(forgotPwdEmail);
+                            setDisableResendOtp(true);
+                          }}
+                        >
                           <h1>Resend OTP</h1>
                         </button>
                       )}
                     </div>
                   </div>
+
                   <VerificationInput
                     removeDefaultStyles
                     length={6}
@@ -140,14 +153,19 @@ export default function ForgotPasswordComponent(): JSX.Element {
                       className: "w-full text-center text-darkgray",
                     }}
                     characters={{
-                      className: "h-10 w-full font-extrabold text-xl text-darkgray",
+                      className:
+                        "h-10 w-full font-extrabold text-xl text-darkgray",
                     }}
                     character={{
-                      className: "bg-backgroundwhite mx-1 md:mx-2 rounded-md pt-2 text-darkgray",
-                      classNameInactive: "bg-backgroundwhite rounded-md cursor-text text-darkgray",
-                      classNameSelected: "bg-backgroundwhite focus: ring rounded-md text-darkgray",
+                      className:
+                        "bg-backgroundwhite mx-1 md:mx-2 rounded-md pt-2 text-darkgray",
+                      classNameInactive:
+                        "bg-backgroundwhite rounded-md cursor-text text-darkgray",
+                      classNameSelected:
+                        "bg-backgroundwhite focus: ring rounded-md text-darkgray",
                     }}
                   />
+
                   <div className="flex justify-between mt-8">
                     <Link href="/">
                       <a>
@@ -160,7 +178,11 @@ export default function ForgotPasswordComponent(): JSX.Element {
                       type="submit"
                       disabled={isSubmittingOtp}
                       onClick={verifyOtp}
-                      className={`${isSubmittingOtp ? "border-lightgray text-lightgray text-xs" : "border-customGreen text-customGreen"} bg-white border-2 focus:outline-none hover:opacity-80 font-bold py-2 px-4 ml-2 rounded`}
+                      className={`${
+                        isSubmittingOtp
+                          ? "border-lightgray text-lightgray text-xs"
+                          : "border-customGreen text-customGreen"
+                      } bg-white border-2 focus:outline-none hover:opacity-80 font-bold py-2 px-4 ml-2 rounded`}
                     >
                       {isSubmittingOtp ? "Please wait..." : "PROCEED"}
                     </button>
@@ -182,15 +204,16 @@ export default function ForgotPasswordComponent(): JSX.Element {
                     initialValues={initialValues}
                     onSubmit={(values) => submitNewPassword(values.newPassword)}
                     validateOnBlur={false}
-                    validateOnChange={false}
                     validationSchema={forgotPasswordValidationSchema}
                   >
                     {({ errors }) => (
                       <Form>
-                        <h1 className="text-lightgray font-bold">New Password</h1>
+                        <h1 className="text-lightgray font-bold">
+                          New Password
+                        </h1>
                         <div className="relative">
                           <Field
-                            type={passwordShown ? 'text' : 'password'}
+                            type={passwordShown ? "text" : "password"}
                             name="newPassword"
                             autoComplete="off"
                             className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none w-full"
@@ -208,7 +231,9 @@ export default function ForgotPasswordComponent(): JSX.Element {
                           </div>
                         )}
 
-                        <h1 className="text-lightgray font-bold mt-4">Confirm New Password</h1>
+                        <h1 className="text-lightgray font-bold mt-4">
+                          Confirm New Password
+                        </h1>
                         <Field
                           type="password"
                           name="confirmNewPassword"
@@ -231,7 +256,11 @@ export default function ForgotPasswordComponent(): JSX.Element {
                           <button
                             type="submit"
                             disabled={isSubmittingPassword}
-                            className={`${isSubmittingPassword ? "border-lightgray text-lightgray text-xs" : "border-customGreen text-customGreen"} bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
+                            className={`${
+                              isSubmittingPassword
+                                ? "border-lightgray text-lightgray text-xs"
+                                : "border-customGreen text-customGreen"
+                            } bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
                           >
                             {isSubmittingPassword ? "Please wait..." : "UPDATE"}
                           </button>
@@ -258,7 +287,6 @@ export default function ForgotPasswordComponent(): JSX.Element {
                 initialValues={emailInitialValue}
                 onSubmit={(values) => sendVerificationCode(values.email)}
                 validateOnBlur={false}
-                validateOnChange={false}
                 validationSchema={forgotPasswordEmailValidationSchema}
               >
                 {({ errors }) => (
@@ -287,7 +315,11 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         <button
                           type="submit"
                           disabled={isSubmittingEmail}
-                          className={`${isSubmittingEmail ? "border-lightgray text-lightgray text-xs" : "border-customGreen text-customGreen"} bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
+                          className={`${
+                            isSubmittingEmail
+                              ? "border-lightgray text-lightgray text-xs"
+                              : "border-customGreen text-customGreen"
+                          } bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
                         >
                           {isSubmittingEmail ? "Please wait..." : "SEND OTP"}
                         </button>
