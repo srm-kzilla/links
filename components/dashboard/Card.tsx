@@ -13,13 +13,13 @@ interface CardProps {
 }
 
 const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
-  const [isDeleteModalOpen, setIsdeleteModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   return (
     <>
       <div
         onClick={onCardClick}
-        className={`flex flex-wrap items-center justify-between bg-white group my-3 mx-3 md:mx-20 cursor-pointer rounded-xl w-auto md:w-3/5 overflow-hidden relative md:py-3 ${
+        className={`flex flex-wrap items-center justify-between bg-white group my-3 mx-3 md:mx-20 cursor-pointer rounded-xl w-auto md:w-auto lg:w-3/5 xl:w-3/5 overflow-hidden relative md:py-3 ${
           !link.status ? "filter grayscale" : ""
         }`}
       >
@@ -45,7 +45,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
 
           <div className="flex flex-col transition items-start">
             <h2 className="text-xl md:text-3xl font-bold text-lightgray">
-              {truncateText(link.title, 20, 20)}
+              {link.title ? truncateText(link.title, 20, 20) : "untitled"}
             </h2>
             <a
               href={link.url}
@@ -53,7 +53,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
               rel="noopener noreferrer"
               className="text-xs md:text-md md:inline-block text-lightgray"
             >
-              {truncateText(link.url, 40, 40)}
+              {link.url ? truncateText(link.url, 40, 40) : "No URL specified"}
             </a>
           </div>
         </div>
@@ -75,7 +75,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
             <Pencil />
           </button>
           <button
-            onClick={() => setIsdeleteModalOpen(true)}
+            onClick={() => setIsDeleteModalOpen(true)}
             className="focus:outline-none cursor-pointer mx-2 md:mx-4"
             title="Delete Link"
           >
@@ -86,7 +86,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
 
       <DeleteModal
         isOpen={isDeleteModalOpen}
-        onClose={() => setIsdeleteModalOpen(false)}
+        onClose={() => setIsDeleteModalOpen(false)}
         linkId={link._id}
         onDeleteLink={onDeleteCard}
       />

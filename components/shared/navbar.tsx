@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import Fade from 'react-reveal/Fade';
 import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { parseCookies, destroyCookie } from "nookies";
@@ -9,6 +8,7 @@ import { AuthContext } from "../../store/authContext";
 import { getUserProfile } from "../../utils/api";
 import { ImageContext } from "../../store/profileImageContext";
 import { truncateText } from "../../utils/functions";
+import { SrmKzillaLogo } from "../../assets/icons";
 
 export default function Navbar() {
   const { isAuth } = useContext(AuthContext);
@@ -41,7 +41,7 @@ export default function Navbar() {
   };
 
   return (
-    router.pathname != "/" && (
+    router.pathname !== "/" && (
       <>
         <nav className={`fixed top-0 z-50 w-full bg-white rounded-bl-xl`}>
           <div className="grid grid-cols-2">
@@ -72,7 +72,7 @@ export default function Navbar() {
                     </div>
                   </div>
                   <button
-                    className="inline-block sm:hidden mr-5"
+                    className="inline-block sm:hidden mr-5 outline-none focus:outline-none"
                     onClick={() => setisOpen(!isOpen)}
                   >
                     <img src="https://img.icons8.com/android/24/000000/menu.png" />
@@ -81,20 +81,21 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <div className="grid grid-cols-2 justify-self-end my-auto text-center">
+                <div className="flex flex-row justify-self-end my-auto text-center">
+                  <div className="m-auto hover:opacity-80">
+                    <a target="_blank"
+                      rel="noopener noreferrer"
+                      href="https://srmkzilla.net">
+                      <SrmKzillaLogo />
+                    </a>
+                  </div>
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
                     href="https://srmkzilla.net"
-                    className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation text-lightgray"
+                    className="text-xs sm:text-lg font-normal p-4 rounded text-lightgray hover:opacity-80"
                   >
                     About Us
-                  </a>
-                  <a
-                    href={router.pathname == "/login" ? "/signup" : "/login"}
-                    className="py-2 text-xs sm:text-lg font-normal p-4 rounded hover-underline-animation"
-                  >
-                    {router.pathname == "/login" ? "Signup" : "Login"}
                   </a>
                 </div>
               </>
@@ -102,41 +103,39 @@ export default function Navbar() {
           </div>
 
           {isOpen && (
-            <Fade top duration={100}>
-              <div className="relative">
-                <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center text-buttongray">
-                  {isAuth &&
-                    <Link href="/">
-                      <a className={`py-2 rounded ${router.pathname == "/" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
-                        Home
-                      </a>
-                    </Link>
-                  }
-                  {isAuth &&
-                    <Link href="/dashboard">
-                      <a className={`py-2 rounded ${router.pathname == "/dashboard" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
-                        Dashboard
-                      </a>
-                    </Link>
-                  }
-                  {isAuth &&
-                    <Link href="/profile">
-                      <a className={`py-2 rounded ${router.pathname == "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
-                        Edit Profile
-                      </a>
-                    </Link>
-                  }
-                  {isAuth &&
-                    <a
-                      className="py-2 rounded hover:bg-lightblue text-sm font-normal block cursor-pointer"
-                      onClick={() => logoutUser()}
-                    >
-                      Log Out
+            <div className="relative">
+              <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center text-buttongray">
+                {isAuth &&
+                  <Link href="/">
+                    <a className={`py-2 rounded ${router.pathname === "/" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
+                      Home
                     </a>
-                  }
-                </div>
+                  </Link>
+                }
+                {isAuth &&
+                  <Link href="/dashboard">
+                    <a className={`py-2 rounded ${router.pathname === "/dashboard" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
+                      Dashboard
+                    </a>
+                  </Link>
+                }
+                {isAuth &&
+                  <Link href="/profile">
+                    <a className={`py-2 rounded ${router.pathname === "/profile" && "font-bold"} hover:bg-lightblue text-sm font-normal block`}>
+                      Edit Profile
+                    </a>
+                  </Link>
+                }
+                {isAuth &&
+                  <a
+                    className="py-2 rounded hover:bg-lightblue text-sm font-normal block cursor-pointer"
+                    onClick={() => logoutUser()}
+                  >
+                    Log Out
+                  </a>
+                }
               </div>
-            </Fade>
+            </div>
           )}
         </nav>
       </>

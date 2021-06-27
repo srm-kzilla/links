@@ -1,4 +1,5 @@
 import Lottie from "react-lottie";
+import Link from "next/link";
 import animationData from "../../public/lotties/unsubscribe.json";
 
 export default function UnsubscribeComponent(): JSX.Element {
@@ -26,11 +27,13 @@ export default function UnsubscribeComponent(): JSX.Element {
           You have been unsubscribed from the mailing list
           </p>
           <div className="text-center">
-            <a href="/">
-              <button className="bg-lightblue focus:outline-none hover:bg-opacity-90 text-darkgray w-2/3 sm:w-1/5 text-md shadow-lg font-extrabold py-3 px-4 my-10 rounded">
-                TAKE ME HOME
-              </button>
-            </a>
+            <Link href="/">
+              <a>
+                <button className="bg-white border-2 border-statusGreen text-statusGreen font-bold outline-none focus:outline-none hover:opacity-80 w-2/3 sm:w-1/5 text-md py-3 px-4 my-10 rounded-md">
+                  TAKE ME HOME
+                </button>
+              </a>
+            </Link>
           </div>
         </div>
       </div>

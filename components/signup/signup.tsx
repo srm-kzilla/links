@@ -7,12 +7,6 @@ import { Eye, EyeHide } from "../../assets/icons";
 import { FloatingCard } from "../shared";
 
 const SignUpComponent = () => {
-  const initialValues = {
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
 
   const validationSchema = Yup.object({
     username: Yup.string()
@@ -36,7 +30,11 @@ const SignUpComponent = () => {
       .required("This is a required field"),
   });
 
-  const submitHandler = async (values) => {
+  type FormData = Partial<Yup.InferType<typeof validationSchema>>;
+
+  const initialValues: FormData = {};
+
+  const submitHandler = async (values: FormData) => {
     try {
       setLoading(true);
       delete values.confirmPassword;
@@ -50,6 +48,7 @@ const SignUpComponent = () => {
       // Fire and forget
     }
   };
+
   const [passwordShown, setPasswordShown] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const togglePasswordVisibility = () => {
@@ -68,9 +67,8 @@ const SignUpComponent = () => {
         <>
           <Formik
             initialValues={initialValues}
-            onSubmit={(values) => submitHandler(values)}
+            onSubmit={submitHandler}
             validateOnBlur={false}
-            validateOnChange={false}
             validationSchema={validationSchema}
           >
             {({ errors }) => (

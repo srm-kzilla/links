@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { Formik, Field, Form } from "formik";
 import Link from "next/link";
 import VerificationInput from "react-verification-input";
+import * as Yup from "yup";
 
 import {
   postForgotPasswordEmail,
@@ -27,7 +28,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const router = useRouter();
 
   const [enterCode, setEnterCode] = useState<boolean>(false);
-  const [otp, setOtp] = useState<number>();
+  const [otp, setOtp] = useState<number>(0);
   const [counter, setCounter] = useState<number>(120);
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [otpVerified, setOtpVerified] = useState<boolean>(true);
@@ -40,15 +41,15 @@ export default function ForgotPasswordComponent(): JSX.Element {
   const [resetPwdToken, setResetPwdToken] = useRecoilState(resetPasswordToken);
   const [forgotPwdEmail, setForgotPwdEmail] = useRecoilState(resendOtpEmail);
 
-  const initialValues = {
-    oldPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
-  };
+  type EmailFormData = Partial<
+    Yup.InferType<typeof forgotPasswordEmailValidationSchema>
+  >;
+  const emailInitialValue: EmailFormData = {};
 
-  const emailInitialValue = {
-    email: "",
-  };
+  type PasswordFormData = Partial<
+    Yup.InferType<typeof forgotPasswordValidationSchema>
+  >;
+  const initialValues: PasswordFormData = {};
 
   useEffect(() => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
@@ -76,15 +77,17 @@ export default function ForgotPasswordComponent(): JSX.Element {
   };
 
   const verifyOtp = async () => {
-    setIsSubmittingOtp(true);
-    const values = {
-      otp: otp,
-    };
-    const _res = await postVerifyOtp(resetPwdToken, values);
-    if (_res) {
-      setChangePassword(true);
-      setOtpVerified(false);
-      setIsSubmittingOtp(false);
+    if (String(otp).length === 6) {
+      setIsSubmittingOtp(true);
+      const values = {
+        otp: otp,
+      };
+      const _res = await postVerifyOtp(resetPwdToken, values);
+      if (_res) {
+        setChangePassword(true);
+        setOtpVerified(false);
+        setIsSubmittingOtp(false);
+      }
     }
     setIsSubmittingOtp(false);
   };
@@ -136,6 +139,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                       )}
                     </div>
                   </div>
+
                   <VerificationInput
                     removeDefaultStyles
                     length={6}
@@ -161,6 +165,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         "bg-backgroundwhite focus: ring rounded-md text-darkgray",
                     }}
                   />
+
                   <div className="flex justify-between mt-8">
                     <Link href="/">
                       <a>
@@ -199,7 +204,6 @@ export default function ForgotPasswordComponent(): JSX.Element {
                     initialValues={initialValues}
                     onSubmit={(values) => submitNewPassword(values.newPassword)}
                     validateOnBlur={false}
-                    validateOnChange={false}
                     validationSchema={forgotPasswordValidationSchema}
                   >
                     {({ errors }) => (
@@ -283,7 +287,6 @@ export default function ForgotPasswordComponent(): JSX.Element {
                 initialValues={emailInitialValue}
                 onSubmit={(values) => sendVerificationCode(values.email)}
                 validateOnBlur={false}
-                validateOnChange={false}
                 validationSchema={forgotPasswordEmailValidationSchema}
               >
                 {({ errors }) => (
