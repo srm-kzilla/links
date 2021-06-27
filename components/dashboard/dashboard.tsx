@@ -112,7 +112,7 @@ export default function DashboardComponent({
       {links.length > 0 ? (
         <>
           <div className="min-h-screen flex flex-col py-24 bg-backgroundwhite">
-            <div className="fixed md:absolute z-50 w-12 h-12 bottom-7 lg:top-20 right-4 xl:left-addButton focus:outline-none hover:opacity-70">
+            <div className="fixed z-50 w-12 h-12 bottom-7 lg:top-20 right-4 xl:left-addButton focus:outline-none hover:opacity-70">
               <button
                 onClick={() => setIsAddModalOpen(true)}
                 className=""
