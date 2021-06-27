@@ -24,9 +24,13 @@ const SignUpComponent = () => {
       .trim()
       .min(8, "Password should have at least 8 characters")
       .required("This is a required field"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Passwords must match")
-      .required("This is a required field"),
+    confirmPassword: Yup.string().when("password", {
+      is: (val) => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf(
+        [Yup.ref("password")],
+        "Both password need to be the same"
+      ),
+    }),
   });
 
   type FormData = Partial<Yup.InferType<typeof validationSchema>>;

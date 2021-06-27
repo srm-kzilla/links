@@ -23,7 +23,6 @@ export default function FloatingCard({
     <>
       <div className="min-h-screen flex justify-center">
         <div className="text-center m-auto w-11/12 sm:w-9/12 md:w-5/12 lg:w-5/12 max-w-md relative z-10">
-          {/* TODO: Add font-inter */}
           <h1 className="md:hidden text-lightgray-25 font-black text-4xl mb-2">
             {verticalHeader}
           </h1>
