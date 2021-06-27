@@ -181,7 +181,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                       className={`${
                         isSubmittingOtp
                           ? "border-lightgray text-lightgray text-xs"
-                          : "border-customGreen text-customGreen"
+                          : "border-primaryGreen-200 text-primaryGreen-200"
                       } bg-white border-2 focus:outline-none hover:opacity-80 font-bold py-2 px-4 ml-2 rounded`}
                     >
                       {isSubmittingOtp ? "Please wait..." : "PROCEED"}
@@ -259,7 +259,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                             className={`${
                               isSubmittingPassword
                                 ? "border-lightgray text-lightgray text-xs"
-                                : "border-customGreen text-customGreen"
+                                : "border-primaryGreen-200 text-primaryGreen-200"
                             } bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
                           >
                             {isSubmittingPassword ? "Please wait..." : "UPDATE"}
@@ -318,7 +318,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                           className={`${
                             isSubmittingEmail
                               ? "border-lightgray text-lightgray text-xs"
-                              : "border-customGreen text-customGreen"
+                              : "border-primaryGreen-200 text-primaryGreen-200"
                           } bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
                         >
                           {isSubmittingEmail ? "Please wait..." : "SEND OTP"}
