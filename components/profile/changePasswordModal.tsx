@@ -7,6 +7,7 @@ import { Formik, Field, Form } from "formik";
 import { passwordValidationSchema } from "../../utils/schema";
 import { patchNewPassword } from "../../utils/api";
 import { Eye, EyeHide, LoadingAuth } from "../../assets/icons"
+import { FloatingCard } from "../shared";
 
 interface ModalProps {
   isOpen: boolean;
@@ -48,7 +49,62 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
         <div className="fixed z-50 top-0 right-0 bottom-0 left-0">
           <div className="fixed top-0 bottom-0 left-0 right-0 z-0 bg-backdrop">
             <Fade bottom duration={500}>
-              <div className="fixed bottom-0 p-8 md:left-1/3 w-full md:w-1/3 bg-white rounded-t-lg shadow-2xl">
+            <div className="flex flex-col">
+            <FloatingCard
+              title="Verify Account"
+              verticalHeader="PASSWORD"
+              bottomText="Don't have an account?"
+              bottomTextLink="Sign Up"
+              linkHref="/signup"
+            >
+      
+                <Formik
+                  initialValues={initialValues}
+                  onSubmit={(values) =>
+                    submitNewPassword(values.oldPassword, values.newPassword)
+                  }
+                  validateOnBlur={false}
+                  validateOnChange={false}
+                  validationSchema={passwordValidationSchema}
+                >
+                {({ errors }) => (
+                  <Form>
+                    <div className="flex flex-col">
+                      <h1 className="text-lightgray font-bold">Email</h1>
+                      <Field
+                        type="email"
+                        name="email"
+                        className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none my-4"
+                        placeholder="abc@xyzmail.com"
+                      />
+                      {errors.email && (
+                        <div className="text-red-500 text-sm -mt-4 mb-3">
+                          {errors.email}
+                        </div>
+                      )}
+                      <div className="flex justify-between my-8">
+                        <Link href="/">
+                          <a>
+                            <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded">
+                              CANCEL
+                            </button>
+                          </a>
+                        </Link>
+                        <button
+                          type="submit"
+                          disabled={isSubmittingEmail}
+                          className={`${isSubmittingEmail ? "border-lightgray text-lightgray text-xs" : "border-customGreen text-customGreen"} bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
+                        >
+                          {isSubmittingEmail ? "Please wait..." : "SEND OTP"}
+                        </button>
+                      </div>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </FloatingCard>
+          </div>
+              {/* <div className="fixed bottom-0 p-8 md:left-1/3 w-full md:w-1/3 bg-white rounded-t-lg shadow-2xl">
                 <a onClick={onClose} className="float-right cursor-pointer">
                   <GrFormClose size={24} />
                 </a>
@@ -119,7 +175,7 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                     </Form>
                   )}
                 </Formik>
-              </div>
+              </div> */}
             </Fade>
           </div>
         </div>
