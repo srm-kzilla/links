@@ -51,7 +51,7 @@ const DeleteModal = ({
                 <div className="flex items-center justify-center">
                   <button
                     onClick={onClose}
-                    className="bg-white border-2 border-statusGreen focus:outline-none hover:opacity-80 text-statusGreen w-2/3 text-md font-bold mr-2 py-3 px-4 mt-7 rounded"
+                    className="bg-white border-2 border-primaryGreen-200 focus:outline-none hover:opacity-80 text-primaryGreen-200 w-2/3 text-md font-bold mr-2 py-3 px-4 mt-7 rounded"
                   >
                     CANCEL
                   </button>

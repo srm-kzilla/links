@@ -20,7 +20,6 @@ export interface CardLink {
 }
 
 export default function LinkPageComponent({ _resLinks }) {
-  
   const copyToClipBoard = async (copyMe) => {
     try {
       await navigator.clipboard.writeText(copyMe);
@@ -38,7 +37,7 @@ export default function LinkPageComponent({ _resLinks }) {
             className="w-2/6 h-2/6 rounded-full border shadow-md mt-20"
             src={_resLinks.profilePicture}
           />
-          <h1 className="my-5 text-sm xs:text-2xl font-extrabold tracking-wide uppercase text-turquoiseGreen">
+          <h1 className="my-5 text-sm xs:text-2xl font-extrabold tracking-wide uppercase text-primaryGreen-300">
             {truncateText((_resLinks.name || _resLinks.username), 25, 20)}
           </h1>
           <p className="text-center my-2 p-2">{_resLinks.bio}</p>
@@ -68,22 +67,29 @@ export default function LinkPageComponent({ _resLinks }) {
               />
 
               <div className="flex flex-col w-4/6 my-2">
-                <h1 className="font-bold text-turquoiseGreen text-lg">
+                <h1 className="font-bold text-primaryGreen-300 text-lg">
                   Username
                 </h1>
                 <div className="flex">
                   <h1 className="font-bold text-lightgraycustom text-xl">
                     {_resLinks.username}
                   </h1>
-                  <button className="text-lightgraycustom ml-2 outline-none focus:outline-none" onClick={() => copyToClipBoard(`${baseUrl}${_resLinks.username}`)}>
+                  <button
+                    className="text-lightgraycustom ml-2 outline-none focus:outline-none"
+                    onClick={() =>
+                      copyToClipBoard(`${baseUrl}${_resLinks.username}`)
+                    }
+                  >
                     <MdContentCopy />
                   </button>
                 </div>
               </div>
 
               <div className="flex flex-col w-4/6 my-2">
-                <h1 className="font-bold text-turquoiseGreen text-lg">Bio</h1>
-                <p className=" text-lightgraycustom font-bold">{_resLinks.bio}</p>
+                <h1 className="font-bold text-primaryGreen-300 text-lg">Bio</h1>
+                <p className=" text-lightgraycustom font-bold">
+                  {_resLinks.bio}
+                </p>
               </div>
             </div>
           </div>

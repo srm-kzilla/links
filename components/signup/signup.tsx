@@ -7,7 +7,6 @@ import { Eye, EyeHide } from "../../assets/icons";
 import { FloatingCard } from "../shared";
 
 const SignUpComponent = () => {
-
   const validationSchema = Yup.object({
     username: Yup.string()
       .trim()
@@ -131,7 +130,7 @@ const SignUpComponent = () => {
                     className={`bg-white border-2 outline-none focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-2 px-4 my-2 rounded ${
                       loading
                         ? "border-lightgray text-lightgray"
-                        : "border-customGreen text-customGreen"
+                        : "border-primaryGreen-200 text-primaryGreen-200"
                     }`}
                   >
                     {loading ? "Please wait..." : "SIGN UP"}

@@ -1,7 +1,7 @@
 export default function LoadingAuth(): JSX.Element {
   return (
     <svg
-      className="animate-spin w-5 text-statusGreen"
+      className="animate-spin w-5 text-primaryGreen-200"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

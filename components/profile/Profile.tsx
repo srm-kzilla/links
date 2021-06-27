@@ -2,7 +2,11 @@ import { useContext, useState } from "react";
 import { parseCookies } from "nookies";
 import { MdContentCopy } from "react-icons/md";
 
-import { successHandler, errorHandler, patchUserProfile } from "../../utils/api";
+import {
+  successHandler,
+  errorHandler,
+  patchUserProfile,
+} from "../../utils/api";
 import { baseUrl } from "../../utils/constants";
 import { ImageContext } from "../../store/profileImageContext";
 import { FileUploader } from "../profile";
@@ -13,32 +17,33 @@ import { truncateText } from "../../utils/functions";
 export default function ProfileComponent({ _resProfile }): JSX.Element {
   const { fileBlob } = useContext(ImageContext);
 
-    const [name, setName] = useState<string>(_resProfile.name);
-    const [username, setUserName] = useState<string>(_resProfile.username);
-    const [bio, setBio] = useState<string>(_resProfile.bio);
-    const [isModalOpen, setModalOpen] = useState<boolean>(false);
-    const [isSubmittingProfile, setIsSubmittingProfile] = useState<boolean>(false);
-    const [showNameInput, setShowNameInput] = useState<boolean>(false);
-    const [showUserNameInput, setShowUserNameInput] = useState<boolean>(false);
-    const [showBioInput, setShowBioInput] = useState<boolean>(false);
+  const [name, setName] = useState<string>(_resProfile.name);
+  const [username, setUserName] = useState<string>(_resProfile.username);
+  const [bio, setBio] = useState<string>(_resProfile.bio);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [isSubmittingProfile, setIsSubmittingProfile] =
+    useState<boolean>(false);
+  const [showNameInput, setShowNameInput] = useState<boolean>(false);
+  const [showUserNameInput, setShowUserNameInput] = useState<boolean>(false);
+  const [showBioInput, setShowBioInput] = useState<boolean>(false);
 
-    const updateUserProfile = () => {
-        (async () => {
-            setIsSubmittingProfile(true);
-            const { authToken } = parseCookies();
-            const userData = {
-                name: name,
-                username: username,
-                bio: bio,
-            }
-            const _res = await patchUserProfile(authToken, userData);
-            if (_res) {
-                setIsSubmittingProfile(false);
-                successHandler(_res.data.message);
-            }
-            setIsSubmittingProfile(false);
-        })();
-    };
+  const updateUserProfile = () => {
+    (async () => {
+      setIsSubmittingProfile(true);
+      const { authToken } = parseCookies();
+      const userData = {
+        name: name,
+        username: username,
+        bio: bio,
+      };
+      const _res = await patchUserProfile(authToken, userData);
+      if (_res) {
+        setIsSubmittingProfile(false);
+        successHandler(_res.data.message);
+      }
+      setIsSubmittingProfile(false);
+    })();
+  };
 
   const copyToClipBoard = async (copyMe) => {
     try {
@@ -170,19 +175,19 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                         type="submit"
                         disabled={isSubmittingProfile}
                         onClick={() => updateUserProfile()}
-                        className={`bg-white border-2 ${isSubmittingProfile ? "border-lightgray text-lightgray" : "border-customGreen text-customGreen"} focus:outline-none hover:bg-opacity-80 text-xs font-bold w-full sm:ml-4 mt-4 sm:mt-0 mb-12 sm:mb-0 py-2 px-3 rounded`}>
+                        className={`bg-white border-2 ${isSubmittingProfile ? "border-lightgray text-lightgray" : "border-primaryGreen-200 text-primaryGreen-200"} focus:outline-none hover:bg-opacity-80 text-xs font-bold w-full sm:ml-4 mt-4 sm:mt-0 mb-12 sm:mb-0 py-2 px-3 rounded`}>
                         {isSubmittingProfile ? "Please wait..." : "SAVE CHANGES"}
                     </button>
                 </div>
             </div>
 
-            <ChangePasswordModal
-                isOpen={isModalOpen}
-                onClose={() => setModalOpen(false)}
-            />
-            <div className="hidden lg:block absolute bottom-0 z-0">
-                <LinksLogoBg />
-            </div>
-        </>
-    );
+      <ChangePasswordModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+      />
+      <div className="hidden lg:block absolute bottom-0 z-0">
+        <LinksLogoBg />
+      </div>
+    </>
+  );
 }

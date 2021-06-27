@@ -47,7 +47,7 @@ const AddModal = ({
                 <a onClick={onClose} className="float-right cursor-pointer">
                   <GrFormClose size={24} />
                 </a>
-                <h1 className="text-turquoiseGreen font-extrabold text-3xl text-center">
+                <h1 className="text-primaryGreen-300 font-extrabold text-3xl text-center">
                   Add New Link
                 </h1>
                 <Formik
@@ -92,7 +92,7 @@ const AddModal = ({
                           className={`${
                             isSubmittingLink
                               ? "border-lightgray text-lightgray"
-                              : "border-statusGreen text-statusGreen"
+                              : "border-primaryGreen-200 text-primaryGreen-200"
                           } bg-white border-2 focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-3 px-4 my-2 rounded`}
                         >
                           {isSubmittingLink ? "Please wait..." : "ADD LINK"}

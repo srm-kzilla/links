@@ -74,7 +74,7 @@ const LoginComponent = () => {
               <div className="relative">
                 <div className="flex justify-between">
                   <h1 className="text-lightgray font-bold">Password</h1>
-                  <div className="text-right text-turquoiseGreen hover:opacity-80 font-bold">
+                  <div className="text-right text-primaryGreen-300 hover:opacity-80 font-bold">
                     <Link href="/forgotpassword">
                       <a>Forgot?</a>
                     </Link>
@@ -103,7 +103,7 @@ const LoginComponent = () => {
                   className={`bg-white border-2 outline-none focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-2 px-4 my-6 rounded ${
                     loading
                       ? "border-lightgray text-lightgray"
-                      : "border-customGreen text-customGreen"
+                      : "border-primaryGreen-200 text-primaryGreen-200"
                   }`}
                 >
                   {loading ? "Please wait..." : "SIGN IN"}
