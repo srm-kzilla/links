@@ -7,13 +7,6 @@ import { Eye, EyeHide } from "../../assets/icons";
 import { FloatingCard } from "../shared";
 
 const SignUpComponent = () => {
-  const initialValues = {
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
-
   const validationSchema = Yup.object({
     username: Yup.string()
       .trim()
@@ -31,12 +24,20 @@ const SignUpComponent = () => {
       .trim()
       .min(8, "Password should have at least 8 characters")
       .required("This is a required field"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Passwords must match")
-      .required("This is a required field"),
+    confirmPassword: Yup.string().when("password", {
+      is: (val) => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf(
+        [Yup.ref("password")],
+        "Both password need to be the same"
+      ),
+    }),
   });
 
-  const submitHandler = async (values) => {
+  type FormData = Partial<Yup.InferType<typeof validationSchema>>;
+
+  const initialValues: FormData = {};
+
+  const submitHandler = async (values: FormData) => {
     try {
       setLoading(true);
       delete values.confirmPassword;
@@ -50,6 +51,7 @@ const SignUpComponent = () => {
       // Fire and forget
     }
   };
+
   const [passwordShown, setPasswordShown] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const togglePasswordVisibility = () => {
@@ -68,9 +70,8 @@ const SignUpComponent = () => {
         <>
           <Formik
             initialValues={initialValues}
-            onSubmit={(values) => submitHandler(values)}
+            onSubmit={submitHandler}
             validateOnBlur={false}
-            validateOnChange={false}
             validationSchema={validationSchema}
           >
             {({ errors }) => (
@@ -130,7 +131,11 @@ const SignUpComponent = () => {
                 <div className="flex items-center justify-center relative">
                   <button
                     type="submit"
-                    className={`bg-white border-2 outline-none focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-2 px-4 my-2 rounded ${loading ? "border-lightgray text-lightgray" : "border-customGreen text-customGreen"}`}
+                    className={`bg-white border-2 outline-none focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-2 px-4 my-2 rounded ${
+                      loading
+                        ? "border-lightgray text-lightgray"
+                        : "border-primaryGreen-200 text-primaryGreen-200"
+                    }`}
                   >
                     {loading ? "Please wait..." : "SIGN UP"}
                   </button>

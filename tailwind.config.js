@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        Inter: ["Inter", "sans-serif"],
         Mulish: ["Mulish", "sans-serif"],
       },
       width: {
@@ -22,13 +23,16 @@ module.exports = {
         lightgraycustom: "#A7A6A6",
         buttongray: "#4F4F4F",
         statusRed: "#EC5A58",
-        statusGreen: "#6FCF97",
-        customGreen: "#32B583",
-        turquoiseGreen: "#40BEAF",
+        primaryGreen: {
+          100: "#F1FAF5",
+          200: "#6FCF97",
+          300: "#40BEAF",
+        },
         lightgray: {
           DEFAULT: "#5F5F5F",
+          10: "#F2F2F2",
           25: "rgba(95, 95, 95, 0.25)",
-          50: "rgba(95, 95, 95, 0.50)"
+          50: "rgba(95, 95, 95, 0.50)",
         },
       },
       boxShadow: {

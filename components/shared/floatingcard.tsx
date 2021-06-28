@@ -23,7 +23,6 @@ export default function FloatingCard({
     <>
       <div className="min-h-screen flex justify-center">
         <div className="text-center m-auto w-11/12 sm:w-9/12 md:w-5/12 lg:w-5/12 max-w-md relative z-10">
-          {/* TODO: Add font-inter */}
           <h1 className="md:hidden text-lightgray-25 font-black text-4xl mb-2">
             {verticalHeader}
           </h1>
@@ -32,7 +31,7 @@ export default function FloatingCard({
           </h1>
 
           <div className="text-left relative p-8 border-2 bg-white mb-2 rounded-lg">
-            <h2 className="text-center text-2xl mb-5 font-black text-turquoiseGreen tracking-wide">
+            <h2 className="text-center text-2xl mb-5 font-black text-primaryGreen-300 tracking-wide">
               {title}
             </h2>
             {children}
@@ -42,7 +41,7 @@ export default function FloatingCard({
             <p className="text-darkgray hover:text-black text-sm">
               {bottomText}{" "}
               <Link href={linkHref}>
-                <a className="no-underline text-turquoiseGreen font-bold">
+                <a className="no-underline text-primaryGreen-300 font-bold">
                   {bottomTextLink}
                 </a>
               </Link>

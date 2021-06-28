@@ -2,7 +2,11 @@ import { useContext, useState } from "react";
 import { parseCookies } from "nookies";
 import { MdContentCopy } from "react-icons/md";
 
-import { successHandler, errorHandler, patchUserProfile } from "../../utils/api";
+import {
+  successHandler,
+  errorHandler,
+  patchUserProfile,
+} from "../../utils/api";
 import { baseUrl } from "../../utils/constants";
 import { ImageContext } from "../../store/profileImageContext";
 import { FileUploader } from "../profile";
@@ -13,32 +17,33 @@ import { truncateText } from "../../utils/functions";
 export default function ProfileComponent({ _resProfile }): JSX.Element {
   const { fileBlob } = useContext(ImageContext);
 
-    const [name, setName] = useState<string>(_resProfile.name);
-    const [username, setUserName] = useState<string>(_resProfile.username);
-    const [bio, setBio] = useState<string>(_resProfile.bio);
-    const [isModalOpen, setModalOpen] = useState<boolean>(false);
-    const [isSubmittingProfile, setIsSubmittingProfile] = useState<boolean>(false);
-    const [showNameInput, setShowNameInput] = useState<boolean>(false);
-    const [showUserNameInput, setShowUserNameInput] = useState<boolean>(false);
-    const [showBioInput, setShowBioInput] = useState<boolean>(false);
+  const [name, setName] = useState<string>(_resProfile.name);
+  const [username, setUserName] = useState<string>(_resProfile.username);
+  const [bio, setBio] = useState<string>(_resProfile.bio);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [isSubmittingProfile, setIsSubmittingProfile] =
+    useState<boolean>(false);
+  const [showNameInput, setShowNameInput] = useState<boolean>(false);
+  const [showUserNameInput, setShowUserNameInput] = useState<boolean>(false);
+  const [showBioInput, setShowBioInput] = useState<boolean>(false);
 
-    const updateUserProfile = () => {
-        (async () => {
-            setIsSubmittingProfile(true);
-            const { authToken } = parseCookies();
-            const userData = {
-                name: name,
-                username: username,
-                bio: bio,
-            }
-            const _res = await patchUserProfile(authToken, userData);
-            if (_res) {
-                setIsSubmittingProfile(false);
-                successHandler(_res.data.message);
-            }
-            setIsSubmittingProfile(false);
-        })();
-    };
+  const updateUserProfile = () => {
+    (async () => {
+      setIsSubmittingProfile(true);
+      const { authToken } = parseCookies();
+      const userData = {
+        name: name,
+        username: username,
+        bio: bio,
+      };
+      const _res = await patchUserProfile(authToken, userData);
+      if (_res) {
+        setIsSubmittingProfile(false);
+        successHandler(_res.data.message);
+      }
+      setIsSubmittingProfile(false);
+    })();
+  };
 
   const copyToClipBoard = async (copyMe) => {
     try {
@@ -65,10 +70,10 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                     />
                     <FileUploader />
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col w-4/5 sm:w-full">
                     <div className="flex flex-row items-center justify-center m-2">
                         {!showNameInput && (
-                            <p className="text-center font-bold text-lg text-lightgray">{truncateText(name, 20, 16)}</p>
+                            <p className="text-center font-bold text-lg text-lightgray">{name ? truncateText(name, 20, 16) : "Name"}</p>
                         )}
                         {showNameInput && (
                             <input
@@ -84,7 +89,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                                 onChange={(e) => {
                                     setName(e.target.value);
                                 }}
-                            />
+                            /> 
                         )}
                         {!showNameInput && (
                             <button onClick={() => setShowNameInput(true)} className="pl-3 focus:outline-none">
@@ -92,7 +97,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                             </button>
                         )}
                     </div>
-                    <div>
+                    <div className="w-full">
                         <a className="text-left text-lightgraycustom font-normal" href={`${baseUrl}${_resProfile.username}`} target="_blank" rel="noopener noreferrer"><strong>{baseUrl}{_resProfile.username}</strong></a>
                         <button onClick={() => copyToClipBoard(`${baseUrl}${_resProfile.username}`)} className="float-right focus:outline-none" title="Copy to Clipboard">
                             <i className="float-right mt-1 ml-2 grid-cols-1 cursor-pointer text-lightgraycustom"><MdContentCopy /></i>
@@ -109,7 +114,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 {!showUserNameInput && (
                     <div className="flex flex-row w-5/6 md:w-2/6">
                         <p className="flex text-lightgraycustom text-lg font-semibold">
-                            {username}
+                            {username ? username : "Not set"}
                         </p>
                         <button onClick={() => setShowUserNameInput(true)} className="pl-3 focus:outline-none">
                             <i><EditPencil /></i>
@@ -140,7 +145,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 {!showBioInput && (
                     <div className="flex flex-row w-5/6 md:w-2/6">
                         <p className="flex text-lightgraycustom text-lg font-semibold">
-                            {truncateText(bio, 50, 38)}
+                            {bio ? bio : "Hey There! I'm using Links"}
                         </p>
                         <button onClick={() => setShowBioInput(true)} className="pl-3 focus:outline-none">
                             <i><EditPencil /></i>
@@ -152,9 +157,8 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                         value={bio}
                         className="grayBottomBorder w-5/6 md:w-2/6 focus:outline-none text-lightgraycustom border"
                         rows={2}
-                        maxLength={120}
+                        maxLength={100}
                         onBlur={() => setShowBioInput(false)}
-                        onKeyPress={(e) => { e.key == "Enter" && setShowBioInput(false) }}
                         placeholder="Here goes my cool bio..."
                         onChange={(e) => {
                             setBio(e.target.value);
@@ -171,19 +175,19 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                         type="submit"
                         disabled={isSubmittingProfile}
                         onClick={() => updateUserProfile()}
-                        className={`bg-white border-2 ${isSubmittingProfile ? "border-lightgray text-lightgray" : "border-customGreen text-customGreen"} focus:outline-none hover:bg-opacity-80 text-xs font-bold w-full sm:ml-4 mt-4 sm:mt-0 mb-12 sm:mb-0 py-2 px-3 rounded`}>
+                        className={`bg-white border-2 ${isSubmittingProfile ? "border-lightgray text-lightgray" : "border-primaryGreen-200 text-primaryGreen-200"} focus:outline-none hover:bg-opacity-80 text-xs font-bold w-full sm:ml-4 mt-4 sm:mt-0 mb-12 sm:mb-0 py-2 px-3 rounded`}>
                         {isSubmittingProfile ? "Please wait..." : "SAVE CHANGES"}
                     </button>
                 </div>
             </div>
 
-            <ChangePasswordModal
-                isOpen={isModalOpen}
-                onClose={() => setModalOpen(false)}
-            />
-            <div className="hidden lg:block absolute bottom-0 z-0">
-                <LinksLogoBg />
-            </div>
-        </>
-    );
+      <ChangePasswordModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+      />
+      <div className="hidden lg:block absolute bottom-0 z-0">
+        <LinksLogoBg />
+      </div>
+    </>
+  );
 }

@@ -1,9 +1,19 @@
-import { HeroLanding, Logo, LoadingAuth } from "../../assets/icons";
+//Package imports
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { useContext, useState } from "react";
-import { postSubscribe } from "../../utils/api";
+import Link from "next/link";
+
+//Local imports
+import { errorHandler, postSubscribe } from "../../utils/api";
 import { AuthContext } from "../../store/authContext";
+import {
+  HeroLanding,
+  Logo,
+  LoadingAuth,
+  HomeTick,
+  Arrow,
+} from "../../assets/icons";
 
 export default function HomeComponent(): JSX.Element {
   const initialValues = {
@@ -30,7 +40,7 @@ export default function HomeComponent(): JSX.Element {
         setLoading(false);
       }
     } catch (error) {
-      // Fire and forget
+      errorHandler(error);
     }
   };
   const [loading, setLoading] = useState<boolean>(false);
@@ -39,43 +49,37 @@ export default function HomeComponent(): JSX.Element {
   return (
     <>
       <div className="grid grid-cols-2 absolute top-0 right-0 left-0 pt-2">
-        <a
-          href="/"
-          className="text-black text-2xl sm:text-3xl md:text-5xl font-bold p-3 text-left"
-        >
-          <div className="float-left mr-2 h-9 w-9 sm:h-12 sm:w-12 md:h-14 md:w-14">
-            <Logo />
-          </div>
-          <div className="ml-2 pt-2">LINKS</div>
-        </a>
-
-        <div className="flex flex-row-reverse p-2">
-          <a
-            href={isAuth ? "/dashboard" : "/login"}
-            className="bg-lightblue flex items-center justify-center rounded shadow-md focus:outline-none text-lg font-bold text-white w-10/12 sm:w-2/7 md:w-1/3"
-          >
-            {isAuth ? "My Dashboard" : "Get Started"}
+        <Link href="/">
+          <a className="ml-2 pt-1 text-lightgray text-lg sm:text-2xl font-bold p-3 text-left">
+            <div className="float-left mr-2 h-9 w-9 sm:h-12 sm:w-12">
+              <Logo />
+            </div>
+            <div className="ml-2 pt-2">LINKS</div>
           </a>
+        </Link>
+
+        <div className="flex flex-row-reverse p-2 mr-2">
+          <Link href={isAuth ? "/dashboard" : "/login"}>
+            <a className=" flex items-center justify-center bg-white border-2 rounded hover:opacity-80 border-primaryGreen-200 focus:outline-none uppercase text-sm lg:text-lg text-primaryGreen-200 font-bold w-9/12 sm:w-2/7 md:w-1/3 ">
+              {isAuth ? "My Dashboard" : "Get Started"}
+            </a>
+          </Link>
         </div>
       </div>
 
       <div className="flex justify-center font-sans min-h-screen px-3 sm:px-8 2xl:px-12">
-        <div className="grid grid-cols-0 md:grid-cols-2 w-full">
-          <div className="md:col-span-1 my-auto block md:hidden">
+        <div className="grid grid-cols-0 lg:grid-cols-2 w-full">
+          <div className="lg:col-span-1 mt-20 mb-10 lg:mb-0 lg:my-auto mx-auto block lg:hidden">
             <HeroLanding />
           </div>
-          <div className="md:col-span-1 my-auto px-5 text-center md:text-left">
-            <h1 className="text-5xl sm:text-7xl md:text-6xl lg:text-8xl 2xl:text-9xl customGradientInverse font-bold tracking-wide">
-              One LINK,
+          <div className="text-gray-600 font-Inter lg:col-span-1 md:my-5 lg:my-auto px-5 text-center lg:text-left font-bold ">
+            <h1 className="py-3 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider">
+              Your ultimate
             </h1>
-            <h2 className="mx-auto lg:ml-0 text-3xl sm:text-5xl md:text-4xl lg:text-6xl 2xl:text-7xl font-bold text-lightblue tracking-wide mb-6">
-              For all your links
+            <h2 className="py-3 lg:ml-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider mb-10 lg:mb-24">
+              URL <span className="text-primaryGreen-200">warehouse</span>
             </h2>
-            <p className="text-gray-600 text-md sm:text-xl lg:text-2xl mb-6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing. Vestibulum
-              rutrum metus at enim congue scelerisque. Sed suscipit metu non
-              iaculis semper consectetur adipiscing elit.
-            </p>
+
             <Formik
               initialValues={initialValues}
               onSubmit={(values) => submitHandler(values)}
@@ -85,30 +89,26 @@ export default function HomeComponent(): JSX.Element {
             >
               {({ errors }) => (
                 <Form>
-                  <div className="grid grid-cols-4 pb-5 md:pb-0">
+                  <div className="grid grid-cols-8 text-center sm:text-left">
                     <Field
                       name="email"
                       type="email"
-                      className="col-span-3 p-2 sm:p-5 md:pt-2 lg:pt-5 rounded-lg outline-none focus:outline-none block appearance-none w-full bg-lightgray"
+                      className="col-span-7 lg:col-span-5 p-2 sm:p-7 md:pt-2 lg:pt-5 border-primaryGreen-200 border-l-8 focus:outline-none block w-full bg-lightgray-10"
                       placeholder="abc@example.com"
                     />
 
                     <button
                       disabled={isSubscribed}
                       type="submit"
-                      className={`${
-                        isSubscribed
-                          ? "bg-backgroundwhiteinset"
-                          : "bg-lightblue"
-                      } col-span-1 flex items-center justify-center rounded-lg hover:bg-opacity-90 shadow-md focus:outline-none -ml-2 text-sm sm:text-lg md:text-sm lg:text-lg font-bold text-white`}
+                      className="bg-primaryGreen-100 col-span-1 flex items-center justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
                     >
                       {loading && (
                         <div className="absolute">
                           <LoadingAuth />
                         </div>
                       )}
-                      <div className={`${loading && "invisible"}`}>
-                        {isSubscribed ? "Subscribed" : "Subscribe"}
+                      <div className={`${loading ? "invisible" : ""}`}>
+                        {isSubscribed ? <HomeTick /> : <Arrow />}
                       </div>
                     </button>
                   </div>
@@ -120,8 +120,11 @@ export default function HomeComponent(): JSX.Element {
                 </Form>
               )}
             </Formik>
+            <h1 className="py-3 mb-5 text-left text-md sm:text-xl md:text-2xl 2xl:text-4xl tracking-wider">
+              Subscribe to mailer
+            </h1>
           </div>
-          <div className="col-span-1 my-auto hidden md:block">
+          <div className="col-span-1 my-auto hidden lg:block">
             <HeroLanding />
           </div>
         </div>

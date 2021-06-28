@@ -59,8 +59,7 @@ export const patchProfile = async (
       .db()
       .collection("users")
       .findOne<UserDB>({ username: data.username });
-    console.log(data);
-    console.log(usernameExists);
+
     if (
       data.name !== usernameExists.name ||
       data.username !== usernameExists.username ||
