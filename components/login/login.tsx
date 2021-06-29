@@ -100,8 +100,9 @@ const LoginComponent = () => {
               <div className="flex items-center justify-center relative">
                 <button
                   type="submit"
+                  disabled={Object.keys(errors).length > 0 || loading}
                   className={`bg-white border-2 outline-none focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-2 px-4 my-6 rounded ${
-                    loading
+                    Object.keys(errors).length > 0 || loading
                       ? "border-lightgray text-lightgray"
                       : "border-primaryGreen-200 text-primaryGreen-200"
                   }`}

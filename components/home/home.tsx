@@ -87,7 +87,7 @@ export default function HomeComponent(): JSX.Element {
               validateOnChange={false}
               validationSchema={validationSchema}
             >
-              {({ errors }) => (
+              {({ errors, touched }) => (
                 <Form>
                   <div className="grid grid-cols-8 text-center sm:text-left">
                     <Field
@@ -112,7 +112,7 @@ export default function HomeComponent(): JSX.Element {
                       </div>
                     </button>
                   </div>
-                  {errors.email && (
+                  {touched.email && errors.email && (
                     <div className=" text-red-500 text-sm pt-2 pl-2">
                       {errors.email}
                     </div>

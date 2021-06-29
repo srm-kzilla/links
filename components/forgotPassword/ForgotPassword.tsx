@@ -206,7 +206,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                     validateOnBlur={false}
                     validationSchema={forgotPasswordValidationSchema}
                   >
-                    {({ errors }) => (
+                    {({ errors, touched }) => (
                       <Form>
                         <h1 className="text-lightgray font-bold">
                           New Password
@@ -225,7 +225,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                             {passwordShown ? <EyeHide /> : <Eye />}
                           </i>
                         </div>
-                        {errors.newPassword && (
+                        {touched.newPassword && errors.newPassword && (
                           <div className="text-red-500 text-sm">
                             {errors.newPassword}
                           </div>
@@ -240,7 +240,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                           autoComplete="off"
                           className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none w-full"
                         />
-                        {errors.confirmNewPassword && (
+                        {touched.confirmNewPassword && errors.confirmNewPassword && (
                           <div className="text-red-500 text-sm">
                             {errors.confirmNewPassword}
                           </div>
@@ -255,10 +255,10 @@ export default function ForgotPasswordComponent(): JSX.Element {
                           </Link>
                           <button
                             type="submit"
-                            disabled={isSubmittingPassword}
+                            disabled={Object.keys(errors).length > 0 || isSubmittingPassword}
                             className={`${
-                              isSubmittingPassword
-                                ? "border-lightgray text-lightgray text-xs"
+                              Object.keys(errors).length > 0 || isSubmittingPassword
+                                ? "border-lightgray text-lightgray"
                                 : "border-primaryGreen-200 text-primaryGreen-200"
                             } bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
                           >
@@ -289,7 +289,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                 validateOnBlur={false}
                 validationSchema={forgotPasswordEmailValidationSchema}
               >
-                {({ errors }) => (
+                {({ errors, touched }) => (
                   <Form>
                     <div className="flex flex-col">
                       <h1 className="text-lightgray font-bold">Email</h1>
@@ -299,7 +299,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none my-4"
                         placeholder="abc@xyzmail.com"
                       />
-                      {errors.email && (
+                      {touched.email && errors.email && (
                         <div className="text-red-500 text-sm -mt-4 mb-3">
                           {errors.email}
                         </div>
@@ -314,10 +314,10 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         </Link>
                         <button
                           type="submit"
-                          disabled={isSubmittingEmail}
+                          disabled={Object.keys(errors).length > 0 || isSubmittingEmail}
                           className={`${
-                            isSubmittingEmail
-                              ? "border-lightgray text-lightgray text-xs"
+                            Object.keys(errors).length > 0 || isSubmittingEmail
+                              ? "border-lightgray text-lightgray"
                               : "border-primaryGreen-200 text-primaryGreen-200"
                           } bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
                         >

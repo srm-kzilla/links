@@ -59,7 +59,7 @@ const AddModal = ({
                   validateOnChange={false}
                   validationSchema={addLinkValidationSchema}
                 >
-                  {({ errors }) => (
+                  {({ errors, touched }) => (
                     <Form>
                       <Field
                         name="title"
@@ -68,7 +68,7 @@ const AddModal = ({
                         placeholder="Title"
                         autoFocus
                       />
-                      {errors.title && (
+                      {touched.title && errors.title && (
                         <div className="text-red-500 text-sm -mt-4 mb-3">
                           {errors.title}
                         </div>
@@ -79,7 +79,7 @@ const AddModal = ({
                         className="border-b-2 border-lightgraycustom mb-4 outline-none focus:outline-none block appearance-none w-full bg-white px-2 py-2"
                         placeholder="URL"
                       />
-                      {errors.url && (
+                      {touched.url && errors.url && (
                         <div className="text-red-500 text-sm -mt-4 mb-3">
                           {errors.url}
                         </div>

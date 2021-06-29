@@ -9,6 +9,7 @@ import { getUserProfile } from "../../utils/api";
 import { ImageContext } from "../../store/profileImageContext";
 import { truncateText } from "../../utils/functions";
 import { SrmKzillaLogo } from "../../assets/icons";
+import { dropdownMenu } from "../../utils/constants";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -117,37 +118,22 @@ export default function Navbar() {
               <div className="relative z-50">
                 {isAuth && (
                   <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center text-buttongray">
-                    <Link href="/">
-                      <a
-                        className={`py-2 rounded ${
-                          router.pathname === "/" && "font-bold"
-                        } hover:bg-lightblue text-sm font-normal block`}
-                      >
-                        Home
-                      </a>
-                    </Link>
-                    <Link href="/dashboard">
-                      <a
-                        onClick={() => setIsOpen(false)}
-                        className={`py-2 rounded ${
-                          router.pathname === "/dashboard" && "font-bold"
-                        } hover:bg-lightblue text-sm font-normal block`}
-                      >
-                        Dashboard
-                      </a>
-                    </Link>
-                    <Link href="/profile">
-                      <a
-                        className={`py-2 rounded ${
-                          router.pathname === "/profile" && "font-bold"
-                        } hover:bg-lightblue text-sm font-normal block`}
-                      >
-                        Edit Profile
-                      </a>
-                    </Link>
-
+                    {dropdownMenu.map((item) => {
+                      return (
+                        <Link href={item.href}>
+                          <button
+                            onClick={() => setIsOpen(false)}
+                            className={`w-full py-2 rounded ${
+                              router.pathname === `${item.href}` && "font-bold"
+                            } hover:bg-lightblue text-sm font-normal block outline-none focus:outline-none`}
+                          >
+                            {item.name}
+                          </button>
+                        </Link>
+                      );
+                    })}
                     <button
-                      className="w-full py-2 rounded hover:bg-lightblue text-sm font-normal block cursor-pointer"
+                      className="w-full py-2 rounded hover:bg-lightblue text-sm font-normal block outline-none focus:outline-none"
                       onClick={logoutUser}
                     >
                       Log Out

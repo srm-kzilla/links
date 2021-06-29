@@ -107,7 +107,7 @@ export default function DashboardComponent({
             <div className="fixed z-50 w-12 h-12 bottom-7 lg:top-20 right-4 xl:left-addButton focus:outline-none hover:opacity-70">
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className=""
+                className="focus:outline-none"
                 title="Add New Link"
               >
                 <AddLink />

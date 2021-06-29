@@ -74,7 +74,7 @@ const SignUpComponent = () => {
             validateOnBlur={false}
             validationSchema={validationSchema}
           >
-            {({ errors }) => (
+            {({ errors, touched }) => (
               <Form>
                 <h1 className="text-lightgray font-bold">Email</h1>
                 <Field
@@ -82,7 +82,7 @@ const SignUpComponent = () => {
                   type="email"
                   className="mb-4 border-b-2 border-lightgraycustom text-lightgraycustom font-semibold outline-none focus:outline-none w-full px-2 py-1"
                 />
-                {errors.email && (
+                {touched.email && errors.email && (
                   <div className="text-red-500 text-sm -mt-4 mb-3">
                     {errors.email}
                   </div>
@@ -93,7 +93,7 @@ const SignUpComponent = () => {
                   type="text"
                   className="mb-4 border-b-2 border-lightgraycustom text-lightgraycustom font-semibold outline-none focus:outline-none w-full px-2 py-1"
                 />
-                {errors.username && (
+                {touched.username && errors.username && (
                   <div className="text-red-500 text-sm -mt-4 mb-3">
                     {errors.username}
                   </div>
@@ -112,7 +112,7 @@ const SignUpComponent = () => {
                     {passwordShown ? <EyeHide /> : <Eye />}
                   </i>
                 </div>
-                {errors.password && (
+                {touched.password && errors.password && (
                   <div className="text-red-500 text-sm -mt-4 mb-3">
                     {errors.password}
                   </div>
@@ -123,7 +123,7 @@ const SignUpComponent = () => {
                   type="password"
                   className="mb-4 border-b-2 border-lightgraycustom text-lightgraycustom font-semibold outline-none focus:outline-none w-full px-2 py-1"
                 />
-                {errors.confirmPassword && (
+                {touched.confirmPassword && errors.confirmPassword && (
                   <div className="text-red-500 text-sm -mt-4 mb-3">
                     {errors.confirmPassword}
                   </div>
@@ -131,8 +131,9 @@ const SignUpComponent = () => {
                 <div className="flex items-center justify-center relative">
                   <button
                     type="submit"
+                    disabled={Object.keys(errors).length > 0 || loading}
                     className={`bg-white border-2 outline-none focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-2 px-4 my-2 rounded ${
-                      loading
+                      Object.keys(errors).length > 0 || loading
                         ? "border-lightgray text-lightgray"
                         : "border-primaryGreen-200 text-primaryGreen-200"
                     }`}
