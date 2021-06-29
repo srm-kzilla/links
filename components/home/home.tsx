@@ -10,7 +10,7 @@ import { AuthContext } from "../../store/authContext";
 import {
   HeroLanding,
   Logo,
-  LoadingAuth,
+  Loading,
   HomeTick,
   Arrow,
 } from "../../assets/icons";
@@ -104,7 +104,7 @@ export default function HomeComponent(): JSX.Element {
                     >
                       {loading && (
                         <div className="absolute">
-                          <LoadingAuth />
+                          <Loading />
                         </div>
                       )}
                       <div className={`${loading ? "invisible" : ""}`}>
