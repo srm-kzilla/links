@@ -7,7 +7,6 @@ export { default as Trash } from "./trash";
 export { default as Logo } from "./logo";
 export { default as Eye } from "./eye";
 export { default as EyeHide } from "./eyehide";
-export { default as LoadingAuth } from "./loadingauth";
 export { default as NotFoundLeft } from "./notfoundleft";
 export { default as NotFoundZero } from "./notfoundzero";
 export { default as NotFoundRight } from "./notfoundright";
