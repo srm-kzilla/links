@@ -10,7 +10,6 @@ interface AddModalProps {
   onClose: () => void;
   onAddLink: (
     link: { title: string; url: string },
-    resetForm: () => void,
     closeModal: () => void
   ) => void;
 }
@@ -52,8 +51,8 @@ const AddModal = ({
                 </h1>
                 <Formik
                   initialValues={initialValues}
-                  onSubmit={(values, { resetForm }) => {
-                    onAddLink(values, resetForm, onClose);
+                  onSubmit={(values) => {
+                    onAddLink(values, onClose);
                     setIsSubmittingLink(true);
                   }}
                   validateOnBlur={false}
@@ -88,9 +87,11 @@ const AddModal = ({
                       <div className="flex items-center justify-center relative">
                         <button
                           type="submit"
-                          disabled={isSubmittingLink}
+                          disabled={
+                            Object.keys(errors).length > 0 || isSubmittingLink
+                          }
                           className={`${
-                            isSubmittingLink
+                            Object.keys(errors).length > 0 || isSubmittingLink
                               ? "border-lightgray text-lightgray"
                               : "border-primaryGreen-200 text-primaryGreen-200"
                           } bg-white border-2 focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-3 px-4 my-2 rounded`}

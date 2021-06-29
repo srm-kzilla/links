@@ -54,7 +54,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
   const intervalRef = useRef(null);
 
   // INFO: To copy URL to clipboard
-  const copyToClipBoard = async (copyMe) => {
+  const copyToClipBoard = async (copyMe: string) => {
     try {
       await navigator.clipboard.writeText(copyMe);
       successHandler("📋 Link copied to clipboard!");

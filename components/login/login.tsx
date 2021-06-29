@@ -58,7 +58,7 @@ const LoginComponent = () => {
           validateOnBlur={false}
           validationSchema={validationSchema}
         >
-          {({ errors }) => (
+          {({ errors, touched }) => (
             <Form>
               <h1 className="text-lightgray font-bold">Email or Username</h1>
               <Field
@@ -66,7 +66,7 @@ const LoginComponent = () => {
                 type="text"
                 className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold mb-4 outline-none focus:outline-none w-full px-2 py-2"
               />
-              {errors.userId && (
+              {touched.userId && errors.userId && (
                 <div className="text-red-500 text-sm -mt-4 mb-3">
                   {errors.userId}
                 </div>
@@ -92,7 +92,7 @@ const LoginComponent = () => {
                   {passwordShown ? <EyeHide /> : <Eye />}
                 </i>
               </div>
-              {errors.password && (
+              {touched.password && errors.password && (
                 <div className="text-red-500 text-sm -mt-4 mb-3">
                   {errors.password}
                 </div>

@@ -32,6 +32,7 @@ export default function DashboardComponent({
 }: DashboardProps) {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
   const [links, setLinks] = useState<Link[]>(_resLinks);
+  const [searchLinkResults, setSearchLinkResults] = useState<Link[]>(_resLinks);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
@@ -52,59 +53,50 @@ export default function DashboardComponent({
 
   useEffect(() => {
     let searchResults: Link[] = [];
-
-    if (searchLink !== "") {
+    if (searchLink != "") {
       links.map((item) => {
         if (item.title.toLowerCase().includes(searchLink.toLowerCase())) {
           searchResults.push(item);
         }
       });
-      if (!searchResults.length) setLinks(_resLinks);
-      else setLinks(searchResults);
-      return;
     }
-    setLinks(_resLinks);
+    setSearchLinkResults(searchResults);
   }, [searchLink]);
 
-  const onAddLinkHandler = (
+  const onAddLinkHandler = async (
     values: { title: string; url: string },
-    resetForm: () => void,
     closeModal: () => void
   ) => {
     const { authToken } = parseCookies();
-    (async () => {
-      const res = await postLink(authToken, values);
-      if (res)
-        setLinks((prevState) => {
-          prevState.push({
-            ...values,
-            clicks: 0,
-            views: 0,
-            status: true,
-            image: res.data.image,
-            _id: res.data._id,
-            shortCode: res.data.shortCode,
-            analyticsCode: res.data.analyticsCode,
-            createdAt: res.data.createdAt,
-          });
-          return prevState;
+    const res = await postLink(authToken, values);
+    if (res)
+      setLinks((prevState) => {
+        prevState.push({
+          ...values,
+          clicks: 0,
+          views: 0,
+          status: true,
+          image: res.data.image,
+          _id: res.data._id,
+          shortCode: res.data.shortCode,
+          analyticsCode: res.data.analyticsCode,
+          createdAt: res.data.createdAt,
         });
-      resetForm();
-      closeModal();
-    })();
+        return prevState;
+      });
+
+    closeModal();
   };
 
-  const onDeleteLinkHandler = (_id: string, closeModal: () => void) => {
+  const onDeleteLinkHandler = async (_id: string, closeModal: () => void) => {
     const { authToken } = parseCookies();
-    (async () => {
-      const res = await deleteLink(authToken, _id);
-      if (res) {
-        setLinks((prevState) => [
-          ...prevState.filter((item) => item._id !== _id),
-        ]);
-        closeModal();
-      }
-    })();
+    const res = await deleteLink(authToken, _id);
+    if (res) {
+      setLinks((prevState) => [
+        ...prevState.filter((item) => item._id !== _id),
+      ]);
+      closeModal();
+    }
   };
 
   return (
@@ -128,18 +120,30 @@ export default function DashboardComponent({
               onAddLink={onAddLinkHandler}
             />
 
-            {links.map((link) => (
-              <Card
-                key={link._id}
-                onCardClick={() => {
-                  setLinks(_resLinks);
-                  setActiveLink(link);
-                  setIsSidebarOpen(true);
-                }}
-                link={link}
-                onDeleteCard={onDeleteLinkHandler}
-              />
-            ))}
+            {searchLinkResults.length > 0
+              ? searchLinkResults.map((link) => (
+                  <Card
+                    key={link._id}
+                    onCardClick={() => {
+                      setSearchLinkResults([]);
+                      setActiveLink(link);
+                      setIsSidebarOpen(true);
+                    }}
+                    link={link}
+                    onDeleteCard={onDeleteLinkHandler}
+                  />
+                ))
+              : links.map((link) => (
+                  <Card
+                    key={link._id}
+                    onCardClick={() => {
+                      setActiveLink(link);
+                      setIsSidebarOpen(true);
+                    }}
+                    link={link}
+                    onDeleteCard={onDeleteLinkHandler}
+                  />
+                ))}
           </div>
 
           <Sidebar
