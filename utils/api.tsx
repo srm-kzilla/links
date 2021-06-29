@@ -341,8 +341,10 @@ export const getLinkStats = async (authToken: string, linkId: string) => {
 };
 
 export const errorHandler = (error?: AxiosError | any) => {
-  let errMessage: string =
-    error?.response?.data?.message || "😐 Oops! Something went wrong!";
+  let errMessage: string = "😐 Oops! Something went wrong!";
+  if(error.response.status !== 500) {
+    errMessage = error.response.data.message;
+  }
 
   toast.error(errMessage, {
     position: "top-right",

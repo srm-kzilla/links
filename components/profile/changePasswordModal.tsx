@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Fade from "react-reveal/Fade";
 import { parseCookies } from "nookies";
 import { Formik, Field, Form } from "formik";
+import * as Yup from "yup";
 
 import { passwordValidationSchema } from "../../utils/schema";
 import { patchNewPassword } from "../../utils/api";
@@ -37,11 +38,10 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
     })();
   };
 
-  const initialValues = {
-    oldPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
-  };
+  type FormData = Partial<Yup.InferType<typeof passwordValidationSchema>>;
+
+  const initialValues: FormData = {};
+
   return (
     <>
       {isOpen && (
@@ -60,7 +60,6 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                       submitNewPassword(values.oldPassword, values.newPassword)
                     }
                     validateOnBlur={false}
-                    validateOnChange={false}
                     validationSchema={passwordValidationSchema}
                   >
                     {({ errors, touched }) => (
@@ -130,10 +129,12 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
 
                             <button
                               type="submit"
-                              disabled={loading}
+                              disabled={
+                                Object.keys(errors).length > 0 || loading
+                              }
                               className={`${
-                                loading
-                                  ? "border-lightgray text-lightgray text-xs"
+                                Object.keys(errors).length > 0 || loading
+                                  ? "border-lightgray text-lightgray"
                                   : "border-primaryGreen-200 text-primaryGreen-200"
                               } bg-white border-2 focus:outline-none hover:opacity-80 font-bold py-2 ml-2 rounded`}
                             >

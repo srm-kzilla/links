@@ -19,6 +19,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <title>LINKS</title>
       </Head>
 
+      <ToastContainer />
       <RecoilRoot>
         <AuthContextProvider>
           <ImageContextProvider>
@@ -27,7 +28,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               <Component {...pageProps} />
               <Footer />
             </div>
-            <ToastContainer />
           </ImageContextProvider>
         </AuthContextProvider>
       </RecoilRoot>

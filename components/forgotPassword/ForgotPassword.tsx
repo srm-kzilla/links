@@ -166,14 +166,15 @@ export default function ForgotPasswordComponent(): JSX.Element {
                     }}
                   />
 
-                  <div className="flex justify-between mt-8">
+                  <div className="grid grid-cols-2 gap-5 mt-8">
                     <Link href="/">
                       <a>
-                        <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded">
+                        <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded w-full">
                           CANCEL
                         </button>
                       </a>
                     </Link>
+
                     <button
                       type="submit"
                       disabled={isSubmittingOtp}
@@ -240,24 +241,30 @@ export default function ForgotPasswordComponent(): JSX.Element {
                           autoComplete="off"
                           className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none w-full"
                         />
-                        {touched.confirmNewPassword && errors.confirmNewPassword && (
-                          <div className="text-red-500 text-sm">
-                            {errors.confirmNewPassword}
-                          </div>
-                        )}
-                        <div className="flex justify-between my-8">
+                        {touched.confirmNewPassword &&
+                          errors.confirmNewPassword && (
+                            <div className="text-red-500 text-sm">
+                              {errors.confirmNewPassword}
+                            </div>
+                          )}
+                        <div className="grid grid-cols-2 gap-5 my-8">
                           <Link href="/">
                             <a>
-                              <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded">
+                              <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded w-full">
                                 CANCEL
                               </button>
                             </a>
                           </Link>
+                          
                           <button
                             type="submit"
-                            disabled={Object.keys(errors).length > 0 || isSubmittingPassword}
+                            disabled={
+                              Object.keys(errors).length > 0 ||
+                              isSubmittingPassword
+                            }
                             className={`${
-                              Object.keys(errors).length > 0 || isSubmittingPassword
+                              Object.keys(errors).length > 0 ||
+                              isSubmittingPassword
                                 ? "border-lightgray text-lightgray"
                                 : "border-primaryGreen-200 text-primaryGreen-200"
                             } bg-white border-2 font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 ml-2 rounded`}
@@ -298,23 +305,27 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         name="email"
                         className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none my-4"
                         placeholder="abc@xyzmail.com"
+                        autoFocus
                       />
                       {touched.email && errors.email && (
                         <div className="text-red-500 text-sm -mt-4 mb-3">
                           {errors.email}
                         </div>
                       )}
-                      <div className="flex justify-between my-8">
+                      <div className="grid grid-cols-2 gap-5 my-8">
                         <Link href="/">
                           <a>
-                            <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded">
+                            <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded w-full">
                               CANCEL
                             </button>
                           </a>
                         </Link>
+
                         <button
                           type="submit"
-                          disabled={Object.keys(errors).length > 0 || isSubmittingEmail}
+                          disabled={
+                            Object.keys(errors).length > 0 || isSubmittingEmail
+                          }
                           className={`${
                             Object.keys(errors).length > 0 || isSubmittingEmail
                               ? "border-lightgray text-lightgray"

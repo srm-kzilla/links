@@ -61,11 +61,12 @@ const AddModal = ({
                 >
                   {({ errors, touched }) => (
                     <Form>
+                      <h1 className="text-lightgray font-bold mb-1 mt-5">Title</h1>
                       <Field
                         name="title"
                         type="text"
-                        className="border-b-2 border-lightgraycustom mb-4 mt-10 outline-none focus:outline-none block appearance-none w-full bg-white px-2 py-2"
-                        placeholder="Title"
+                        className="border-b-2 border-lightgraycustom mb-4 outline-none focus:outline-none block appearance-none w-full bg-white px-2 py-2"
+                        placeholder="Facebook"
                         autoFocus
                       />
                       {touched.title && errors.title && (
@@ -73,6 +74,8 @@ const AddModal = ({
                           {errors.title}
                         </div>
                       )}
+
+                      <h1 className="text-lightgray font-bold mb-1 mt-5">URL</h1>
                       <Field
                         name="url"
                         type="text"
