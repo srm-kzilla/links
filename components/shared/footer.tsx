@@ -6,7 +6,16 @@ export default function Footer() {
         <span role="img" aria-label="emoji" className="mx-2 animate-pulse">
           ❤️
         </span>
-        by your friends at SRMKZILLA
+        by your friends at{" "}
+        <span className="border-b-2 border-primaryGreen-200">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.srmkzilla.net/"
+          >
+            SRMKZILLA
+          </a>
+        </span>
       </p>
     </footer>
   );

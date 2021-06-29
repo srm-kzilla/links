@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { parseCookies } from "nookies";
 import { FaChevronRight } from "react-icons/fa";
+import { GrFormClose } from "react-icons/gr";
 import { MdContentCopy } from "react-icons/md";
 import { HiSearch } from "react-icons/hi";
 import Slide from "react-reveal/Slide";
@@ -31,6 +32,19 @@ interface SidebarProps {
   totalViews: number;
 }
 
+const activeLinkInitialValues = {
+  _id: "",
+  title: "",
+  url: "",
+  image: "",
+  status: false,
+  views: 0,
+  clicks: 0,
+  analyticsCode: "",
+  shortCode: "",
+  createdAt: 0,
+};
+
 const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
 
@@ -54,7 +68,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
   const intervalRef = useRef(null);
 
   // INFO: To copy URL to clipboard
-  const copyToClipBoard = async (copyMe) => {
+  const copyToClipBoard = async (copyMe: string) => {
     try {
       await navigator.clipboard.writeText(copyMe);
       successHandler("📋 Link copied to clipboard!");
@@ -165,9 +179,18 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
             >
               <FaChevronRight size={20} />
             </button>
-            <h1 className="pl-5 mt-5 font-sans font-black text-2xl text-buttongray">
-              Total Statistics
-            </h1>
+            <div className="flex">
+              <button
+                onClick={() => setActiveLink(activeLinkInitialValues)}
+                className="flex flex-col-reverse outline-none focus:outline-none"
+                title="Close Statistics"
+              >
+                <GrFormClose size={24} />
+              </button>
+              <h1 className="pl-2 mt-5 font-sans font-black text-2xl text-buttongray">
+                Total Statistics
+              </h1>
+            </div>
             {activeLink.shortCode && (
               <>
                 <div

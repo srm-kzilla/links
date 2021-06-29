@@ -10,7 +10,6 @@ interface AddModalProps {
   onClose: () => void;
   onAddLink: (
     link: { title: string; url: string },
-    resetForm: () => void,
     closeModal: () => void
   ) => void;
 }
@@ -52,15 +51,15 @@ const AddModal = ({
                 </h1>
                 <Formik
                   initialValues={initialValues}
-                  onSubmit={(values, { resetForm }) => {
-                    onAddLink(values, resetForm, onClose);
+                  onSubmit={(values) => {
+                    onAddLink(values, onClose);
                     setIsSubmittingLink(true);
                   }}
                   validateOnBlur={false}
                   validateOnChange={false}
                   validationSchema={addLinkValidationSchema}
                 >
-                  {({ errors }) => (
+                  {({ errors, touched }) => (
                     <Form>
                       <Field
                         name="title"
@@ -69,7 +68,7 @@ const AddModal = ({
                         placeholder="Title"
                         autoFocus
                       />
-                      {errors.title && (
+                      {touched.title && errors.title && (
                         <div className="text-red-500 text-sm -mt-4 mb-3">
                           {errors.title}
                         </div>
@@ -80,7 +79,7 @@ const AddModal = ({
                         className="border-b-2 border-lightgraycustom mb-4 outline-none focus:outline-none block appearance-none w-full bg-white px-2 py-2"
                         placeholder="URL"
                       />
-                      {errors.url && (
+                      {touched.url && errors.url && (
                         <div className="text-red-500 text-sm -mt-4 mb-3">
                           {errors.url}
                         </div>
@@ -88,9 +87,11 @@ const AddModal = ({
                       <div className="flex items-center justify-center relative">
                         <button
                           type="submit"
-                          disabled={isSubmittingLink}
+                          disabled={
+                            Object.keys(errors).length > 0 || isSubmittingLink
+                          }
                           className={`${
-                            isSubmittingLink
+                            Object.keys(errors).length > 0 || isSubmittingLink
                               ? "border-lightgray text-lightgray"
                               : "border-primaryGreen-200 text-primaryGreen-200"
                           } bg-white border-2 focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-3 px-4 my-2 rounded`}
