@@ -13,7 +13,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             href="https://www.srmkzilla.net/"
           >
-            SRMKZILLA
+          {" "}SRMKZILLA
           </a>
         </span>
       </p>

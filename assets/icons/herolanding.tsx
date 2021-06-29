@@ -4,7 +4,7 @@ export default function HeroLanding() {
     <>
       <div className=" max-w-2xl mx-0 sm:mx-12 md:mx-16 lg:mx-auto flex flex-col">
         <div className="flex flex-row">
-          <div className="flex items-center px-2 py-2 sm:py-4 sm:px-4 bg-white shadow-md rounded-lg">
+          <div className="flex items-center px-2 py-2 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg">
             <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
               <Linkedin />
             </div>
@@ -14,7 +14,7 @@ export default function HeroLanding() {
           </div>
         </div>
         <div className="flex flex-row-reverse items-end">
-          <div className="flex items-center px-2 py-2 sm:py-4 sm:px-4 bg-white shadow-md rounded-lg ">
+          <div className="flex items-center px-2 py-2 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg ">
             <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
               <Linkedin />
             </div>
@@ -27,7 +27,7 @@ export default function HeroLanding() {
           </div>
         </div>
         <div className="flex flex-row items-end">
-          <div className="flex items-center px-2 py-2 sm:py-4 sm:px-4 bg-white shadow-md rounded-lg ">
+          <div className="flex items-center px-2 py-2 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg ">
             <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
               <Logo />
             </div>

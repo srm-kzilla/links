@@ -4,7 +4,7 @@ export const baseUrl: string = "https://links-43b3z.ondigitalocean.app/";
 export const kzillaxyz: string = "https://kzilla.xyz/analytics/";
 export const kzillaxyzdomain: string = "https://kzilla.xyz/";
 export const kzillaxyzclicks: string = "https://kzilla.xyz/api/v1/analytics/";
-export const dropdownMenu: Array<Object> = [
+export const dropdownMenu = [
     {
         name: "Home",
         href: "/"

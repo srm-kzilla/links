@@ -172,7 +172,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
     <>
       {isOpen && (
         <Slide right>
-          <div className="fixed z-40 w-full lg:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white min-w-max xl:max-w-lg overflow-auto">
+          <div className="fixed z-40 w-full lg:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white min-w-max xl:max-w-lg">
             <button
               onClick={onClose}
               className="relative lg:hidden float-right mt-6 cursor-pointer"
@@ -575,7 +575,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   </div>
                 </div>
 
-                <div className="w-full absolute bottom-10">
+                <div className="w-full absolute bottom-12">
                   <div className="flex items-center justify-center">
                     <a
                       className="text-center text-sm"
@@ -583,8 +583,8 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <button className="bg-white border-2 border-primaryGreen-200 focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 my-4 rounded-md">
-                        <p className="text-primaryGreen-200">
+                      <button className="bg-white border-2 border-primaryGreen-300 focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 my-4 rounded-md">
+                        <p className="text-primaryGreen-300">
                           SHOW MORE ANALYTICS
                         </p>
                       </button>
