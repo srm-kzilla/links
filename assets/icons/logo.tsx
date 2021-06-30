@@ -7,8 +7,8 @@ export default function Logo(): JSX.Element {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 677.01 557.59"
-        width={router.pathname == "/" ? "inherit" : "40"}
-        height={router.pathname == "/" ? "inherit" : "40"}
+        width={router.pathname == "/" ? "50" : "40"}
+        height={router.pathname == "/" ? "50" : "40"}
       >
         <defs>
           <style>

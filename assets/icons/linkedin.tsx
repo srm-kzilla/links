@@ -1,13 +1,7 @@
 export default function Linkedin(): JSX.Element {
   return (
     <>
-      <svg
-        width="inherit"
-        height="inherit"
-        viewBox="0 0 52 52"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M40.3284 0H11.6716C5.22557 0 0 5.22557 0 11.6716V40.3284C0 46.7744 5.22557 52 11.6716 52H40.3284C46.7744 52 52 46.7744 52 40.3284V11.6716C52 5.22557 46.7744 0 40.3284 0Z"
           fill="#0B86CA"

@@ -21,6 +21,19 @@ export interface Link {
   createdAt: number;
 }
 
+const activeLinkInitialValues = {
+  _id: "",
+  title: "",
+  url: "",
+  image: "",
+  status: false,
+  views: 0,
+  clicks: 0,
+  analyticsCode: "",
+  shortCode: "",
+  createdAt: 0,
+};
+
 interface DashboardProps {
   _resLinks: Link[];
   totalViews: number;
@@ -96,6 +109,7 @@ export default function DashboardComponent({
         ...prevState.filter((item) => item._id !== _id),
       ]);
       closeModal();
+      setActiveLink(activeLinkInitialValues);
     }
   };
 
@@ -120,30 +134,34 @@ export default function DashboardComponent({
               onAddLink={onAddLinkHandler}
             />
 
-            {searchLinkResults.length > 0
-              ? searchLinkResults.map((link) => (
-                  <Card
-                    key={link._id}
-                    onCardClick={() => {
-                      setSearchLinkResults([]);
-                      setActiveLink(link);
-                      setIsSidebarOpen(true);
-                    }}
-                    link={link}
-                    onDeleteCard={onDeleteLinkHandler}
-                  />
-                ))
-              : links.map((link) => (
-                  <Card
-                    key={link._id}
-                    onCardClick={() => {
-                      setActiveLink(link);
-                      setIsSidebarOpen(true);
-                    }}
-                    link={link}
-                    onDeleteCard={onDeleteLinkHandler}
-                  />
-                ))}
+            {searchLinkResults.length > 0 ? (
+              searchLinkResults.map((link) => (
+                <Card
+                  key={link._id}
+                  onCardClick={() => {
+                    setSearchLinkResults([]);
+                    setActiveLink(link);
+                    setIsSidebarOpen(true);
+                  }}
+                  link={link}
+                  onDeleteCard={onDeleteLinkHandler}
+                />
+              ))
+            ) : searchLink !== "" ? (
+              <div className="text-xl w-full sm:w-4/5 text-center">No links found!</div>
+            ) : (
+              links.map((link) => (
+                <Card
+                  key={link._id}
+                  onCardClick={() => {
+                    setActiveLink(link);
+                    setIsSidebarOpen(true);
+                  }}
+                  link={link}
+                  onDeleteCard={onDeleteLinkHandler}
+                />
+              ))
+            )}
           </div>
 
           <Sidebar

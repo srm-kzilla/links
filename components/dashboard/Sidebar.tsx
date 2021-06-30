@@ -180,13 +180,15 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
               <FaChevronRight size={20} />
             </button>
             <div className="flex">
-              <button
-                onClick={() => setActiveLink(activeLinkInitialValues)}
-                className="flex flex-col-reverse outline-none focus:outline-none"
-                title="Close Statistics"
-              >
-                <GrFormClose size={24} />
-              </button>
+              {activeLink._id !== "" && (
+                <button
+                  onClick={() => setActiveLink(activeLinkInitialValues)}
+                  className="flex flex-col-reverse outline-none focus:outline-none"
+                  title="Close Statistics"
+                >
+                  <GrFormClose size={24} />
+                </button>
+              )}
               <h1 className="pl-2 mt-5 font-sans font-black text-2xl text-buttongray">
                 Total Statistics
               </h1>
