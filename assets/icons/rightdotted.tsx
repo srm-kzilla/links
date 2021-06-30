@@ -1,13 +1,7 @@
 export default function RightDotted(): JSX.Element {
   return (
     <>
-      <svg
-        width="inherit"
-        height="inherit"
-        viewBox="0 0 101 116"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg viewBox="0 0 101 116" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M99 0V114H3.69549e-06"
           stroke="#5F5F5F"
