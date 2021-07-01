@@ -1,10 +1,8 @@
-//Package imports
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { useContext, useState } from "react";
 import Link from "next/link";
 
-//Local imports
 import { errorHandler, postSubscribe } from "../../utils/api";
 import { AuthContext } from "../../store/authContext";
 import {
@@ -48,7 +46,7 @@ export default function HomeComponent(): JSX.Element {
 
   return (
     <>
-      <div className="grid grid-cols-2 absolute top-0 right-0 left-0 pt-2">
+     <div className="grid grid-cols-2 absolute top-0 right-0 left-0 pt-2">
         <Link href="/">
           <a className="ml-2 pt-1 text-lightgray text-lg sm:text-2xl font-bold p-3 text-left">
             <div className="float-left mr-2 h-9 w-9 sm:h-12 sm:w-12">
@@ -66,10 +64,10 @@ export default function HomeComponent(): JSX.Element {
           </Link>
         </div>
       </div>
-
+      
       <div className="flex justify-center font-sans min-h-screen px-3 sm:px-8 2xl:px-12">
         <div className="grid grid-cols-0 lg:grid-cols-2 w-full">
-          <div className="lg:col-span-1 mt-20 mb-10 lg:mb-0 lg:my-auto mx-auto block lg:hidden">
+          <div className="mt-20 p-10 block lg:hidden">
             <HeroLanding />
           </div>
           <div className="text-gray-600 font-Inter lg:col-span-1 md:my-5 lg:my-auto px-5 text-center lg:text-left font-bold ">
@@ -93,14 +91,14 @@ export default function HomeComponent(): JSX.Element {
                     <Field
                       name="email"
                       type="email"
-                      className="col-span-7 lg:col-span-5 p-2 sm:p-7 md:py-5 border-primaryGreen-200 border-l-8 focus:outline-none block w-full bg-lightgray-10"
+                      className="col-span-7 lg:col-span-6 p-2 sm:p-7 md:py-5 rounded-l-md border-primaryGreen-200 border-l-8 focus:outline-none block w-full bg-lightgray-10"
                       placeholder="abc@example.com"
                     />
 
                     <button
                       disabled={isSubscribed}
                       type="submit"
-                      className="bg-primaryGreen-100 col-span-1 flex items-center justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
+                      className="bg-primaryGreen-100 col-span-1 flex items-center rounded-r-md justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
                     >
                       {loading && (
                         <div className="absolute">

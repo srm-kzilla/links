@@ -2,11 +2,10 @@ export default function HomeTick(): JSX.Element {
   return (
     <>
       <svg
-        width={44}
-        height={33}
         viewBox="0 0 44 33"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        className="h-5 sm:h-8"
       >
         <path
           d="M3 17L14.698 29L41 3"
