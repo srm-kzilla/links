@@ -129,9 +129,9 @@ export const getOTP = async (
     }
     const dbClient: MongoClient = await getDbClient();
 
-    const OTP = Math.floor(Math.random() * 1000000);
+    const OTP = Math.floor(100000 + Math.random() * 900000);
     const createdAt = new Date().getTime();
-    //TO DO: encode OTP?
+    
     await dbClient
       .db()
       .collection("otp")
@@ -182,7 +182,6 @@ export const verifyOTP = async (
       if (databaseOTP.expiresAt < new Date().getTime()) {
         throw errors.OTP_EXPIRED;
       }
-      //TO DO: Delete OTP document when otp has expired
 
       await dbClient.db().collection("otp").deleteOne({ _id: databaseOTP._id });
       return res.status(200).json({
