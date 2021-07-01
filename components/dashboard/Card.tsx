@@ -47,14 +47,9 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
             <h2 className="text-xl md:text-3xl font-bold text-lightgray">
               {link.title ? truncateText(link.title, 20, 20) : "untitled"}
             </h2>
-            <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs md:text-md md:inline-block text-lightgray"
-            >
+            <p className="text-sm md:text-md md:inline-block text-lightgray">
               {link.url ? truncateText(link.url, 40, 40) : "No URL specified"}
-            </a>
+            </p>
           </div>
         </div>
 

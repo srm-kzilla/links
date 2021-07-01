@@ -117,8 +117,12 @@ export default function DashboardComponent({
     <>
       {links.length > 0 ? (
         <>
-          <div className="min-h-screen flex flex-col py-24 bg-backgroundwhite">
-            <div className="fixed z-50 w-12 h-12 bottom-7 lg:top-20 right-4 xl:left-addButton focus:outline-none hover:opacity-70">
+          <div className="relative min-h-screen flex flex-col py-24 bg-backgroundwhite">
+            <div
+              onClick={() => setActiveLink(activeLinkInitialValues)}
+              className="absolute hidden lg:block w-full h-full bg-backgroundwhite top-0 bottom-0"
+            ></div>
+            <div className="fixed z-50 w-12 h-12 bottom-9 lg:top-24 right-4 xl:left-addButton focus:outline-none hover:opacity-70">
               <button
                 onClick={() => setIsAddModalOpen(true)}
                 className="focus:outline-none"
@@ -148,7 +152,9 @@ export default function DashboardComponent({
                 />
               ))
             ) : searchLink !== "" ? (
-              <div className="text-xl w-full sm:w-4/5 text-center">No links found!</div>
+              <div className="text-xl w-full sm:w-4/5 text-center">
+                No links found!
+              </div>
             ) : (
               links.map((link) => (
                 <Card

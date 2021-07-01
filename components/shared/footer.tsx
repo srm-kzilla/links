@@ -7,15 +7,15 @@ export default function Footer() {
           ❤️
         </span>
         by your friends at{" "}
-        <span className="border-b-2 border-primaryGreen-200">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.srmkzilla.net/"
-          >
-          {" "}SRMKZILLA
-          </a>
-        </span>
+        <a
+          className="font-extrabold"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.srmkzilla.net/"
+        >
+          {" "}
+          SRMKZILLA
+        </a>
       </p>
     </footer>
   );

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { parseCookies } from "nookies";
 import { FaChevronRight } from "react-icons/fa";
-import { GrFormClose } from "react-icons/gr";
 import { MdContentCopy } from "react-icons/md";
 import { HiSearch } from "react-icons/hi";
 import Slide from "react-reveal/Slide";
@@ -31,19 +30,6 @@ interface SidebarProps {
   links: number;
   totalViews: number;
 }
-
-const activeLinkInitialValues = {
-  _id: "",
-  title: "",
-  url: "",
-  image: "",
-  status: false,
-  views: 0,
-  clicks: 0,
-  analyticsCode: "",
-  shortCode: "",
-  createdAt: 0,
-};
 
 const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
@@ -180,15 +166,6 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
               <FaChevronRight size={20} />
             </button>
             <div className="flex">
-              {activeLink._id !== "" && (
-                <button
-                  onClick={() => setActiveLink(activeLinkInitialValues)}
-                  className="flex flex-col-reverse outline-none focus:outline-none"
-                  title="Close Statistics"
-                >
-                  <GrFormClose size={24} />
-                </button>
-              )}
               <h1 className="pl-2 mt-5 font-sans font-black text-2xl text-buttongray">
                 Total Statistics
               </h1>
@@ -200,12 +177,13 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   onMouseLeave={() => setShowTitleEdit(false)}
                   className="flex flex-row mt-4 mx-5 p-4"
                 >
-                  <img
-                    width="45"
-                    className="rounded"
-                    src={activeLink.image}
-                    alt={activeLink.title}
-                  />
+                  <div className="flex items-center justify-center w-12 h-12 overflow-hidden rounded-md">
+                    <img
+                      className="w-auto max-h-full rounded-md"
+                      src={activeLink.image}
+                      alt={activeLink.title}
+                    />
+                  </div>
                   <div
                     className={`flex flex-col ${
                       showTitleInput ? "w-full" : ""
@@ -299,7 +277,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
             )}
 
             {!activeLink._id && (
-              <div className={`grid grid-cols-2 mt-4 mx-5`}>
+              <div className={`grid grid-cols-2 mt-8 mx-5`}>
                 <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                   <p className="pl-2">Total Links</p>
                   <div className="customGradient p-2">
@@ -577,7 +555,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   </div>
                 </div>
 
-                <div className="w-full absolute bottom-12">
+                <div className="w-full absolute bottom-14">
                   <div className="flex items-center justify-center">
                     <a
                       className="text-center text-sm"
