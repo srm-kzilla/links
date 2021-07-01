@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { parseCookies } from "nookies";
+import { HiSearch } from "react-icons/hi";
 
 import { AddLink, NoLinks } from "../../assets/icons";
 import { SidebarContext } from "../../store/sidebarContext";
@@ -49,7 +50,7 @@ export default function DashboardComponent({
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
-  const [searchLink] = useRecoilState(searchDashboardLink);
+  const [searchLink, setSearchLink] = useRecoilState(searchDashboardLink);
 
   useEffect(() => {
     if (window.innerWidth <= 768) setIsSidebarOpen(false);
@@ -132,6 +133,22 @@ export default function DashboardComponent({
               </button>
             </div>
 
+            <div className="flex items-center justify-center w-full">
+              <h2 className="w-full sm:w-10/12 block lg:hidden px-5 my-2 font-black text-lg text-buttongray">
+                <div className="flex flex-row">
+                  <div className="flex items-center px-3 bg-white text-lightgraycustom rounded-l-md">
+                    <HiSearch />
+                  </div>
+                  <input
+                    type="text"
+                    onChange={(e) => setSearchLink(e.target.value)}
+                    placeholder="Search for a link..."
+                    className="py-3 rounded-r-md outline-none focus:outline-none w-full"
+                  />
+                </div>
+              </h2>
+            </div>
+
             <AddModal
               isOpen={isAddModalOpen}
               onClose={() => setIsAddModalOpen(false)}
@@ -152,7 +169,7 @@ export default function DashboardComponent({
                 />
               ))
             ) : searchLink !== "" ? (
-              <div className="text-xl w-full sm:w-4/5 text-center">
+              <div className="text-xl w-full sm:w-4/5 text-center mt-3">
                 No links found!
               </div>
             ) : (
