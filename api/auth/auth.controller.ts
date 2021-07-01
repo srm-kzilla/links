@@ -29,12 +29,28 @@ export const postLogin = async (
   try {
     let data = req.body as UserLogin;
     const dbClient: MongoClient = await getDbClient();
-    if (
-      await dbClient
-        .db()
-        .collection("tempusers")
-        .findOne({ $or: [{ email: data.userId }, { username: data.userId }] })
-    ) {
+    let unverifiedAccount = await dbClient
+      .db()
+      .collection("tempusers")
+      .findOne({ $or: [{ email: data.userId }, { username: data.userId }] });
+    if (unverifiedAccount) {
+      const jwtSecret = process.env.JWT_SECRET;
+      if (!jwtSecret) {
+        throw errors.MISSING_ENV_VARIABLES;
+      }
+      const secret = jwt.sign({ email: unverifiedAccount.email }, jwtSecret, {
+        expiresIn: "1d",
+        issuer: "srmkzilla",
+      });
+      await sendMail(
+        [unverifiedAccount.email],
+        "Verify Your Account",
+        verifyAccountTemplate({
+          username: unverifiedAccount.username,
+          baseUrl: baseUrl,
+          secret: secret,
+        })
+      );
       throw errors.UNVERIFIED_ACCOUNT;
     }
     let result = await dbClient
