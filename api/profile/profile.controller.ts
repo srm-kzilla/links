@@ -61,9 +61,9 @@ export const patchProfile = async (
       .findOne<UserDB>({ username: data.username });
 
     if (
-      data.name !== usernameExists.name ||
-      data.username !== usernameExists.username ||
-      data.bio !== usernameExists.bio
+      data.name !== usernameExists?.name ||
+      data.username !== usernameExists?.username ||
+      data.bio !== usernameExists?.bio
     ) {
       if (data.username) {
         if (usernameExists && user._id != usernameExists._id) {
@@ -93,6 +93,7 @@ export const patchProfile = async (
         message: "✅  Profile updated successfully!",
       });
     }
+    throw errors.NO_NEW_CHANGE;
   } catch (err) {
     next(err);
   }
