@@ -1,9 +1,9 @@
-import HomeComponent  from "../components/home/home"
+import { HomeComponent } from "../components/home";
 
-export default function Home() :JSX.Element{
-  return(
+export default function Home() {
+  return (
     <>
-    <HomeComponent />
+      <HomeComponent />
     </>
   );
 }

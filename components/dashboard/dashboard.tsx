@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import { VscAdd } from "react-icons/vsc";
-import { IconContext } from "react-icons";
+import { useRecoilState } from "recoil";
 import { parseCookies } from "nookies";
 
-import { NoLinks } from "../../assets/icons";
-import { SidebarContext } from "../../utils/sidebarContext";
+import { AddLink, NoLinks } from "../../assets/icons";
+import { SidebarContext } from "../../store/sidebarContext";
 import { AddModal, Card, Sidebar } from "./";
 import { postLink, deleteLink } from "../../utils/api";
+import { searchDashboardLink } from "../../utils/store";
 
 export interface Link {
   _id: string;
@@ -16,21 +16,40 @@ export interface Link {
   status: boolean;
   views: number;
   clicks: number;
-  shortCode?: string;
-  analyticsCode?: string;
-  createdAt?: number;
+  analyticsCode: string;
+  shortCode: string;
+  createdAt: number;
 }
+
+const activeLinkInitialValues = {
+  _id: "",
+  title: "",
+  url: "",
+  image: "",
+  status: false,
+  views: 0,
+  clicks: 0,
+  analyticsCode: "",
+  shortCode: "",
+  createdAt: 0,
+};
 
 interface DashboardProps {
   _resLinks: Link[];
   totalViews: number;
 }
 
-export default function DashboardComponent({ _resLinks, totalViews }: DashboardProps) {
+export default function DashboardComponent({
+  _resLinks,
+  totalViews,
+}: DashboardProps) {
   const { activeLink, setActiveLink } = useContext(SidebarContext);
   const [links, setLinks] = useState<Link[]>(_resLinks);
+  const [searchLinkResults, setSearchLinkResults] = useState<Link[]>(_resLinks);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+
+  const [searchLink] = useRecoilState(searchDashboardLink);
 
   useEffect(() => {
     if (window.innerWidth <= 768) setIsSidebarOpen(false);
@@ -45,59 +64,69 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
     ]);
   }, [activeLink]);
 
-  const onAddLinkHandler = (
+  useEffect(() => {
+    let searchResults: Link[] = [];
+    if (searchLink != "") {
+      links.map((item) => {
+        if (item.title.toLowerCase().includes(searchLink.toLowerCase())) {
+          searchResults.push(item);
+        }
+      });
+    }
+    setSearchLinkResults(searchResults);
+  }, [searchLink]);
+
+  const onAddLinkHandler = async (
     values: { title: string; url: string },
-    resetForm: () => void,
     closeModal: () => void
   ) => {
     const { authToken } = parseCookies();
-    (async () => {
-      const res = await postLink(authToken, values);
-      if (res)
-        setLinks((prevState) => {
-          prevState.push({
-            ...values,
-            clicks: 0,
-            views: 0,
-            status: true,
-            image: res.data.image,
-            _id: res.data._id,
-            shortCode: res.data.shortCode,  
-            analyticsCode: res.data.analyticsCode
-          });
-          return prevState;
+    const res = await postLink(authToken, values);
+    if (res)
+      setLinks((prevState) => {
+        prevState.push({
+          ...values,
+          clicks: 0,
+          views: 0,
+          status: true,
+          image: res.data.image,
+          _id: res.data._id,
+          shortCode: res.data.shortCode,
+          analyticsCode: res.data.analyticsCode,
+          createdAt: res.data.createdAt,
         });
-      resetForm();
-      closeModal();
-    })();
+        return prevState;
+      });
+
+    closeModal();
   };
 
-  const onDeleteLinkHandler = (_id: string, closeModal: () => void) => {
+  const onDeleteLinkHandler = async (_id: string, closeModal: () => void) => {
     const { authToken } = parseCookies();
-    (async () => {
-      const res = await deleteLink(authToken, _id);
-      if (res) {
-        setLinks((prevState) => [
-          ...prevState.filter((item) => item._id !== _id),
-        ]);
-        closeModal();
-      }
-    })();
+    const res = await deleteLink(authToken, _id);
+    if (res) {
+      setLinks((prevState) => [
+        ...prevState.filter((item) => item._id !== _id),
+      ]);
+      closeModal();
+      setActiveLink(activeLinkInitialValues);
+    }
   };
 
   return (
     <>
       {links.length > 0 ? (
-        <>  
-          <div className="mt-24 pb-10">
-            <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="bg-backgroundwhite z-50 fixed border-dashed border-4 border-buttongray bottom-7 right-4 lg:top-20 lg:left-addButton focus:outline-none w-16 sm:w-20 h-16 sm:h-20 shadow-2xl rounded-full px-2 sm:px-4 hover:opacity-70"
-              title="Add New Link">
-              <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
-                <VscAdd />
-              </IconContext.Provider>
-            </button>
+        <>
+          <div className="min-h-screen flex flex-col py-24 bg-backgroundwhite">
+            <div className="fixed z-50 w-12 h-12 bottom-7 lg:top-20 right-4 xl:left-addButton focus:outline-none hover:opacity-70">
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className="focus:outline-none"
+                title="Add New Link"
+              >
+                <AddLink />
+              </button>
+            </div>
 
             <AddModal
               isOpen={isAddModalOpen}
@@ -105,19 +134,36 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
               onAddLink={onAddLinkHandler}
             />
 
-            {links.map((link) => (
-              <Card
-                key={link._id}
-                onCardClick={() => {
-                  setActiveLink(link);
-                  setIsSidebarOpen(true);
-                }}
-                link={link}
-                onDeleteCard={onDeleteLinkHandler}
-                
-              />
-            ))}
+            {searchLinkResults.length > 0 ? (
+              searchLinkResults.map((link) => (
+                <Card
+                  key={link._id}
+                  onCardClick={() => {
+                    setSearchLinkResults([]);
+                    setActiveLink(link);
+                    setIsSidebarOpen(true);
+                  }}
+                  link={link}
+                  onDeleteCard={onDeleteLinkHandler}
+                />
+              ))
+            ) : searchLink !== "" ? (
+              <div className="text-xl w-full sm:w-4/5 text-center">No links found!</div>
+            ) : (
+              links.map((link) => (
+                <Card
+                  key={link._id}
+                  onCardClick={() => {
+                    setActiveLink(link);
+                    setIsSidebarOpen(true);
+                  }}
+                  link={link}
+                  onDeleteCard={onDeleteLinkHandler}
+                />
+              ))
+            )}
           </div>
+
           <Sidebar
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
@@ -129,11 +175,9 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
         <>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="bg-backgroundwhite fixed md:fixed border-dashed border-4 border-buttongray bottom-14 right-8 md:top-20 md:right-96 focus:outline-none w-20 h-20 shadow-2xl rounded-full px-4 hover:opacity-70"
+            className="fixed md:fixed bottom-14 right-8 md:top-20 md:right-8 focus:outline-none w-20 h-20 rounded-full px-4 hover:opacity-70"
           >
-            <IconContext.Provider value={{ color: "#4F4F4F", size: "42px" }}>
-              <VscAdd />
-            </IconContext.Provider>
+            <AddLink />
           </button>
 
           <AddModal
@@ -142,7 +186,7 @@ export default function DashboardComponent({ _resLinks, totalViews }: DashboardP
             onAddLink={onAddLinkHandler}
           />
 
-          <div className="flex w-screen h-screen">
+          <div className="flex h-screen">
             <div className="m-auto w-full">
               <NoLinks className="w-3/4 sm:w-1/2 md:w-1/3 m-auto" />
               <p className="w-full text-center mt-8 text-sm">

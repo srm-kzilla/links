@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 export const ImageContext = React.createContext({
-    fileBlob: undefined,
-    setFileBlob: ({}) => {}
+    fileBlob: "",
+    setFileBlob: (_fileBlob) => {}
 });
 
 const ImageContextProvider: React.FC = (props): JSX.Element => {
@@ -11,9 +11,9 @@ const ImageContextProvider: React.FC = (props): JSX.Element => {
         <ImageContext.Provider
             value={{fileBlob, setFileBlob }}
         >
-            {props.children}
+            {props.children}    
         </ImageContext.Provider>
     );
 };
 
-export default ImageContextProvider;
+export default ImageContextProvider;    

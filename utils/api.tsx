@@ -1,13 +1,27 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { setCookie } from "nookies";
+import { load } from "recaptcha-v3";
 
 import { baseUrl, kzillaxyzclicks } from "../utils/constants";
 
+async function getRecaptchaToken() {
+  const recaptcha = await load(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
+  const token = await recaptcha.execute();
+  return token;
+}
 
 export const postLogin = async (values) => {
   try {
-    const _res = await axios.post(`${baseUrl}api/v1/auth/login`, values);
+    const recaptchaToken = await getRecaptchaToken();
+    const _res = await axios({
+      method: "POST",
+      url: `${baseUrl}api/v1/auth/login`,
+      headers: {
+        "x-recaptcha-token": recaptchaToken,
+      },
+      data: values,
+    });
     setCookie(null, "authToken", _res.data.authToken);
     return true;
   } catch (err) {
@@ -18,8 +32,35 @@ export const postLogin = async (values) => {
 
 export const postSignup = async (values) => {
   try {
-    const _res = await axios.post(`${baseUrl}api/v1/auth/signup`, values);
-    setCookie(null, "authToken", _res.data.authToken);
+    const recaptchaToken = await getRecaptchaToken();
+    const _res = await axios({
+      method: "POST",
+      url: `${baseUrl}api/v1/auth/signup`,
+      headers: {
+        "x-recaptcha-token": recaptchaToken,
+      },
+      data: values,
+    });
+    successHandler(_res.data.message);
+    return true;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const postSubscribe = async (values) => {
+  try {
+    const recaptchaToken = await getRecaptchaToken();
+    const _res = await axios({
+      method: "POST",
+      url: `${baseUrl}api/v1/subscribe/add`,
+      headers: {
+        "x-recaptcha-token": recaptchaToken,
+      },
+      data: values,
+    });
+    successHandler(_res.data.message);
     return true;
   } catch (err) {
     errorHandler(err);
@@ -33,7 +74,6 @@ export const getLinks = async (authToken: string) => {
       headers: { Authorization: `Bearer ${authToken}` },
     });
     return _res.data;
-
   } catch (err) {
     errorHandler(err);
   }
@@ -41,15 +81,17 @@ export const getLinks = async (authToken: string) => {
 
 export const postLink = async (authToken: string, values: object) => {
   try {
+    const recaptchaToken = await getRecaptchaToken();
     const _res = await axios({
       method: "POST",
       url: `${baseUrl}api/v1/links/add`,
       headers: {
         Authorization: `Bearer ${authToken}`,
+        "x-recaptcha-token": recaptchaToken,
       },
       data: values,
     });
-    successHandler("🎉 Link added successfully!");
+    successHandler(_res.data.message);
     return _res;
   } catch (err) {
     errorHandler(err);
@@ -59,15 +101,17 @@ export const postLink = async (authToken: string, values: object) => {
 
 export const deleteLink = async (authToken: string, _id: string) => {
   try {
+    const recaptchaToken = await getRecaptchaToken();
     const endpoint = `${baseUrl}api/v1/links/delete?linkId=${_id}`;
-    await axios({
+    const _res = await axios({
       method: "DELETE",
       url: endpoint,
       headers: {
         Authorization: `Bearer ${authToken}`,
+        "x-recaptcha-token": recaptchaToken,
       },
     });
-    successHandler("🗑️ Link deleted successfully!");
+    successHandler(_res.data.message);
     return true;
   } catch (err) {
     errorHandler(err);
@@ -81,12 +125,14 @@ export const updateLink = async (
   values: object
 ) => {
   try {
+    const recaptchaToken = await getRecaptchaToken();
     const endpoint = `${baseUrl}api/v1/links/update?linkId=${_id}`;
     await axios({
       method: "PATCH",
       url: endpoint,
       headers: {
         Authorization: `Bearer ${authToken}`,
+        "x-recaptcha-token": recaptchaToken,
       },
       data: values,
     });
@@ -110,23 +156,22 @@ export const getPublicLinks = async (username: string) => {
 
 export const getLinkClicks = async (analyticsCode: string) => {
   try {
-    const _res = await axios.get(
-      `${kzillaxyzclicks}${analyticsCode}`
-    );
+    const _res = await axios.get(`${kzillaxyzclicks}${analyticsCode}`);
     return _res.data.clicks;
-  }
-  catch (err) {
+  } catch (err) {
     errorHandler(err);
   }
 };
 
 export const patchProfilePicture = async (authToken: string) => {
   try {
+    const recaptchaToken = await getRecaptchaToken();
     const _res = await axios({
       method: "PATCH",
       url: `${baseUrl}api/v1/profile/uploadpicture`,
       headers: {
         Authorization: `Bearer ${authToken}`,
+        "x-recaptcha-token": recaptchaToken,
       },
     });
     return _res;
@@ -143,7 +188,6 @@ export const postProfilePicture = async (url: string, formdata: any) => {
       url: url,
       data: formdata,
     });
-    successHandler("🎉 Your profile image is updated successfully!");
     return _res;
   } catch (err) {
     errorHandler(err);
@@ -153,24 +197,29 @@ export const postProfilePicture = async (url: string, formdata: any) => {
 
 export const getUserProfile = async (authToken: string) => {
   try {
-    const _res = await axios.get(`${baseUrl}api/v1/profile`, {
-      headers: { Authorization: `Bearer ${authToken}` },
-    });
-    return _res.data;
+    if (authToken) {
+      const _res = await axios.get(`${baseUrl}api/v1/profile`, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+      return _res.data;
+    }
+  } catch (err) {
+    errorHandler(err);
+    return false;
   }
-  // Fire and forget
-  catch (err) {}
 };
 
 export const patchUserProfile = async (authToken: string, userData: Object) => {
   try {
+    const recaptchaToken = await getRecaptchaToken();
     const _res = await axios({
       method: "PATCH",
       url: `${baseUrl}api/v1/profile/editprofile`,
       headers: {
         Authorization: `Bearer ${authToken}`,
+        "x-recaptcha-token": recaptchaToken,
       },
-      data: userData
+      data: userData,
     });
     return _res;
   } catch (err) {
@@ -179,18 +228,112 @@ export const patchUserProfile = async (authToken: string, userData: Object) => {
   }
 };
 
-export const postNewPassword = async (authToken: string, values: Object) => {
+export const patchNewPassword = async (authToken: string, values: Object) => {
   try {
+    const recaptchaToken = await getRecaptchaToken();
     const _res = await axios({
       method: "PATCH",
       url: `${baseUrl}api/v1/profile/changepassword`,
       headers: {
         Authorization: `Bearer ${authToken}`,
+        "x-recaptcha-token": recaptchaToken,
       },
-      data: values
+      data: values,
     });
-    successHandler("🔐 Password changed successfully!");
+    successHandler(_res.data.message);
     return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const postForgotPasswordEmail = async (values: Object) => {
+  try {
+    const recaptchaToken = await getRecaptchaToken();
+    const _res = await axios({
+      method: "POST",
+      url: `${baseUrl}api/v1/auth/getotp`,
+      headers: {
+        "x-recaptcha-token": recaptchaToken,
+      },
+      data: values,
+    });
+    successHandler(_res.data.message);
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const postVerifyOtp = async (
+  resetPasswordToken: string,
+  values: Object
+) => {
+  try {
+    const recaptchaToken = await getRecaptchaToken();
+    const _res = await axios({
+      method: "POST",
+      url: `${baseUrl}api/v1/auth/postotp`,
+      headers: {
+        "x-recaptcha-token": recaptchaToken,
+        "reset-password": resetPasswordToken,
+      },
+      data: values,
+    });
+    successHandler(_res.data.message);
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const patchNewForgotPassword = async (
+  resetPasswordToken: string,
+  values: Object
+) => {
+  try {
+    const recaptchaToken = await getRecaptchaToken();
+    const _res = await axios({
+      method: "PATCH",
+      url: `${baseUrl}api/v1/auth/resetPassword`,
+      headers: {
+        "x-recaptcha-token": recaptchaToken,
+        "reset-password": resetPasswordToken,
+      },
+      data: values,
+    });
+    successHandler(_res.data.message);
+    return _res;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const getSecretToken = async (secret: string) => {
+  try {
+    const _res = await axios.get(
+      `${baseUrl}api/v1/auth/verify?secret=${secret}`
+    );
+    return _res.data;
+  } catch (err) {
+    errorHandler(err);
+    return false;
+  }
+};
+
+export const getLinkStats = async (authToken: string, linkId: string) => {
+  try {
+    const _res = await axios.get(
+      `${baseUrl}api/v1/links/stats/?linkId=${linkId}`,
+      {
+        headers: { Authorization: `Bearer ${authToken}`},
+      }
+    );
+    return _res.data.result;
   } catch (err) {
     errorHandler(err);
     return false;
@@ -198,19 +341,11 @@ export const postNewPassword = async (authToken: string, values: Object) => {
 };
 
 export const errorHandler = (error?: AxiosError | any) => {
-  let errMessage: string = "Oops! Something went wrong!";
-  if (error)
-    switch (error.response?.status) {
-      case 401:
-        errMessage = "❌ Uh oh! Invalid credentials, please try again!";
-        break;
-      case 400:
-        errMessage = "❌ User already exists, try logging in!";
-        break;
-      default:
-        errMessage = "Oops! Something went wrong!";
-        break;
-    }
+  let errMessage: string = "😐 Oops! Something went wrong!";
+  if(error.response.status !== 500) {
+    errMessage = error.response.data.message;
+  }
+
   toast.error(errMessage, {
     position: "top-right",
     autoClose: 5000,
@@ -219,6 +354,7 @@ export const errorHandler = (error?: AxiosError | any) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
+    className: "font-Mulish",
   });
 };
 
@@ -231,5 +367,6 @@ export const successHandler = (successMessage: string) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
+    className: "font-Mulish",
   });
 };

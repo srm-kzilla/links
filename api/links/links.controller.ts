@@ -16,6 +16,8 @@ import {
   LINK_DEFAULT_IMAGE_URL,
   FETCH_FAVICON,
   KZILLAXYZ_POST,
+  YOUTUBE_FAVICON,
+  KZILLA_XYZ_ANALYTICS_FETCH_URL,
 } from "../constants/data.constants";
 import axios from "axios";
 
@@ -46,12 +48,16 @@ export const addLink = async (
         },
       });
       kzillaXYZdata = kzillaXYZ.data;
-      const fetchFavicon = await axios.get(FETCH_FAVICON + URL);
+      if (URL.includes("youtube")) {
+        faviconUrl = YOUTUBE_FAVICON;
+      } else {
+        const fetchFavicon = await axios.get(FETCH_FAVICON + URL);
 
-      const favIcons = fetchFavicon.data.icons.filter(
-        (url) => url.height >= 32 && url.height <= 100
-      );
-      faviconUrl = favIcons[0].url;
+        const favIcons = fetchFavicon.data.icons.filter(
+          (url) => url.height >= 32 && url.height <= 100
+        );
+        faviconUrl = favIcons[0].url;
+      }
     } catch (err) {
       faviconUrl = LINK_DEFAULT_IMAGE_URL;
     }
@@ -72,6 +78,7 @@ export const addLink = async (
     if (response.result.n === 0) throw errors.MONGODB_QUERY_ERROR;
     res.json({
       success: true,
+      message: "🎉 Link added successfully!",
       _id: response.insertedId,
       image: validatedData.image,
       shortCode: kzillaXYZdata.shortCode,
@@ -155,7 +162,10 @@ export const deleteLink = async (
     if (deleteLink.value === null) {
       throw errors.MONGODB_QUERY_ERROR;
     }
-    res.json({ success: true });
+    res.json({
+      success: true,
+      message: "🗑️ Link deleted successfully!",
+    });
   } catch (err) {
     next(err);
   }
@@ -222,7 +232,77 @@ export const updateLink = async (
     if (updateLink.result.n === 0) {
       throw errors.MONGODB_QUERY_ERROR;
     }
-    res.json({ success: true, message: "Link has been updated successfully." });
+    res.json({
+      success: true,
+      message: "✅ Link updated successfully!",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getLinkStats = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
+  try {
+    let kzillaXYZ;
+    const user: JwtPayload = JSON.parse(req.env.user) as JwtPayload;
+    const linkId = req.query.linkId as string;
+    const dbClient: MongoClient = await getDbClient();
+    const findUser = await dbClient
+      .db()
+      .collection("users")
+      .findOne<UserDB>({ email: user.email });
+
+    if (!findUser) {
+      throw errors.USER_NOT_FOUND;
+    }
+    const linkData = await dbClient
+      .db()
+      .collection("links")
+      .findOne<linkDBSchema>({
+        _id: new MongoDB.ObjectID(linkId),
+      });
+
+    if (!linkData) {
+      throw errors.LINK_NOT_FOUND;
+    }
+    try {
+      kzillaXYZ = await axios.get(
+        KZILLA_XYZ_ANALYTICS_FETCH_URL + linkData.analyticsCode,
+        {
+          headers: {
+            authorization: process.env.KZILLAXYZWEEBHOOKTOKEN || "",
+          },
+        }
+      );
+    } catch (err) {
+      throw errors.SOMETHING_WENT_WRONG;
+    }
+
+    const kzillaXYZdata = kzillaXYZ.data;
+    let conversionRate = Math.floor(
+      (kzillaXYZdata.clicks / linkData.views) * 100
+    ).toString();
+    if (conversionRate == "Infinity" || conversionRate == "NaN") {
+      conversionRate = "NIL";
+    }
+
+    let maxValue =
+      kzillaXYZdata.reports.length > 0
+        ? kzillaXYZdata.reports[1].data.reduce(function (prev, current) {
+            return prev.value > current.value ? prev : current;
+          })
+        : "NIL";
+
+    maxValue.label == "(not set)"
+      ? (maxValue.label = "Unknown City")
+      : maxValue.label;
+
+    const result = { maxValue, conversionRate };
+    res.json({ success: true, result });
   } catch (err) {
     next(err);
   }

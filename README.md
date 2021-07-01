@@ -1,16 +1,16 @@
 <div align="center">
-  <img alt="SRMKZILLA Logo" src="https://user-images.githubusercontent.com/60519359/116779734-b1840380-aa95-11eb-9318-1cb445ad9c31.png" height="56" />
+  <img alt="SRMKZILLA Logo" src="https://user-images.githubusercontent.com/60519359/123843455-89970c00-d92f-11eb-8f10-467011bd039a.png" height="76" />
 </div>
 
 <br>
 
 <div align="center">
-  <img alt="links Logo" src="https://user-images.githubusercontent.com/60519359/116779920-c1e8ae00-aa96-11eb-8952-b2b261d88a08.jpg" height="56" />
+  <img alt="links Logo" src="https://user-images.githubusercontent.com/60519359/123843242-50f73280-d92f-11eb-97ff-f5055f4a5afb.png" height="56" />
 </div>
 
 <br>
 <p align="center">
-A single link. For all your links. 🔗
+Your Ultimate URL Warehouse. 🔗
 </p>
 <p align="center">
 crafted with <span style="color: #8b0000;">&hearts;</span> by your friends on the <a href="https://srmkzilla.net">SRMKZILLA</a> team.
@@ -24,11 +24,11 @@ crafted with <span style="color: #8b0000;">&hearts;</span> by your friends on th
 ## Preview 📺
 
 <div align="center">
-  <img alt="Public Page" src="https://user-images.githubusercontent.com/60519359/116780036-86021880-aa97-11eb-84a1-b82a479ea301.jpg" />
+  <img alt="Public Page" src="https://user-images.githubusercontent.com/60519359/123844867-2b6b2880-d931-11eb-80bf-b52df8da54b2.jpg" />
 </div>
 <br>
 <div align="center">
-  <img alt="Dashboard" src="https://user-images.githubusercontent.com/60519359/116780041-9c0fd900-aa97-11eb-96b9-25c8a7f5e94f.jpg" />
+  <img alt="Dashboard" src="https://user-images.githubusercontent.com/60519359/123844593-daf3cb00-d930-11eb-930d-d5d5b3aa85e3.jpg" />
 </div>
 
 ## Installation 🔧

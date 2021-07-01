@@ -3,7 +3,7 @@ import { parseCookies } from "nookies";
 import Switch from "react-input-switch";
 
 import { updateLink } from "../../utils/api";
-import { SidebarContext } from "../../utils/sidebarContext";
+import { SidebarContext } from "../../store/sidebarContext";
 
 interface ToggleProps {
   status: boolean;
@@ -25,40 +25,36 @@ const Toggle = ({ status, linkId }: ToggleProps) => {
     <Switch
       on={true}
       off={false}
-      title="Enable/Disable Link"
       value={status}
       onChange={toggleStatus}
       styles={{
         track: {
-          backgroundColor: "#F2F2F2",
-          width: "80px",
-          height: "26px",
-          borderRadius: "20px",
-          border: "1px solid black",
+          backgroundColor: "#E1E1E1",
+          width: "60px",
+          height: "25px",
+          borderRadius: "3px",
         },
         trackChecked: {
-          backgroundColor: "#56CCF2",
-          width: "80px",
-          height: "26px",
-          border: "1px solid black",
+          backgroundColor: "#E1E1E1",
+          width: "60px",
+          height: "25px",
+          borderRadius: "3px",
         },
         button: {
-          backgroundColor: "#C4C4C4",
-          width: "20px",
-          height: "20px",
-          borderRadius: "20px",
-          marginLeft: "2px",
-          marginTop: "1px",
-          border: "1px solid black",
+          backgroundColor: "#A7A6A6",
+          width: "25px",
+          height: "25px",
+          borderRadius: "3px",
+          marginLeft: "-2px",
+          marginTop: "-2px",
         },
         buttonChecked: {
-          backgroundColor: "#6FCF97",
-          width: "28px",
-          height: "28px",
-          borderRadius: "20px",
-          marginLeft: "45px",
-          marginTop: "-3px",
-          border: "1px solid black",
+          backgroundColor: "#40BEAF",
+          width: "30px",
+          height: "30px",
+          borderRadius: "3px",
+          marginLeft: "25px",
+          marginTop: "-4px",
         },
       }}
     />

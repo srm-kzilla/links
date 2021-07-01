@@ -1,72 +1,90 @@
 export const errors = {
   BAD_REQUEST: {
     httpStatus: 400,
-    message: "Bad Request.",
+    message: "🛑 Captcha not found",
   },
   INTERNAL_SERVER_ERROR: {
     httpStatus: 500,
-    message: "Internal Server Error.",
+    message: "🔧 Internal Server Error",
   },
   WRONG_PASSWORD: {
     httpStatus: 401,
-    message: "Wrong Password",
+    message: "🛂 Invalid Password",
   },
   NOT_FOUND: {
     httpStatus: 404,
-    message: "Resource Not Found.",
+    message: "🚧 Resource not found",
   },
   USER_NOT_FOUND: {
     httpStatus: 401,
-    message:
-      "User not registered. Please register/login with correct credentials",
+    message: "⛔ User not registered. Please sign up",
   },
   MONGODB_CONNECT_ERROR: {
     httpStatus: 500,
-    message: "Could Not Connect to MongoDB.",
+    message: "🔧 Could not connect to MongoDB",
   },
   AWS_CONNECT_ERROR: {
     httpStatus: 500,
-    message: "Could Not Connect to AWS",
+    message: "🔧 Could not connect to AWS",
   },
   PRESIGNED_URL_ERROR: {
     httpStatus: 500,
-    message: "Could not create presigned url",
+    message: "🔧 Could not create presigned url",
   },
   MONGODB_QUERY_ERROR: {
     httpStatus: 500,
-    message: "Error Executing MongoDB Query",
+    message: "🔧 Error executing MongoDB Query",
   },
   JWT_ERROR: {
-    httpStatus: 403,
-    message: "JWT Token Not Found.",
+    httpStatus: 404,
+    message: "👻 Unauthorized Access",
   },
   INVALID_RECAPTCHA: {
     httpStatus: 403,
-    message: "Invalid Recaptcha.",
+    message: "🚫 Invalid Recaptcha",
   },
   DUPLICATE_USER: {
     httpStatus: 400,
-    message: "Email ID Already Registered. Please Login.",
+    message: "🤡 Email ID already in use",
   },
   DUPLICATE_USERNAME: {
     httpStatus: 400,
-    message:
-      "This username is not available. Please choose some other username.",
-  },
-  OTP_EXPIRED: {
-    httpStatus: 401,
-    message: "OTP expired",
+    message: "🤡 Username already in use",
   },
   INVALID_OTP: {
     httpStatus: 401,
-    message: "Wrong OTP",
+    message: "🛂 Invalid OTP",
   },
   USER_NOT_AVAILABLE: {
     httpStatus: 404,
-    message: "User not Found",
+    message: "🚧 User not found",
+  },
+  UNVERIFIED_ACCOUNT: {
+    httpStatus: 403,
+    message: "📧 Please verify your email to proceed",
   },
   MISSING_ENV_VARIABLES: {
     httpStatus: 500,
-    message: "Missing env variables",
+    message: "🔧 Missing env variables",
+  },
+  EMAIL_NOT_FOUND: {
+    httpStatus: 404,
+    message: "⛔ No account was found with this email ID",
+  },
+  SUBSCRIBER_EXIST: {
+    httpStatus: 409,
+    message: "🤡 You are already subscribed !",
+  },
+  SUBSCRIBER_NOT_FOUND: {
+    httpStatus: 404,
+    message: "🧐 Subscriber not found !",
+  },
+  LINK_NOT_FOUND: {
+    httpStatus: 404,
+    message: "🚧 Link not found !",
+  },
+  SOMETHING_WENT_WRONG: {
+    httpStatus: 500,
+    message: "🔧 Something went wrong !",
   },
 };

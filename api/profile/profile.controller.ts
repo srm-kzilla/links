@@ -5,8 +5,8 @@ import { UserProfile, ChangePassword } from "./profile.schema";
 import { JwtPayload, UserDB } from "../auth/auth.schema";
 import { errors } from "../error/error.constant";
 import { getDbClient } from "../services/mongodb.service";
-import aws from "aws-sdk";
 import * as bcrypt from "bcrypt";
+import { getS3Client } from "../services/s3.service";
 
 export const getProfile = async (
   req: NextApiRequest,
@@ -54,29 +54,45 @@ export const patchProfile = async (
     let data = req.body as UserProfile;
 
     const dbClient: MongoClient = await getDbClient();
-    //TO DO: if data same as before, don't update
-    if (data.username) {
-      let usernameExists = await dbClient
-        .db()
-        .collection("users")
-        .findOne<UserDB>({ username: data.username });
-      if (user._id != usernameExists._id) {
-        throw errors.DUPLICATE_USERNAME;
-      }
-    }
-    const updatedAt = new Date().getTime();
-    await dbClient
+
+    let usernameExists = await dbClient
       .db()
       .collection("users")
-      .updateOne(
-        { email: user.email },
-        { $set: { ...data, updatedAt: updatedAt } }
-      );
+      .findOne<UserDB>({ username: data.username });
 
-    return res.status(200).json({
-      success: true,
-      data: data,
-    });
+    if (
+      data.name !== usernameExists.name ||
+      data.username !== usernameExists.username ||
+      data.bio !== usernameExists.bio
+    ) {
+      if (data.username) {
+        if (usernameExists && user._id != usernameExists._id) {
+          throw errors.DUPLICATE_USERNAME;
+        }
+
+        let tempUsernameExists = await dbClient
+          .db()
+          .collection("tempusers")
+          .findOne<UserDB>({ username: data.username });
+        if (tempUsernameExists) {
+          throw errors.DUPLICATE_USERNAME;
+        }
+      }
+      const updatedAt = new Date().getTime();
+      await dbClient
+        .db()
+        .collection("users")
+        .updateOne(
+          { email: user.email },
+          { $set: { ...data, updatedAt: updatedAt } }
+        );
+
+      return res.status(200).json({
+        success: true,
+        data: data,
+        message: "✅  Profile updated successfully!",
+      });
+    }
   } catch (err) {
     next(err);
   }
@@ -93,15 +109,8 @@ export const postPicture = async (
     if (!user) {
       throw errors.USER_NOT_FOUND;
     }
-    const s3 = new aws.S3({
-      accessKeyId: process.env.S3_ACCESS_KEY_ID,
-      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-      region: process.env.S3_REGION,
-    });
-    if (!s3) {
-      throw errors.AWS_CONNECT_ERROR;
-    }
-    const postInfo = await s3.createPresignedPost({
+    const s3Client = await getS3Client();
+    const postInfo = s3Client.createPresignedPost({
       Bucket: process.env.S3_BUCKET_NAME,
       Fields: {
         key: user._id,
@@ -124,7 +133,7 @@ export const postPicture = async (
     if (!objectUrl) {
       throw errors.MISSING_ENV_VARIABLES;
     }
-  
+
     await dbClient
       .db()
       .collection("users")
@@ -137,7 +146,9 @@ export const postPicture = async (
           },
         }
       );
-    res.status(200).json(postInfo);
+    res
+      .status(200)
+      .json({ postInfo, message: "📸 Profile picture added successfully!" });
   } catch (err) {
     next(err);
   }
@@ -161,7 +172,6 @@ export const patchPassword = async (
       .db()
       .collection("users")
       .findOne<UserDB>({ email: user.email }, {});
-
     const matchPassword = await bcrypt.compare(oldPassword, userInfo.password);
     if (!matchPassword) {
       throw errors.WRONG_PASSWORD;
@@ -177,6 +187,7 @@ export const patchPassword = async (
       .updateOne({ email: user.email }, { $set: { password: hash } });
     return res.status(200).json({
       success: true,
+      message: "🔐 Password updated successfully!",
     });
   } catch (err) {
     next(err);

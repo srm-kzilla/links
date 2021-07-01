@@ -2,33 +2,35 @@ import Head from "next/head";
 import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { parseCookies } from "nookies";
+import { RecoilRoot } from "recoil";
 import "react-toastify/dist/ReactToastify.css";
 
 import "../styles/globals.css";
 import { Navbar, Footer } from "../components/shared";
-import AuthContextProvider from "../utils/authContext";
-import ImageContextProvider from "../utils/profileImageContext";
-import { authRoutes } from "../utils/constants";
+import AuthContextProvider from "../store/authContext";
+import ImageContextProvider from "../store/profileImageContext";
+import { authRoutes, authRestrictedRoutes } from "../utils/constants";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-
   return (
     <>
       <Head>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <title>LINKS</title>
       </Head>
-      <AuthContextProvider>
-        <ImageContextProvider>
-          <div className="relative min-h-screen">
-            <div className="pb-4">  
+
+      <ToastContainer />
+      <RecoilRoot>
+        <AuthContextProvider>
+          <ImageContextProvider>
+            <div className="min-h-screen relative">
               <Navbar />
               <Component {...pageProps} />
+              <Footer />
             </div>
-            <Footer />
-            <ToastContainer />
-          </div>
-        </ImageContextProvider>
-      </AuthContextProvider>
+          </ImageContextProvider>
+        </AuthContextProvider>
+      </RecoilRoot>
     </>
   );
 };
@@ -45,6 +47,11 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
 
   if (!authToken && authRoutes.includes(ctx.asPath)) {
     ctx.res.writeHead(302, { Location: "/" });
+    ctx.res.end();
+  }
+
+  if (authToken && authRestrictedRoutes.includes(ctx.asPath)) {
+    ctx.res.writeHead(302, { Location: "/dashboard" });
     ctx.res.end();
   }
 

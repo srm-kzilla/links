@@ -1,9 +1,5 @@
-export function truncateTitleText(text: string) {
-    return (text.length > 20 ? text.substring(0, 20) + "..." : text);
-}
-
-export function truncateLinkText(text: string) {
-    return (text.length > 40 ? text.substring(0, 40) + "..." : text);
+export function truncateText(text: string, maxLength: number, truncateValue: number) {
+    return (text.length > maxLength ? text.substring(0, truncateValue) + "..." : text);
 }
 
 export function time_ago(time) {
@@ -21,21 +17,21 @@ export function time_ago(time) {
     }
     var time_formats = [
         [60, 'seconds', 1], // 60
-        [120, '1 minute ago'], // 60*2
+        [120, '1 minute ago', '1 minute from now'], // 60*2
         [3600, 'minutes', 60], // 60*60, 60
-        [7200, '1 hour ago'], // 60*60*2
+        [7200, '1 hour ago', '1 hour from now'], // 60*60*2
         [86400, 'hours', 3600], // 60*60*24, 60*60
-        [172800, 'Yesterday'], // 60*60*24*2
+        [172800, 'Yesterday', 'Tomorrow'], // 60*60*24*2
         [604800, 'days', 86400], // 60*60*24*7, 60*60*24
-        [1209600, 'Last week'], // 60*60*24*7*4*2
+        [1209600, 'Last week', 'Next week'], // 60*60*24*7*4*2
         [2419200, 'weeks', 604800], // 60*60*24*7*4, 60*60*24*7
-        [4838400, 'Last month'], // 60*60*24*7*4*2
+        [4838400, 'Last month', 'Next month'], // 60*60*24*7*4*2
         [29030400, 'months', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
-        [58060800, 'Last year'], // 60*60*24*7*4*12*2
+        [58060800, 'Last year', 'Next year'], // 60*60*24*7*4*12*2
         [2903040000, 'years', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
-        [5806080000, 'Last century'], // 60*60*24*7*4*12*100*2
+        [5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
         [58060800000, 'centuries', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
-    ];
+      ];
     var seconds = (+new Date() - time) / 1000,
         token = 'ago',
         list_choice = 1;
@@ -59,3 +55,12 @@ export function time_ago(time) {
         }
     return time;
 }
+
+export function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+  

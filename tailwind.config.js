@@ -4,8 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        WorkSans: ["Work Sans", "sans-serif"],
-        NotoSans: ["Noto Sans", "sans-serif"],
+        Inter: ["Inter", "sans-serif"],
+        Mulish: ["Mulish", "sans-serif"],
       },
       width: {
         custom: "21.66666%",
@@ -15,14 +15,25 @@ module.exports = {
       },
       colors: {
         backdrop: " rgba(0,0,0,0.3)",
-        backgroundwhite: "#E0E0E0",
+        backgroundwhite: "#F5F5F5",
         backgroundwhiteinset: "#bababa",
+        offwhite: "#F4FBF7",
         lightblue: "#56CCF2",
         darkgray: "#333333",
-        lightgray: "#F2F2F2",
+        lightgraycustom: "#A7A6A6",
         buttongray: "#4F4F4F",
-        statusRed: "#EB5757",
-        statusGreen: "#6FCF97",
+        statusRed: "#EC5A58",
+        primaryGreen: {
+          100: "#F1FAF5",
+          200: "#6FCF97",
+          300: "#40BEAF",
+        },
+        lightgray: {
+          DEFAULT: "#5F5F5F",
+          10: "#F2F2F2",
+          25: "rgba(95, 95, 95, 0.25)",
+          50: "rgba(95, 95, 95, 0.50)",
+        },
       },
       boxShadow: {
         custom: "1px 1px 6px rgba(0, 0, 0, 0.25)",
@@ -31,10 +42,12 @@ module.exports = {
         xxl: "8.9rem",
       },
       inset: {
-        addButton: "70%",
-        '37': "9.5rem",
+        addButton: "72%",
+        37: "9.5rem",
       },
-
+      minHeight: {
+        custom: "90vh",
+      },
     },
   },
   variants: {
