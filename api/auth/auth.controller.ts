@@ -29,12 +29,28 @@ export const postLogin = async (
   try {
     let data = req.body as UserLogin;
     const dbClient: MongoClient = await getDbClient();
-    if (
-      await dbClient
-        .db()
-        .collection("tempusers")
-        .findOne({ $or: [{ email: data.userId }, { username: data.userId }] })
-    ) {
+    let unverifiedAccount = await dbClient
+      .db()
+      .collection("tempusers")
+      .findOne({ $or: [{ email: data.userId }, { username: data.userId }] });
+    if (unverifiedAccount) {
+      const jwtSecret = process.env.JWT_SECRET;
+      if (!jwtSecret) {
+        throw errors.MISSING_ENV_VARIABLES;
+      }
+      const secret = jwt.sign({ email: unverifiedAccount.email }, jwtSecret, {
+        expiresIn: "1d",
+        issuer: "srmkzilla",
+      });
+      await sendMail(
+        [unverifiedAccount.email],
+        "Verify Your Account",
+        verifyAccountTemplate({
+          username: unverifiedAccount.username,
+          baseUrl: baseUrl,
+          secret: secret,
+        })
+      );
       throw errors.UNVERIFIED_ACCOUNT;
     }
     let result = await dbClient
@@ -226,9 +242,10 @@ export const getOTP = async (
     if (!user) {
       throw errors.EMAIL_NOT_FOUND;
     }
-    const OTP = Math.floor(Math.random() * 1000000);
 
-    dbClient
+    const OTP = Math.floor(100000 + Math.random() * 900000);
+
+    await dbClient
       .db()
       .collection("otp")
       .createIndex({ createdAt: 1 }, { expireAfterSeconds: 300 });
@@ -257,7 +274,7 @@ export const getOTP = async (
     return res.status(200).json({
       success: true,
       resetPasswordToken: resetPasswordToken,
-      message: "📧 OTP sent to the email successfully!"
+      message: "📧 OTP sent to the email successfully!",
     });
   } catch (err) {
     next(err);

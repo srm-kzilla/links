@@ -3,6 +3,10 @@ export const errors = {
     httpStatus: 400,
     message: "🛑 Captcha not found",
   },
+  NO_NEW_CHANGE: {
+    httpStatus: 400,
+    message: "🤡 All changes already saved!",
+  },
   INTERNAL_SERVER_ERROR: {
     httpStatus: 500,
     message: "🔧 Internal Server Error",
