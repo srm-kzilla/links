@@ -36,7 +36,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
         username: username,
         bio: bio,
       };
-      console.log(userData);
+
       const _res = await patchUserProfile(authToken, userData);
       if (_res) {
         setIsSubmittingProfile(false);

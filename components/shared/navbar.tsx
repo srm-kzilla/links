@@ -76,6 +76,7 @@ export default function Navbar() {
                                 ? fileBlob
                                 : userProfileData.profilePicture
                             }
+                            alt="profile-image"
                           />
                         </div>
                         <div className="flex items-center py-5 px-2">

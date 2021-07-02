@@ -277,7 +277,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
             )}
 
             {!activeLink._id && (
-              <div className={`grid grid-cols-2 mt-8 mx-5`}>
+              <div className="grid grid-cols-2 mt-8 mx-5">
                 <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                   <p className="pl-2">Total Links</p>
                   <div className="customGradient p-2">

@@ -169,9 +169,9 @@ export default function DashboardComponent({
                 />
               ))
             ) : searchLink !== "" ? (
-              <div className="text-xl w-full sm:w-4/5 text-center mt-3">
+              <h1 className="text-xl w-full sm:w-4/5 text-center mt-3">
                 No links found!
-              </div>
+              </h1>
             ) : (
               links.map((link) => (
                 <Card

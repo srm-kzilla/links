@@ -37,6 +37,7 @@ export default function LinkPageComponent({ _resLinks }) {
             <img
               className="w-auto max-h-full border"
               src={_resLinks.profilePicture}
+              alt="profile-image"
             />
           </div>
           <h1 className="my-5 text-sm xs:text-2xl font-extrabold tracking-wide uppercase text-primaryGreen-300">
@@ -69,6 +70,7 @@ export default function LinkPageComponent({ _resLinks }) {
                 <img
                   className="w-auto max-h-full border"
                   src={_resLinks.profilePicture}
+                  alt="profile-image"
                 />
               </div>
 

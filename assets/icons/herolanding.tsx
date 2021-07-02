@@ -15,10 +15,10 @@ export default function HeroLanding() {
       <div className="max-w-2xl mx-0 sm:mx-12 md:mx-16 lg:mx-auto flex flex-col">
         <div className="flex flex-row w-full">
           <Carousel defaultWait={3000}>
-            {shuffleArray(heroLandingCards).map((item) => {
+            {shuffleArray(heroLandingCards).map((item, i) => {
               return (
-                <Fade>
-                  <div key={item.id} className="flex items-center px-2 py-6 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg ">
+                <Fade key={i}>
+                  <div className="flex items-center px-2 py-6 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg ">
                     <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
                       <img className="rounded-md" src={item.image} />
                     </div>
@@ -33,10 +33,10 @@ export default function HeroLanding() {
         </div>
         <div className="flex flex-row-reverse items-end">
           <Carousel defaultWait={3000}>
-            {shuffleArray(heroLandingCards).map((item) => {
+            {shuffleArray(heroLandingCards).map((item, i) => {
               return (
-                <Fade>
-                  <div key={item.id} className="flex items-center px-2 py-6 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg ">
+                <Fade key={i}>
+                  <div className="flex items-center px-2 py-6 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg ">
                     <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
                       <img className="rounded-md" src={item.image} />
                     </div>
@@ -53,10 +53,10 @@ export default function HeroLanding() {
         </div>
         <div className="flex flex-row items-end">
           <Carousel defaultWait={3000}>
-            {shuffleArray(heroLandingCards).map((item) => {
+            {shuffleArray(heroLandingCards).map((item, i) => {
               return (
-                <Fade>
-                  <div key={item.id} className="flex items-center px-2 py-6 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg ">
+                <Fade key={i}>
+                  <div className="flex items-center px-2 py-6 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg ">
                     <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
                       <img className="rounded-md" src={item.image} alt="logo" />
                     </div>
