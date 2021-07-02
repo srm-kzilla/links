@@ -58,7 +58,7 @@ export default function HomeComponent(): JSX.Element {
 
         <div className="flex flex-row-reverse p-2 mr-2">
           <Link href={isAuth ? "/dashboard" : "/login"}>
-            <a className="flex items-center justify-center bg-white border-2 rounded hover:opacity-80 border-primaryGreen-200 focus:outline-none uppercase text-sm lg:text-lg text-primaryGreen-200 font-bold w-9/12 sm:w-2/7 md:w-1/3">
+            <a className="flex items-center justify-center bg-white border-2 rounded hover:opacity-80 border-primaryGreen-200 focus:outline-none uppercase text-xs md:text-sm lg:text-lg text-primaryGreen-200 font-bold w-10/12 sm:w-2/5 lg:w-1/3 xl:w-1/4">
               {isAuth ? "My Dashboard" : "Get Started"}
             </a>
           </Link>

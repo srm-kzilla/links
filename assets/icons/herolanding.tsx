@@ -17,7 +17,7 @@ export default function HeroLanding() {
           <Carousel defaultWait={3000}>
             {shuffleArray(heroLandingCards).map((item) => {
               return (
-                <Fade>
+                <Fade key={item.title.trim()}>
                   <div className="flex items-center px-2 py-6 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg ">
                     <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
                       <img className="rounded-md" src={item.image} />
@@ -35,7 +35,7 @@ export default function HeroLanding() {
           <Carousel defaultWait={3000}>
             {shuffleArray(heroLandingCards).map((item) => {
               return (
-                <Fade>
+                <Fade key={item.title.trim()}>
                   <div className="flex items-center px-2 py-6 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg ">
                     <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
                       <img className="rounded-md" src={item.image} />
@@ -55,7 +55,7 @@ export default function HeroLanding() {
           <Carousel defaultWait={3000}>
             {shuffleArray(heroLandingCards).map((item) => {
               return (
-                <Fade>
+                <Fade key={item.title.trim()}>
                   <div className="flex items-center px-2 py-6 sm:py-4 sm:px-4 bg-white shadow-xl rounded-lg ">
                     <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
                       <img className="rounded-md" src={item.image} alt="logo" />

@@ -36,7 +36,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
         username: username,
         bio: bio,
       };
-      console.log(userData)
+
       const _res = await patchUserProfile(authToken, userData);
       if (_res) {
         setIsSubmittingProfile(false);
@@ -69,14 +69,16 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
 
       <div className="relative flex items-center justify-center flex-col mt-4 md:float-left md:ml-60 md:mt-24 z-40">
         <div className="relative">
-          <img
-            className="w-36 h-36 rounded-full mt-36 border"
-            src={fileBlob ? fileBlob : _resProfile.profilePicture}
-          />
+          <div className="flex items-center justify-center w-36 h-36 rounded-full overflow-hidden mt-40">
+            <img
+              className="w-auto max-h-full border"
+              src={fileBlob ? fileBlob : _resProfile.profilePicture}
+            />
+          </div>
           <FileUploader />
         </div>
 
-        <div className="flex flex-col w-4/5 sm:w-full">
+        <div className="flex flex-col w-5/6 sm:w-full">
           <div className="flex flex-row items-center justify-center m-2">
             {!showNameInput && (
               <p className="text-center font-bold text-lg text-lightgray">
@@ -210,7 +212,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
         <div className="flex flex-col sm:flex-row items-center justify-center w-2/3 sm:w-2/6 mt-14">
           <button
             onClick={() => setModalOpen(true)}
-            className="bg-white border-2 border-statusRed focus:outline-none hover:bg-opacity-80 text-statusRed text-xs font-bold w-full py-2 px-3 rounded"
+            className="bg-white border-2 border-statusRed focus:outline-none hover:bg-opacity-80 text-statusRed text-xs font-bold w-full py-3 sm:py-2 px-3 rounded"
           >
             CHANGE PASSWORD
           </button>
@@ -222,7 +224,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
               isSubmittingProfile
                 ? "border-lightgray text-lightgray"
                 : "border-primaryGreen-200 text-primaryGreen-200"
-            } focus:outline-none hover:bg-opacity-80 text-xs font-bold w-full sm:ml-4 mt-4 sm:mt-0 mb-12 sm:mb-0 py-2 px-3 rounded`}
+            } focus:outline-none hover:bg-opacity-80 text-xs font-bold w-full sm:ml-4 mt-4 sm:mt-0 mb-12 sm:mb-0 py-3 sm:py-2 px-3 rounded`}
           >
             {isSubmittingProfile ? "Please wait..." : "SAVE CHANGES"}
           </button>

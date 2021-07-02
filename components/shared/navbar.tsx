@@ -68,12 +68,17 @@ export default function Navbar() {
                         15
                       )}
                       <div className="float-right pt-1 ml-2">
-                        <img
-                          className="flex items-center w-12 h-12 rounded-full float-left mb-2 border"
-                          src={
-                            fileBlob ? fileBlob : userProfileData.profilePicture
-                          }
-                        />
+                        <div className="flex items-center justify-center w-12 h-12 rounded-full overflow-hidden float-left mb-2 border">
+                          <img
+                            className="w-auto max-h-full border"
+                            src={
+                              fileBlob
+                                ? fileBlob
+                                : userProfileData.profilePicture
+                            }
+                            alt="profile-image"
+                          />
+                        </div>
                         <div className="flex items-center py-5 px-2">
                           <FaChevronDown />
                         </div>
