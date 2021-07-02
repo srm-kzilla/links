@@ -40,7 +40,7 @@ export const errors = {
     message: "🔧 Error executing MongoDB Query",
   },
   JWT_ERROR: {
-    httpStatus: 404,
+    httpStatus: 401,
     message: "👻 Unauthorized Access",
   },
   INVALID_RECAPTCHA: {

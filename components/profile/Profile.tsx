@@ -114,7 +114,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
               </button>
             )}
           </div>
-          <div className="w-full">
+          <div className="w-full flex items-center justify-center">
             <a
               className="text-left text-lightgraycustom font-normal"
               href={`${baseUrl}${_resProfile.username}`}

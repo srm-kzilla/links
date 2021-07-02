@@ -39,6 +39,9 @@ export const validateUser = async (
       throw errors.USER_NOT_FOUND;
     }
   } catch (err) {
-    next(err);
+    res.status(err.httpStatus || 401).json({
+      success: false,
+      message: "⏱️ Session timed out! Please login to continue!",
+    });
   }
 };
