@@ -46,7 +46,7 @@ export default function HomeComponent(): JSX.Element {
 
   return (
     <>
-     <div className="grid grid-cols-2 absolute top-0 right-0 left-0 pt-2">
+      <div className="grid grid-cols-2 absolute top-0 right-0 left-0 pt-2">
         <Link href="/">
           <a className="ml-2 pt-1 text-lightgray text-lg sm:text-2xl font-bold p-3 text-left">
             <div className="float-left mr-2 h-9 w-9 sm:h-12 sm:w-12">
@@ -64,7 +64,7 @@ export default function HomeComponent(): JSX.Element {
           </Link>
         </div>
       </div>
-      
+
       <div className="flex justify-center font-sans min-h-screen px-3 sm:px-8 2xl:px-12">
         <div className="grid grid-cols-0 lg:grid-cols-2 w-full">
           <div className="text-gray-600 font-Inter lg:col-span-1 px-5 mt-20 lg:my-auto text-center lg:text-left font-bold">
@@ -89,7 +89,7 @@ export default function HomeComponent(): JSX.Element {
                       name="email"
                       type="email"
                       className="col-span-7 lg:col-span-6 p-2 sm:p-7 md:py-5 rounded-l-md border-primaryGreen-200 border-l-8 focus:outline-none block w-full bg-lightgray-10"
-                      placeholder="abc@example.com"
+                      placeholder="Subscribe to mailer"
                     />
 
                     <button
@@ -115,9 +115,6 @@ export default function HomeComponent(): JSX.Element {
                 </Form>
               )}
             </Formik>
-            <h1 className="py-3 mb-5 text-left text-md sm:text-xl md:text-2xl 2xl:text-4xl tracking-wider">
-              Subscribe to mailer
-            </h1>
           </div>
           <div className="p-10 lg:p-0 mb-10 lg:my-auto">
             <HeroLanding />
