@@ -354,7 +354,7 @@ export const errorHandler = (error?: AxiosError | any) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
-    className: "font-Mulish",
+    className: "toast-font",
   });
 };
 
@@ -367,6 +367,6 @@ export const successHandler = (successMessage: string) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
-    className: "font-Mulish",
+    className: "toast-font",
   });
 };

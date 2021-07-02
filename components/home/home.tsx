@@ -67,14 +67,11 @@ export default function HomeComponent(): JSX.Element {
       
       <div className="flex justify-center font-sans min-h-screen px-3 sm:px-8 2xl:px-12">
         <div className="grid grid-cols-0 lg:grid-cols-2 w-full">
-          <div className="mt-20 p-10 block lg:hidden">
-            <HeroLanding />
-          </div>
-          <div className="text-gray-600 font-Inter lg:col-span-1 md:my-5 lg:my-auto px-5 text-center lg:text-left font-bold ">
-            <h1 className="py-3 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider">
+          <div className="text-gray-600 font-Inter lg:col-span-1 px-5 mt-20 lg:my-auto text-center lg:text-left font-bold">
+            <h1 className="py-2 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider">
               Your ultimate
             </h1>
-            <h2 className="py-3 lg:ml-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider mb-10 lg:mb-24">
+            <h2 className="py-2 lg:ml-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider mb-10 lg:mb-24">
               URL <span className="text-primaryGreen-200">warehouse</span>
             </h2>
 
@@ -122,7 +119,7 @@ export default function HomeComponent(): JSX.Element {
               Subscribe to mailer
             </h1>
           </div>
-          <div className="my-auto hidden lg:block">
+          <div className="p-10 lg:p-0 mb-10 lg:my-auto">
             <HeroLanding />
           </div>
         </div>
