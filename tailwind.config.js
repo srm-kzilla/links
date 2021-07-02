@@ -5,6 +5,14 @@ module.exports = {
     './layout/**/*.{js,ts,jsx,tsx}',
     './helpers/**/*.{js,ts,jsx,tsx}',
   ],
+  options: {
+    safelist: {
+      standard: [
+        /^[\w:]*col-start-/,
+        /^[\w:]*col-span-/
+      ]
+    }
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {

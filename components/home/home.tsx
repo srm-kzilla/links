@@ -98,7 +98,7 @@ export default function HomeComponent(): JSX.Element {
                     <button
                       disabled={isSubscribed}
                       type="submit"
-                      className="bg-primaryGreen-100 col-span-1 flex items-center rounded-r-md justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
+                      className="bg-primaryGreen-100 flex items-center rounded-r-md justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
                     >
                       {loading && (
                         <div className="absolute">
@@ -122,7 +122,7 @@ export default function HomeComponent(): JSX.Element {
               Subscribe to mailer
             </h1>
           </div>
-          <div className="col-span-1 my-auto hidden lg:block">
+          <div className="my-auto hidden lg:block">
             <HeroLanding />
           </div>
         </div>
