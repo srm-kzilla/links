@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import Link from "next/link";
 import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/router";
@@ -10,9 +11,11 @@ import { ImageContext } from "../../store/profileImageContext";
 import { truncateText } from "../../utils/functions";
 import { SrmKzillaLogo, Loading } from "../../assets/icons";
 import { dropdownMenu } from "../../utils/constants";
+import { userProfileName } from "../../utils/store";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [profileName, _] = useRecoilState(userProfileName);
   const { isAuth } = useContext(AuthContext);
   const { fileBlob } = useContext(ImageContext);
   const router = useRouter();
@@ -64,12 +67,17 @@ export default function Navbar() {
                       className="flex items-center mr-4 pl-4 cursor-pointer select-none float-left my-1 text-lightgray hover:text-lightgraycustom"
                       onClick={() => setIsOpen(!isOpen)}
                     >
-                      {userProfileData.username ?  truncateText(
-                        userProfileData.name || userProfileData.username,
-                        20,
-                        15
-                      ) : <Loading />}
-                     
+                      {userProfileData.username && !profileName
+                        ? truncateText(
+                            userProfileData.name || userProfileData.username,
+                            20,
+                            15
+                          )
+                        : !profileName && <Loading />}
+
+                      {profileName && userProfileData.username
+                        ? truncateText(profileName, 20, 15)
+                        : ""}
                       <div className="float-right pt-1 ml-2">
                         <div className="flex items-center justify-center w-12 h-12 rounded-full overflow-hidden float-left mb-2 border">
                           <img

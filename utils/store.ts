@@ -15,4 +15,9 @@ const resendOtpEmail = atom<string>({
   default: "", 
 });
 
-export { resetPasswordToken, searchDashboardLink, resendOtpEmail };
+const userProfileName = atom<string>({
+  key: "userProfileName", 
+  default: "", 
+});
+
+export { resetPasswordToken, searchDashboardLink, resendOtpEmail, userProfileName };

@@ -14,10 +14,6 @@ import {
 } from "../../assets/icons";
 
 export default function HomeComponent(): JSX.Element {
-  const initialValues = {
-    email: "",
-  };
-
   const { isAuth } = useContext(AuthContext);
 
   const validationSchema = Yup.object({
@@ -27,7 +23,11 @@ export default function HomeComponent(): JSX.Element {
       .required("This is a required field"),
   });
 
-  const submitHandler = async (values) => {
+  type FormData = Partial<Yup.InferType<typeof validationSchema>>;
+
+  const initialValues: FormData = {};
+
+  const submitHandler = async (values: FormData) => {
     try {
       setLoading(true);
       const res = await postSubscribe(values);
@@ -80,14 +80,13 @@ export default function HomeComponent(): JSX.Element {
               initialValues={initialValues}
               onSubmit={(values) => submitHandler(values)}
               validateOnBlur={false}
-              validateOnChange={false}
               validationSchema={validationSchema}
             >
               {({ touched, errors }) => (
                 <Form>
                   <div
                     className={`${
-                      touched && errors.email
+                      touched.email && errors.email
                         ? "animate-wiggle"
                         : "animate-none"
                     } flex flex-row sm:justify-center lg:justify-start lg:text-left`}

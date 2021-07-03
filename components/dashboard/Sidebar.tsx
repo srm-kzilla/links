@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { parseCookies } from "nookies";
-import { FaChevronRight } from "react-icons/fa";
 import { MdContentCopy } from "react-icons/md";
 import { HiSearch } from "react-icons/hi";
 import Slide from "react-reveal/Slide";
@@ -159,17 +158,10 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
       {isOpen && (
         <Slide right>
           <div className="fixed overflow-auto z-40 w-full lg:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white min-w-max xl:max-w-lg">
-            <button
-              onClick={onClose}
-              className="relative lg:hidden float-right mt-6 cursor-pointer"
-            >
-              <FaChevronRight size={20} />
-            </button>
-          
-              <h1 className="pl-5 mt-5 font-sans font-black text-2xl text-buttongray">
-                Total Statistics
-              </h1>
-           
+            <h1 className="pl-5 mt-5 font-sans font-black text-2xl text-buttongray">
+              Total Statistics
+            </h1>
+
             {activeLink.shortCode && (
               <>
                 <div
@@ -555,20 +547,35 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   </div>
                 </div>
 
-                <div className={(conversionRate === "0" || conversionRate === "") ? 'w-full mt-40 sm:mt-32 mb-20' : 'w-full'}>
+                <div
+                  className={`${
+                    conversionRate === "0" || conversionRate === ""
+                      ? "w-full mt-40 lg:mt-0 sm:mt-32 mb-18"
+                      : "w-full"
+                  } lg:absolute lg:bottom-10`}
+                >
                   <div className="flex items-center justify-center">
-                    <a
-                      className="text-center text-sm"
-                      href={`https://kzilla.xyz/analytics/${activeLink.analyticsCode}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <button className="bg-white border-2 border-primaryGreen-300 focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 my-4 rounded-md">
-                        <p className="text-primaryGreen-300">
-                          SHOW MORE ANALYTICS
-                        </p>
+                    <div className="grid grid-cols-1">
+                      <a
+                        className="text-center text-sm"
+                        href={`https://kzilla.xyz/analytics/${activeLink.analyticsCode}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <button className="bg-white border-2 border-primaryGreen-300 focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 my-4 rounded-md">
+                          <p className="text-primaryGreen-300">
+                            SHOW MORE ANALYTICS
+                          </p>
+                        </button>
+                      </a>
+
+                      <button
+                        onClick={onClose}
+                        className="bg-white border-2 border-statusRed focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 rounded-md block lg:hidden mb-16"
+                      >
+                        <p className="text-statusRed">HIDE STATS</p>
                       </button>
-                    </a>
+                    </div>
                   </div>
                 </div>
               </>

@@ -16,10 +16,20 @@ interface ModalProps {
 
 const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
   const [passwordShown, setPasswordShown] = useState<boolean>(false);
+  const [oldPasswordShown, setOldPasswordShown] = useState<boolean>(false);
+  const [confPasswordShown, setConfPasswordShown] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const togglePasswordVisibility = () => {
     setPasswordShown(passwordShown ? false : true);
+  };
+
+  const toggleOldPasswordVisibility = () => {
+    setOldPasswordShown(oldPasswordShown ? false : true);
+  };
+
+  const toggleConfPasswordVisibility = () => {
+    setConfPasswordShown(confPasswordShown ? false : true);
   };
   const submitNewPassword = (oldPassword, newPassword) => {
     setLoading(true);
@@ -68,12 +78,20 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                           <h1 className="text-lightgray font-bold mt-2">
                             Current Password
                           </h1>
-                          <Field
-                            name="oldPassword"
-                            type="password"
-                            className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold mb-4 outline-none focus:outline-none w-full px-2 py-1"
-                            autoFocus
-                          />
+                          <div className="relative">
+                            <Field
+                              name="oldPassword"
+                              type={oldPasswordShown ? "text" : "password"}
+                              className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold mb-4 outline-none focus:outline-none w-full px-2 py-1"
+                              autoFocus
+                            />
+                            <i
+                              className="absolute top-2 right-3 cursor-pointer"
+                              onClick={toggleOldPasswordVisibility}
+                            >
+                              {oldPasswordShown ? <EyeHide /> : <Eye />}
+                            </i>
+                          </div>
                           {touched.oldPassword && errors.oldPassword && (
                             <div className="text-red-500 text-sm -mt-4 mb-3">
                               {errors.oldPassword}
@@ -92,7 +110,7 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                               className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold mb-4 outline-none focus:outline-none w-full px-2 py-1"
                             />
                             <i
-                              className="absolute top-8 right-3 cursor-pointer"
+                              className="absolute top-10 right-3 cursor-pointer"
                               onClick={togglePasswordVisibility}
                             >
                               {passwordShown ? <EyeHide /> : <Eye />}
@@ -107,11 +125,19 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                             Confirm New Password
                           </h1>
 
-                          <Field
-                            name="confirmNewPassword"
-                            type="password"
-                            className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold mb-4 outline-none focus:outline-none w-full px-2 py-1"
-                          />
+                          <div className="relative">
+                            <Field
+                              name="confirmNewPassword"
+                              type={confPasswordShown ? "text" : "password"}
+                              className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold mb-4 outline-none focus:outline-none w-full px-2 py-1"
+                            />
+                            <i
+                              className="absolute top-2 right-3 cursor-pointer"
+                              onClick={toggleConfPasswordVisibility}
+                            >
+                              {confPasswordShown ? <EyeHide /> : <Eye />}
+                            </i>
+                          </div>
                           {touched.confirmNewPassword &&
                             errors.confirmNewPassword && (
                               <div className="text-red-500 text-sm -mt-4 mb-3">
