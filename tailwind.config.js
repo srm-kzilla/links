@@ -27,7 +27,7 @@ module.exports = {
         }
       },
       animation: {
-        wiggle: 'wiggle 0.25s ease-in-out 1.5',
+        wiggle: 'wiggle 0.1s ease-in-out 3',
       },
       width: {
         custom: "21.66666%",
