@@ -30,10 +30,10 @@ const LinkCard = ({ title, shortCode, image }: LinkCardProps): JSX.Element => {
                 <h1 className="w-full my-2 mx-5 text-lightgray font-bold text-xs md:text-lg">
                     {truncateText(title, 28, 24)}
                 </h1>
-                <a href={`${kzillaxyzdomain}${shortCode}`} target="_blank" rel="noopener noreferrer" className="z-50 mx-2 p-1 border rounded my-auto text-lightgray" onClick={() => copyToClipBoard(`${kzillaxyzdomain}${shortCode}`)}>
+                <a href={`${kzillaxyzdomain}${shortCode}`} target="_blank" rel="noopener noreferrer" className="z-50 mx-3 p-1 rounded my-auto text-lightgray" onClick={() => copyToClipBoard(`${kzillaxyzdomain}${shortCode}`)}>
                     <NewWindow />
                 </a>
-                <a className="z-50 p-2 border rounded my-auto text-lightgray cursor-pointer" onClick={() => copyToClipBoard(`${kzillaxyzdomain}${shortCode}`)}>
+                <a className="z-50 p-2 rounded my-auto text-lightgray cursor-pointer" onClick={() => copyToClipBoard(`${kzillaxyzdomain}${shortCode}`)}>
                     <MdContentCopy />
                 </a>
             </div>

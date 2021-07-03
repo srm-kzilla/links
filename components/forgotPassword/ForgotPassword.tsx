@@ -167,7 +167,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                   />
 
                   <div className="grid grid-cols-2 gap-5 mt-8">
-                    <Link href="/">
+                    <Link href="/login">
                       <a>
                         <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded w-full">
                           CANCEL
@@ -248,7 +248,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                             </div>
                           )}
                         <div className="grid grid-cols-2 gap-5 my-8">
-                          <Link href="/">
+                          <Link href="/login">
                             <a>
                               <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded w-full">
                                 CANCEL
@@ -313,7 +313,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         </div>
                       )}
                       <div className="grid grid-cols-2 gap-5 my-8">
-                        <Link href="/">
+                        <Link href="/login">
                           <a>
                             <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded w-full">
                               CANCEL

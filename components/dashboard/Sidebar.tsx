@@ -158,18 +158,18 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
     <>
       {isOpen && (
         <Slide right>
-          <div className="fixed z-40 w-full lg:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white min-w-max xl:max-w-lg">
+          <div className="fixed overflow-auto z-40 w-full lg:w-custom p-2 h-screen top-14 right-0 rounded-l-lg shadow-custom bg-white min-w-max xl:max-w-lg">
             <button
               onClick={onClose}
               className="relative lg:hidden float-right mt-6 cursor-pointer"
             >
               <FaChevronRight size={20} />
             </button>
-            <div className="flex">
-              <h1 className="pl-2 mt-5 font-sans font-black text-2xl text-buttongray">
+          
+              <h1 className="pl-5 mt-5 font-sans font-black text-2xl text-buttongray">
                 Total Statistics
               </h1>
-            </div>
+           
             {activeLink.shortCode && (
               <>
                 <div
@@ -555,7 +555,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   </div>
                 </div>
 
-                <div className="w-full absolute bottom-14">
+                <div className={(conversionRate === "0" || conversionRate === "") ? 'w-full mt-40 sm:mt-32 mb-20' : 'w-full'}>
                   <div className="flex items-center justify-center">
                     <a
                       className="text-center text-sm"

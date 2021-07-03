@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Router from 'next/router';
 import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { parseCookies } from "nookies";
@@ -10,6 +11,17 @@ import { Navbar, Footer } from "../components/shared";
 import AuthContextProvider from "../store/authContext";
 import ImageContextProvider from "../store/profileImageContext";
 import { authRoutes, authRestrictedRoutes } from "../utils/constants";
+
+const showLoader = () => {
+  document.getElementById('page-loader').classList.add('loading');
+};
+const hideLoader = () => {
+  document.getElementById('page-loader').classList.remove('loading');
+};
+
+Router.events.on('routeChangeStart', () => showLoader());
+Router.events.on('routeChangeComplete', () => hideLoader());
+Router.events.on('routeChangeError', () => hideLoader());
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
