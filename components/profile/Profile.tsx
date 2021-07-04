@@ -74,14 +74,14 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
       <div className="w-full flex min-h-screen justify-around">
         <div className="grid grid-cols-1 lg:grid-cols-2 my-auto w-full">
           <div className="relative z-40 flex flex-col items-center">
-            <div className="relative flex items-center justify-center w-36 h-36 rounded-full overflow-hidden mt-32 sm:mt-0">
-              <img
-                className="w-auto max-h-full border"
-                src={fileBlob ? fileBlob : _resProfile.profilePicture}
-              />
-              <div className="absolute bottom-2 right-1 z-50">
-                <FileUploader />
+            <div className="flex flex-row">
+              <div className="relative flex items-center justify-center w-36 h-36 rounded-full overflow-hidden mt-32 lg:mt-0">
+                <img
+                  className="w-auto max-h-full border"
+                  src={fileBlob ? fileBlob : _resProfile.profilePicture}
+                />
               </div>
+              <FileUploader />
             </div>
 
             <div className="flex flex-col w-5/6 sm:w-3/6">
