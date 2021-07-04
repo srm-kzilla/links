@@ -87,7 +87,7 @@ export default function LinkPageComponent({ _resLinks }) {
 
               <div className="flex flex-col w-4/6 my-2">
                 <h1 className="font-bold text-primaryGreen-300 text-lg">Bio</h1>
-                <p className=" text-lightgraycustom font-bold word-wrapping">
+                <p className=" text-lightgraycustom font-bold word-wrapping h-28">
                   {_resLinks.bio || "Hey There! I am using Links!"}
                 </p>
                 <div className="flex items-center justify-center my-10">
