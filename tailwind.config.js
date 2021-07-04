@@ -20,6 +20,15 @@ module.exports = {
         Inter: ["Inter", "sans-serif"],
         Mulish: ["Mulish", "sans-serif"],
       },
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'translate(-10px)' },
+          '50%': { transform: 'translate(10px)' },
+        }
+      },
+      animation: {
+        wiggle: 'wiggle 0.1s ease-in-out 3',
+      },
       width: {
         custom: "21.66666%",
       },

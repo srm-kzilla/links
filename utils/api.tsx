@@ -346,6 +346,10 @@ export const errorHandler = (error?: AxiosError | any) => {
     errMessage = error.response.data.message;
   }
 
+  if(error.response.status === 401) {
+    window.location.replace('/login');
+  }
+
   toast.error(errMessage, {
     position: "top-right",
     autoClose: 5000,

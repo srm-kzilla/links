@@ -14,10 +14,6 @@ import {
 } from "../../assets/icons";
 
 export default function HomeComponent(): JSX.Element {
-  const initialValues = {
-    email: "",
-  };
-
   const { isAuth } = useContext(AuthContext);
 
   const validationSchema = Yup.object({
@@ -27,7 +23,11 @@ export default function HomeComponent(): JSX.Element {
       .required("This is a required field"),
   });
 
-  const submitHandler = async (values) => {
+  type FormData = Partial<Yup.InferType<typeof validationSchema>>;
+
+  const initialValues: FormData = {};
+
+  const submitHandler = async (values: FormData) => {
     try {
       setLoading(true);
       const res = await postSubscribe(values);
@@ -41,6 +41,7 @@ export default function HomeComponent(): JSX.Element {
       errorHandler(error);
     }
   };
+
   const [loading, setLoading] = useState<boolean>(false);
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
 
@@ -68,34 +69,41 @@ export default function HomeComponent(): JSX.Element {
       <div className="flex justify-center font-sans min-h-screen px-3 sm:px-8 2xl:px-12">
         <div className="grid grid-cols-0 lg:grid-cols-2 w-full">
           <div className="text-gray-600 font-Inter lg:col-span-1 px-5 mt-20 lg:my-auto text-center lg:text-left font-bold">
-            <h1 className="py-2 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider">
+            <h1 className="py-1 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wide">
               Your ultimate
             </h1>
-            <h2 className="py-2 lg:ml-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider mb-10 lg:mb-24">
-              URL <span className="text-primaryGreen-200">warehouse</span>
+            <h2 className="py-1 lg:ml-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wide mb-10 lg:mb-24">
+              URL <span className="text-primaryGreen-300">warehouse</span>
             </h2>
 
             <Formik
               initialValues={initialValues}
               onSubmit={(values) => submitHandler(values)}
               validateOnBlur={false}
-              validateOnChange={false}
               validationSchema={validationSchema}
             >
-              {({ errors, touched }) => (
+              {({ touched, errors }) => (
                 <Form>
-                  <div className="grid grid-cols-8 text-center sm:text-left">
-                    <Field
-                      name="email"
-                      type="email"
-                      className="col-span-7 lg:col-span-6 p-2 sm:p-7 md:py-5 rounded-l-md border-primaryGreen-200 border-l-8 focus:outline-none block w-full bg-lightgray-10"
-                      placeholder="Subscribe to mailer"
-                    />
+                  <div
+                    className={`${
+                      touched.email && errors.email
+                        ? "animate-wiggle"
+                        : "animate-none"
+                    } flex flex-row sm:justify-center lg:justify-start lg:text-left`}
+                  >
+                    <div className="w-full sm:w-3/6 lg:w-5/6 py-2 sm:py-4">
+                      <Field
+                        name="email"
+                        type="email"
+                        className="p-2 sm:p-7 md:py-5 border-primaryGreen-300 border-l-8 focus:outline-none block w-full bg-lightgray-10"
+                        placeholder="Subscribe to our newsletter"
+                      />
+                    </div>
 
                     <button
                       disabled={isSubscribed}
                       type="submit"
-                      className="bg-primaryGreen-100 flex items-center rounded-r-md justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
+                      className="bg-primaryGreen-100 flex items-center px-3 sm:px-5 py-full justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
                     >
                       {loading && (
                         <div className="absolute">
@@ -107,16 +115,11 @@ export default function HomeComponent(): JSX.Element {
                       </div>
                     </button>
                   </div>
-                  {touched.email && errors.email && (
-                    <div className=" text-red-500 text-sm pt-2 pl-2">
-                      {errors.email}
-                    </div>
-                  )}
                 </Form>
               )}
             </Formik>
           </div>
-          <div className="p-10 lg:p-0 mb-10 lg:my-auto">
+          <div className="p-6 sm:px-14 md:px-24 lg:p-0 mb-10 lg:my-auto">
             <HeroLanding />
           </div>
         </div>

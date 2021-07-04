@@ -24,7 +24,7 @@ export const heroLandingCards = [
     image: "https://image.flaticon.com/icons/png/512/1384/1384063.png",
   },
   {
-    title: "Subscribe to my Youtube Channel!",
+    title: "Subscribe to my Channel!",
     image: "https://image.flaticon.com/icons/png/512/1384/1384060.png",
   },
   {

@@ -43,7 +43,7 @@ export default function LinkPageComponent({ _resLinks }) {
           <h1 className="my-5 text-sm xs:text-2xl font-extrabold tracking-wide uppercase text-primaryGreen-300">
             {truncateText(_resLinks.name || _resLinks.username, 25, 20)}
           </h1>
-          <p className="text-center my-2 p-2">
+          <p className="text-center my-2 p-2 word-wrapping w-full">
             {_resLinks.bio || "Hey There! I am using Links!"}
           </p>
         </div>
@@ -87,7 +87,7 @@ export default function LinkPageComponent({ _resLinks }) {
 
               <div className="flex flex-col w-4/6 my-2">
                 <h1 className="font-bold text-primaryGreen-300 text-lg">Bio</h1>
-                <p className=" text-lightgraycustom font-bold">
+                <p className=" text-lightgraycustom font-bold word-wrapping">
                   {_resLinks.bio || "Hey There! I am using Links!"}
                 </p>
                 <div className="flex items-center justify-center my-10">
@@ -104,8 +104,8 @@ export default function LinkPageComponent({ _resLinks }) {
             </div>
           </div>
 
-          <div className="h-4/6 w-3/5">
-            <h1 className="text-5xl tracking-wide font-bold uppercase text-lightgray-50 mb-12">
+          <div className="h-5/6 w-3/5">
+            <h1 className="text-5xl tracking-wide font-bold uppercase text-lightgray-50 mt-2">
               {truncateText(_resLinks.name || _resLinks.username, 25, 20)}
             </h1>
 

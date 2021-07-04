@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import Link from "next/link";
 import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/router";
@@ -8,11 +9,13 @@ import { AuthContext } from "../../store/authContext";
 import { getUserProfile } from "../../utils/api";
 import { ImageContext } from "../../store/profileImageContext";
 import { truncateText } from "../../utils/functions";
-import { SrmKzillaLogo } from "../../assets/icons";
+import { SrmKzillaLogo, Loading } from "../../assets/icons";
 import { dropdownMenu } from "../../utils/constants";
+import { userProfileName } from "../../utils/store";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [profileName, _] = useRecoilState(userProfileName);
   const { isAuth } = useContext(AuthContext);
   const { fileBlob } = useContext(ImageContext);
   const router = useRouter();
@@ -30,8 +33,8 @@ export default function Navbar() {
   }, [isAuth, fileBlob]);
 
   const [userProfileData, setUserProfileData] = useState({
-    name: "User",
-    username: "User",
+    name: "",
+    username: "",
     profilePicture: "newUser.png",
   });
 
@@ -46,14 +49,16 @@ export default function Navbar() {
       <>
         <nav className={`fixed top-0 z-50 w-full bg-white rounded-bl-xl`}>
           <div className="grid grid-cols-2">
-            <a href="/" className="text-black text-2xl font-bold p-3 text-left">
-              <div className="float-left mx-3">
-                <img width="45" height="45" src="linkslogo.png" alt="links" />
-              </div>
-              <div className="ml-2 pt-1 text-base md:text-xl text-lightgray">
-                LINKS
-              </div>
-            </a>
+            <Link href="/">
+              <a className="text-black text-2xl font-bold p-3 text-left">
+                <div className="float-left mx-3">
+                  <img width="45" height="45" src="linkslogo.png" alt="links" />
+                </div>
+                <div className="ml-2 pt-1 text-base md:text-xl text-lightgray">
+                  LINKS
+                </div>
+              </a>
+            </Link>
             {isAuth ? (
               <>
                 <div className="grid grid-cols-1 justify-self-end">
@@ -62,11 +67,17 @@ export default function Navbar() {
                       className="flex items-center mr-4 pl-4 cursor-pointer select-none float-left my-1 text-lightgray hover:text-lightgraycustom"
                       onClick={() => setIsOpen(!isOpen)}
                     >
-                      {truncateText(
-                        userProfileData.name || userProfileData.username,
-                        20,
-                        15
-                      )}
+                      {userProfileData.username && !profileName
+                        ? truncateText(
+                            userProfileData.name || userProfileData.username,
+                            20,
+                            15
+                          )
+                        : !profileName && <Loading />}
+
+                      {profileName && userProfileData.username
+                        ? truncateText(profileName, 20, 15)
+                        : ""}
                       <div className="float-right pt-1 ml-2">
                         <div className="flex items-center justify-center w-12 h-12 rounded-full overflow-hidden float-left mb-2 border">
                           <img

@@ -123,7 +123,7 @@ export default function DashboardComponent({
               onClick={() => setActiveLink(activeLinkInitialValues)}
               className="absolute hidden lg:block w-full h-full bg-backgroundwhite top-0 bottom-0"
             ></div>
-            <div className="fixed z-50 w-12 h-12 bottom-9 lg:top-24 right-4 xl:left-addButton focus:outline-none hover:opacity-70">
+            <div className="fixed z-30 lg:z-50 w-12 h-12 bottom-9 lg:top-24 right-4 xl:left-addButton focus:outline-none hover:opacity-70">
               <button
                 onClick={() => setIsAddModalOpen(true)}
                 className="focus:outline-none"
@@ -134,7 +134,7 @@ export default function DashboardComponent({
             </div>
 
             <div className="flex items-center justify-center w-full">
-              <h2 className="w-full sm:w-10/12 block lg:hidden px-5 my-2 font-black text-lg text-buttongray">
+              <h2 className="w-full md:w-10/12 block lg:hidden px-5 md:px-0 my-2 font-black text-lg text-buttongray">
                 <div className="flex flex-row">
                   <div className="flex items-center px-3 bg-white text-lightgraycustom rounded-l-md">
                     <HiSearch />
@@ -147,6 +147,24 @@ export default function DashboardComponent({
                   />
                 </div>
               </h2>
+            </div>
+
+            <div className="flex items-center justify-center lg:hidden">
+              <div className="grid grid-cols-2 mt-4 mx-5 w-full md:w-10/12">
+                <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
+                  <p className="pl-2">Total Links</p>
+                  <div className="customGradient p-2">
+                    <p className="text-3xl">{links.length || "N.A"}</p>
+                  </div>
+                </div>
+
+                <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
+                  <p className="pl-2">Total Views</p>
+                  <div className="customGradient p-2">
+                    <p className="text-3xl">{totalViews || "N.A"}</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <AddModal
