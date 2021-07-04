@@ -225,10 +225,7 @@ textarea {
     height: 9rem;
   }
   .sm-heroCard {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 1rem;
   }
   .sm-subscribeBtnSvg {
     height: 2.8rem;
