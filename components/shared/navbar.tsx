@@ -59,6 +59,7 @@ export default function Navbar() {
                 </div>
               </a>
             </Link>
+            
             {isAuth ? (
               <>
                 <div className="grid grid-cols-1 justify-self-end">

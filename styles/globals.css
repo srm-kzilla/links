@@ -62,16 +62,9 @@ textarea {
   visibility: hidden;
 }
 
-.gradientInput {
-  padding: 0.5rem;
-  border: double 3px transparent;
-  border-radius: 6px;
-  background-image: linear-gradient(white, white),
-    linear-gradient(to bottom, #56ccf2, #6fcf97);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
+.green-underline:hover {
+  border-bottom: 2px solid #79e7da;
 }
-
 .grayBottomBorder {
   border-top: 0px;
   border-left: 0px;

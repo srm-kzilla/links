@@ -330,7 +330,7 @@ export const getLinkStats = async (authToken: string, linkId: string) => {
     const _res = await axios.get(
       `${baseUrl}api/v1/links/stats/?linkId=${linkId}`,
       {
-        headers: { Authorization: `Bearer ${authToken}`},
+        headers: { Authorization: `Bearer ${authToken}` },
       }
     );
     return _res.data.result;
@@ -342,12 +342,12 @@ export const getLinkStats = async (authToken: string, linkId: string) => {
 
 export const errorHandler = (error?: AxiosError | any) => {
   let errMessage: string = "😐 Oops! Something went wrong!";
-  if(error.response.status !== 500) {
-    errMessage = error.response.data.message;
-  }
 
-  if(error.response.status === 401) {
-    window.location.replace('/login');
+  if (error.response.status !== 500) {
+    errMessage = error.response.data.message;
+    if (error.response.status === 401) {
+      window.location.replace("/login");
+    }
   }
 
   toast.error(errMessage, {
