@@ -31,7 +31,7 @@ export default function LinkPageComponent({ _resLinks }) {
 
   return (
     <>
-      <div className="min-h-screen max-w-xl mx-auto block md:hidden">
+      <div className="min-h-screen max-w-xl mx-auto block xl:hidden">
         <div className="flex flex-col items-center justify-center p-4">
           <div className="flex items-center justify-center w-36 h-36 rounded-full overflow-hidden mt-20">
             <img
@@ -48,7 +48,7 @@ export default function LinkPageComponent({ _resLinks }) {
           </p>
         </div>
 
-        <div className="px-2 lg:px-44">
+        <div className="px-2">
           <div className="grid grid-cols-1 gap-3 mt-3 pb-10 px-5">
             {_resLinks.result.map((link) => (
               <LinkCard
@@ -62,54 +62,54 @@ export default function LinkPageComponent({ _resLinks }) {
         </div>
       </div>
 
-      <div className="hidden md:flex min-h-screen">
-        <div className="container mx-auto px-6 sm:px-12 flex flex-col-reverse sm:flex-row items-center">
-          <div className="sm:w-2/5 flex flex-col items-start mt-8 sm:mt-0 p-8 min-h-full justify-around">
-            <div className="flex flex-col items-center justify-items-center border-2 rounded-lg w-full p-2 xl:p-8">
-              <div className="flex items-center justify-center w-36 h-36 rounded-full overflow-hidden my-5">
+      <div className="hidden xl:block w-full">
+        <div className="grid grid-cols-10 gap-32 w-10/12 mx-auto">
+          <div className="col-span-4 flex flex-col h-linkPage my-auto items-center justify-items-center border-2 rounded-lg w-full">
+            <div className="flex items-center justify-center w-36 h-36 mt-12 mb-3">
+              <div className="rounded-full overflow-hidden">
                 <img
                   className="w-auto max-h-full border"
                   src={_resLinks.profilePicture}
                   alt="profile-image"
                 />
               </div>
+            </div>
 
-              <div className="flex flex-col w-4/6 my-2">
-                <h1 className="font-bold text-primaryGreen-300 text-lg">
-                  Username
+            <div className="flex flex-col w-4/6 my-2">
+              <h1 className="font-bold text-primaryGreen-300 text-lg">
+                Username
+              </h1>
+              <div className="flex">
+                <h1 className="font-bold text-lightgraycustom text-xl">
+                  {_resLinks.username}
                 </h1>
-                <div className="flex">
-                  <h1 className="font-bold text-lightgraycustom text-xl">
-                    {_resLinks.username}
-                  </h1>
-                </div>
               </div>
+            </div>
 
-              <div className="flex flex-col w-4/6 my-2">
-                <h1 className="font-bold text-primaryGreen-300 text-lg">Bio</h1>
-                <p className=" text-lightgraycustom font-bold word-wrapping h-28">
-                  {_resLinks.bio || "Hey There! I am using Links!"}
-                </p>
-                <div className="flex items-center justify-center my-10">
-                  <button
-                    onClick={() =>
-                      copyToClipBoard(`${baseUrl}${_resLinks.username}`)
-                    }
-                    className="bg-white w-4/6 py-2 border-2 rounded-md border-primaryGreen-300 text-primaryGreen-300 outline-none focus:outline-none hover:opacity-80 text-md font-bold"
-                  >
-                    COPY PROFILE LINK
-                  </button>
-                </div>
+            <div className="flex flex-col w-4/6 my-2">
+              <h1 className="font-bold text-primaryGreen-300 text-lg">Bio</h1>
+              <p className=" text-lightgraycustom font-bold word-wrapping h-28">
+                {_resLinks.bio || "Hey There! I am using Links!"}
+              </p>
+              <div className="flex items-center justify-center my-2">
+                <button
+                  onClick={() =>
+                    copyToClipBoard(`${baseUrl}${_resLinks.username}`)
+                  }
+                  className="bg-white w-4/6 py-2 border-2 rounded-md border-primaryGreen-300 text-primaryGreen-300 outline-none focus:outline-none hover:opacity-80 text-md font-bold"
+                >
+                  COPY PROFILE LINK
+                </button>
               </div>
             </div>
           </div>
 
-          <div className="h-5/6 w-3/5">
-            <h1 className="text-5xl tracking-wide font-bold uppercase text-lightgray-50 mt-2">
+          <div className="col-span-6 flex flex-col justify-between w-full h-linkPage my-auto">
+            <h1 className="text-5xl tracking-wide font-bold uppercase text-lightgray-50 font-Inter">
               {truncateText(_resLinks.name || _resLinks.username, 25, 20)}
             </h1>
 
-            <div className="bg-backgroundwhite my-4 h-5/6 overflow-auto rounded-lg p-8">
+            <div className="bg-backgroundwhite h-4/5 w-full overflow-auto rounded-lg p-8">
               <div className="grid grid-cols-1 gap-3">
                 {_resLinks.result.map((link) => (
                   <LinkCard

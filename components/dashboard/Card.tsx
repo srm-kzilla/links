@@ -58,7 +58,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
             href={`${kzillaxyzdomain}${link.shortCode}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="focus:outline-none cursor-pointer mx-2 pt-1 md:mx-4"
+            className="focus:outline-none cursor-pointer mx-2 md:mx-4"
             title="Open link in new window"
           >
             <NewWindow />

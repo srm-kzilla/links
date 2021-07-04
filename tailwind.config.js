@@ -32,6 +32,9 @@ module.exports = {
       width: {
         custom: "21.66666%",
       },
+      height: {
+        linkPage: "72%",
+      },
       padding: {
         custom: "26px",
       },

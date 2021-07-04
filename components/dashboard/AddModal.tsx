@@ -91,10 +91,10 @@ const AddModal = ({
                         <button
                           type="submit"
                           disabled={
-                            Object.keys(errors).length > 0 || isSubmittingLink
+                            isSubmittingLink
                           }
                           className={`${
-                            Object.keys(errors).length > 0 || isSubmittingLink
+                            isSubmittingLink
                               ? "border-lightgray text-lightgray"
                               : "border-primaryGreen-200 text-primaryGreen-200"
                           } bg-white border-2 focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-3 px-4 my-2 rounded`}

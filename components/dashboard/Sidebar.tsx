@@ -293,9 +293,9 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     !activeLink.status && "filter grayscale"
                   }`}
                 >
-                  <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
+                  <div className="flex flex-col justify-evenly rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                     <h4 className="pl-2">Conversion</h4>
-                    <p className="customGradient p-2 text-3xl">
+                    <p className="customGradient px-2 text-3xl">
                       {conversionRate ? (
                         `${conversionRate}%`
                       ) : (
@@ -304,11 +304,13 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                         </div>
                       )}
                     </p>
-                    <p
-                      className="flex flex-row-reverse cursor-pointer"
-                      data-tip="Percentage of total clicks over links for a link"
-                    >
-                      <Info />
+                    <p className="flex flex-row-reverse">
+                      <span
+                        className="flex cursor-pointer w-4"
+                        data-tip="Percentage of total clicks over links for a link"
+                      >
+                        <Info />
+                      </span>
                     </p>
                     <ReactTooltip
                       effect="solid"
@@ -318,12 +320,12 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     />
                   </div>
 
-                  <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
+                  <div className="flex flex-col justify-evenly rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2 overflow-hidden">
-                      {cityLabel || "City"}
+                      {truncateText(cityLabel, 12, 8) || "City"}
                     </p>
-                    <div className="customGradient p-2">
-                      <p className="text-3xl">
+                    <div className="customGradient">
+                      <p className="text-3xl px-2">
                         {cityValue ? (
                           cityValue
                         ) : (
@@ -333,11 +335,13 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                         )}
                       </p>
                     </div>
-                    <p
-                      className="flex flex-row-reverse cursor-pointer"
-                      data-tip="City with the highest number of clicks"
-                    >
-                      <Info />
+                    <p className="flex flex-row-reverse">
+                      <span
+                        className="flex cursor-pointer w-4"
+                        data-tip="City with the highest number of clicks"
+                      >
+                        <Info />
+                      </span>
                     </p>
                     <ReactTooltip
                       effect="solid"
@@ -357,16 +361,18 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     !activeLink.status && "filter grayscale"
                   }`}
                 >
-                  <div className="rounded-md text-xl text-buttongray bg-offwhite font-bold m-1 p-1">
+                  <div className="flex flex-col justify-evenly rounded-md text-xl text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2">Views</p>
-                    <div className="customGradient p-2">
+                    <div className="customGradient px-2">
                       <p className="text-3xl">{activeLink.views || "N.A"}</p>
                     </div>
-                    <p
-                      className="flex flex-row-reverse cursor-pointer"
-                      data-tip="Total number of views for this link"
-                    >
-                      <Info />
+                    <p className="flex flex-row-reverse">
+                      <span
+                        className="flex cursor-pointer w-4"
+                        data-tip="Total number of views for this link"
+                      >
+                        <Info />
+                      </span>
                     </p>
                     <ReactTooltip
                       effect="solid"
@@ -376,10 +382,10 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     />
                   </div>
 
-                  <div className="rounded-md text-xl text-buttongray bg-offwhite font-bold m-1 p-1">
+                  <div className="flex flex-col justify-evenly rounded-md text-xl text-buttongray bg-offwhite font-bold m-1 p-1">
                     <p className="pl-2">Clicks</p>
-                    <div className="customGradient p-2">
-                      <div className="text-3xl">
+                    <div className="customGradient">
+                      <div className="px-2 text-3xl">
                         {clicksLoading ? (
                           <div className="p-2">
                             <Loading />
@@ -389,11 +395,13 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                         )}
                       </div>
                     </div>
-                    <p
-                      className="flex flex-row-reverse cursor-pointer"
-                      data-tip="Total number of clicks for this link"
-                    >
-                      <Info />
+                    <p className="flex flex-row-reverse">
+                      <span
+                        className="flex cursor-pointer w-4"
+                        data-tip="Total number of clicks for this link"
+                      >
+                        <Info />
+                      </span>
                     </p>
                     <ReactTooltip
                       effect="solid"
@@ -437,9 +445,11 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                               title="Edit URL"
                               onClick={() => setShowUrlInput(true)}
                             >
-                              <span className="absolute -bottom-11 right-1">
-                                <EditPencil />
-                              </span>
+                              <Fade duration={200}>
+                                <span className="absolute -bottom-11 right-1">
+                                  <EditPencil />
+                                </span>
+                              </Fade>
                             </button>
                           )}
                         </>
@@ -539,9 +549,11 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                         className="float-right focus:outline-none"
                         title="Copy to Clipboard"
                       >
-                        <i className="float-right -mt-5 grid-cols-1 cursor-pointer text-lightgraycustom">
-                          <MdContentCopy />
-                        </i>
+                        <Fade duration={200}>
+                          <i className="float-right -mt-5 grid-cols-1 cursor-pointer text-lightgraycustom">
+                            <MdContentCopy />
+                          </i>
+                        </Fade>
                       </button>
                     )}
                   </div>
@@ -552,7 +564,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                     conversionRate === "0" || conversionRate === ""
                       ? "w-full mt-40 lg:mt-0 sm:mt-32 mb-18"
                       : "w-full"
-                  } lg:absolute lg:bottom-10`}
+                  } lg:absolute lg:bottom-12`}
                 >
                   <div className="flex items-center justify-center">
                     <div className="grid grid-cols-1">

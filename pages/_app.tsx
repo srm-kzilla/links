@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Router from 'next/router';
+import Router from "next/router";
 import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { parseCookies } from "nookies";
@@ -13,15 +13,15 @@ import ImageContextProvider from "../store/profileImageContext";
 import { authRoutes, authRestrictedRoutes } from "../utils/constants";
 
 const showLoader = () => {
-  document.getElementById('page-loader').classList.add('loading');
+  document.getElementById("page-loader").classList.add("loading");
 };
 const hideLoader = () => {
-  document.getElementById('page-loader').classList.remove('loading');
+  document.getElementById("page-loader").classList.remove("loading");
 };
 
-Router.events.on('routeChangeStart', () => showLoader());
-Router.events.on('routeChangeComplete', () => hideLoader());
-Router.events.on('routeChangeError', () => hideLoader());
+Router.events.on("routeChangeStart", () => showLoader());
+Router.events.on("routeChangeComplete", () => hideLoader());
+Router.events.on("routeChangeError", () => hideLoader());
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
