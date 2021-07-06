@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import { setCookie } from "nookies";
+import { destroyCookie, setCookie } from "nookies";
 import { load } from "recaptcha-v3";
 
 import { baseUrl, kzillaxyzclicks } from "../utils/constants";
@@ -75,7 +75,11 @@ export const getLinks = async (authToken: string) => {
     });
     return _res.data;
   } catch (err) {
+    if (err.response.status === 401) {
+      return err;
+    }
     errorHandler(err);
+    return false;
   }
 };
 
@@ -204,6 +208,9 @@ export const getUserProfile = async (authToken: string) => {
       return _res.data;
     }
   } catch (err) {
+    if (err.response.status === 401) {
+      return err;
+    }
     errorHandler(err);
     return false;
   }
@@ -346,6 +353,7 @@ export const errorHandler = (error?: AxiosError | any) => {
   if (error.response.status !== 500) {
     errMessage = error.response.data.message;
     if (error.response.status === 401) {
+      destroyCookie(null, "authToken");
       window.location.replace("/login");
     }
   }

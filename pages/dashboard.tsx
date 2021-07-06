@@ -1,7 +1,7 @@
 import { useEffect, useContext } from "react";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { useRouter } from "next/router";
-import { parseCookies } from "nookies";
+import { destroyCookie, parseCookies } from "nookies";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -51,7 +51,10 @@ export async function getServerSideProps(
   try {
     const { authToken } = parseCookies(ctx);
     const _resLinks = await getLinks(authToken);
-
+    if (_resLinks.response && _resLinks.response.status === 401) {
+      destroyCookie(ctx, "authToken");
+      throw _resLinks;
+    }
     return {
       props: {
         _resLinks,
@@ -59,8 +62,9 @@ export async function getServerSideProps(
     };
   } catch (err) {
     return {
-      props: {
-        _resLinks: [],
+      redirect: {
+        destination: "/login",
+        permanent: false,
       },
     };
   }
