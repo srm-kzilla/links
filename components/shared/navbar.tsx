@@ -40,8 +40,8 @@ export default function Navbar() {
 
   const logoutUser = () => {
     destroyCookie(null, "authToken");
-    router.replace("/");
-    router.reload();
+    localStorage.removeItem("isAuth");
+    window.location.replace("/");
   };
 
   return (
@@ -155,7 +155,8 @@ export default function Navbar() {
                         <button
                           onClick={() => setIsOpen(false)}
                           className={`w-full py-2 ${
-                            router.asPath == `/${userProfileData.username}` && "font-bold"
+                            router.asPath == `/${userProfileData.username}` &&
+                            "font-bold"
                           } rounded hover:bg-lightblue text-sm font-normal block outline-none focus:outline-none`}
                         >
                           My Public Link Page
