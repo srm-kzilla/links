@@ -71,6 +71,7 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                     }
                     validateOnBlur={false}
                     validationSchema={passwordValidationSchema}
+                    enableReinitialize
                   >
                     {({ errors, touched }) => (
                       <Form>
@@ -105,7 +106,7 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                               </h1>
                             </div>
                             <Field
-                              name="password"
+                              name="newPassword"
                               type={passwordShown ? "text" : "password"}
                               className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold mb-4 outline-none focus:outline-none w-full px-2 py-1"
                             />
@@ -156,10 +157,10 @@ const ChangePasswordModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                             <button
                               type="submit"
                               disabled={
-                                Object.keys(errors).length > 0 || loading
+                                loading
                               }
                               className={`${
-                                Object.keys(errors).length > 0 || loading
+                                loading
                                   ? "border-lightgray text-lightgray"
                                   : "border-primaryGreen-200 text-primaryGreen-200"
                               } bg-white border-2 focus:outline-none hover:opacity-80 font-bold py-2 ml-2 rounded`}

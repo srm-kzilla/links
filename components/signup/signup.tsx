@@ -78,6 +78,7 @@ const SignUpComponent = () => {
             onSubmit={submitHandler}
             validateOnBlur={false}
             validationSchema={validationSchema}
+            enableReinitialize
           >
             {({ errors, touched }) => (
               <Form>

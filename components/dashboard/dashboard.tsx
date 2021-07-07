@@ -126,7 +126,7 @@ export default function DashboardComponent({
             <div className="fixed z-30 lg:z-50 w-12 h-12 bottom-9 lg:top-24 right-4 xl:left-addButton focus:outline-none hover:opacity-70">
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="focus:outline-none"
+                className="focus:outline-none rounded-full bg-white md:bg-transparent"
                 title="Add New Link"
               >
                 <AddLink />
@@ -150,7 +150,7 @@ export default function DashboardComponent({
             </div>
 
             <div className="flex items-center justify-center lg:hidden">
-              <div className="grid grid-cols-2 mt-4 mx-5 w-full md:w-10/12">
+              <div className="grid grid-cols-2 my-4 mx-5 w-full md:w-10/12">
                 <div className="rounded-md text-lg text-buttongray bg-offwhite font-bold m-1 p-1">
                   <p className="pl-2">Total Links</p>
                   <div className="customGradient p-2">

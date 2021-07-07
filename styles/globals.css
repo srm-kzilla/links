@@ -230,6 +230,12 @@ textarea {
   .sm-subscribeBtnSvg {
     height: 2.8rem;
   }
+  .sm-heroIcons {
+    height: 3rem;
+    width: 3rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
 }
 
 @media only screen and (min-width: 768px) {

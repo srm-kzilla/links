@@ -28,7 +28,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
             link.status ? "bg-primaryGreen-200" : "bg-lightgraycustom"
           } h-6 w-full md:h-full md:w-3 md:group-hover:w-16 hover:transition duration-75 ease-in-out -mt-2 md:mt-0 block md:absolute left-0 bottom-0 top-0 items-center justify-between`}
         >
-          <figure className="w-0 group-hover:w-8 cursor-pointer pt-7 shadow-2xl hidden md:flex mx-auto">
+          <figure className="w-0 group-hover:w-8 cursor-pointer py-8 shadow-2xl hidden md:flex mx-auto">
             <img className="rounded" width="40px" src={link.image} />
           </figure>
         </div>
@@ -47,8 +47,11 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
             <h2 className="text-xl md:text-3xl font-bold text-lightgray">
               {link.title ? truncateText(link.title, 20, 20) : "untitled"}
             </h2>
-            <p className="text-sm md:text-md md:inline-block text-lightgray">
-              {link.url ? truncateText(link.url, 40, 40) : "No URL specified"}
+            <p className="hidden text-sm md:text-md md:inline-block text-lightgray">
+              {link.url ? truncateText(link.url, 40, 37) : "No URL specified"}
+            </p>
+            <p className="inline-block text-sm md:text-sm md:hidden text-lightgray">
+              {link.url ? truncateText(link.url, 35, 32) : "No URL specified"}
             </p>
           </div>
         </div>
