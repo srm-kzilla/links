@@ -7,7 +7,6 @@ import { errorHandler, postSubscribe } from "../../utils/api";
 import { AuthContext } from "../../store/authContext";
 import {
   HeroLanding,
-  Logo,
   Loading,
   HomeTick,
   Arrow,
@@ -61,7 +60,7 @@ export default function HomeComponent(): JSX.Element {
 
         <div className="flex flex-row-reverse p-2 mr-2">
           <Link href={isAuth ? "/dashboard" : "/login"}>
-            <a className="flex items-center justify-center bg-white border-2 rounded hover:opacity-80 border-primaryGreen-200 focus:outline-none uppercase text-xs md:text-sm lg:text-lg text-primaryGreen-200 font-bold w-10/12 sm:w-2/5 lg:w-1/3 xl:w-1/4">
+            <a className="flex items-center justify-center px-0 md:px-1 bg-white border-2 rounded hover:opacity-80 border-primaryGreen-200 focus:outline-none uppercase text-xs md:text-sm text-primaryGreen-200 font-bold w-10/12 sm:w-2/5 lg:w-1/3 xl:w-1/4">
               {isAuth ? "My Dashboard" : "Get Started"}
             </a>
           </Link>
@@ -83,6 +82,7 @@ export default function HomeComponent(): JSX.Element {
               onSubmit={(values) => submitHandler(values)}
               validateOnBlur={false}
               validationSchema={validationSchema}
+              enableReinitialize
             >
               {({ touched, errors }) => (
                 <Form>
@@ -93,11 +93,11 @@ export default function HomeComponent(): JSX.Element {
                         : "animate-none"
                     } flex flex-row sm:justify-center lg:justify-start lg:text-left`}
                   >
-                    <div className="w-full sm:w-3/6 lg:w-5/6 py-2 sm:py-4">
+                    <div className="w-full sm:w-3/6 lg:w-5/6 py-2 sm:py-3">
                       <Field
                         name="email"
                         type="email"
-                        className="p-2 sm:p-7 md:py-5 border-primaryGreen-300 border-l-8 focus:outline-none block w-full bg-lightgray-10"
+                        className="p-2 sm:p-7 md:py-4 border-primaryGreen-300 border-l-8 focus:outline-none block w-full bg-lightgray-10"
                         placeholder="Subscribe to our newsletter"
                       />
                     </div>
@@ -105,7 +105,7 @@ export default function HomeComponent(): JSX.Element {
                     <button
                       disabled={isSubscribed}
                       type="submit"
-                      className="bg-primaryGreen-100 flex items-center px-3 sm:px-5 py-full justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
+                      className="bg-primaryGreen-100 flex items-center px-3 sm:px-4 py-full justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
                     >
                       {loading && (
                         <div className="absolute">

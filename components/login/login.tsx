@@ -57,6 +57,7 @@ const LoginComponent = () => {
           onSubmit={submitHandler}
           validateOnBlur={false}
           validationSchema={validationSchema}
+          enableReinitialize
         >
           {({ errors, touched }) => (
             <Form>

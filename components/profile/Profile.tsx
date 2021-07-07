@@ -121,35 +121,44 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                   </button>
                 )}
               </div>
-              <div className="w-full flex items-center justify-center mb-4">
-                <a
-                  className="text-left text-lightgraycustom font-normal"
-                  href={`${baseUrl}${_resProfile.username}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <strong>
-                    {baseUrl}
-                    {_resProfile.username}
-                  </strong>
-                </a>
-                <button
-                  onClick={() =>
-                    copyToClipBoard(`${baseUrl}${_resProfile.username}`)
-                  }
-                  className="float-right focus:outline-none"
-                  title="Copy to Clipboard"
-                >
-                  <i className="float-right mt-1 ml-2 grid-cols-1 cursor-pointer text-lightgraycustom">
-                    <MdContentCopy />
-                  </i>
-                </button>
+              <div className="w-full flex items-center justify-center">
+                <div className="flex flex-col w-full">
+                  <div className="w-full block md:hidden">
+                    <p className="flex text-lightgray text-lg font-bold mt-4">
+                      Public Page Link
+                    </p>
+                  </div>
+                  <div className="word-wrapping md:flex md:items-center md:justify-center">
+                    <a
+                      className="text-left text-lightgraycustom font-normal"
+                      href={`${baseUrl}${_resProfile.username}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <strong>
+                        {baseUrl}
+                        {_resProfile.username}
+                      </strong>
+                    </a>
+                    <button
+                      onClick={() =>
+                        copyToClipBoard(`${baseUrl}${_resProfile.username}`)
+                      }
+                      className="float-right focus:outline-none"
+                      title="Copy to Clipboard"
+                    >
+                      <i className="float-right mt-1 ml-2 grid-cols-1 cursor-pointer text-lightgraycustom">
+                        <MdContentCopy />
+                      </i>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
           <div className="w-5/6 md:w-4/6 m-auto">
-            <div className="w-full">
+            <div className="w-full mt-5">
               <p className="flex text-lightgray text-lg font-bold">Username</p>
             </div>
             {!showUserNameInput && (
@@ -185,7 +194,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 }}
               />
             )}
-            <div className="mt-10 w-full">
+            <div className="mt-5 w-full">
               <p className="text-lightgray text-lg font-bold">About Me</p>
             </div>
             {!showBioInput && (
@@ -220,10 +229,10 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                 }}
               />
             )}
-            <div className="flex flex-col sm:flex-row items-center justify-center w-full mt-14">
+            <div className="flex flex-col-reverse sm:flex-row items-center justify-center w-full mt-8">
               <button
                 onClick={() => setModalOpen(true)}
-                className="bg-white border-2 border-statusRed focus:outline-none hover:bg-opacity-80 text-statusRed text-xs font-bold w-full py-3 px-3 rounded"
+                className="bg-white border-2 border-statusRed focus:outline-none hover:bg-opacity-80 mb-12 md:mb-0 text-statusRed text-xs font-bold w-full py-3 px-3 rounded"
               >
                 CHANGE PASSWORD
               </button>
@@ -235,7 +244,7 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
                   isSubmittingProfile
                     ? "border-lightgray text-lightgray"
                     : "border-primaryGreen-200 text-primaryGreen-200"
-                } focus:outline-none hover:bg-opacity-80 text-xs font-bold w-full sm:ml-4 mt-4 sm:mt-0 mb-12 sm:mb-0 py-3 px-3 rounded`}
+                } focus:outline-none hover:bg-opacity-80 text-xs font-bold w-full mb-4 md:mb-0 sm:ml-4 mt-4 sm:mt-0 py-3 px-3 rounded`}
               >
                 {isSubmittingProfile ? "Please wait..." : "SAVE CHANGES"}
               </button>

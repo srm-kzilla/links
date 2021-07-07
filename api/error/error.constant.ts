@@ -12,7 +12,7 @@ export const errors = {
     message: "🔧 Internal Server Error",
   },
   WRONG_PASSWORD: {
-    httpStatus: 401,
+    httpStatus: 400,
     message: "🛂 Invalid Password",
   },
   NOT_FOUND: {
@@ -56,7 +56,7 @@ export const errors = {
     message: "🤡 Username already in use",
   },
   INVALID_OTP: {
-    httpStatus: 401,
+    httpStatus: 400,
     message: "🛂 Invalid OTP",
   },
   USER_NOT_AVAILABLE: {

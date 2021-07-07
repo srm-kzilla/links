@@ -19,7 +19,7 @@ export default function HeroLanding() {
               return (
                 <Fade key={item.title.trim()}>
                   <div className="heroCard sm-heroCard h-full bg-white shadow-xl rounded-lg">
-                    <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
+                    <div className="mx-1 h-8 w-8 sm-heroIcons">
                       <img className="rounded-md" src={item.image} />
                     </div>
                     <p className="mx-1 sm:mx-4 text-gray-400 mr-1 sm:mr-3 text-xs sm:text-sm md:text-lg text-center">
@@ -37,7 +37,7 @@ export default function HeroLanding() {
               return (
                 <Fade key={item.title.trim()}>
                   <div className="heroCard sm-heroCard h-full bg-white shadow-xl rounded-lg">
-                    <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
+                    <div className="mx-1 h-8 w-8 sm-heroIcons">
                       <img className="rounded-md" src={item.image} />
                     </div>
                     <p className="mx-1 sm:mx-4 text-gray-400 mr-1 sm:mr-3 text-xs sm:text-sm md:text-lg text-center">
@@ -58,7 +58,7 @@ export default function HeroLanding() {
               return (
                 <Fade key={item.title.trim()}>
                   <div className="heroCard sm-heroCard h-full bg-white shadow-xl rounded-lg">
-                    <div className="mx-1 sm:mx-4 h-8 w-8 sm:h-12 sm:w-12">
+                    <div className="mx-1 h-8 w-8 sm-heroIcons">
                       <img className="rounded-md" src={item.image} alt="logo" />
                     </div>
                     <p className="mx-1 sm:mx-4 text-gray-400 mr-1 sm:mr-3 text-xs sm:text-sm md:text-lg text-center">

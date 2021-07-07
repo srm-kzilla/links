@@ -40,8 +40,8 @@ export default function Navbar() {
 
   const logoutUser = () => {
     destroyCookie(null, "authToken");
-    router.replace("/");
-    router.reload();
+    localStorage.removeItem("isAuth");
+    window.location.replace("/");
   };
 
   return (
@@ -59,7 +59,7 @@ export default function Navbar() {
                 </div>
               </a>
             </Link>
-            
+
             {isAuth ? (
               <>
                 <div className="grid grid-cols-1 justify-self-end">
@@ -137,7 +137,7 @@ export default function Navbar() {
                   <div className="relative md:absolute right-0 bg-white shadow-xl rounded-b-xl md:w-1/6 text-center text-buttongray">
                     {dropdownMenu.map((item) => {
                       return (
-                        <Link href={item.href}>
+                        <Link key={item.href} href={item.href}>
                           <button
                             onClick={() => setIsOpen(false)}
                             className={`w-full py-2 rounded ${
@@ -149,6 +149,21 @@ export default function Navbar() {
                         </Link>
                       );
                     })}
+
+                    <Link href={`/${userProfileData.username}`}>
+                      <a>
+                        <button
+                          onClick={() => setIsOpen(false)}
+                          className={`w-full py-2 ${
+                            router.asPath == `/${userProfileData.username}` &&
+                            "font-bold"
+                          } rounded hover:bg-lightblue text-sm font-normal block outline-none focus:outline-none`}
+                        >
+                          My Public Link Page
+                        </button>
+                      </a>
+                    </Link>
+
                     <button
                       className="w-full py-2 rounded hover:bg-lightblue text-sm font-normal block outline-none focus:outline-none"
                       onClick={logoutUser}

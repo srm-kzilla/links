@@ -559,22 +559,16 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                   </div>
                 </div>
 
-                <div
-                  className={`${
-                    conversionRate === "0" || conversionRate === ""
-                      ? "w-full mt-40 lg:mt-0 sm:mt-32 mb-18"
-                      : "w-full"
-                  } lg:absolute lg:bottom-12`}
-                >
+                <div className="w-full mb-8 lg:mb-0 lg:absolute lg:bottom-12">
                   <div className="flex items-center justify-center">
                     <div className="grid grid-cols-1">
                       <a
-                        className="text-center text-sm"
+                        className="text-center"
                         href={`https://kzilla.xyz/analytics/${activeLink.analyticsCode}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <button className="bg-white border-2 border-primaryGreen-300 focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 my-4 rounded-md">
+                        <button className="bg-white border-2 border-primaryGreen-300 text-lg md:text-sm focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 my-4 rounded-md">
                           <p className="text-primaryGreen-300">
                             SHOW MORE ANALYTICS
                           </p>
@@ -583,7 +577,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
 
                       <button
                         onClick={onClose}
-                        className="bg-white border-2 border-statusRed focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 rounded-md block lg:hidden mb-16"
+                        className="bg-white border-2 border-statusRed text-lg md:text-sm focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 rounded-md block lg:hidden mb-16"
                       >
                         <p className="text-statusRed">HIDE STATS</p>
                       </button>

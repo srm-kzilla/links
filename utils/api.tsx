@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { destroyCookie, setCookie } from "nookies";
 import { load } from "recaptcha-v3";
 
-import { baseUrl, kzillaxyzclicks } from "../utils/constants";
+import { authRoutes, baseUrl, kzillaxyzclicks } from "../utils/constants";
 
 async function getRecaptchaToken() {
   const recaptcha = await load(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
@@ -352,7 +352,9 @@ export const errorHandler = (error?: AxiosError | any) => {
 
   if (error.response.status !== 500) {
     errMessage = error.response.data.message;
-    if (error.response.status === 401) {
+
+    // INFO: Only in protected routes, if authToken/JWT is malformed or cookie deleted, then destroyCookie and send user to /login
+    if (error.response.status === 401 && authRoutes.includes(window.location.pathname)) {
       destroyCookie(null, "authToken");
       window.location.replace("/login");
     }
@@ -366,7 +368,7 @@ export const errorHandler = (error?: AxiosError | any) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
-    className: "toast-font",
+    className: "toast-font",  
   });
 };
 

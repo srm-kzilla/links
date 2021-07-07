@@ -63,7 +63,7 @@ export default function LinkPageComponent({ _resLinks }) {
       </div>
 
       <div className="hidden xl:block w-full">
-        <div className="grid grid-cols-10 gap-32 w-10/12 mx-auto">
+        <div className="grid grid-cols-10 h-screen gap-32 w-10/12 mx-auto">
           <div className="col-span-4 flex flex-col h-linkPage my-auto items-center justify-items-center border-2 rounded-lg w-full">
             <div className="flex items-center justify-center w-36 h-36 mt-12 mb-3">
               <div className="rounded-full overflow-hidden">
