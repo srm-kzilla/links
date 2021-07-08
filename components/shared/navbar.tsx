@@ -159,7 +159,7 @@ export default function Navbar() {
                             "font-bold"
                           } rounded hover:bg-lightblue text-sm font-normal block outline-none focus:outline-none`}
                         >
-                          My Public Link Page
+                          My Links
                         </button>
                       </a>
                     </Link>
