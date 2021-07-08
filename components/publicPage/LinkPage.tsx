@@ -65,14 +65,11 @@ export default function LinkPageComponent({ _resLinks }) {
       <div className="hidden xl:block w-full">
         <div className="grid grid-cols-10 h-screen gap-32 w-10/12 mx-auto">
           <div className="col-span-4 flex flex-col h-linkPage my-auto items-center justify-items-center border-2 rounded-lg w-full">
-            <div className="flex items-center justify-center w-36 h-36 mt-12 mb-3">
-              <div className="rounded-full overflow-hidden">
-                <img
-                  className="w-auto max-h-full border"
-                  src={_resLinks.profilePicture}
-                  alt="profile-image"
-                />
-              </div>
+            <div className="flex items-center justify-center w-36 h-36 rounded-full overflow-hidden mt-12 mb-3">
+              <img
+                className="w-auto max-h-full border"
+                src={_resLinks.profilePicture}
+              />
             </div>
 
             <div className="flex flex-col w-4/6 my-2">
