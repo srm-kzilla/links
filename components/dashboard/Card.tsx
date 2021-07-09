@@ -67,12 +67,6 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
             <NewWindow />
           </a>
           <button
-            title="Edit Link"
-            className="focus:outline-none cursor-pointer mx-2 md:mx-4"
-          >
-            <Pencil />
-          </button>
-          <button
             onClick={() => setIsDeleteModalOpen(true)}
             className="focus:outline-none cursor-pointer mx-2 md:mx-4"
             title="Delete Link"
