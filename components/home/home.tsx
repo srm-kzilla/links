@@ -70,7 +70,7 @@ export default function HomeComponent(): JSX.Element {
       <div className="flex justify-center font-sans min-h-screen px-3 sm:px-8 2xl:px-12">
         <div className="grid grid-cols-0 lg:grid-cols-2 w-full">
           <div className="text-gray-600 font-Inter lg:col-span-1 px-5 mt-20 lg:my-auto text-center lg:text-left font-bold">
-            <h1 className="py-1 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wide">
+            <h1 className="py-1 mt-3 md:mt-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wide">
               Your ultimate
             </h1>
             <h2 className="py-1 lg:ml-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wide mb-10 lg:mb-24">
@@ -97,7 +97,7 @@ export default function HomeComponent(): JSX.Element {
                       <Field
                         name="email"
                         type="email"
-                        className="p-2 sm:p-7 md:py-4 border-primaryGreen-300 border-l-8 focus:outline-none block w-full bg-lightgray-10"
+                        className="p-2 sm:p-7 md:py-4 border-primaryGreen-300 text-xs lg:text-sm border-l-8 focus:outline-none block w-full bg-lightgray-10"
                         placeholder="Subscribe to our newsletter"
                       />
                     </div>

@@ -238,10 +238,22 @@ export default function ProfileComponent({ _resProfile }): JSX.Element {
               </button>
               <button
                 type="submit"
-                disabled={isSubmittingProfile}
+                disabled={
+                  isSubmittingProfile ||
+                  (
+                    name === _resProfile.name &&
+                    username === _resProfile.username &&
+                    bio === _resProfile.bio
+                  )
+                }
                 onClick={() => updateUserProfile()}
                 className={`bg-white border-2 ${
-                  isSubmittingProfile
+                  isSubmittingProfile ||
+                  (
+                    name === _resProfile.name &&
+                    username === _resProfile.username &&
+                    bio === _resProfile.bio
+                  )
                     ? "border-lightgray text-lightgray"
                     : "border-primaryGreen-200 text-primaryGreen-200"
                 } focus:outline-none hover:bg-opacity-80 text-xs font-bold w-full mb-4 md:mb-0 sm:ml-4 mt-4 sm:mt-0 py-3 px-3 rounded`}

@@ -34,6 +34,7 @@ module.exports = {
       },
       height: {
         linkPage: "72%",
+        linkContainer: "28rem",
       },
       padding: {
         custom: "26px",
