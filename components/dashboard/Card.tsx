@@ -39,7 +39,7 @@ const Card = ({ link, onCardClick, onDeleteCard }: CardProps): JSX.Element => {
               className="rounded"
               width="40px"
               src={link.image}
-              alt={link.title.trim()}
+              alt="img"
             />
           </figure>
 

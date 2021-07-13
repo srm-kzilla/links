@@ -579,7 +579,7 @@ const Sidebar = ({ isOpen, onClose, links, totalViews }: SidebarProps): any => {
                         onClick={onClose}
                         className="bg-white border-2 border-statusRed text-lg md:text-sm focus:outline-none hover:opacity-80 w-full font-extrabold py-3 px-4 rounded-md block lg:hidden mb-16"
                       >
-                        <p className="text-statusRed">HIDE STATS</p>
+                        <p className="text-statusRed">CLOSE</p>
                       </button>
                     </div>
                   </div>

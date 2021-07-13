@@ -106,7 +106,7 @@ export default function LinkPageComponent({ _resLinks }) {
               {truncateText(_resLinks.name || _resLinks.username, 25, 20)}
             </h1>
 
-            <div className="bg-backgroundwhite h-4/5 w-full overflow-auto rounded-lg p-8">
+            <div className="bg-backgroundwhite h-linkContainer w-full overflow-auto rounded-lg p-8">
               <div className="grid grid-cols-1 gap-3">
                 {_resLinks.result.map((link) => (
                   <LinkCard
