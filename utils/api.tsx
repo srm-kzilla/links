@@ -1,9 +1,9 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import { setCookie } from "nookies";
+import { destroyCookie, setCookie } from "nookies";
 import { load } from "recaptcha-v3";
 
-import { baseUrl, kzillaxyzclicks } from "../utils/constants";
+import { authRoutes, baseUrl, kzillaxyzclicks } from "../utils/constants";
 
 async function getRecaptchaToken() {
   const recaptcha = await load(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
@@ -75,7 +75,11 @@ export const getLinks = async (authToken: string) => {
     });
     return _res.data;
   } catch (err) {
+    if (err.response.status === 401) {
+      return err;
+    }
     errorHandler(err);
+    return false;
   }
 };
 
@@ -204,6 +208,9 @@ export const getUserProfile = async (authToken: string) => {
       return _res.data;
     }
   } catch (err) {
+    if (err.response.status === 401) {
+      return err;
+    }
     errorHandler(err);
     return false;
   }
@@ -330,7 +337,7 @@ export const getLinkStats = async (authToken: string, linkId: string) => {
     const _res = await axios.get(
       `${baseUrl}api/v1/links/stats/?linkId=${linkId}`,
       {
-        headers: { Authorization: `Bearer ${authToken}`},
+        headers: { Authorization: `Bearer ${authToken}` },
       }
     );
     return _res.data.result;
@@ -342,8 +349,15 @@ export const getLinkStats = async (authToken: string, linkId: string) => {
 
 export const errorHandler = (error?: AxiosError | any) => {
   let errMessage: string = "😐 Oops! Something went wrong!";
-  if(error.response.status !== 500) {
+
+  if (error.response.status !== 500) {
     errMessage = error.response.data.message;
+
+    // INFO: Only in protected routes, if authToken/JWT is malformed or cookie deleted, then destroyCookie and send user to /login
+    if (error.response.status === 401 && authRoutes.includes(window.location.pathname)) {
+      destroyCookie(null, "authToken");
+      window.location.replace("/login");
+    }
   }
 
   toast.error(errMessage, {
@@ -354,7 +368,7 @@ export const errorHandler = (error?: AxiosError | any) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
-    className: "font-Mulish",
+    className: "toast-font",  
   });
 };
 
@@ -367,6 +381,6 @@ export const successHandler = (successMessage: string) => {
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
-    className: "font-Mulish",
+    className: "toast-font",
   });
 };

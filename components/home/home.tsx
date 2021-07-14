@@ -7,17 +7,12 @@ import { errorHandler, postSubscribe } from "../../utils/api";
 import { AuthContext } from "../../store/authContext";
 import {
   HeroLanding,
-  Logo,
   Loading,
   HomeTick,
   Arrow,
 } from "../../assets/icons";
 
 export default function HomeComponent(): JSX.Element {
-  const initialValues = {
-    email: "",
-  };
-
   const { isAuth } = useContext(AuthContext);
 
   const validationSchema = Yup.object({
@@ -27,7 +22,11 @@ export default function HomeComponent(): JSX.Element {
       .required("This is a required field"),
   });
 
-  const submitHandler = async (values) => {
+  type FormData = Partial<Yup.InferType<typeof validationSchema>>;
+
+  const initialValues: FormData = {};
+
+  const submitHandler = async (values: FormData) => {
     try {
       setLoading(true);
       const res = await postSubscribe(values);
@@ -41,64 +40,72 @@ export default function HomeComponent(): JSX.Element {
       errorHandler(error);
     }
   };
+
   const [loading, setLoading] = useState<boolean>(false);
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
 
   return (
     <>
-     <div className="grid grid-cols-2 absolute top-0 right-0 left-0 pt-2">
+      <div className="grid grid-cols-2 absolute top-0 right-0 left-0 pt-2">
         <Link href="/">
-          <a className="ml-2 pt-1 text-lightgray text-lg sm:text-2xl font-bold p-3 text-left">
-            <div className="float-left mr-2 h-9 w-9 sm:h-12 sm:w-12">
-              <Logo />
+          <a className="text-black text-2xl font-bold p-3 text-left">
+            <div className="float-left mx-3">
+              <img width="45" height="45" src="linkslogo.png" alt="links" />
             </div>
-            <div className="ml-2 pt-2">LINKS</div>
+            <div className="ml-2 pt-1 text-base md:text-xl text-lightgray">
+              LINKS
+            </div>
           </a>
         </Link>
 
         <div className="flex flex-row-reverse p-2 mr-2">
           <Link href={isAuth ? "/dashboard" : "/login"}>
-            <a className="flex items-center justify-center bg-white border-2 rounded hover:opacity-80 border-primaryGreen-200 focus:outline-none uppercase text-sm lg:text-lg text-primaryGreen-200 font-bold w-9/12 sm:w-2/7 md:w-1/3">
+            <a className="flex items-center justify-center px-0 md:px-1 bg-white border-2 rounded hover:opacity-80 border-primaryGreen-200 focus:outline-none uppercase text-xs md:text-sm text-primaryGreen-200 font-bold w-10/12 sm:w-2/5 lg:w-1/3 xl:w-1/4">
               {isAuth ? "My Dashboard" : "Get Started"}
             </a>
           </Link>
         </div>
       </div>
-      
+
       <div className="flex justify-center font-sans min-h-screen px-3 sm:px-8 2xl:px-12">
         <div className="grid grid-cols-0 lg:grid-cols-2 w-full">
-          <div className="mt-20 p-10 block lg:hidden">
-            <HeroLanding />
-          </div>
-          <div className="text-gray-600 font-Inter lg:col-span-1 md:my-5 lg:my-auto px-5 text-center lg:text-left font-bold ">
-            <h1 className="py-3 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider">
+          <div className="text-gray-600 font-Inter lg:col-span-1 px-5 mt-20 lg:my-auto text-center lg:text-left font-bold">
+            <h1 className="py-1 mt-3 md:mt-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wide">
               Your ultimate
             </h1>
-            <h2 className="py-3 lg:ml-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wider mb-10 lg:mb-24">
-              URL <span className="text-primaryGreen-200">warehouse</span>
+            <h2 className="py-1 lg:ml-0 text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl tracking-wide mb-10 lg:mb-24">
+              URL <span className="text-primaryGreen-300">warehouse</span>
             </h2>
 
             <Formik
               initialValues={initialValues}
               onSubmit={(values) => submitHandler(values)}
               validateOnBlur={false}
-              validateOnChange={false}
               validationSchema={validationSchema}
+              enableReinitialize
             >
-              {({ errors, touched }) => (
+              {({ touched, errors }) => (
                 <Form>
-                  <div className="grid grid-cols-8 text-center sm:text-left">
-                    <Field
-                      name="email"
-                      type="email"
-                      className="col-span-7 lg:col-span-6 p-2 sm:p-7 md:py-5 rounded-l-md border-primaryGreen-200 border-l-8 focus:outline-none block w-full bg-lightgray-10"
-                      placeholder="abc@example.com"
-                    />
+                  <div
+                    className={`${
+                      touched.email && errors.email
+                        ? "animate-wiggle"
+                        : "animate-none"
+                    } flex flex-row sm:justify-center lg:justify-start lg:text-left`}
+                  >
+                    <div className="w-full sm:w-3/6 lg:w-5/6 py-2 sm:py-3">
+                      <Field
+                        name="email"
+                        type="email"
+                        className="p-2 sm:p-7 md:py-4 border-primaryGreen-300 text-xs lg:text-sm border-l-8 focus:outline-none block w-full bg-lightgray-10"
+                        placeholder="Subscribe to our newsletter"
+                      />
+                    </div>
 
                     <button
                       disabled={isSubscribed}
                       type="submit"
-                      className="bg-primaryGreen-100 col-span-1 flex items-center rounded-r-md justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
+                      className="bg-primaryGreen-100 flex items-center px-3 sm:px-4 py-full justify-center hover:bg-opacity-90 -ml-2 focus:outline-none"
                     >
                       {loading && (
                         <div className="absolute">
@@ -110,19 +117,11 @@ export default function HomeComponent(): JSX.Element {
                       </div>
                     </button>
                   </div>
-                  {touched.email && errors.email && (
-                    <div className=" text-red-500 text-sm pt-2 pl-2">
-                      {errors.email}
-                    </div>
-                  )}
                 </Form>
               )}
             </Formik>
-            <h1 className="py-3 mb-5 text-left text-md sm:text-xl md:text-2xl 2xl:text-4xl tracking-wider">
-              Subscribe to mailer
-            </h1>
           </div>
-          <div className="col-span-1 my-auto hidden lg:block">
+          <div className="p-6 sm:px-14 md:px-24 lg:p-0 mb-10 lg:my-auto">
             <HeroLanding />
           </div>
         </div>

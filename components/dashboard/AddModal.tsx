@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import Fade from "react-reveal/Fade";
 import { GrFormClose } from "react-icons/gr";
 import { Formik, Field, Form } from "formik";
+import * as Yup from "yup";
 
 import { addLinkValidationSchema } from "../../utils/schema";
 
 interface AddModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddLink: (
-    link: { title: string; url: string },
-    closeModal: () => void
-  ) => void;
+  onAddLink: (link: {}, closeModal: () => void) => void;
 }
 
 const AddModal = ({
@@ -19,10 +17,9 @@ const AddModal = ({
   onClose,
   onAddLink,
 }: AddModalProps): JSX.Element => {
-  const initialValues = {
-    title: "",
-    url: "http://",
-  };
+  type FormData = Partial<Yup.InferType<typeof addLinkValidationSchema>>;
+
+  const initialValues: FormData = {};
 
   const [isSubmittingLink, setIsSubmittingLink] = useState<boolean>(false);
 
@@ -51,17 +48,18 @@ const AddModal = ({
                 </h1>
                 <Formik
                   initialValues={initialValues}
-                  onSubmit={(values) => {
+                  onSubmit={(values: FormData) => {
                     onAddLink(values, onClose);
                     setIsSubmittingLink(true);
                   }}
                   validateOnBlur={false}
-                  validateOnChange={false}
                   validationSchema={addLinkValidationSchema}
                 >
                   {({ errors, touched }) => (
                     <Form>
-                      <h1 className="text-lightgray font-bold mb-1 mt-5">Title</h1>
+                      <h1 className="text-lightgray font-bold mb-1 mt-5">
+                        Title
+                      </h1>
                       <Field
                         name="title"
                         type="text"
@@ -75,12 +73,14 @@ const AddModal = ({
                         </div>
                       )}
 
-                      <h1 className="text-lightgray font-bold mb-1 mt-5">URL</h1>
+                      <h1 className="text-lightgray font-bold mb-1 mt-5">
+                        URL
+                      </h1>
                       <Field
                         name="url"
                         type="text"
                         className="border-b-2 border-lightgraycustom mb-4 outline-none focus:outline-none block appearance-none w-full bg-white px-2 py-2"
-                        placeholder="URL"
+                        placeholder="https://facebook.com"
                       />
                       {touched.url && errors.url && (
                         <div className="text-red-500 text-sm -mt-4 mb-3">
@@ -91,10 +91,10 @@ const AddModal = ({
                         <button
                           type="submit"
                           disabled={
-                            Object.keys(errors).length > 0 || isSubmittingLink
+                            isSubmittingLink
                           }
                           className={`${
-                            Object.keys(errors).length > 0 || isSubmittingLink
+                            isSubmittingLink
                               ? "border-lightgray text-lightgray"
                               : "border-primaryGreen-200 text-primaryGreen-200"
                           } bg-white border-2 focus:outline-none hover:opacity-80 w-2/3 text-md font-bold py-3 px-4 my-2 rounded`}

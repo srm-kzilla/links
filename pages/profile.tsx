@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
-import { parseCookies } from "nookies";
+import { destroyCookie, parseCookies } from "nookies";
 
 import { ProfileComponent } from "../components/profile";
 import { getUserProfile } from "../utils/api";
@@ -16,10 +16,16 @@ export default function Profile({ _resProfile }) {
   );
 }
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext): Promise<GetServerSidePropsResult<ProfilePageProps>> {
+export async function getServerSideProps(
+  ctx: GetServerSidePropsContext
+): Promise<GetServerSidePropsResult<ProfilePageProps>> {
   try {
     const { authToken } = parseCookies(ctx);
     const _resProfile = await getUserProfile(authToken);
+    if (_resProfile.response && _resProfile.response.status === 401) {
+      destroyCookie(ctx, "authToken");
+      throw _resProfile;
+    }
     return {
       props: {
         _resProfile,
@@ -27,8 +33,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext): Promis
     };
   } catch (err) {
     return {
-      props: {
-        _resProfile: [],
+      redirect: {
+        destination: "/login",
+        permanent: false,
       },
     };
   }

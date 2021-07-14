@@ -21,8 +21,13 @@ import { FloatingCard } from "../shared";
 
 export default function ForgotPasswordComponent(): JSX.Element {
   const [passwordShown, setPasswordShown] = useState<boolean>(false);
+  const [confirmPasswordShown, setConfirmPasswordShown] = useState<boolean>(false);
   const togglePasswordVisiblity = () => {
     setPasswordShown(passwordShown ? false : true);
+  };
+  
+  const toggleConfPasswordVisiblity = () => {
+    setConfirmPasswordShown(confirmPasswordShown ? false : true);
   };
 
   const router = useRouter();
@@ -167,7 +172,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                   />
 
                   <div className="grid grid-cols-2 gap-5 mt-8">
-                    <Link href="/">
+                    <Link href="/login">
                       <a>
                         <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded w-full">
                           CANCEL
@@ -235,12 +240,20 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         <h1 className="text-lightgray font-bold mt-4">
                           Confirm New Password
                         </h1>
-                        <Field
-                          type="password"
-                          name="confirmNewPassword"
-                          autoComplete="off"
-                          className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none w-full"
-                        />
+                        <div className="relative">
+                          <Field
+                            type={confirmPasswordShown ? "text" : "password"}
+                            name="confirmNewPassword"
+                            autoComplete="off"
+                            className="bg-white border-b-2 border-lightgraycustom text-lightgraycustom font-semibold p-1 focus:outline-none w-full"
+                          />
+                          <i
+                            className="absolute top-2 right-3 cursor-pointer"
+                            onClick={toggleConfPasswordVisiblity}
+                          >
+                            {confirmPasswordShown ? <EyeHide /> : <Eye />}
+                          </i>
+                        </div>
                         {touched.confirmNewPassword &&
                           errors.confirmNewPassword && (
                             <div className="text-red-500 text-sm">
@@ -248,14 +261,14 @@ export default function ForgotPasswordComponent(): JSX.Element {
                             </div>
                           )}
                         <div className="grid grid-cols-2 gap-5 my-8">
-                          <Link href="/">
+                          <Link href="/login">
                             <a>
                               <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded w-full">
                                 CANCEL
                               </button>
                             </a>
                           </Link>
-                          
+
                           <button
                             type="submit"
                             disabled={
@@ -313,7 +326,7 @@ export default function ForgotPasswordComponent(): JSX.Element {
                         </div>
                       )}
                       <div className="grid grid-cols-2 gap-5 my-8">
-                        <Link href="/">
+                        <Link href="/login">
                           <a>
                             <button className="bg-white border-2 border-statusRed text-statusRed font-bold outline-none focus:outline-none hover:opacity-80 py-2 px-4 rounded w-full">
                               CANCEL

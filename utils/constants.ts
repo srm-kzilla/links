@@ -1,6 +1,6 @@
 export const authRoutes: string[] = ["/dashboard", "/profile"];
 export const authRestrictedRoutes: string[] = ["/login", "/signup"];
-export const baseUrl: string = "https://links-43b3z.ondigitalocean.app/";
+export const baseUrl: string = process.env.NEXT_PUBLIC_LINKS_BASE_URL;
 export const kzillaxyz: string = "https://kzilla.xyz/analytics/";
 export const kzillaxyzdomain: string = "https://kzilla.xyz/";
 export const kzillaxyzclicks: string = "https://kzilla.xyz/api/v1/analytics/";
@@ -24,7 +24,7 @@ export const heroLandingCards = [
     image: "https://image.flaticon.com/icons/png/512/1384/1384063.png",
   },
   {
-    title: "Subscribe to my Youtube Channel!",
+    title: "Subscribe to my Channel!",
     image: "https://image.flaticon.com/icons/png/512/1384/1384060.png",
   },
   {

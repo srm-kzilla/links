@@ -1,5 +1,18 @@
 module.exports = {
-  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  purge: [
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
+    './layout/**/*.{js,ts,jsx,tsx}',
+    './helpers/**/*.{js,ts,jsx,tsx}',
+  ],
+  options: {
+    safelist: {
+      standard: [
+        /^[\w:]*col-start-/,
+        /^[\w:]*col-span-/
+      ]
+    }
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -7,8 +20,21 @@ module.exports = {
         Inter: ["Inter", "sans-serif"],
         Mulish: ["Mulish", "sans-serif"],
       },
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'translate(-10px)' },
+          '50%': { transform: 'translate(10px)' },
+        }
+      },
+      animation: {
+        wiggle: 'wiggle 0.1s ease-in-out 3',
+      },
       width: {
         custom: "21.66666%",
+      },
+      height: {
+        linkPage: "72%",
+        linkContainer: "28rem",
       },
       padding: {
         custom: "26px",

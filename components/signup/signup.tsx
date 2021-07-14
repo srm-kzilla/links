@@ -53,10 +53,15 @@ const SignUpComponent = () => {
   };
 
   const [passwordShown, setPasswordShown] = useState(false);
+  const [confPasswordShown, setConfPasswordShown] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
+
   const togglePasswordVisibility = () => {
     setPasswordShown(passwordShown ? false : true);
   };
+  const toggleConfPasswordVisibility = () => {
+    setConfPasswordShown(confPasswordShown ? false : true);
+  }
 
   return (
     <div className="flex flex-col">
@@ -73,6 +78,7 @@ const SignUpComponent = () => {
             onSubmit={submitHandler}
             validateOnBlur={false}
             validationSchema={validationSchema}
+            enableReinitialize
           >
             {({ errors, touched }) => (
               <Form>
@@ -117,12 +123,20 @@ const SignUpComponent = () => {
                     {errors.password}
                   </div>
                 )}
-                <h1 className="text-lightgray font-bold">Confirm Password</h1>
-                <Field
-                  name="confirmPassword"
-                  type="password"
-                  className="mb-4 border-b-2 border-lightgraycustom text-lightgraycustom font-semibold outline-none focus:outline-none w-full px-2 py-1"
-                />
+                <div className="relative">
+                  <h1 className="text-lightgray font-bold">Confirm Password</h1>
+                  <Field
+                    name="confirmPassword"
+                    type={confPasswordShown ? "text" : "password"}
+                    className="mb-4 border-b-2 border-lightgraycustom text-lightgraycustom font-semibold outline-none focus:outline-none w-full px-2 py-1"
+                  />
+                  <i
+                    className="absolute top-8 right-3 cursor-pointer"
+                    onClick={toggleConfPasswordVisibility}
+                  >
+                    {confPasswordShown ? <EyeHide /> : <Eye />}
+                  </i>
+                </div>
                 {touched.confirmPassword && errors.confirmPassword && (
                   <div className="text-red-500 text-sm -mt-4 mb-3">
                     {errors.confirmPassword}

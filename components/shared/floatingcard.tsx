@@ -41,9 +41,11 @@ export default function FloatingCard({
             <p className="text-darkgray hover:text-black text-sm">
               {bottomText}{" "}
               <Link href={linkHref}>
-                <a className="no-underline text-primaryGreen-300 font-bold">
-                  {bottomTextLink}
-                </a>
+                <span className="cursor-pointer green-underline">
+                  <a className="no-underline text-primaryGreen-300 font-bold">
+                    {bottomTextLink}
+                  </a>
+                </span>
               </Link>
             </p>
           </div>

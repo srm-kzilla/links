@@ -1,10 +1,11 @@
 import * as yup from "yup";
 
+const URL = /https?:\/\//g
 export const addLinkValidationSchema = yup.object({
     title: yup.string().trim().required("This is a required field"),
     url: yup.string()
         .trim()
-        .url()
+        .matches(URL, "Enter a URL starting with http:// or https://")
         .required("This is a required field"),
 });
 

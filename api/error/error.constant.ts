@@ -12,7 +12,7 @@ export const errors = {
     message: "🔧 Internal Server Error",
   },
   WRONG_PASSWORD: {
-    httpStatus: 401,
+    httpStatus: 400,
     message: "🛂 Invalid Password",
   },
   NOT_FOUND: {
@@ -40,7 +40,7 @@ export const errors = {
     message: "🔧 Error executing MongoDB Query",
   },
   JWT_ERROR: {
-    httpStatus: 404,
+    httpStatus: 401,
     message: "👻 Unauthorized Access",
   },
   INVALID_RECAPTCHA: {
@@ -56,7 +56,7 @@ export const errors = {
     message: "🤡 Username already in use",
   },
   INVALID_OTP: {
-    httpStatus: 401,
+    httpStatus: 400,
     message: "🛂 Invalid OTP",
   },
   USER_NOT_AVAILABLE: {

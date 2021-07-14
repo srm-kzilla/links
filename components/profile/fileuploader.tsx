@@ -43,7 +43,7 @@ export default function FileUploader(): JSX.Element {
   return (
     <>
       <i
-        className="absolute bg-white rounded-full p-3 bottom-1 right-0 cursor-pointer shadow-lg"
+        className="bg-white rounded-full p-3 h-9 mt-56 -ml-10 lg:-ml-8 lg:mt-24 cursor-pointer shadow-lg z-50"
         onClick={handleClick}
       >
         <EditPencil />
