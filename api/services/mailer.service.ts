@@ -1,6 +1,8 @@
 import aws from "aws-sdk";
+import { MongoClient } from "mongodb";
 import next from "next";
 import { errors } from "../error/error.constant";
+import { getDbClient } from "./mongodb.service";
 import { getSesClient } from "./ses.service";
 export async function sendMail(
   toAddresses: string[],
@@ -32,6 +34,17 @@ export async function sendMail(
     const emailSent = await sesClient.sendEmail(params).promise();
     if (!emailSent) {
       throw errors.AWS_CONNECT_ERROR;
+    }
+    const dbClient: MongoClient = await getDbClient();
+    if (!dbClient) {
+      throw errors.MONGODB_CONNECT_ERROR;
+    }
+    const mailDetails = await dbClient
+      .db()
+      .collection("archives")
+      .insertOne({ mailSubject: subject, destination: toAddresses });
+    if (!mailDetails) {
+      throw errors.MONGODB_QUERY_ERROR;
     }
   } catch (err) {
     next(err);
