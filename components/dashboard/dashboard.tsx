@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import Head from "next/head";
 import { useRecoilState } from "recoil";
 import { parseCookies } from "nookies";
 import { HiSearch } from "react-icons/hi";
@@ -116,6 +117,10 @@ export default function DashboardComponent({
 
   return (
     <>
+    <Head>
+      <meta name="referrer" content="no-referrer" />
+    </Head>
+
       {links.length > 0 ? (
         <>
           <div className="relative min-h-screen flex flex-col py-24 bg-backgroundwhite">
