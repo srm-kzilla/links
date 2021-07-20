@@ -54,7 +54,7 @@ export const addLink = async (
         const fetchFavicon = await axios.get(FETCH_FAVICON + URL);
 
         const favIcons = fetchFavicon.data.icons.filter(
-          (url) => url.height >= 32 && url.height <= 100
+          (url) => url.height >= 32 && url.height <= 1000
         );
         faviconUrl = favIcons[0].url;
       }
