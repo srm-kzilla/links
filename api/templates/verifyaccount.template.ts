@@ -290,7 +290,7 @@ export var verifyAccountTemplate = doT.template(`<!DOCTYPE html>
                                 <tr>
                                   <td style="width: 192px">
                                     <a
-                                      href="http://links.com"
+                                      href="https://links.srmkzilla.net/"
                                       target="_blank"
                                       style="color: #0000ee"
                                     >
@@ -427,7 +427,7 @@ export var verifyAccountTemplate = doT.template(`<!DOCTYPE html>
                                   <span style="color: #000000"
                                     ><a
                                       style="color: #000000"
-                                      href="http://links.com"
+                                      href="https://links.srmkzilla.net/"
                                       ><strong>LINKS</strong></a
                                     ></span
                                   >
@@ -1077,7 +1077,7 @@ export var verifyAccountTemplate = doT.template(`<!DOCTYPE html>
                                         "
                                       >
                                         <a
-                                          href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.linkedin.com/company/srmkzilla/&title=&summary=&source="
+                                          href="https://www.linkedin.com/company/srmkzilla/"
                                           target="_blank"
                                           style="color: #0000ee"
                                         >
@@ -1133,7 +1133,7 @@ export var verifyAccountTemplate = doT.template(`<!DOCTYPE html>
                                         "
                                       >
                                         <a
-                                          href="http://https://www.youtube.com/channel/UCEPXeeZz6gcnciv-HjwMjsQ"
+                                          href="https://www.youtube.com/channel/UCEPXeeZz6gcnciv-HjwMjsQ"
                                           target="_blank"
                                           style="color: #0000ee"
                                         >
