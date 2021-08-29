@@ -290,7 +290,7 @@ export var verifyAccountTemplate = doT.template(`<!DOCTYPE html>
                                 <tr>
                                   <td style="width: 192px">
                                     <a
-                                      href="https://links.srmkzilla.net/"
+                                      href="https://kzlinks.net/"
                                       target="_blank"
                                       style="color: #0000ee"
                                     >
@@ -427,7 +427,7 @@ export var verifyAccountTemplate = doT.template(`<!DOCTYPE html>
                                   <span style="color: #000000"
                                     ><a
                                       style="color: #000000"
-                                      href="https://links.srmkzilla.net/"
+                                      href="https://kzlinks.net/"
                                       ><strong>LINKS</strong></a
                                     ></span
                                   >
