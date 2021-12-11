@@ -19,6 +19,7 @@
     "get-website-favicon": "^0.0.7",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.3",
+    "mongodb-client-encryption": "^1.2.7",
     "next": "10.0.5",
     "next-connect": "^0.9.1",
     "nookies": "^2.5.2",
